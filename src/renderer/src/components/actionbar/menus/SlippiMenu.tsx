@@ -131,24 +131,24 @@ const SlippiMenu = () => {
 	};
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	// const handleRelayError = (err: any) => {
-	// 	console.error(err);
-	// 	dispatchToast(
-	// 		<MessageToast title="Slippi Relay Error" message={err?.message ?? undefined} />,
-	// 		{
-	// 			intent: 'error'
-	// 		}
-	// 	);
-	// 	setLoading(false);
-	// 	dispatch(setSlippiConnected(false));
-	// };
+	const handleRelayError = (err: any) => {
+		console.error(err);
+		dispatchToast(
+			<MessageToast title="Slippi Relay Error" message={err?.message ?? undefined} />,
+			{
+				intent: 'error'
+			}
+		);
+		setLoading(false);
+		dispatch(setSlippiConnected(false));
+	};
 
 	useEffect(() => {
 		ipcRenderer.on('relay-connected', handleConnected);
-		// ipcRenderer.on('relay-error', handleRelayError);
+		ipcRenderer.on('relay-error', handleRelayError);
 		return () => {
 			ipcRenderer.removeListener('relay-connected', handleConnected);
-			// ipcRenderer.removeListener('relay-error', handleRelayError);
+			ipcRenderer.removeListener('relay-error', handleRelayError);
 		};
 	}, [connected]);
 

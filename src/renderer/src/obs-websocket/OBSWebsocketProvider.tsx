@@ -14,6 +14,7 @@ interface OBSWebSocketClientState {
 	connected: boolean;
 	connect: ((address: string, port: string, password: string) => Promise<boolean>) | undefined;
 	disconnect: (() => void) | undefined;
+	sendOBSSceneRequest: ((sceneName: string) => void) | undefined;
 }
 
 const defaultAddress = 'ws://127.0.0.1';
@@ -25,7 +26,8 @@ export const OBSWebSocketClientContext = createContext<OBSWebSocketClientState>(
 	obs: null,
 	connected: false,
 	connect: undefined,
-	disconnect: undefined
+	disconnect: undefined,
+	sendOBSSceneRequest: undefined
 });
 
 /**
@@ -93,6 +95,21 @@ const OBSWebSocketClientProvider = ({ children }: OBSWebSocketProviderProps) => 
 	};
 
 	/**
+	 * Sends a request through OBS Websocket to set the current program scene
+	 */
+	const sendOBSSceneRequest = async (sceneName: string) => {
+		try {
+			if (websocket && connected) {
+				await websocket.call('SetCurrentProgramScene', { sceneName: sceneName });
+			} else {
+				console.error('OBS Not Connected; Failed to switch scene.');
+			}
+		} catch (err) {
+			console.error(err);
+		}
+	};
+
+	/**
 	 * Disconnects from the
 	 */
 	const disconnect = async () => {
@@ -106,7 +123,8 @@ const OBSWebSocketClientProvider = ({ children }: OBSWebSocketProviderProps) => 
 		obs: websocket,
 		connected: websocket !== null && connected,
 		connect: connect,
-		disconnect: disconnect
+		disconnect: disconnect,
+		sendOBSSceneRequest: sendOBSSceneRequest
 	};
 
 	return (
