@@ -12,33 +12,30 @@ interface SwitchSceneButtonProps {
 }
 
 const SwitchSceneButton = ({ className, disabled, sceneName }: SwitchSceneButtonProps) => {
-	const { obs, connected: OBSConnected } = useContext(OBSWebSocketClientContext);
+	const {
+		obs,
+		connected: OBSConnected,
+		sendOBSSceneRequest
+	} = useContext(OBSWebSocketClientContext);
 
 	const { currentScene, sceneList } = useSelector((state: AppState) => state.obsState);
-
-	/**
-	 * Sends a request through OBS Websocket to set the current program scene
-	 */
-	const sendOBSSceneRequest = async () => {
-		try {
-			if (obs && OBSConnected) {
-				await obs.call('SetCurrentProgramScene', { sceneName: sceneName });
-			}
-		} catch (err) {
-			console.error(err);
-		}
-	};
 
 	const active = currentScene === sceneName;
 
 	const sceneExists = findScene(sceneList, sceneName) !== undefined;
+
+	const handleClick = () => {
+		if (obs && sendOBSSceneRequest) {
+			sendOBSSceneRequest(sceneName);
+		}
+	};
 
 	return (
 		<Button
 			className={className}
 			size="small"
 			disabled={disabled || !obs || !OBSConnected || !sceneExists || active}
-			onClick={sendOBSSceneRequest}
+			onClick={handleClick}
 		>
 			{sceneExists ? 'Switch To Scene' : 'Scene Not Found'}
 		</Button>
