@@ -13,8 +13,8 @@ const markSetInProgressMutation = (setId: string): Query => {
 	return {
 		query: MARK_SET_IN_PROGRESS_MUTATION,
 		variables: {
-			setId,
-		},
+			setId
+		}
 	};
 };
 

@@ -13,8 +13,8 @@ const resetSetMutation = (setId: string): Query => {
 	return {
 		query: RESET_STATE_MUTATION,
 		variables: {
-			setId,
-		},
+			setId
+		}
 	};
 };
 

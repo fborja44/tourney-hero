@@ -47,8 +47,8 @@ const eventEntrantsQuery = (
 			tournamentSlug,
 			eventSlug,
 			page,
-			perPage: perPage,
-		},
+			perPage: perPage
+		}
 	};
 };
 

@@ -3,7 +3,7 @@ import {
 	BracketMatch,
 	CommentatorData,
 	GameplayData,
-	PlayerCardData,
+	PlayerCardData
 } from '../interfaces/Data';
 
 export const gameplayData: GameplayData = {
@@ -18,7 +18,7 @@ export const gameplayData: GameplayData = {
 		character: 'Default',
 		team: '',
 		port: 'Red',
-		pronoun: '',
+		pronoun: ''
 	},
 	player2: {
 		tag: 'Player 2',
@@ -27,9 +27,9 @@ export const gameplayData: GameplayData = {
 		character: 'Default',
 		team: '',
 		port: 'Blue',
-		pronoun: '',
+		pronoun: ''
 	},
-	showPlayerCamInfo: true,
+	showPlayerCamInfo: true
 };
 
 export const commentatorData: CommentatorData = {
@@ -51,7 +51,7 @@ export const commentatorData: CommentatorData = {
 	eventName: 'Welcome To',
 	day: 0,
 	showEvent: true,
-	showAds: false,
+	showAds: false
 };
 
 const matchData: BracketMatch = {
@@ -60,7 +60,7 @@ const matchData: BracketMatch = {
 	p1score: 0,
 	p2score: 0,
 	completed: false,
-	started: false,
+	started: false
 };
 
 export const bracketData: BracketData = {
@@ -74,10 +74,10 @@ export const bracketData: BracketData = {
 	lf: matchData,
 	lsf: matchData,
 	gf: matchData,
-	gfReset: matchData,
+	gfReset: matchData
 };
 
 export const playerCardData: PlayerCardData = {
 	showPhoto: true,
-	playerTag: 'beta',
+	playerTag: 'beta'
 };

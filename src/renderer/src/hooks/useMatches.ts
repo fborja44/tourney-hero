@@ -2,10 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../redux/reducers/rootReducer';
 import matchesQuery from '../graphql/queries/matchesQuery';
 import useQuery from './useQuery';
-import {
-	setMatchesError,
-	setMatchesLoading,
-} from '../redux/actions/tournamentActions';
+import { setMatchesError, setMatchesLoading } from '../redux/actions/tournamentActions';
 import { parseMatch } from '../utils/tournament';
 import { Match } from '../interfaces/Types';
 
@@ -40,12 +37,9 @@ const useMatch = () => {
 		dispatch(setMatchesLoading(true));
 		dispatch(setMatchesError(null));
 		console.log('Fetching matches...');
-		const matchData = await fetchData(
-			key,
-			matchesQuery(tournamentSlug, eventSlug, page, 12)
-		);
+		const matchData = await fetchData(key, matchesQuery(tournamentSlug, eventSlug, page, 12));
 		if (!matchData || !matchData.data) {
-			console.error('Failed to Fetch Matches', matchData)
+			console.error('Failed to Fetch Matches', matchData);
 			dispatch(setMatchesError('Failed To Fetch Matches'));
 			dispatch(setMatchesLoading(false));
 			return [];
@@ -59,14 +53,15 @@ const useMatch = () => {
 		}
 		// Filter out sets where both players have not yet advanced
 		matches = matches.filter(
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			(match: any) => match?.slots[0].entrant && match?.slots[1].entrant
 		);
 
 		// Parse matches
 		matches = await Promise.all(
 			matches
-				.map(async (match: any) => await parseMatch(match))
-				.filter((match: any) => match !== undefined)
+				.map(async (match: unknown) => await parseMatch(match))
+				.filter((match: unknown) => match !== undefined)
 		);
 		dispatch(setMatchesLoading(false));
 		return matches;

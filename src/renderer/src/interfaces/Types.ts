@@ -76,13 +76,13 @@ export interface Entrant {
 
 export interface Scene {
 	title: string;
-	icon: React.ReactNode;
+	icon: React.ReactNode | JSX.Element;
 	panel: React.ReactNode;
 }
 
 export interface Query {
 	query: string;
-	variables?: Object;
+	variables?: object;
 	operation?: string;
 }
 

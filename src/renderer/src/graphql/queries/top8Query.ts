@@ -57,8 +57,8 @@ const top8Query = (
 			tournamentSlug,
 			eventSlug,
 			page,
-			perPage: perPage,
-		},
+			perPage: perPage
+		}
 	};
 };
 

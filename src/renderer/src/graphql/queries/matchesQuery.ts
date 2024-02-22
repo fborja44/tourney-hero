@@ -108,8 +108,8 @@ const matchesQuery = (
 			tournamentSlug,
 			eventSlug,
 			page,
-			perPage: perPage,
-		},
+			perPage: perPage
+		}
 	};
 };
 

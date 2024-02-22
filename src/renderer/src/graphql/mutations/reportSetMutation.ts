@@ -21,8 +21,8 @@ const reportSetDataMutation = (
 			setId,
 			winnerId,
 			gameData,
-			isDQ,
-		},
+			isDQ
+		}
 	};
 };
 

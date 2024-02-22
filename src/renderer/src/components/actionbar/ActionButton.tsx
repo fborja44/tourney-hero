@@ -59,8 +59,7 @@ const useStyles = makeStyles({
 });
 
 interface ActionButtonProps {
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	icon: any;
+	icon: JSX.Element;
 	title: string;
 	children: React.ReactNode;
 	width?: string;

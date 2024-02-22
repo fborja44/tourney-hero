@@ -13,14 +13,9 @@ import {
 	setMatchesLoading,
 	setSelectedEvent,
 	setTournamentFields,
-	updateMatch,
+	updateMatch
 } from '../actions/tournamentActions';
-import {
-	Entrant,
-	Match,
-	Tournament,
-	TournamentEvent,
-} from '../../interfaces/Types';
+import { Entrant, Match, Tournament, TournamentEvent } from '../../interfaces/Types';
 
 export interface TournamentState {
 	key: string | undefined;
@@ -52,14 +47,14 @@ const initialState: TournamentState = {
 	matches: {
 		matchList: [],
 		loading: false,
-		error: null,
+		error: null
 	},
 	entrants: {
 		entrantList: [],
 		loading: false,
-		error: null,
+		error: null
 	},
-	autoRefresh: true,
+	autoRefresh: true
 };
 
 const tournamentReducer = createReducer(initialState, (builder) => {
@@ -91,7 +86,7 @@ const tournamentReducer = createReducer(initialState, (builder) => {
 			state.matches.error = action.payload;
 		})
 		.addCase(updateMatch, (state, action) => {
-			let newMatches = [...state.matches.matchList];
+			const newMatches = [...state.matches.matchList];
 			state.matches.matchList = newMatches.map((match) => {
 				if (match.id === action.payload.matchId) {
 					return { ...match, ...action.payload.updatedMatchData };
@@ -103,10 +98,7 @@ const tournamentReducer = createReducer(initialState, (builder) => {
 			state.entrants.entrantList = action.payload;
 		})
 		.addCase(addEntrants, (state, action) => {
-			state.entrants.entrantList = [
-				...state.entrants.entrantList,
-				...action.payload,
-			];
+			state.entrants.entrantList = [...state.entrants.entrantList, ...action.payload];
 		})
 		.addCase(setEntrantsLoading, (state, action) => {
 			state.entrants.loading = action.payload;

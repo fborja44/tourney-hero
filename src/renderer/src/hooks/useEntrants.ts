@@ -1,10 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../redux/reducers/rootReducer';
 import useQuery from './useQuery';
-import {
-	setEntrantsError,
-	setEntrantsLoading,
-} from '../redux/actions/tournamentActions';
+import { setEntrantsError, setEntrantsLoading } from '../redux/actions/tournamentActions';
 import eventEntrantsQuery from '../graphql/queries/eventEntrantsQuery';
 import { parseEventEntrant } from '../utils/tournament';
 import { Entrant } from '../interfaces/Types';
@@ -53,6 +50,7 @@ const useEntrants = () => {
 			return [];
 		}
 		entrants = await Promise.all(
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			entrants.map(async (entrant: any) => await parseEventEntrant(entrant))
 		);
 		dispatch(setEntrantsLoading(false));

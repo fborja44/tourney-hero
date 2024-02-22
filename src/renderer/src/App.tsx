@@ -1,7 +1,10 @@
-import { FluentProvider, makeStyles, shorthands, webDarkTheme } from '@fluentui/react-components';
+import { makeStyles, shorthands } from '@fluentui/react-components';
 import Actionbar from './components/actionbar/Actionbar';
-import { Provider as ReduxProvider } from 'react-redux';
-import store from './redux/store';
+import Navbar from './components/navbar/Navbar';
+import { Scene } from './interfaces/Types';
+import { AppState } from './redux/reducers/rootReducer';
+import { useSelector } from 'react-redux';
+import Footer from './components/footer/Footer';
 
 const useStyles = makeStyles({
 	appContainer: {
@@ -32,16 +35,19 @@ function App(): JSX.Element {
 
 	const classes = useStyles();
 
+	/**
+	 * Scenes State
+	 */
+	const scenes: Scene[] = useSelector((state: AppState) => state.scenesState);
+
 	return (
-		<ReduxProvider store={store}>
-			<FluentProvider theme={webDarkTheme}>
-				<div className={classes.appContainer}>
-					<div className={classes.mainContainer}>
-						<Actionbar />
-					</div>
-				</div>
-			</FluentProvider>
-		</ReduxProvider>
+		<div className={classes.appContainer}>
+			<Actionbar />
+			<div className={classes.mainContainer}>
+				<Navbar scenes={scenes} />
+			</div>
+			<Footer />
+		</div>
 	);
 }
 

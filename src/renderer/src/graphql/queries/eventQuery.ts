@@ -1,4 +1,4 @@
-import { Query } from "../../interfaces/Types";
+import { Query } from '../../interfaces/Types';
 
 const EVENT_QUERY = `
 	query TournamentQuery($tournamentSlug: String, $eventSlug: String) {
@@ -23,8 +23,8 @@ const eventQuery = (tournamentSlug: string, eventSlug: string): Query => {
 		query: EVENT_QUERY,
 		variables: {
 			tournamentSlug,
-			eventSlug,
-		},
+			eventSlug
+		}
 	};
 };
 

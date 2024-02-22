@@ -8,7 +8,7 @@ import {
 import { tokens } from '@fluentui/react-theme';
 import ActionButton from './ActionButton';
 // import Slippi from '../../assets/slippi.svg';
-import { ACTIONBAR_HEIGHT } from '../../common/constants';
+import { ACTIONBAR_HEIGHT } from '../../constants/elements';
 import TournamentMenu from './menus/TournamentMenu';
 import OBSMenu from './menus/OBSMenu';
 // import SlippiMenu from './menus/SlippiMenu';

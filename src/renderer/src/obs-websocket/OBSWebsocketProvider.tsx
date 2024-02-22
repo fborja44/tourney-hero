@@ -1,10 +1,7 @@
 import { createContext, useState } from 'react';
 import OBSWebSocket from 'obs-websocket-js';
 import { useDispatch } from 'react-redux';
-import {
-	setCurrentOBSScene,
-	setOBSScenesList,
-} from '../redux/actions/obsActions';
+import { setCurrentOBSScene, setOBSScenesList } from '../redux/actions/obsActions';
 
 interface OBSWebSocketProviderProps {
 	children: React.ReactNode;
@@ -15,30 +12,26 @@ interface OBSWebSocketClientState {
 	port: string;
 	obs: OBSWebSocket | null;
 	connected: boolean;
-	connect: Function | undefined;
-	disconnect: Function | undefined;
+	connect: ((address: string, port: string, password: string) => Promise<boolean>) | undefined;
+	disconnect: (() => void) | undefined;
 }
 
 const defaultAddress = 'ws://127.0.0.1';
 const defaultPort = '4455';
 
-export const OBSWebSocketClientContext = createContext<OBSWebSocketClientState>(
-	{
-		address: defaultAddress,
-		port: defaultPort,
-		obs: null,
-		connected: false,
-		connect: undefined,
-		disconnect: undefined,
-	}
-);
+export const OBSWebSocketClientContext = createContext<OBSWebSocketClientState>({
+	address: defaultAddress,
+	port: defaultPort,
+	obs: null,
+	connected: false,
+	connect: undefined,
+	disconnect: undefined
+});
 
 /**
  * OBS Websocket Client setup
  */
-const OBSWebSocketClientProvider = ({
-	children,
-}: OBSWebSocketProviderProps) => {
+const OBSWebSocketClientProvider = ({ children }: OBSWebSocketProviderProps) => {
 	const dispatch = useDispatch();
 
 	const [websocket, setWebSocket] = useState<OBSWebSocket | null>(null);
@@ -52,11 +45,7 @@ const OBSWebSocketClientProvider = ({
 	 * @param port The server port
 	 * @param password The user's password to authenticate
 	 */
-	const connect = async (
-		address: string,
-		port: string,
-		password: string
-	): Promise<boolean> => {
+	const connect = async (address: string, port: string, password: string): Promise<boolean> => {
 		try {
 			const obs = new OBSWebSocket();
 			setWebSocket(obs);
@@ -117,7 +106,7 @@ const OBSWebSocketClientProvider = ({
 		obs: websocket,
 		connected: websocket !== null && connected,
 		connect: connect,
-		disconnect: disconnect,
+		disconnect: disconnect
 	};
 
 	return (
