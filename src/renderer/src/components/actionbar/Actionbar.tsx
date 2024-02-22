@@ -7,11 +7,11 @@ import {
 } from '@fluentui/react-icons';
 import { tokens } from '@fluentui/react-theme';
 import ActionButton from './ActionButton';
-// import Slippi from '../../assets/slippi.svg';
+import Slippi from '@renderer/assets/svg/slippi.svg';
 import { ACTIONBAR_HEIGHT } from '../../constants/elements';
 import TournamentMenu from './menus/TournamentMenu';
 import OBSMenu from './menus/OBSMenu';
-// import SlippiMenu from './menus/SlippiMenu';
+import SlippiMenu from './menus/SlippiMenu';
 import OverlaysMenu from './menus/OverlaysMenu';
 import { useSelector } from 'react-redux';
 import { TournamentState } from '../../redux/reducers/tournamentReducer';
@@ -61,11 +61,11 @@ const Actionbar = () => {
 
 	const { connected } = useContext(OBSWebSocketClientContext);
 
-	// const {
-	// 	autoSwitchPlayersToGame,
-	// 	autoSwitchGameToPlayers,
-	// 	connected: slippiConnected
-	// } = useSelector((state: AppState) => state.slippiState);
+	const {
+		autoSwitchPlayersToGame,
+		autoSwitchGameToPlayers,
+		connected: slippiConnected
+	} = useSelector((state: AppState) => state.slippiState);
 
 	return (
 		<div className={classes.container}>
@@ -92,7 +92,7 @@ const Actionbar = () => {
 			>
 				{connected ? 'Connected to OBS' : 'Not Configured'}
 			</ActionButton>
-			{/* <ActionButton
+			<ActionButton
 				icon={<img src={Slippi} />}
 				title="Slippi Connection"
 				menu={<SlippiMenu />}
@@ -102,7 +102,7 @@ const Actionbar = () => {
 					: slippiConnected
 						? 'Connected to Relay'
 						: 'Not Configured'}
-			</ActionButton> */}
+			</ActionButton>
 		</div>
 	);
 };
