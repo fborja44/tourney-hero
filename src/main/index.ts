@@ -1,4 +1,4 @@
-import { app, shell, BrowserWindow, ipcMain, nativeTheme } from 'electron';
+import { app, shell, BrowserWindow, ipcMain, nativeTheme, session } from 'electron';
 import { join } from 'path';
 import { electronApp, optimizer, is } from '@electron-toolkit/utils';
 import icon from '../../resources/app-logo.png?asset';
@@ -35,6 +35,26 @@ function createWindow(): void {
 		mainWindow.loadFile(join(__dirname, '../renderer/index.html'));
 	}
 }
+
+// Define Content Security Policy
+app.on('ready', () => {
+	session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
+		callback({
+			responseHeaders: Object.assign(
+				{
+					'Content-Security-Policy': [
+						"default-src 'self'",
+						"style-src 'self' 'unsafe-inline'", // ! Without unsafe-inline, breaks Fluent-UI
+						"script-src 'self' 'unsafe-inline'",
+						"connect-src 'self' http://127.0.0.1:3001 ws://127.0.0.1:3001 ws://127.0.0.1:4455 https://api.start.gg/gql/alpha", // Allow connections to localhost and start.gg
+						"img-src 'self' https://images.start.gg"
+					].join('; ')
+				},
+				details.responseHeaders
+			)
+		});
+	});
+});
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
