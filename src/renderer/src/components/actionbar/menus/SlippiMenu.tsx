@@ -18,7 +18,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
 	setAutoSwitchGameToPlayers,
 	setAutoSwitchPlayersToGame,
-	// setRelayPort,
+	setRelayPort,
 	setSlippiConnected
 } from '../../../redux/actions/slippiActions';
 import { AppState } from '../../../redux/reducers/rootReducer';
@@ -93,6 +93,7 @@ const useStyles = makeStyles({
 const SlippiMenu = () => {
 	const classes = useStyles();
 	const dispatch = useDispatch();
+	const ipcRenderer = window.electron.ipcRenderer;
 
 	const { dispatchToast } = useToastController('toaster');
 
@@ -106,20 +107,20 @@ const SlippiMenu = () => {
 	const [loading, setLoading] = useState<boolean>(false);
 
 	const handleRelay = () => {
-		// ipcRenderer.send('start-relay');
+		ipcRenderer.send('slippi:connect');
 		setLoading(true);
 	};
 
-	// const handleConnected = () => {
-	// 	console.log('Connected to Slippi');
-	// 	dispatch(setSlippiConnected(true));
-	// 	dispatch(setRelayPort(relay));
-	// 	dispatchToast(<MessageToast title="Connected To Slippi Relay" />, {
-	// 		intent: 'success'
-	// 	});
-	// 	setLoading(false);
-	// 	return;
-	// };
+	const handleConnected = () => {
+		console.log('Connected to Slippi');
+		dispatch(setSlippiConnected(true));
+		dispatch(setRelayPort(relay));
+		dispatchToast(<MessageToast title="Connected To Slippi Relay" />, {
+			intent: 'success'
+		});
+		setLoading(false);
+		return;
+	};
 
 	const handleDisconnect = () => {
 		// ipcRenderer.send('close-relay');
@@ -143,12 +144,12 @@ const SlippiMenu = () => {
 	// };
 
 	useEffect(() => {
-		// ipcRenderer.on('relay-connected', handleConnected);
+		ipcRenderer.on('relay-connected', handleConnected);
 		// ipcRenderer.on('relay-error', handleRelayError);
-		// return () => {
-		// 	ipcRenderer.removeListener('relay-connected', handleConnected);
-		// 	ipcRenderer.removeListener('relay-error', handleRelayError);
-		// };
+		return () => {
+			ipcRenderer.removeListener('relay-connected', handleConnected);
+			// ipcRenderer.removeListener('relay-error', handleRelayError);
+		};
 	}, [connected]);
 
 	return (
