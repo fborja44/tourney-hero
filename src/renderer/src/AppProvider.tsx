@@ -1,21 +1,19 @@
 import { FluentProvider, webDarkTheme } from '@fluentui/react-components';
 import { Provider as ReduxProvider } from 'react-redux';
 import store from './redux/store';
-import { RouterProvider, createHashRouter } from 'react-router-dom';
 import App from './App';
-
-const router = createHashRouter([
-	{
-		path: '/',
-		element: <App />
-	}
-]);
+import SocketClientProvider from './socket/SocketClientProvider';
+import OBSWebSocketClientProvider from './obs-websocket/OBSWebsocketProvider';
 
 const AppProvider = () => {
 	return (
 		<FluentProvider theme={webDarkTheme}>
 			<ReduxProvider store={store}>
-				<RouterProvider router={router} />
+				<OBSWebSocketClientProvider>
+					<SocketClientProvider>
+						<App />
+					</SocketClientProvider>
+				</OBSWebSocketClientProvider>
 			</ReduxProvider>
 		</FluentProvider>
 	);

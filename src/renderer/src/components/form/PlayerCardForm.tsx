@@ -47,24 +47,7 @@ const PlayerCardForm = () => {
 						value={playerCardData.playerTag}
 						targetField={'playerTag'}
 						handleChange={handlePlayerCardChange}
-						options={[
-							'plush',
-							'NotNick',
-							'Breakfast',
-							'Lamp',
-							'Loosegoose',
-							'Kyle',
-							'burn',
-							'beta',
-							'Swesty',
-							'Phantom',
-							'ali',
-							'FishNY',
-							'Cobaly',
-							'Nose',
-							'Dasher',
-							'Ryland'
-						]}
+						options={['Player 1', 'Player 2']}
 					/>
 				</div>
 			</div>

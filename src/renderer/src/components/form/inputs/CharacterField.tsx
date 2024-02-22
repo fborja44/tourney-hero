@@ -52,7 +52,6 @@ interface CharacterFieldProps extends FluentFieldProps {
 const CharacterField = ({
 	label,
 	value,
-	placeholder,
 	size,
 	targetField,
 	handleChange,
@@ -65,7 +64,6 @@ const CharacterField = ({
 			<Dropdown
 				size={size}
 				className={classes.input}
-				placeholder={placeholder}
 				// @ts-expect-error !Ignoring type error to display custom value
 				value={
 					<div className={classes.display}>
@@ -73,7 +71,6 @@ const CharacterField = ({
 						<span>{characterToString(value as Character)}</span>
 					</div>
 				}
-				on
 				onOptionSelect={(_ev, data) =>
 					handleChange(targetField, data.optionValue as Character)
 				}

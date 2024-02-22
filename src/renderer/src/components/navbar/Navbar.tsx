@@ -14,6 +14,8 @@ import {
 	NAVBAR_WIDTH,
 	SECTION_HEADER_HEIGHT
 } from '@renderer/constants/elements';
+import { useSelector } from 'react-redux';
+import { AppState } from '@renderer/redux/reducers/rootReducer';
 // import AddButton from "./AddButton";
 
 const useStyles = makeStyles({
@@ -55,16 +57,17 @@ const useStyles = makeStyles({
 	}
 });
 
-interface NavbarProps {
-	scenes: Scene[];
-}
-
-const Navbar = ({ scenes }: NavbarProps) => {
+const Navbar = () => {
 	const classes = useStyles();
 
 	const { socket, connected } = useContext(SocketClientContext);
 
 	const [selectedTab, setSelectedTab] = useState('/');
+
+	/**
+	 * Scenes State
+	 */
+	const scenes: Scene[] = useSelector((state: AppState) => state.scenesState);
 
 	return (
 		<section className={classes.container}>

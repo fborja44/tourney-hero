@@ -1,10 +1,6 @@
 import { Character, Port } from './Types';
 
-export type Data =
-	| GameplayData
-	| CommentatorData
-	| BracketData
-	| PlayerCardData;
+export type Data = GameplayData | CommentatorData | BracketData | PlayerCardData;
 
 export interface OverlayData {
 	gameplay: GameplayData;

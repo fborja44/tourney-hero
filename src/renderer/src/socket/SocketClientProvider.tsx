@@ -17,8 +17,10 @@ interface SocketClientState {
 	disconnect: (() => void) | undefined;
 }
 
+const DEFAULT_ADDRESS = 'http://127.0.0.1:3001';
+
 export const SocketClientContext = createContext<SocketClientState>({
-	address: '',
+	address: DEFAULT_ADDRESS,
 	socket: null,
 	connected: false,
 	connect: undefined,
@@ -33,6 +35,7 @@ export const SocketClientContext = createContext<SocketClientState>({
 const SocketClientProvider = ({ children }: SocketClientProviderProps) => {
 	const [socket, setSocket] = useState<Socket | null>(null);
 	const [connected, setConnected] = useState<boolean>(false);
+	const [address, setAddress] = useState<string>(DEFAULT_ADDRESS);
 
 	const { dispatchToast } = useToastController('toaster');
 
@@ -43,6 +46,7 @@ const SocketClientProvider = ({ children }: SocketClientProviderProps) => {
 	 */
 	const connect = (address: string, password: string): boolean => {
 		try {
+			// TODO: Validate address
 			const socket = io(address, {
 				auth: {
 					password,
@@ -50,6 +54,7 @@ const SocketClientProvider = ({ children }: SocketClientProviderProps) => {
 				}
 			});
 			setSocket(socket);
+			setAddress(address);
 			setConnected(socket.connected);
 
 			// Event listeners
@@ -123,7 +128,7 @@ const SocketClientProvider = ({ children }: SocketClientProviderProps) => {
 	};
 
 	const socketClientState: SocketClientState = {
-		address: 'http://127.0.0.1:3001',
+		address: address,
 		socket: socket,
 		connected: connected,
 		connect: connect,
