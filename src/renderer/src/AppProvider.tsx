@@ -1,4 +1,4 @@
-import { FluentProvider, webDarkTheme } from '@fluentui/react-components';
+import { FluentProvider, Toaster, webDarkTheme } from '@fluentui/react-components';
 import { Provider as ReduxProvider } from 'react-redux';
 import store from './redux/store';
 import App from './App';
@@ -11,6 +11,7 @@ const AppProvider = () => {
 			<ReduxProvider store={store}>
 				<OBSWebSocketClientProvider>
 					<SocketClientProvider>
+						<Toaster toasterId={'toaster'} timeout={5 * 1000} pauseOnHover limit={3} />
 						<App />
 					</SocketClientProvider>
 				</OBSWebSocketClientProvider>
