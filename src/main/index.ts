@@ -6,8 +6,10 @@ import icon from '../../resources/app-logo.png?asset';
 function createWindow(): void {
 	// Create the browser window.
 	const mainWindow = new BrowserWindow({
-		width: 900,
-		height: 670,
+		height: 650,
+		width: 1200,
+		minHeight: 600,
+		minWidth: 1060, // TODO: Change for responsive single column layout
 		show: false,
 		autoHideMenuBar: true,
 		icon: icon,
