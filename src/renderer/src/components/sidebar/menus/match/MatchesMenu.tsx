@@ -12,7 +12,7 @@ import {
 import TournamentCard from '../tournament/TournamentCard';
 import Empty from '../../SidebarPlaceholder';
 import { AppState } from '../../../../redux/reducers/rootReducer';
-import useMatch from '../../../../hooks/useMatches';
+import useMatch from '../../../../hooks/useEventMatches';
 import { addMatches, setMatches } from '../../../../redux/actions/tournamentActions';
 import { MenuMatch } from '../../../dashboard/match/DashboardMatch';
 import { sortMatches } from '../../../../utils/tournament';
