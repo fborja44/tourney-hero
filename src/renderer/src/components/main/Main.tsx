@@ -3,6 +3,7 @@ import { ErrorBoundary } from 'react-error-boundary';
 import EmptyPanel from '../panel/EmptyPanel';
 import Navbar from '../navbar/Navbar';
 import { Outlet } from 'react-router-dom';
+import Sidebar from '../sidebar/Sidebar';
 
 const useStyles = makeStyles({
 	mainContainer: {
@@ -30,6 +31,7 @@ const Main = () => {
 					<Outlet />
 				</main>
 			</ErrorBoundary>
+			<Sidebar />
 		</div>
 	);
 };
