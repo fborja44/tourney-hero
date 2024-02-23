@@ -6,7 +6,7 @@ import { PlayerData } from '../../interfaces/Data';
 import NumberField from './inputs/NumberField';
 import { updatePlayer } from '../../redux/actions/dataActions';
 import { useDispatch, useSelector } from 'react-redux';
-// import CharacterField from './inputs/CharacterField';
+import CharacterField from './inputs/CharacterField';
 import playerFormStyles from './styles/PlayerFormStyles';
 import { AppState } from '../../redux/reducers/rootReducer';
 import EntrantSelectField from './inputs/EntrantSelectField';
@@ -91,7 +91,7 @@ const PlayerForm = ({ playerNumber, playerData }: PlayerFormProps) => {
 					max={MAX_SCORE}
 				/>
 			</div>
-			{/* <div className={classes.formRow}>
+			<div className={classes.formRow}>
 				<CharacterField
 					label="Character"
 					value={playerData.character}
@@ -99,7 +99,7 @@ const PlayerForm = ({ playerNumber, playerData }: PlayerFormProps) => {
 					handleChange={handlePlayerChange}
 					playerNumber={playerNumber}
 				/>
-			</div> */}
+			</div>
 			<div className={classes.formRow}>
 				<TextField
 					label="Team / Prefix"
