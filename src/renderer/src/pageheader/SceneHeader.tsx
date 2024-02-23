@@ -15,7 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useContext } from 'react';
 import { SocketClientContext } from '@renderer/socket/SocketClientProvider';
 import PageHeader, { PageHeaderProps } from './PageHeader';
-import { Data, OverlayData } from '@renderer/interfaces/Data';
+import { Data, OverlayData } from '@common/interfaces/Data';
 import {
 	updateBracket,
 	updateCommentators,

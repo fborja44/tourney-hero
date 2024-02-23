@@ -1,7 +1,7 @@
 import React from 'react';
 import { makeStyles, shorthands } from '@fluentui/react-components';
 import { tokens } from '@fluentui/react-theme';
-import { ACTIONBAR_HEIGHT, FOOTER_HEIGHT, SECTION_HEADER_HEIGHT } from '../../constants/elements';
+import { ACTIONBAR_HEIGHT, FOOTER_HEIGHT, SECTION_HEADER_HEIGHT } from '@common/constants/elements';
 import EmptyPanel from './EmptyPanel';
 
 const useStyles = makeStyles({

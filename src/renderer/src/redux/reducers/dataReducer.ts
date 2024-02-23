@@ -1,11 +1,11 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { OverlayData } from '@renderer/interfaces/Data';
+import { OverlayData } from '@common/interfaces/Data';
 import {
 	bracketData,
 	commentatorData,
 	gameplayData,
 	playerCardData
-} from '@renderer/data/defaultData';
+} from '@common/data/defaultData';
 import {
 	setOverlayData,
 	updateBracket,

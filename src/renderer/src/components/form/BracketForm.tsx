@@ -6,9 +6,9 @@ import NumberField from './inputs/NumberField';
 import CheckboxField from './inputs/CheckboxField';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateBracketMatch } from '../../redux/actions/dataActions';
-import { BracketData } from '../../interfaces/Data';
+import { BracketData } from '@common/interfaces/Data';
 import { AppState } from '../../redux/reducers/rootReducer';
-import { MAX_SCORE, MAX_TAG_LENGTH } from '../../constants/limits';
+import { MAX_SCORE, MAX_TAG_LENGTH } from '@common/constants/limits';
 
 interface BracketFormSectionProps {
 	title: string;

@@ -15,7 +15,7 @@ import {
 	setTournamentFields,
 	updateMatch
 } from '../actions/tournamentActions';
-import { Entrant, Match, Tournament, TournamentEvent } from '../../interfaces/Types';
+import { Entrant, Match, Tournament, TournamentEvent } from '@common/interfaces/Types';
 
 export interface TournamentState {
 	key: string | undefined;

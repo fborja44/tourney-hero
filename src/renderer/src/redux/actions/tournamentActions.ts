@@ -1,5 +1,5 @@
 import { createAction } from '@reduxjs/toolkit';
-import { Entrant, Match, Tournament, TournamentEvent } from '../../interfaces/Types';
+import { Entrant, Match, Tournament, TournamentEvent } from '@common/interfaces/Types';
 
 export const setKey = createAction('SET_KEY', (key: string, valid: boolean) => {
 	return { payload: { key, valid } };

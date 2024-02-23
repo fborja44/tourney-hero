@@ -1,5 +1,5 @@
-import { CHARACTERS } from '../constants/data';
-import { Character } from '../interfaces/Types';
+import { CHARACTERS } from '@common/constants/data';
+import { Character } from '@common/interfaces/Types';
 
 /**
  * Capitalizes the first character in a string

@@ -7,7 +7,7 @@ import {
 	OverlayData,
 	PlayerCardData,
 	PlayerData
-} from '../../interfaces/Data';
+} from '@common/interfaces/Data';
 
 export const setOverlayData = createAction('SET_DATA', (newOverlayData: OverlayData) => {
 	return {

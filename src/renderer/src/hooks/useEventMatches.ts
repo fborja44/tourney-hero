@@ -4,7 +4,7 @@ import matchesQuery from '../graphql/queries/matchesQuery';
 import useQuery from './useQuery';
 import { setMatchesError, setMatchesLoading } from '../redux/actions/tournamentActions';
 import { parseMatch } from '../utils/tournament';
-import { Match } from '../interfaces/Types';
+import { Match } from '@common/interfaces/Types';
 /**
  * Start.gg API Query hook.
  * Errors must be set manually.

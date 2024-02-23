@@ -12,7 +12,7 @@ import {
 } from '../../../redux/actions/tournamentActions';
 import tournamentQuery from '../../../graphql/queries/tournamentQuery';
 import useQuery from '../../../hooks/useQuery';
-import { Tournament, TournamentEvent } from '../../../interfaces/Types';
+import { Tournament, TournamentEvent } from '@common/interfaces/Types';
 import { updateGameplay } from '../../../redux/actions/dataActions';
 import { getEventSlug } from '../../../utils/string';
 import MenuSelectField from '../../form/inputs/MenuSelectField';

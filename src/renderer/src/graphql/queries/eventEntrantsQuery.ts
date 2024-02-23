@@ -1,4 +1,4 @@
-import { Query } from '../../interfaces/Types';
+import { Query } from '@common/interfaces/Types';
 
 const EVENT_ENTRANTS_QUERY = `
     query EventEntrants($tournamentSlug: String!, $eventSlug: String!, $page: Int, $perPage: Int) {

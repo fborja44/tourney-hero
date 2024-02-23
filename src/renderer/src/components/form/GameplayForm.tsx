@@ -5,11 +5,11 @@ import formStyles from './styles/FormStyles';
 import PlayerForm from './PlayerForm';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateGameplay, updatePlayer } from '../../redux/actions/dataActions';
-import { GameplayData } from '../../interfaces/Data';
+import { GameplayData } from '@common/interfaces/Data';
 import { AppState } from '../../redux/reducers/rootReducer';
 import { ArrowSwapRegular } from '@fluentui/react-icons';
 import CheckboxField from './inputs/CheckboxField';
-import { MAX_BRACKET_DATA_LENGTH } from '../../constants/limits';
+import { MAX_BRACKET_DATA_LENGTH } from '@common/constants/limits';
 
 const GameplayForm = () => {
 	const classes = formStyles();

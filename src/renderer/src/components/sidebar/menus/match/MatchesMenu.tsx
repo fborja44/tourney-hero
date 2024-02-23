@@ -4,11 +4,7 @@ import { tokens } from '@fluentui/react-theme';
 import { useDispatch, useSelector } from 'react-redux';
 import { TournamentState } from '../../../../redux/reducers/tournamentReducer';
 import { useEffect, useRef, useState } from 'react';
-import {
-	ACTIONBAR_HEIGHT,
-	FOOTER_HEIGHT,
-	SECTION_HEADER_HEIGHT
-} from '../../../../constants/elements';
+import { ACTIONBAR_HEIGHT, FOOTER_HEIGHT, SECTION_HEADER_HEIGHT } from '@common/constants/elements';
 import TournamentCard from '../tournament/TournamentCard';
 import Empty from '../../SidebarPlaceholder';
 import { AppState } from '../../../../redux/reducers/rootReducer';

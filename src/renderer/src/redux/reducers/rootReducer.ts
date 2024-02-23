@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { OverlayData } from '../../interfaces/Data';
+import { OverlayData } from '@common/interfaces/Data';
 import dataReducer from './dataReducer';
 import tournamentReducer, { TournamentState } from './tournamentReducer';
 import scenesReducer, { ScenesState } from './scenesReducer';

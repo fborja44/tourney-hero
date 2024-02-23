@@ -1,4 +1,4 @@
-import { Query } from '../../interfaces/Types';
+import { Query } from '@common/interfaces/Types';
 
 const MARK_SET_IN_PROGRESS_MUTATION = `
     mutation markSetInProgress($setId: ID!) {

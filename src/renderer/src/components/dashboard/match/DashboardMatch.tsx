@@ -17,7 +17,7 @@ import {
 	shorthands,
 	tokens
 } from '@fluentui/react-components';
-import { Match, Entrant } from '../../../interfaces/Types';
+import { Match, Entrant } from '@common/interfaces/Types';
 import { convertUnixTimestamp, getCurrentUnixTimestamp } from '../../../utils/date';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateGameplay, updatePlayer } from '../../../redux/actions/dataActions';

@@ -3,7 +3,7 @@ import { createContext, useState } from 'react';
 import io, { Socket } from 'socket.io-client';
 import MessageToast from '../components/toasts/MessageToast';
 import { AppState } from '@renderer/redux/reducers/rootReducer';
-// import JoiOverlayData from '../validator/JoiOverlayData';
+import JoiOverlayData from '@common/validator/JoiOverlayData';
 
 interface SocketClientProviderProps {
 	children: React.ReactNode;
@@ -93,11 +93,11 @@ const SocketClientProvider = ({ children }: SocketClientProviderProps) => {
 				console.log('Recieved new server data: ', data);
 				// TODO: Update app state
 				// FIRST: Validate data
-				// const result = JoiOverlayData.validate(data);
-				// if (result.error) {
-				// 	console.error('Recieved invalid data: ', result.error);
-				// 	return;
-				// }
+				const result = JoiOverlayData.validate(data);
+				if (result.error) {
+					console.error('Recieved invalid data: ', result.error);
+					return;
+				}
 			});
 
 			socket.on('dataError', (message: string) => {

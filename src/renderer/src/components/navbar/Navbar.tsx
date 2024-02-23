@@ -6,14 +6,14 @@ import SidebarHeader from '../sidebar/header/SidebarHeader';
 import NavbarFooter from './footer/NavbarFooter';
 import { SocketClientContext } from '../../socket/SocketClientProvider';
 import { useContext, useState } from 'react';
-import { Scene } from '../../interfaces/Types';
+import { Scene } from '@common/interfaces/Types';
 import {
 	ACTIONBAR_HEIGHT,
 	FOOTER_HEIGHT,
 	NAVBAR_FOOTER_HEIGHT,
 	NAVBAR_WIDTH,
 	SECTION_HEADER_HEIGHT
-} from '@renderer/constants/elements';
+} from '@common/constants/elements';
 import { useSelector } from 'react-redux';
 import { AppState } from '@renderer/redux/reducers/rootReducer';
 // import AddButton from "./AddButton";

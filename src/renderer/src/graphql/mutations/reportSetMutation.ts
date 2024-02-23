@@ -1,4 +1,4 @@
-import { MutationGameData, Query } from '../../interfaces/Types';
+import { MutationGameData, Query } from '@common/interfaces/Types';
 
 const REPORT_SET_DATA_MUTATION = `
     mutation reportSet($setId: ID!, $winnerId: ID!, $gameData: [BracketSetGameDataInput], $isDQ: Boolean) {

@@ -1,4 +1,4 @@
-import { Query } from '../../interfaces/Types';
+import { Query } from '@common/interfaces/Types';
 
 const TOP_8_QUERY = `
     query Top8($tournamentSlug: String!, $eventSlug: String!, $page: Int, $perPage: Int) {

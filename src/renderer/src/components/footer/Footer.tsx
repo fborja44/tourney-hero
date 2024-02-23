@@ -6,7 +6,7 @@ import {
 } from '@fluentui/react-icons';
 import { tokens } from '@fluentui/react-theme';
 import FooterButton from './button/FooterButton';
-import { FOOTER_HEIGHT } from '@renderer/constants/elements';
+import { FOOTER_HEIGHT } from '@common/constants/elements';
 
 const useStyles = makeStyles({
 	footerContainer: {

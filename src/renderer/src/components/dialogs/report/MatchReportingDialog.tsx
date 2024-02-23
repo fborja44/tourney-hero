@@ -12,7 +12,7 @@ import {
 	shorthands,
 	tokens
 } from '@fluentui/react-components';
-import { Entrant, Match, MutationGameData } from '../../../interfaces/Types';
+import { Entrant, Match, MutationGameData } from '@common/interfaces/Types';
 import Card from '../../card/Card';
 import { Send16Regular } from '@fluentui/react-icons';
 import { useState } from 'react';

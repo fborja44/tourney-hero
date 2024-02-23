@@ -10,9 +10,9 @@ import {
 import { tokens } from '@fluentui/react-theme';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../../../redux/reducers/rootReducer';
-import { Entrant } from '../../../interfaces/Types';
+import { Entrant } from '@common/interfaces/Types';
 import { updatePlayer } from '../../../redux/actions/dataActions';
-import { PlayerData } from '../../../interfaces/Data';
+import { PlayerData } from '@common/interfaces/Data';
 
 const useStyles = makeStyles({
 	formField: {

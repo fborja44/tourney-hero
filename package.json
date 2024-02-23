@@ -29,6 +29,7 @@
 		"@slippi/slippi-js": "^6.7.0",
 		"@vinceau/slp-realtime": "^4.0.0",
 		"axios": "^1.6.7",
+		"joi": "^17.12.2",
 		"obs-websocket-js": "^5.0.4",
 		"react-error-boundary": "^4.0.12",
 		"react-redux": "^9.1.0",

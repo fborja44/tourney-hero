@@ -8,7 +8,7 @@ import { TournamentState } from '@renderer/redux/reducers/tournamentReducer';
 import { useSelector } from 'react-redux';
 import EmptyPanel from '@renderer/components/panel/EmptyPanel';
 import FormStyles from '@renderer/components/form/styles/FormStyles';
-import { Match } from '@renderer/interfaces/Types';
+import { Match } from '@common/interfaces/Types';
 import PageLayout from './PageLayout';
 import dashboardStyles from '@renderer/components/dashboard/styles/DashboardStyles';
 

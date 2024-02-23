@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { generateHeader } from '../utils/tournament';
-import { Query } from '../interfaces/Types';
+import { Query } from '@common/interfaces/Types';
 
 /**
  * Start.gg API Query hook.

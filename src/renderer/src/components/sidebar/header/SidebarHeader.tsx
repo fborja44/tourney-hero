@@ -2,7 +2,7 @@ import { Body1, Button, makeStyles, shorthands } from '@fluentui/react-component
 import { ChevronRight12Regular, ChevronLeft12Regular } from '@fluentui/react-icons';
 import { tokens } from '@fluentui/react-theme';
 import { MouseEventHandler } from 'react';
-import { SECTION_HEADER_HEIGHT } from '../../../constants/elements';
+import { SECTION_HEADER_HEIGHT } from '@common/constants/elements';
 
 const useStyles = makeStyles({
 	container: {

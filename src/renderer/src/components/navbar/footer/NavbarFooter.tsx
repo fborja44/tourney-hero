@@ -11,7 +11,7 @@ import { tokens } from '@fluentui/react-theme';
 import ServerMenu from './ServerMenu';
 import { useEffect, useRef, useState } from 'react';
 import { handleClickOutside, handleEscapeKey } from '@renderer/utils/menu';
-import { NAVBAR_FOOTER_HEIGHT } from '@renderer/constants/elements';
+import { NAVBAR_FOOTER_HEIGHT } from '@common/constants/elements';
 
 const useStyles = makeStyles({
 	container: {

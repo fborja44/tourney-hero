@@ -2,7 +2,7 @@ import { Body1 } from '@fluentui/react-components';
 import TextField from './inputs/TextField';
 import formStyles from './styles/FormStyles';
 import RadioGroupField from './inputs/RadioGroupField';
-import { PlayerData } from '../../interfaces/Data';
+import { PlayerData } from '@common/interfaces/Data';
 import NumberField from './inputs/NumberField';
 import { updatePlayer } from '../../redux/actions/dataActions';
 import { useDispatch, useSelector } from 'react-redux';
@@ -15,7 +15,7 @@ import {
 	MAX_SCORE,
 	MAX_TAG_LENGTH,
 	MAX_TEAM_LENGTH
-} from '../../constants/limits';
+} from '@common/constants/limits';
 
 interface PlayerFormProps {
 	playerNumber: '1' | '2';

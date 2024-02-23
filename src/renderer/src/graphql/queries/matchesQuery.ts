@@ -1,4 +1,4 @@
-import { Query } from '../../interfaces/Types';
+import { Query } from '@common/interfaces/Types';
 
 const MATCHES_QUERY = `
 	query MatchesQuery($tournamentSlug: String!, $eventSlug: String!, $page: Int, $perPage: Int) {

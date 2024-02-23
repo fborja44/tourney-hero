@@ -9,9 +9,9 @@ import {
 } from '@fluentui/react-components';
 import { tokens } from '@fluentui/react-theme';
 import CharacterIcon from '../../character/CharacterIcon';
-import { CHARACTERS } from '../../../constants/data';
+import { CHARACTERS } from '@common/constants/data';
 import { characterToString } from '../../../utils/string';
-import { Character } from '../../../interfaces/Types';
+import { Character } from '@common/interfaces/Types';
 
 const useStyles = makeStyles({
 	formField: {

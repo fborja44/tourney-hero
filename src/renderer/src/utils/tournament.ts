@@ -1,6 +1,6 @@
-import { bracketData } from '@renderer/data/defaultData';
-import { BracketData, BracketMatch } from '../interfaces/Data';
-import { Match, Entrant } from '../interfaces/Types';
+import { bracketData } from '@common/data/defaultData';
+import { BracketData, BracketMatch } from '@common/interfaces/Data';
+import { Match, Entrant } from '@common/interfaces/Types';
 
 /**
  * Generates the authorization header for an API call.

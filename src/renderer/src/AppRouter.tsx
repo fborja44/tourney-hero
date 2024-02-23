@@ -2,7 +2,7 @@ import { RouterProvider, createHashRouter } from 'react-router-dom';
 import EmptyPanel from './components/panel/EmptyPanel';
 import PageLayout from './pages/PageLayout';
 import { capitalize, toCamelCase } from './utils/string';
-import { Data, OverlayData } from './interfaces/Data';
+import { Data, OverlayData } from '@common/interfaces/Data';
 import SceneManagerPage from './pages/SceneManagerPage';
 import DashboardPage from './pages/DashboardPage';
 import Main from './components/main/Main';

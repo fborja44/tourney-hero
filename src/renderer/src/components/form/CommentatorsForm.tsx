@@ -2,7 +2,7 @@ import { Body1 } from '@fluentui/react-components';
 import Panel from '../panel/Panel';
 import TextField from './inputs/TextField';
 import formStyles from './styles/FormStyles';
-import { CommentatorData } from '../../interfaces/Data';
+import { CommentatorData } from '@common/interfaces/Data';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../../redux/reducers/rootReducer';
 import { updateCommentators } from '../../redux/actions/dataActions';
@@ -14,7 +14,7 @@ import {
 	MAX_DAY,
 	MAX_MESSAGE_LENGTH,
 	MAX_TIMER
-} from '../../constants/limits';
+} from '@common/constants/limits';
 
 const CommentatorsForm = () => {
 	const classes = formStyles();

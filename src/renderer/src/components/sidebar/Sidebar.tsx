@@ -14,7 +14,7 @@ import { tokens } from '@fluentui/react-theme';
 import SidebarHeader from './header/SidebarHeader';
 import PreviewMenu from './menus/PreviewMenu';
 import MatchesMenu from './menus/match/MatchesMenu';
-import { ACTIONBAR_HEIGHT, FOOTER_HEIGHT, SECTION_HEADER_HEIGHT } from '../../constants/elements';
+import { ACTIONBAR_HEIGHT, FOOTER_HEIGHT, SECTION_HEADER_HEIGHT } from '@common/constants/elements';
 import { Route, Routes } from 'react-router-dom';
 import Empty from './SidebarPlaceholder';
 import BracketMenu from './menus/bracket/BracketMenu';

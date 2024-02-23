@@ -1,6 +1,6 @@
 import { Body1, makeStyles, shorthands } from '@fluentui/react-components';
 import { tokens } from '@fluentui/react-theme';
-import { SECTION_HEADER_HEIGHT } from '@renderer/constants/elements';
+import { SECTION_HEADER_HEIGHT } from '@common/constants/elements';
 
 const useStyles = makeStyles({
 	container: {

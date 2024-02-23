@@ -1,5 +1,5 @@
 import { Caption1, makeStyles, shorthands, tokens } from '@fluentui/react-components';
-import { Scene } from '../../../interfaces/Types';
+import { Scene } from '@common/interfaces/Types';
 import Card from '../../card/Card';
 import cardStyles from '../../card/styles/CardStyles';
 import { useSelector } from 'react-redux';

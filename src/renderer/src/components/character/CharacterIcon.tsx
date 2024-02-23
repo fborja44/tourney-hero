@@ -1,5 +1,5 @@
 import { makeStyles, mergeClasses } from '@fluentui/react-components';
-import { Character } from '../../interfaces/Types';
+import { Character } from '@common/interfaces/Types';
 
 const useStyles = makeStyles({
 	characterIcon: {

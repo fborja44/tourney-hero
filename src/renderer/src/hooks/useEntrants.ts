@@ -4,7 +4,7 @@ import useQuery from './useQuery';
 import { setEntrantsError, setEntrantsLoading } from '../redux/actions/tournamentActions';
 import eventEntrantsQuery from '../graphql/queries/eventEntrantsQuery';
 import { parseEventEntrant } from '../utils/tournament';
-import { Entrant } from '../interfaces/Types';
+import { Entrant } from '@common/interfaces/Types';
 
 /**
  * Start.gg API Query hook.
