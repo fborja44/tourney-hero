@@ -2,8 +2,10 @@ import { useToastController } from '@fluentui/react-components';
 import { createContext, useState } from 'react';
 import io, { Socket } from 'socket.io-client';
 import MessageToast from '../components/toasts/MessageToast';
-import { AppState } from '@renderer/redux/reducers/rootReducer';
 import JoiOverlayData from '@common/validator/JoiOverlayData';
+import { setOverlayData } from '@renderer/redux/actions/dataActions';
+import { OverlayData } from '@common/interfaces/Data';
+import { useDispatch } from 'react-redux';
 
 interface SocketClientProviderProps {
 	children: React.ReactNode;
@@ -33,6 +35,8 @@ export const SocketClientContext = createContext<SocketClientState>({
  * with the server
  */
 const SocketClientProvider = ({ children }: SocketClientProviderProps) => {
+	const dispatch = useDispatch();
+
 	const [socket, setSocket] = useState<Socket | null>(null);
 	const [connected, setConnected] = useState<boolean>(false);
 	const [address, setAddress] = useState<string>(DEFAULT_ADDRESS);
@@ -89,7 +93,7 @@ const SocketClientProvider = ({ children }: SocketClientProviderProps) => {
 			});
 
 			// Custom server events
-			socket.on('updateState', (data: AppState) => {
+			socket.on('updateState', (data: OverlayData) => {
 				console.log('Recieved new server data: ', data);
 				// TODO: Update app state
 				// FIRST: Validate data
@@ -98,6 +102,7 @@ const SocketClientProvider = ({ children }: SocketClientProviderProps) => {
 					console.error('Recieved invalid data: ', result.error);
 					return;
 				}
+				dispatch(setOverlayData(data));
 			});
 
 			socket.on('dataError', (message: string) => {
