@@ -3,10 +3,9 @@ import Actionbar from './components/actionbar/Actionbar';
 import Footer from './components/footer/Footer';
 import AppRouter from './AppRouter';
 import { useContext, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { AppState } from './redux/reducers/rootReducer';
 import useEventMatches from './hooks/useEventMatches';
-import { setMatches } from './redux/actions/tournamentActions';
 import { OBSWebSocketClientContext } from './obs-websocket/OBSWebsocketProvider';
 
 const useStyles = makeStyles({
@@ -23,7 +22,6 @@ const useStyles = makeStyles({
 
 function App(): JSX.Element {
 	const classes = useStyles();
-	const dispatch = useDispatch();
 
 	const ipcRenderer = window.electron.ipcRenderer;
 
@@ -50,15 +48,7 @@ function App(): JSX.Element {
 	/**
 	 * Matches hook
 	 */
-	const { fetchMatches } = useEventMatches();
-
-	/**
-	 * Async fetch match helper function
-	 */
-	const fetchMatchData = async () => {
-		const matches = await fetchMatches();
-		dispatch(setMatches(matches));
-	};
+	const { refreshMatches } = useEventMatches();
 
 	/**
 	 * Fetch matches when tournament is set
@@ -66,15 +56,15 @@ function App(): JSX.Element {
 	useEffect(() => {
 		if (validated) {
 			if (autoRefresh) {
-				fetchMatchData();
+				refreshMatches();
 				const interval = setInterval(() => {
-					fetchMatchData();
+					refreshMatches();
 				}, 60 * 1000);
 				return () => {
 					clearInterval(interval);
 				};
 			} else {
-				fetchMatchData();
+				refreshMatches();
 			}
 		}
 		return;

@@ -303,10 +303,16 @@ const compareMatches = (a: Match, b: Match): number => {
 	} else if (a.completedAt !== null && b.completedAt !== null) {
 		// Both matches are completed
 		return b.completedAt - a.completedAt;
+	} else if (a.state === 3) {
+		// Only match 'a' is completed
+		return 1;
+	} else if (b.state === 3) {
+		// Only match 'b' is completed
+		return 1; // Don't care about order of completed matches
 	} else if (a.state === 2) {
 		// Only match 'a' is started
 		return -1;
-	} else if (b.startedAt === 2) {
+	} else if (b.state === 2) {
 		// Only match 'b' is started
 		return 1;
 	} else {

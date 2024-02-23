@@ -1,15 +1,13 @@
-import { Button, Caption1, Spinner, makeStyles, shorthands } from '@fluentui/react-components';
+import { Button, Caption1, makeStyles, shorthands } from '@fluentui/react-components';
 import { TrophyOffRegular, ChevronDown20Regular } from '@fluentui/react-icons';
 import { tokens } from '@fluentui/react-theme';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { TournamentState } from '../../../../redux/reducers/tournamentReducer';
-import { useEffect, useRef, useState } from 'react';
 import { ACTIONBAR_HEIGHT, FOOTER_HEIGHT, SECTION_HEADER_HEIGHT } from '@common/constants/elements';
 import TournamentCard from '../tournament/TournamentCard';
 import Empty from '../../SidebarPlaceholder';
 import { AppState } from '../../../../redux/reducers/rootReducer';
 import useMatch from '../../../../hooks/useEventMatches';
-import { addMatches, setMatches } from '../../../../redux/actions/tournamentActions';
 import { MenuMatch } from '../../../dashboard/match/DashboardMatch';
 import { sortMatches } from '../../../../utils/tournament';
 
@@ -45,76 +43,19 @@ const useStyles = makeStyles({
 // TODO: Selected Match
 const MatchesMenu = () => {
 	const classes = useStyles();
-	const dispatch = useDispatch();
 
 	const { tournament }: TournamentState = useSelector((state: AppState) => state.tournamentState);
 
-	const [refreshing, setRefreshing] = useState<boolean>(false);
+	const { matchList, loading, error, refreshMatches, getMoreMatches } = useMatch();
 
-	const { matchList, loading, error, fetchMatches } = useMatch();
-
-	const pageLoaded = useRef<boolean>(false);
-
-	const [page, setPage] = useState<number>(1);
-
-	/**
-	 * Fetches more matches using the next page of query results.
-	 */
-	const fetchMoreMatches = async () => {
-		const newMatches = await fetchMatches(page + 1);
-		setPage((prevPage) => {
-			dispatch(addMatches(newMatches));
-			return prevPage + 1;
-		});
-	};
-
-	/**
-	 * Refreshses the current list of matches, restarting at page 1.
-	 */
-	const refreshMatches = async () => {
-		setRefreshing(true);
-		const newMatches = await fetchMatches(1);
-		dispatch(setMatches(newMatches));
-		setPage(1);
-		setRefreshing(false);
-	};
-
-	/**
-	 * Load matches on page load.
-	 * Reference used to prevent multiple calls in dev strict mode.
-	 */
-	useEffect(() => {
-		if (!pageLoaded.current) {
-			pageLoaded.current = true;
-			fetchMatches(page);
-		}
-	}, []);
-
-	/**
-	 * Clear matches and fetch new matches if tournament is changed.
-	 */
-	useEffect(() => {
-		const fetchNewMatches = async () => {
-			if (!pageLoaded.current) {
-				setRefreshing(true);
-				const newMatches = await fetchMatches(1);
-				setMatches(newMatches);
-				setPage(1);
-				pageLoaded.current = true;
-				setRefreshing(false);
-			}
-		};
-		fetchNewMatches();
-	}, [tournament]);
-
-	const filteredMatches = sortMatches(matchList.filter((match) => !match.completedAt));
+	const filteredMatches = sortMatches(matchList);
 
 	const MatchList = filteredMatches.length ? (
 		filteredMatches.map((match) => (
 			<MenuMatch key={`${match.id}-${match.identifier}-item`} match={match} />
 		))
 	) : (
-		<Caption1 className={classes.empty}>No Matches In Queue</Caption1>
+		<Caption1 className={classes.empty}>No Matches Found</Caption1>
 	);
 
 	return (
@@ -123,24 +64,19 @@ const MatchesMenu = () => {
 				<>
 					<TournamentCard handleRefresh={refreshMatches} />
 					<div className={classes.matchList}>
-						{pageLoaded && !refreshing ? (
-							MatchList
-						) : (
-							<Empty icon={<Spinner size={'extra-small'} />} />
-						)}
+						{MatchList}
 						{filteredMatches.length > 0 && (
 							<Button
 								size="small"
 								appearance="transparent"
 								className={classes.moreButton}
-								onClick={fetchMoreMatches}
+								onClick={getMoreMatches}
 								disabled={loading || error !== null || !filteredMatches.length}
 							>
 								{error ? (
 									<Caption1 className={classes.empty}>{error}</Caption1>
 								) : (
-									pageLoaded &&
-									!refreshing && (
+									!loading && (
 										<>
 											<span>Load More Matches</span>
 											<ChevronDown20Regular />

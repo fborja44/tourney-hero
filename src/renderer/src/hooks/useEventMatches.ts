@@ -2,9 +2,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../redux/reducers/rootReducer';
 import matchesQuery from '../graphql/queries/matchesQuery';
 import useQuery from './useQuery';
-import { setMatchesError, setMatchesLoading } from '../redux/actions/tournamentActions';
+import {
+	addMatches,
+	setMatches,
+	setMatchesError,
+	setMatchesLoading
+} from '../redux/actions/tournamentActions';
 import { parseMatch } from '../utils/tournament';
 import { Match } from '@common/interfaces/Types';
+import { useState } from 'react';
 /**
  * Start.gg API Query hook.
  * Errors must be set manually.
@@ -12,6 +18,8 @@ import { Match } from '@common/interfaces/Types';
 const useMatch = () => {
 	const dispatch = useDispatch();
 	const { setError, fetchData } = useQuery();
+
+	const [page, setPage] = useState(1);
 
 	const { key, tournamentSlug, eventSlug, validated } = useSelector(
 		(state: AppState) => state.tournamentState
@@ -33,6 +41,7 @@ const useMatch = () => {
 		if (!key || !tournamentSlug || !eventSlug || !validated) {
 			return [];
 		}
+		setPage(page);
 		dispatch(setMatchesLoading(true));
 		dispatch(setMatchesError(null));
 		console.log('Fetching matches...');
@@ -66,7 +75,30 @@ const useMatch = () => {
 		return matches;
 	};
 
-	return { matchList, loading, error, setError, fetchMatches };
+	/**
+	 * Fetches the first page of matches from start.gg and sets the match state.
+	 */
+	const refreshMatches = async () => {
+		const matches = await fetchMatches();
+		dispatch(setMatches(matches));
+		return matches;
+	};
+
+	/**
+	 * Fetches the next page of matches from start.gg and sets the match state.
+	 */
+	const getMoreMatches = async () => {
+		const matches = await fetchMatches(page + 1);
+		if (matches.length > 0) {
+			setPage((prevPage) => {
+				return prevPage + 1;
+			});
+			dispatch(addMatches(matches));
+		}
+		return matches;
+	};
+
+	return { matchList, loading, error, setError, fetchMatches, refreshMatches, getMoreMatches };
 };
 
 export default useMatch;
