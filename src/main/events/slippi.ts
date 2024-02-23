@@ -1,4 +1,4 @@
-import { Ports } from '@slippi/slippi-js';
+import { Ports, SlippiGame } from '@slippi/slippi-js';
 import { dialog } from 'electron';
 const { SlpLiveStream, SlpRealTime } = require('@vinceau/slp-realtime');
 
@@ -44,12 +44,17 @@ export const handleConnectToSlippi = async (ev: Electron.IpcMainInvokeEvent) => 
 	}
 };
 
-export const handleOpenSlippiFiles = async () => {
+export const handleSlippiFileStats = async () => {
 	const { canceled, filePaths } = await dialog.showOpenDialog({
 		filters: [{ name: 'slippi', extensions: ['slp'] }],
 		properties: ['multiSelections']
 	});
 	if (!canceled) {
+		for (const file of filePaths) {
+			const game = new SlippiGame(file);
+			const stats = game.getStats();
+			console.log(stats);
+		}
 		return filePaths;
 	}
 	return [];

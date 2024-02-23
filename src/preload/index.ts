@@ -3,7 +3,7 @@ import { electronAPI } from '@electron-toolkit/preload';
 
 // Custom APIs for renderer
 const api = {
-	openSlippiFiles: () => ipcRenderer.invoke('slippi:openFiles')
+	getFileStats: () => ipcRenderer.invoke('slippi:getFileStats')
 };
 
 // Use `contextBridge` APIs to expose Electron APIs to

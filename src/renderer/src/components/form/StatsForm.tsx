@@ -7,7 +7,7 @@ const StatsForm = () => {
 	const classes = formStyles();
 
 	const handleClick = async () => {
-		const filePaths = await window.api.openSlippiFiles();
+		const filePaths = await window.api.getFileStats();
 		console.log(filePaths);
 	};
 
