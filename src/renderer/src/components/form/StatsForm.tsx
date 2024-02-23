@@ -1,10 +1,15 @@
-import { Body1 } from '@fluentui/react-components';
+import { Body1, Button } from '@fluentui/react-components';
 import Panel from '../panel/Panel';
 import TextField from './inputs/TextField';
 import formStyles from './styles/FormStyles';
 
 const StatsForm = () => {
 	const classes = formStyles();
+
+	const handleClick = async () => {
+		const filePaths = await window.api.openSlippiFiles();
+		console.log(filePaths);
+	};
 
 	return (
 		<Panel>
@@ -38,6 +43,9 @@ const StatsForm = () => {
 			</div>
 			<div className={classes.formSection}>
 				<Body1 className={classes.sectionTitle}>Slippi Replay Upload</Body1>
+				<Button size="small" appearance="primary" onClick={handleClick}>
+					Select Replays
+				</Button>
 			</div>
 		</Panel>
 	);

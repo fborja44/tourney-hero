@@ -2,7 +2,7 @@ import { app, shell, BrowserWindow, ipcMain, nativeTheme, session } from 'electr
 import { join } from 'path';
 import { electronApp, optimizer, is } from '@electron-toolkit/utils';
 import icon from '../../resources/app-logo.png?asset';
-import { handleConnectToSlippi } from './events/slippi';
+import { handleConnectToSlippi, handleOpenSlippiFiles } from './events/slippi';
 
 function createWindow(): void {
 	// Create the browser window.
@@ -78,6 +78,8 @@ app.whenReady().then(() => {
 
 	// Register IPC handlers
 	ipcMain.on('slippi:connect', handleConnectToSlippi);
+
+	ipcMain.handle('slippi:openFiles', handleOpenSlippiFiles);
 
 	createWindow();
 

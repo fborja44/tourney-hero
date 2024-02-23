@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import Start from '@renderer/assets/svg/start.svg';
-import { Sparkle24Regular, EmojiSad24Regular } from '@fluentui/react-icons';
+import { EmojiSad24Regular } from '@fluentui/react-icons';
 import {
 	SelectTabData,
 	SelectTabEvent,
@@ -110,9 +110,9 @@ const Sidebar = () => {
 						{selectedTab === 'matches' && (
 							<Routes>
 								<Route path={`/`} element={<DashboardMenu />} />
-								<Route path={`/gameplay`} element={<MatchesMenu />} />
+								<Route path="*" element={<MatchesMenu />} />
 								<Route path={`/bracket`} element={<BracketMenu />} />
-								<Route
+								{/* <Route
 									path="*"
 									element={
 										<Empty
@@ -120,7 +120,7 @@ const Sidebar = () => {
 											icon={<Sparkle24Regular />}
 										/>
 									}
-								/>
+								/> */}
 							</Routes>
 						)}
 					</ErrorBoundary>
