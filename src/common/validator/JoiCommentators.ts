@@ -5,7 +5,7 @@ import {
 	MAX_DAY,
 	MAX_MESSAGE_LENGTH,
 	MAX_TIMER
-} from '@common/constants/limits';
+} from '../constants/limits';
 
 const JoiCommentators = Joi.object({
 	commentator1: JoiString(MAX_COMMENTATOR_LENGTH).required(),

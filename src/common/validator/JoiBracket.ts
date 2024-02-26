@@ -1,6 +1,6 @@
 import Joi from 'joi';
 import { JoiTag } from './index';
-import { MAX_SCORE } from '@common/constants/limits';
+import { MAX_SCORE } from '../constants/limits';
 
 const JoiScore = Joi.number().min(-1).max(MAX_SCORE);
 

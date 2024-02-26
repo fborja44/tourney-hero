@@ -78,3 +78,8 @@ export interface PlayerCardData {
 	showPhoto: boolean;
 	playerTag: string;
 }
+
+export interface LocalCommentator {
+	name: string;
+	social?: string;
+}

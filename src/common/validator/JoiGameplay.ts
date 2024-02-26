@@ -1,12 +1,12 @@
 import Joi from 'joi';
-import { CHARACTERS, PORTS } from '@common/constants/data';
+import { CHARACTERS, PORTS } from '../constants/data';
 import { JoiString, JoiTag } from './index';
 import {
 	MAX_BRACKET_DATA_LENGTH,
 	MAX_PRONOUN_LENGTH,
 	MAX_SCORE,
 	MAX_TEAM_LENGTH
-} from '@common/constants/limits';
+} from '../constants/limits';
 
 export const JoiPlayer = Joi.object({
 	tag: JoiTag.required(),

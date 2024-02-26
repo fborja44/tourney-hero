@@ -44,7 +44,8 @@ const MenuTextField = ({
 	handleChange,
 	validationState,
 	validationMessage,
-	disabled
+	disabled,
+	required
 }: MenuTextFieldProps) => {
 	const classes = useStyles();
 	return (
@@ -54,6 +55,7 @@ const MenuTextField = ({
 			size={size}
 			validationMessage={validationMessage}
 			validationState={validationState}
+			required={required}
 		>
 			<Input
 				size={size}

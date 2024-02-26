@@ -6,8 +6,6 @@ declare global {
 		api: {
 			getFileStats;
 			getCommentators;
-			addCommentator;
-			deleteCommentator;
 		};
 	}
 }

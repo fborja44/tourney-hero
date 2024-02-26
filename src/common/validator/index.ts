@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import { MAX_TAG_LENGTH } from '@common/constants/limits';
+import { MAX_TAG_LENGTH } from '../constants/limits';
 
 export const JoiTag = Joi.string().max(MAX_TAG_LENGTH).allow('').required();
 export const JoiString = (maxLength: number = 32) => {

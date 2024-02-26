@@ -1,3 +1,5 @@
+import React, { JSX } from 'react';
+
 export type Port = 'Red' | 'Blue' | 'Yellow' | 'Green' | 'None';
 
 export type Character =

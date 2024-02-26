@@ -4,9 +4,7 @@ import { electronAPI } from '@electron-toolkit/preload';
 // Custom APIs for renderer
 const api = {
 	getFileStats: () => ipcRenderer.invoke('slippi:getFileStats'),
-	getCommentators: () => ipcRenderer.invoke('commentator:list'),
-	addCommentator: () => ipcRenderer.invoke('commentator:add'),
-	deleteCommentator: () => ipcRenderer.invoke('commentator:delete')
+	getCommentators: () => ipcRenderer.invoke('commentator:list')
 };
 
 // Use `contextBridge` APIs to expose Electron APIs to
@@ -17,7 +15,9 @@ if (process.contextIsolated) {
 		contextBridge.exposeInMainWorld('electron', electronAPI);
 		contextBridge.exposeInMainWorld('api', api);
 		contextBridge.exposeInMainWorld('electronAPI', {
-			slippiStream: () => ipcRenderer.send('slippi:connect')
+			slippiStream: () => ipcRenderer.send('slippi:connect'),
+			addCommentator: () => ipcRenderer.send('commentator:add'),
+			removeCommentator: () => ipcRenderer.send('commentator:remove')
 		});
 	} catch (error) {
 		console.error(error);

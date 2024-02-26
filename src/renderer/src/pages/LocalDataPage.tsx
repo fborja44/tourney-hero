@@ -2,21 +2,24 @@ import PageHeader from '../pageheader/PageHeader';
 import { DatabasePerson20Regular } from '@fluentui/react-icons';
 import Panel from '@renderer/components/panel/Panel';
 import PageLayout from './PageLayout';
-import { useEffect } from 'react';
+import { makeStyles, shorthands, tokens } from '@fluentui/react-components';
+import LocalCommentatorTable from '@renderer/components/tables/LocalCommentatorTable';
+
+const useStyles = makeStyles({
+	container: {
+		...shorthands.padding(tokens.spacingVerticalS, tokens.spacingHorizontalXL)
+	}
+});
 
 const LocalDataPage = () => {
-	const getCommentatorsList = async () => {
-		const data = await window.api.getCommentators();
-		console.log(data);
-	};
-
-	useEffect(() => {
-		getCommentatorsList();
-	}, []);
-
+	const classes = useStyles();
 	return (
 		<PageLayout header={<PageHeader title="Local Data" icon={<DatabasePerson20Regular />} />}>
-			<Panel></Panel>
+			<Panel>
+				<div className={classes.container}>
+					<LocalCommentatorTable />
+				</div>
+			</Panel>
 		</PageLayout>
 	);
 };

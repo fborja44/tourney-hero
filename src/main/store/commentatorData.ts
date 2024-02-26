@@ -2,11 +2,7 @@ import { MAX_COMMENTATOR_LENGTH } from '../../common/constants/limits';
 import { IpcMainInvokeEvent } from 'electron';
 import Joi from 'joi';
 import store from '.';
-
-interface LocalCommentator {
-	name: string;
-	social?: string;
-}
+import { LocalCommentator } from '../../common/interfaces/Data';
 
 const JoiLocalCommentator = Joi.object({
 	name: Joi.string().min(1).max(MAX_COMMENTATOR_LENGTH).required(),
@@ -45,7 +41,7 @@ export const handleGetCommentatorsList = () => {
  */
 export const handleAddLocalCommentator = (_ev: IpcMainInvokeEvent, data: LocalCommentator) => {
 	// Validate data
-	const result = JoiLocalCommentator.validate(data);
+	const result = JoiLocalCommentator.required().validate(data);
 	if (result.error) {
 		console.error(result.error);
 		return false;
