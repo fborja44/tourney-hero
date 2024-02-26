@@ -11,6 +11,7 @@ import { AppState } from './redux/reducers/rootReducer';
 import SceneHeader from './pageheader/SceneHeader';
 import { useContext } from 'react';
 import { SocketClientContext } from './socket/SocketClientProvider';
+import LocalDataPage from './pages/LocalDataPage';
 
 const AppRouter = () => {
 	const scenesState = useSelector((state: AppState) => state.scenesState);
@@ -41,6 +42,10 @@ const AppRouter = () => {
 				{
 					path: '/scenes',
 					element: <SceneManagerPage />
+				},
+				{
+					path: '/localData',
+					element: <LocalDataPage />
 				},
 				...scenesState.map((scene) => ({
 					key: `${scene.title}-page`,

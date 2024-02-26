@@ -3,6 +3,11 @@ import { join } from 'path';
 import { electronApp, optimizer, is } from '@electron-toolkit/utils';
 import icon from '../../resources/app-logo.png?asset';
 import { handleConnectToSlippi, handleSlippiFileStats } from './events/slippi';
+import {
+	handleAddLocalCommentator,
+	handleDeleteLocalCommentator,
+	handleGetCommentatorsList
+} from './store';
 
 function createWindow(): void {
 	// Create the browser window.
@@ -80,6 +85,11 @@ app.whenReady().then(() => {
 	ipcMain.on('slippi:connect', handleConnectToSlippi);
 
 	ipcMain.handle('slippi:getFileStats', handleSlippiFileStats);
+
+	// Local Data
+	ipcMain.handle('commentator:list', handleGetCommentatorsList);
+	ipcMain.handle('commentator:add', handleAddLocalCommentator);
+	ipcMain.handle('commentator:remove', handleDeleteLocalCommentator);
 
 	createWindow();
 

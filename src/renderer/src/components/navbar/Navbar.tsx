@@ -1,5 +1,10 @@
 import { MenuGroup, MenuGroupHeader, makeStyles, shorthands } from '@fluentui/react-components';
-import { Apps20Regular, WindowEdit20Regular, Server16Regular } from '@fluentui/react-icons';
+import {
+	Apps20Regular,
+	WindowEdit20Regular,
+	Server16Regular,
+	DatabasePerson20Regular
+} from '@fluentui/react-icons';
 import { tokens } from '@fluentui/react-theme';
 import NavbarItem from './item/NavbarItem';
 import SidebarHeader from '../sidebar/header/SidebarHeader';
@@ -86,6 +91,13 @@ const Navbar = () => {
 						icon={<WindowEdit20Regular />}
 						label="Scene Manager"
 						to="/scenes"
+						selectedTab={selectedTab}
+						setSelectedTab={setSelectedTab}
+					/>
+					<NavbarItem
+						icon={<DatabasePerson20Regular />}
+						label="Local Data"
+						to="/localData"
 						selectedTab={selectedTab}
 						setSelectedTab={setSelectedTab}
 					/>

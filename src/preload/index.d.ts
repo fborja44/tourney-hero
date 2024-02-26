@@ -5,6 +5,9 @@ declare global {
 		electron: ElectronAPI;
 		api: {
 			getFileStats;
+			getCommentators;
+			addCommentator;
+			deleteCommentator;
 		};
 	}
 }

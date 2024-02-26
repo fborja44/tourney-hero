@@ -3,7 +3,10 @@ import { electronAPI } from '@electron-toolkit/preload';
 
 // Custom APIs for renderer
 const api = {
-	getFileStats: () => ipcRenderer.invoke('slippi:getFileStats')
+	getFileStats: () => ipcRenderer.invoke('slippi:getFileStats'),
+	getCommentators: () => ipcRenderer.invoke('commentator:list'),
+	addCommentator: () => ipcRenderer.invoke('commentator:add'),
+	deleteCommentator: () => ipcRenderer.invoke('commentator:delete')
 };
 
 // Use `contextBridge` APIs to expose Electron APIs to
