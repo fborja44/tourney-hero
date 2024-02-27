@@ -45,7 +45,7 @@ const DashboardPage = () => {
 
 	return (
 		<PageLayout header={<PageHeader title="Match Dashboard" icon={<Apps20Regular />} />}>
-			<Panel>
+			<Panel as="section">
 				{tournament ? (
 					error ? (
 						<div className={classes.empty}>{error}</div>

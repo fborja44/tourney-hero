@@ -7,7 +7,9 @@ import LocalCommentatorTable from '@renderer/components/tables/LocalCommentatorT
 
 const useStyles = makeStyles({
 	container: {
-		...shorthands.padding(tokens.spacingVerticalS, tokens.spacingHorizontalXL)
+		...shorthands.padding(tokens.spacingVerticalS, tokens.spacingHorizontalXL),
+		paddingBottom: tokens.spacingVerticalXL,
+		height: '100%'
 	}
 });
 
@@ -15,7 +17,7 @@ const LocalDataPage = () => {
 	const classes = useStyles();
 	return (
 		<PageLayout header={<PageHeader title="Local Data" icon={<DatabasePerson20Regular />} />}>
-			<Panel>
+			<Panel as="section">
 				<div className={classes.container}>
 					<LocalCommentatorTable />
 				</div>

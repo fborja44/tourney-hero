@@ -5,8 +5,8 @@ import store from '.';
 import { LocalCommentator } from '../../common/interfaces/Data';
 
 const JoiLocalCommentator = Joi.object({
-	name: Joi.string().min(1).max(MAX_COMMENTATOR_LENGTH).required(),
-	social: Joi.string().min(1).max(MAX_COMMENTATOR_LENGTH)
+	name: Joi.string().min(1).max(MAX_COMMENTATOR_LENGTH).trim().required(),
+	social: Joi.string().max(MAX_COMMENTATOR_LENGTH).allow('').trim().required()
 });
 const JoiLocalCommentatorList = Joi.array().items(JoiLocalCommentator).required();
 
@@ -39,7 +39,7 @@ export const handleGetCommentatorsList = () => {
  * Adds commentator data to the store.
  * @returns The new commentators list if successful. Otherwise, returns false.
  */
-export const handleAddLocalCommentator = (_ev: IpcMainInvokeEvent, data: LocalCommentator) => {
+export const handleAddLocalCommentator = (ev: IpcMainInvokeEvent, data: LocalCommentator) => {
 	// Validate data
 	const result = JoiLocalCommentator.required().validate(data);
 	if (result.error) {
@@ -57,6 +57,7 @@ export const handleAddLocalCommentator = (_ev: IpcMainInvokeEvent, data: LocalCo
 
 	commentatorsList.push(data);
 	store.set('commentators', commentatorsList);
+	ev.sender.send('commentator:update');
 	return commentatorsList;
 };
 
@@ -64,7 +65,7 @@ export const handleAddLocalCommentator = (_ev: IpcMainInvokeEvent, data: LocalCo
  * Deletes local commentator data from the store.
  * @returns The new commentators list if successful. Otherwise, returns false.
  */
-export const handleDeleteLocalCommentator = (_ev: IpcMainInvokeEvent, data: string) => {
+export const handleDeleteLocalCommentator = (ev: IpcMainInvokeEvent, data: string) => {
 	if (typeof data !== 'string') {
 		return false;
 	}
@@ -75,5 +76,6 @@ export const handleDeleteLocalCommentator = (_ev: IpcMainInvokeEvent, data: stri
 	}
 	const newList = commentatorsList.filter((commentator) => commentator.name !== data);
 	store.set('commentators', newList);
+	ev.sender.send('commentator:update');
 	return newList;
 };

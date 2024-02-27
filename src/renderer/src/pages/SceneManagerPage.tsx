@@ -26,7 +26,7 @@ const SceneManagerPage = () => {
 
 	return (
 		<PageLayout header={<PageHeader title="Scene Manager" icon={<WindowEdit20Regular />} />}>
-			<Panel>
+			<Panel as="section">
 				{connected ? (
 					<div className={formStyles.formSection}>
 						<Body1 className={formStyles.sectionTitle}>App Scenes</Body1>

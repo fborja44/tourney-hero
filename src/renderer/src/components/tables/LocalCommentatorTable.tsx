@@ -15,12 +15,14 @@ import {
 	TableColumnDefinition,
 	createTableColumn,
 	makeStyles,
+	mergeClasses,
+	shorthands,
 	tokens
 } from '@fluentui/react-components';
 import { LocalCommentator } from '@common/interfaces/Data';
 import {
 	Add16Regular,
-	Delete20Regular,
+	DeleteRegular,
 	Globe20Regular,
 	Person20Regular
 } from '@fluentui/react-icons';
@@ -31,7 +33,8 @@ const useStyles = makeStyles({
 		display: 'flex',
 		flexDirection: 'column',
 		rowGap: tokens.spacingVerticalM,
-		paddingTop: tokens.spacingVerticalM
+		paddingTop: tokens.spacingVerticalM,
+		height: '100%'
 	},
 	header: {
 		display: 'flex',
@@ -42,6 +45,7 @@ const useStyles = makeStyles({
 		boxShadow: 'none',
 		paddingBottom: tokens.spacingVerticalXL
 	},
+	gridBody: { maxHeight: '400px', overflowY: 'auto' },
 	empty: {
 		fontStyle: 'italic',
 		color: tokens.colorNeutralForeground2,
@@ -50,6 +54,20 @@ const useStyles = makeStyles({
 		justifyContent: 'center',
 		columnSpan: 'all',
 		paddingTop: tokens.spacingVerticalXL
+	},
+	button: {
+		'& svg': {
+			width: '18px',
+			height: '18px'
+		},
+		'&:hover': {
+			...shorthands.borderColor(tokens.colorNeutralStroke1)
+		}
+	},
+	delete: {
+		'&:hover': {
+			color: tokens.colorPaletteRedForeground1
+		}
 	}
 });
 
@@ -58,6 +76,7 @@ const LocalCommentatorTable = () => {
 	const classes = useStyles();
 
 	const [data, setData] = useState([]);
+	const [open, setOpen] = useState(false);
 
 	const getCommentatorsList = async () => {
 		const result = await window.api.getCommentators();
@@ -68,6 +87,10 @@ const LocalCommentatorTable = () => {
 
 	useEffect(() => {
 		getCommentatorsList();
+		ipcRenderer.on('commentator:update', getCommentatorsList);
+		return () => {
+			ipcRenderer.removeListener('commentator:update', getCommentatorsList);
+		};
 	}, []);
 
 	const handleDelete = async (item: LocalCommentator) => {
@@ -81,20 +104,30 @@ const LocalCommentatorTable = () => {
 			renderHeaderCell: () => 'Name / Tag',
 			renderCell: (item) => (
 				<TableCellLayout media={<Person20Regular />}>{item.name}</TableCellLayout>
-			)
+			),
+			compare: (a, b) => {
+				return a.name.localeCompare(b.name);
+			}
 		}),
 		createTableColumn({
 			columnId: 'social-column',
 			renderHeaderCell: () => 'Social Media Handle',
-			renderCell: (item) => (
-				<TableCellLayout media={<Globe20Regular />}>{item.social}</TableCellLayout>
-			)
+			renderCell: (item) =>
+				item.social && (
+					<TableCellLayout media={<Globe20Regular />}>{item.social}</TableCellLayout>
+				)
 		}),
 		createTableColumn({
 			columnId: 'actions-column',
 			renderHeaderCell: () => 'Actions',
 			renderCell: (item) => (
-				<Button onClick={() => handleDelete(item)} icon={<Delete20Regular />} />
+				<Button
+					size="small"
+					appearance="outline"
+					className={mergeClasses(classes.button, classes.delete)}
+					onClick={() => handleDelete(item)}
+					icon={<DeleteRegular />}
+				/>
 			)
 		})
 	];
@@ -103,22 +136,23 @@ const LocalCommentatorTable = () => {
 		<div className={classes.container}>
 			<div className={classes.header}>
 				<Body1>Commentator Data</Body1>
-				<Dialog>
+				<Dialog open={open}>
 					<DialogTrigger disableButtonEnhancement>
 						<Button
 							appearance="primary"
 							size="small"
 							icon={<Add16Regular />}
 							iconPosition="after"
+							onClick={() => setOpen(true)}
 						>
 							Add Entry
 						</Button>
 					</DialogTrigger>
-					<CommentatorDialog />
+					<CommentatorDialog setOpen={setOpen} />
 				</Dialog>
 			</div>
 			<Card className={classes.card}>
-				<DataGrid items={data} columns={columns}>
+				<DataGrid items={data} columns={columns} sortable>
 					<DataGridHeader>
 						<DataGridRow>
 							{({ renderHeaderCell }) => (
@@ -126,7 +160,7 @@ const LocalCommentatorTable = () => {
 							)}
 						</DataGridRow>
 						{data.length > 0 ? (
-							<DataGridBody<LocalCommentator>>
+							<DataGridBody<LocalCommentator> className={classes.gridBody}>
 								{({ item, rowId }) => (
 									<DataGridRow<LocalCommentator> key={rowId}>
 										{({ renderCell }) => (

@@ -27,7 +27,11 @@ const useStyles = makeStyles({
 	}
 });
 
-const CommentatorDialog = () => {
+interface CommentatorDialogProps {
+	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const CommentatorDialog = ({ setOpen }: CommentatorDialogProps) => {
 	const classes = useStyles();
 	const ipcRenderer = window.electron.ipcRenderer;
 
@@ -37,6 +41,11 @@ const CommentatorDialog = () => {
 	const handleSubmit = async () => {
 		const result = await ipcRenderer.invoke('commentator:add', { name, social });
 		console.log(result);
+		if (!result) {
+			// TODO: Handle error
+		}
+		setOpen(false);
+		return result;
 	};
 
 	return (
@@ -69,6 +78,9 @@ const CommentatorDialog = () => {
 					/>
 				</DialogContent>
 				<DialogActions>
+					<Button appearance="secondary" size="small" onClick={() => setOpen(false)}>
+						Cancel
+					</Button>
 					<Button appearance="primary" size="small" onClick={handleSubmit}>
 						Submit
 					</Button>
