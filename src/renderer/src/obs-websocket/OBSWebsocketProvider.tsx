@@ -2,6 +2,8 @@ import { createContext, useState } from 'react';
 import OBSWebSocket from 'obs-websocket-js';
 import { useDispatch } from 'react-redux';
 import { setCurrentOBSScene, setOBSScenesList } from '../redux/actions/obsActions';
+import { useToastController } from '@fluentui/react-components';
+import MessageToast from '@renderer/components/toasts/MessageToast';
 
 interface OBSWebSocketProviderProps {
 	children: React.ReactNode;
@@ -36,6 +38,8 @@ export const OBSWebSocketClientContext = createContext<OBSWebSocketClientState>(
 const OBSWebSocketClientProvider = ({ children }: OBSWebSocketProviderProps) => {
 	const dispatch = useDispatch();
 
+	const { dispatchToast } = useToastController('toaster');
+
 	const [websocket, setWebSocket] = useState<OBSWebSocket | null>(null);
 	const [connected, setConnected] = useState<boolean>(false);
 	const [address, setAddress] = useState<string>(defaultAddress);
@@ -53,9 +57,20 @@ const OBSWebSocketClientProvider = ({ children }: OBSWebSocketProviderProps) => 
 			setWebSocket(obs);
 
 			// Attempt connection
-			const result = await obs.connect(`${address}:${port}`, password);
-			console.log('Connected to OBS');
-			console.log(result);
+			try {
+				const result = await obs.connect(`${address}:${port}`, password);
+				console.log('Connected to OBS');
+				console.log(result);
+				dispatchToast(<MessageToast title="Connected To OBS Websocket" />, {
+					intent: 'success'
+				});
+			} catch (err) {
+				console.error(err);
+				dispatchToast(<MessageToast title="OBS Websocket Connection Failed" />, {
+					intent: 'error'
+				});
+				return false;
+			}
 
 			// Get current scene list
 			const sceneData = await obs.call('GetSceneList');
@@ -115,6 +130,9 @@ const OBSWebSocketClientProvider = ({ children }: OBSWebSocketProviderProps) => 
 	const disconnect = async () => {
 		websocket?.disconnect();
 		setConnected(false);
+		dispatchToast(<MessageToast title="Disconnected From OBS Websocket" />, {
+			intent: 'info'
+		});
 	};
 
 	const OBSWebSocketData: OBSWebSocketClientState = {
