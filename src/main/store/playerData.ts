@@ -61,7 +61,7 @@ export const handleAddLocalPlayer = (ev: IpcMainInvokeEvent, data: LocalPlayer) 
 	const playersList = getPlayersList();
 
 	if (playersList.find((player) => player.tag === tag)) {
-		console.error('Player not found');
+		console.error('Player already exists');
 		return false;
 	}
 
@@ -83,11 +83,14 @@ export const handleUpdateLocalPlayer = (ev: IpcMainInvokeEvent, data: LocalPlaye
 		return false;
 	}
 
-	const { id } = data;
+	const { id, tag } = data;
 
 	const playersList = getPlayersList();
 
-	if (!playersList.find((player) => player.id === id)) {
+	if (
+		!playersList.find((player) => player.id === id) ||
+		playersList.find((player) => player.tag === tag)
+	) {
 		return false;
 	}
 

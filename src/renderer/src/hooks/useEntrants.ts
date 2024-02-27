@@ -1,10 +1,11 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../redux/reducers/rootReducer';
 import useQuery from './useQuery';
-import { setEntrantsError, setEntrantsLoading } from '../redux/actions/tournamentActions';
+import { setEntrants, setEntrantsError, setEntrantsLoading } from '../redux/actions/tournamentActions';
 import eventEntrantsQuery from '../graphql/queries/eventEntrantsQuery';
 import { parseEventEntrant } from '../utils/tournament';
 import { Entrant } from '@common/interfaces/Types';
+import { useEffect } from 'react';
 
 /**
  * Start.gg API Query hook.
@@ -56,6 +57,16 @@ const useEntrants = () => {
 		dispatch(setEntrantsLoading(false));
 		return entrants;
 	};
+
+	useEffect(() => {
+		if (validated) {
+			const fetchEntrantData = async () => {
+				const entrants = await fetchEntrants();
+				dispatch(setEntrants(entrants));
+			};
+			fetchEntrantData();
+		}
+	}, [validated, eventSlug, tournamentSlug]);
 
 	return { entrantList, loading, error, setError, fetchEntrants };
 };

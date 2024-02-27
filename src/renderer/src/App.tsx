@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import { AppState } from './redux/reducers/rootReducer';
 import useEventMatches from './hooks/useEventMatches';
 import { OBSWebSocketClientContext } from './obs-websocket/OBSWebsocketProvider';
+import useEntrants from './hooks/useEntrants';
 
 const useStyles = makeStyles({
 	appContainer: {
@@ -44,6 +45,11 @@ function App(): JSX.Element {
 		connected: OBSConnected,
 		sendOBSSceneRequest
 	} = useContext(OBSWebSocketClientContext);
+
+	/**
+	 * Entrants hook
+	 */
+	useEntrants();
 
 	/**
 	 * Matches hook

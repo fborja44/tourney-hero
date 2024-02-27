@@ -13,6 +13,7 @@ import { AppState } from '../../../redux/reducers/rootReducer';
 import { Entrant } from '@common/interfaces/Types';
 import { updatePlayer } from '../../../redux/actions/dataActions';
 import { PlayerData } from '@common/interfaces/Data';
+import { useEffect, useState } from 'react';
 
 const useStyles = makeStyles({
 	formField: {
@@ -65,6 +66,18 @@ const EntrantSelectField = ({
 	const dispatch = useDispatch();
 
 	const { entrantList } = useSelector((state: AppState) => state.tournamentState.entrants);
+	const [playersList, setPlayersList] = useState<PlayerData[]>([]);
+
+	const getPlayersList = async () => {
+		const result = await window.api.getPlayers();
+		console.log(result);
+		setPlayersList(result);
+		return result;
+	};
+
+	useEffect(() => {
+		getPlayersList();
+	}, []);
 
 	return (
 		<Field label={label} className={classes.formField} size={size}>
@@ -76,11 +89,15 @@ const EntrantSelectField = ({
 				freeform
 				onOptionSelect={(_ev, data) => {
 					const player = entrantList.find((entrant) => entrant.id === data.optionValue);
+					const localPlayer = playersList.find(
+						(player) => player.tag === data.optionText
+					);
+
 					const playerData: Partial<PlayerData> = {
-						tag: player?.tag ?? '',
-						team: player?.team ?? '',
-						pronoun: player?.pronoun ?? '',
-						character: player?.character ?? 'Default'
+						tag: localPlayer?.tag ?? player?.tag ?? '',
+						team: localPlayer?.team ?? player?.team ?? '',
+						pronoun: localPlayer?.pronoun ?? player?.pronoun ?? '',
+						character: localPlayer?.character ?? player?.character ?? 'Default'
 					};
 					dispatch(updatePlayer(`player${playerNumber}`, playerData));
 				}}

@@ -75,12 +75,14 @@ export const handleUpdateLocalCommentator = (ev: IpcMainInvokeEvent, data: Local
 		return false;
 	}
 
-	const { id } = data;
+	const { id, name } = data;
 
 	const commentatorsList = getCommentatorsList();
 
-	if (!commentatorsList.find((commentator) => commentator.id === id)) {
-		console.error('Commentator not found');
+	if (
+		!commentatorsList.find((commentator) => commentator.id === id) ||
+		commentatorsList.find((commentator) => commentator.name === name)
+	) {
 		return false;
 	}
 
