@@ -45,8 +45,7 @@ export const handleAddLocalCommentator = (ev: IpcMainInvokeEvent, data: LocalCom
 	// Validate data
 	const result = JoiLocalCommentator.required().validate(data);
 	if (result.error) {
-		console.error(result.error);
-		return false;
+		return { error: result.error.message };
 	}
 
 	const { name } = data;
@@ -54,13 +53,13 @@ export const handleAddLocalCommentator = (ev: IpcMainInvokeEvent, data: LocalCom
 	const commentatorsList = getCommentatorsList();
 
 	if (commentatorsList.find((commentator) => commentator.name === name)) {
-		return false;
+		return { error: 'Commentator not found' };
 	}
 
 	commentatorsList.push(data);
 	store.set('commentators', commentatorsList);
 	ev.sender.send('commentator:updated');
-	return commentatorsList;
+	return { data: commentatorsList };
 };
 
 /**
@@ -71,19 +70,20 @@ export const handleUpdateLocalCommentator = (ev: IpcMainInvokeEvent, data: Local
 	// Validate data
 	const result = JoiLocalCommentator.required().validate(data);
 	if (result.error) {
-		console.error(result.error);
-		return false;
+		return { error: result.error.message };
 	}
 
 	const { id, name } = data;
 
 	const commentatorsList = getCommentatorsList();
 
+	if (!commentatorsList.find((commentator) => commentator.id === id)) {
+		return { error: 'Commentator not found' };
+	}
 	if (
-		!commentatorsList.find((commentator) => commentator.id === id) ||
-		commentatorsList.find((commentator) => commentator.name === name)
+		commentatorsList.find((commentator) => commentator.name === name && commentator.id !== id)
 	) {
-		return false;
+		return { error: 'Commentator with name already exists' };
 	}
 
 	const newList = commentatorsList.map((commentator) =>
@@ -91,7 +91,7 @@ export const handleUpdateLocalCommentator = (ev: IpcMainInvokeEvent, data: Local
 	);
 	store.set('commentators', newList);
 	ev.sender.send('commentator:updated');
-	return commentatorsList;
+	return { data: commentatorsList };
 };
 
 /**
@@ -100,16 +100,15 @@ export const handleUpdateLocalCommentator = (ev: IpcMainInvokeEvent, data: Local
  */
 export const handleDeleteLocalCommentator = (ev: IpcMainInvokeEvent, data: string) => {
 	if (typeof data !== 'string') {
-		return false;
+		return { error: 'Invalid commentator' };
 	}
 
 	const commentatorsList = getCommentatorsList();
 	if (!commentatorsList.find((commentator) => commentator.id === data)) {
-		console.error('Commentator not found');
-		return false;
+		return { error: 'Commentator not found' };
 	}
 	const newList = commentatorsList.filter((commentator) => commentator.id !== data);
 	store.set('commentators', newList);
 	ev.sender.send('commentator:updated');
-	return newList;
+	return { data: newList };
 };

@@ -52,8 +52,7 @@ export const handleAddLocalPlayer = (ev: IpcMainInvokeEvent, data: LocalPlayer) 
 	// Validate data
 	const result = JoiLocalPlayer.required().validate(data);
 	if (result.error) {
-		console.error(result.error);
-		return false;
+		return { error: result.error.message };
 	}
 
 	const { tag } = data;
@@ -61,14 +60,13 @@ export const handleAddLocalPlayer = (ev: IpcMainInvokeEvent, data: LocalPlayer) 
 	const playersList = getPlayersList();
 
 	if (playersList.find((player) => player.tag === tag)) {
-		console.error('Player already exists');
-		return false;
+		return { error: 'Player not found' };
 	}
 
 	playersList.push(data);
 	store.set('players', playersList);
 	ev.sender.send('player:updated');
-	return playersList;
+	return { data: playersList };
 };
 
 /**
@@ -79,25 +77,25 @@ export const handleUpdateLocalPlayer = (ev: IpcMainInvokeEvent, data: LocalPlaye
 	// Validate data
 	const result = JoiLocalPlayer.required().validate(data);
 	if (result.error) {
-		console.error(result.error);
-		return false;
+		return { error: result.error.message };
 	}
 
 	const { id, tag } = data;
 
 	const playersList = getPlayersList();
 
-	if (
-		!playersList.find((player) => player.id === id) ||
-		playersList.find((player) => player.tag === tag)
-	) {
-		return false;
+	if (!playersList.find((player) => player.id === id)) {
+		return { error: 'Player not found' };
+	}
+
+	if (playersList.find((player) => player.tag === tag && player.id !== id)) {
+		return { error: 'Player with tag already exists' };
 	}
 
 	const newList = playersList.map((player) => (player.id === id ? data : player));
 	store.set('players', newList);
 	ev.sender.send('player:updated');
-	return playersList;
+	return { data: playersList };
 };
 
 /**
@@ -106,16 +104,15 @@ export const handleUpdateLocalPlayer = (ev: IpcMainInvokeEvent, data: LocalPlaye
  */
 export const handleDeleteLocalPlayer = (ev: IpcMainInvokeEvent, data: string) => {
 	if (typeof data !== 'string') {
-		return false;
+		return { error: 'Invalid player' };
 	}
 
 	const playersList = getPlayersList();
 	if (!playersList.find((player) => player.id === data)) {
-		console.error('Player not found');
-		return false;
+		return { error: 'Player not found' };
 	}
 	const newList = playersList.filter((player) => player.id !== data);
 	store.set('players', newList);
 	ev.sender.send('player:updated');
-	return newList;
+	return { data: newList };
 };

@@ -7,6 +7,9 @@ import {
 	DialogSurface,
 	DialogTitle,
 	InputOnChangeData,
+	MessageBar,
+	MessageBarBody,
+	MessageBarTitle,
 	Subtitle2,
 	makeStyles,
 	tokens
@@ -20,7 +23,7 @@ const useStyles = makeStyles({
 		width: 'fit-content'
 	},
 	body: {
-		width: '300px'
+		width: '380px'
 	},
 	form: {
 		display: 'flex',
@@ -40,8 +43,10 @@ const CommentatorDialog = ({ setOpen, data }: CommentatorDialogProps) => {
 
 	const [name, setName] = useState(data ? data.name : '');
 	const [social, setSocial] = useState(data ? data.social : '');
+	const [error, setError] = useState<string | null>(null);
 
 	const handleSubmit = async () => {
+		setError(null);
 		let result;
 		if (data) {
 			// Edit Mode
@@ -51,10 +56,11 @@ const CommentatorDialog = ({ setOpen, data }: CommentatorDialogProps) => {
 			result = await ipcRenderer.invoke('commentator:add', { id: uuidv4(), name, social });
 		}
 		console.log(result);
-		if (!result) {
-			// TODO: Handle error
+		if (result.error) {
+			setError(result.error);
+		} else {
+			setOpen(false);
 		}
-		setOpen(false);
 		return result;
 	};
 
@@ -65,6 +71,14 @@ const CommentatorDialog = ({ setOpen, data }: CommentatorDialogProps) => {
 					<Subtitle2>{data ? 'Edit Commentator' : 'Add New Commentator'}</Subtitle2>
 				</DialogTitle>
 				<DialogContent className={classes.form}>
+					{error && (
+						<MessageBar intent="error" layout="multiline">
+							<MessageBarBody>
+								<MessageBarTitle>Error</MessageBarTitle>
+								{error}
+							</MessageBarBody>
+						</MessageBar>
+					)}
 					<MenuTextField
 						label="Commentator Name"
 						value={name}

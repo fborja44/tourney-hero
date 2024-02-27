@@ -16,11 +16,13 @@ import {
 	makeStyles,
 	mergeClasses,
 	shorthands,
-	tokens
+	tokens,
+	useToastController
 } from '@fluentui/react-components';
 import { LocalCommentator } from '@common/interfaces/Data';
 import { Add16Regular, DeleteRegular, EditRegular, Person16Regular } from '@fluentui/react-icons';
 import CommentatorDialog from '../dialogs/local/CommentatorDialog';
+import MessageToast from '../toasts/MessageToast';
 
 const useStyles = makeStyles({
 	container: {
@@ -73,13 +75,14 @@ const LocalCommentatorTable = () => {
 	const ipcRenderer = window.electron.ipcRenderer;
 	const classes = useStyles();
 
+	const { dispatchToast } = useToastController('toaster');
+
 	const [data, setData] = useState([]);
 	const [open, setOpen] = useState(false);
 	const [openEdit, setOpenEdit] = useState(false);
 
 	const getCommentatorsList = async () => {
 		const result = await window.api.getCommentators();
-		console.log(result);
 		setData(result);
 		return result;
 	};
@@ -94,7 +97,11 @@ const LocalCommentatorTable = () => {
 
 	const handleDelete = async (item: LocalCommentator) => {
 		const result = await ipcRenderer.invoke('commentator:remove', item.id);
-		console.log(result);
+		if (result.error) {
+			dispatchToast(<MessageToast title="Error" message={result.error} />, {
+				intent: 'error'
+			});
+		}
 	};
 
 	const columns: TableColumnDefinition<LocalCommentator>[] = [

@@ -8,6 +8,9 @@ import {
 	DialogSurface,
 	DialogTitle,
 	InputOnChangeData,
+	MessageBar,
+	MessageBarBody,
+	MessageBarTitle,
 	Subtitle2,
 	makeStyles,
 	tokens
@@ -22,10 +25,11 @@ const useStyles = makeStyles({
 		width: 'fit-content'
 	},
 	body: {
-		width: '300px'
+		width: 'fit-content'
 	},
 	form: {
 		display: 'flex',
+		width: '380px',
 		flexDirection: 'column',
 		rowGap: tokens.spacingVerticalS
 	}
@@ -46,8 +50,10 @@ const PlayerDialog = ({ setOpen, data }: PlayerDialogProps) => {
 		data ? data.character ?? 'Default' : 'Default'
 	);
 	const [pronoun, setPronoun] = useState(data ? data.pronoun : '');
+	const [error, setError] = useState<string | null>(null);
 
 	const handleSubmit = async () => {
+		setError(null);
 		let result;
 		if (data) {
 			result = await ipcRenderer.invoke('player:update', {
@@ -67,10 +73,11 @@ const PlayerDialog = ({ setOpen, data }: PlayerDialogProps) => {
 			});
 		}
 		console.log(result);
-		if (!result) {
-			// TODO: Handle error
+		if (result.error) {
+			setError(result.error);
+		} else {
+			setOpen(false);
 		}
-		setOpen(false);
 		return result;
 	};
 
@@ -81,6 +88,14 @@ const PlayerDialog = ({ setOpen, data }: PlayerDialogProps) => {
 					<Subtitle2>{data ? 'Edit Player' : 'Add New Player'}</Subtitle2>
 				</DialogTitle>
 				<DialogContent className={classes.form}>
+					{error && (
+						<MessageBar intent="error" layout="multiline">
+							<MessageBarBody>
+								<MessageBarTitle>Error</MessageBarTitle>
+								{error}
+							</MessageBarBody>
+						</MessageBar>
+					)}
 					<MenuTextField
 						label="Player Tag"
 						value={tag}

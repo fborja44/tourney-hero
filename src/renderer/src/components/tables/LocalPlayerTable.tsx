@@ -17,12 +17,14 @@ import {
 	makeStyles,
 	mergeClasses,
 	shorthands,
-	tokens
+	tokens,
+	useToastController
 } from '@fluentui/react-components';
 import { LocalPlayer } from '@common/interfaces/Data';
 import { Add16Regular, DeleteRegular, EditRegular, Person16Regular } from '@fluentui/react-icons';
 import CharacterIcon from '../character/CharacterIcon';
 import PlayerDialog from '../dialogs/local/PlayerDialog';
+import MessageToast from '../toasts/MessageToast';
 
 const useStyles = makeStyles({
 	container: {
@@ -81,13 +83,14 @@ const LocalPlayerTable = () => {
 	const ipcRenderer = window.electron.ipcRenderer;
 	const classes = useStyles();
 
+	const { dispatchToast } = useToastController('toaster');
+
 	const [data, setData] = useState([]);
 	const [open, setOpen] = useState(false);
 	const [openEdit, setOpenEdit] = useState(false);
 
 	const getPlayersList = async () => {
 		const result = await window.api.getPlayers();
-		console.log(result);
 		setData(result);
 		return result;
 	};
@@ -102,7 +105,11 @@ const LocalPlayerTable = () => {
 
 	const handleDelete = async (item: LocalPlayer) => {
 		const result = await ipcRenderer.invoke('player:remove', item.id);
-		console.log(result);
+		if (result.error) {
+			dispatchToast(<MessageToast title="Error" message={result.error} />, {
+				intent: 'error'
+			});
+		}
 	};
 
 	const columns: TableColumnDefinition<LocalPlayer>[] = [
