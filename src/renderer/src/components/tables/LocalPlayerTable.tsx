@@ -19,9 +19,10 @@ import {
 	shorthands,
 	tokens
 } from '@fluentui/react-components';
-import { LocalCommentator } from '@common/interfaces/Data';
+import { LocalPlayer } from '@common/interfaces/Data';
 import { Add16Regular, DeleteRegular, Person16Regular } from '@fluentui/react-icons';
-import CommentatorDialog from '../dialogs/local/CommentatorDialog';
+import CharacterIcon from '../character/CharacterIcon';
+import PlayerDialog from '../dialogs/local/PlayerDialog';
 
 const useStyles = makeStyles({
 	container: {
@@ -58,6 +59,13 @@ const useStyles = makeStyles({
 			...shorthands.borderColor(tokens.colorNeutralStroke1)
 		}
 	},
+	characterContainer: {
+		display: 'flex',
+		'& img': {
+			position: 'relative',
+			top: '2px'
+		}
+	},
 	delete: {
 		'&:hover': {
 			color: tokens.colorPaletteRedForeground1
@@ -65,48 +73,64 @@ const useStyles = makeStyles({
 	}
 });
 
-const LocalCommentatorTable = () => {
+const LocalPlayerTable = () => {
 	const ipcRenderer = window.electron.ipcRenderer;
 	const classes = useStyles();
 
 	const [data, setData] = useState([]);
 	const [open, setOpen] = useState(false);
 
-	const getCommentatorsList = async () => {
-		const result = await window.api.getCommentators();
+	const getPlayersList = async () => {
+		const result = await window.api.getPlayers();
 		console.log(result);
 		setData(result);
 		return result;
 	};
 
 	useEffect(() => {
-		getCommentatorsList();
-		ipcRenderer.on('commentator:update', getCommentatorsList);
+		getPlayersList();
+		ipcRenderer.on('player:update', getPlayersList);
 		return () => {
-			ipcRenderer.removeListener('commentator:update', getCommentatorsList);
+			ipcRenderer.removeListener('player:update', getPlayersList);
 		};
 	}, []);
 
-	const handleDelete = async (item: LocalCommentator) => {
-		const result = await ipcRenderer.invoke('commentator:remove', item.name);
+	const handleDelete = async (item: LocalPlayer) => {
+		const result = await ipcRenderer.invoke('player:remove', item.tag);
 		console.log(result);
 	};
 
-	const columns: TableColumnDefinition<LocalCommentator>[] = [
+	const columns: TableColumnDefinition<LocalPlayer>[] = [
 		createTableColumn({
-			columnId: 'name-column',
-			renderHeaderCell: () => 'Name / Tag',
+			columnId: 'tag-column',
+			renderHeaderCell: () => 'Tag',
 			renderCell: (item) => (
-				<TableCellLayout media={<Person16Regular />}>{item.name}</TableCellLayout>
+				<TableCellLayout media={<Person16Regular />}>{item.tag}</TableCellLayout>
 			),
 			compare: (a, b) => {
-				return a.name.localeCompare(b.name);
+				return a.tag.localeCompare(b.tag);
 			}
 		}),
 		createTableColumn({
-			columnId: 'social-column',
-			renderHeaderCell: () => 'Social Media Handle',
-			renderCell: (item) => item.social && <TableCellLayout>{item.social}</TableCellLayout>
+			columnId: 'character-column',
+			renderHeaderCell: () => 'Character',
+			renderCell: (item) =>
+				item.character && (
+					<TableCellLayout className={classes.characterContainer}>
+						<CharacterIcon size={20} character={item.character} />
+					</TableCellLayout>
+				)
+		}),
+		createTableColumn({
+			columnId: 'team-column',
+			renderHeaderCell: () => 'Team',
+			renderCell: (item) => item.character && <TableCellLayout>{item.team}</TableCellLayout>
+		}),
+		createTableColumn({
+			columnId: 'pronouns-column',
+			renderHeaderCell: () => 'Pronoun(s)',
+			renderCell: (item) =>
+				item.character && <TableCellLayout>{item.pronoun}</TableCellLayout>
 		}),
 		createTableColumn({
 			columnId: 'actions-column',
@@ -126,7 +150,7 @@ const LocalCommentatorTable = () => {
 	return (
 		<div className={classes.container}>
 			<div className={classes.header}>
-				<Body1>Commentator Data</Body1>
+				<Body1>Player Data</Body1>
 				<Dialog open={open}>
 					<DialogTrigger disableButtonEnhancement>
 						<Button
@@ -139,7 +163,7 @@ const LocalCommentatorTable = () => {
 							Add Entry
 						</Button>
 					</DialogTrigger>
-					<CommentatorDialog setOpen={setOpen} />
+					<PlayerDialog setOpen={setOpen} />
 				</Dialog>
 			</div>
 			<Card className={classes.card}>
@@ -151,9 +175,9 @@ const LocalCommentatorTable = () => {
 							)}
 						</DataGridRow>
 						{data.length > 0 ? (
-							<DataGridBody<LocalCommentator> className={classes.gridBody}>
+							<DataGridBody<LocalPlayer> className={classes.gridBody}>
 								{({ item, rowId }) => (
-									<DataGridRow<LocalCommentator> key={rowId}>
+									<DataGridRow<LocalPlayer> key={rowId}>
 										{({ renderCell }) => (
 											<DataGridCell>{renderCell(item)}</DataGridCell>
 										)}
@@ -170,4 +194,4 @@ const LocalCommentatorTable = () => {
 	);
 };
 
-export default LocalCommentatorTable;
+export default LocalPlayerTable;

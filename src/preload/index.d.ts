@@ -6,6 +6,7 @@ declare global {
 		api: {
 			getFileStats;
 			getCommentators;
+			getPlayers;
 		};
 	}
 }

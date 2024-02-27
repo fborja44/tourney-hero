@@ -83,3 +83,10 @@ export interface LocalCommentator {
 	name: string;
 	social?: string;
 }
+
+export interface LocalPlayer {
+	tag: string;
+	character?: Character;
+	team?: string;
+	pronoun?: string;
+}

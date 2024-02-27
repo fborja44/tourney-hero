@@ -5,8 +5,11 @@ import icon from '../../resources/app-logo.png?asset';
 import { handleConnectToSlippi, handleSlippiFileStats } from './events/slippi';
 import {
 	handleAddLocalCommentator,
+	handleAddLocalPlayer,
 	handleDeleteLocalCommentator,
-	handleGetCommentatorsList
+	handleDeleteLocalPlayer,
+	handleGetCommentatorsList,
+	handleGetPlayersList
 } from './store';
 
 function createWindow(): void {
@@ -90,6 +93,10 @@ app.whenReady().then(() => {
 	ipcMain.handle('commentator:list', handleGetCommentatorsList);
 	ipcMain.handle('commentator:add', handleAddLocalCommentator);
 	ipcMain.handle('commentator:remove', handleDeleteLocalCommentator);
+
+	ipcMain.handle('player:list', handleGetPlayersList);
+	ipcMain.handle('player:add', handleAddLocalPlayer);
+	ipcMain.handle('player:remove', handleDeleteLocalPlayer);
 
 	createWindow();
 
