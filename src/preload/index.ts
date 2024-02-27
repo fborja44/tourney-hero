@@ -18,8 +18,10 @@ if (process.contextIsolated) {
 		contextBridge.exposeInMainWorld('electronAPI', {
 			slippiStream: () => ipcRenderer.send('slippi:connect'),
 			addCommentator: () => ipcRenderer.send('commentator:add'),
+			updateCommentator: () => ipcRenderer.send('commentator:update'),
 			removeCommentator: () => ipcRenderer.send('commentator:remove'),
 			addPlayer: () => ipcRenderer.send('player:add'),
+			updatePlayer: () => ipcRenderer.send('player:update'),
 			removePlayer: () => ipcRenderer.send('player:remove')
 		});
 	} catch (error) {

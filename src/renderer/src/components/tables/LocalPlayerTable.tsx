@@ -89,9 +89,9 @@ const LocalPlayerTable = () => {
 
 	useEffect(() => {
 		getPlayersList();
-		ipcRenderer.on('player:update', getPlayersList);
+		ipcRenderer.on('player:updated', getPlayersList);
 		return () => {
-			ipcRenderer.removeListener('player:update', getPlayersList);
+			ipcRenderer.removeListener('player:updated', getPlayersList);
 		};
 	}, []);
 

@@ -59,7 +59,7 @@ export const handleAddLocalCommentator = (ev: IpcMainInvokeEvent, data: LocalCom
 
 	commentatorsList.push(data);
 	store.set('commentators', commentatorsList);
-	ev.sender.send('commentator:update');
+	ev.sender.send('commentator:updated');
 	return commentatorsList;
 };
 
@@ -79,7 +79,8 @@ export const handleUpdateLocalCommentator = (ev: IpcMainInvokeEvent, data: Local
 
 	const commentatorsList = getCommentatorsList();
 
-	if (commentatorsList.find((commentator) => commentator.id === id)) {
+	if (!commentatorsList.find((commentator) => commentator.id === id)) {
+		console.error('Commentator not found');
 		return false;
 	}
 
@@ -87,7 +88,7 @@ export const handleUpdateLocalCommentator = (ev: IpcMainInvokeEvent, data: Local
 		commentator.id === id ? data : commentator
 	);
 	store.set('commentators', newList);
-	ev.sender.send('commentator:update');
+	ev.sender.send('commentator:updated');
 	return commentatorsList;
 };
 
@@ -102,10 +103,11 @@ export const handleDeleteLocalCommentator = (ev: IpcMainInvokeEvent, data: strin
 
 	const commentatorsList = getCommentatorsList();
 	if (!commentatorsList.find((commentator) => commentator.id === data)) {
+		console.error('Commentator not found');
 		return false;
 	}
 	const newList = commentatorsList.filter((commentator) => commentator.id !== data);
 	store.set('commentators', newList);
-	ev.sender.send('commentator:update');
+	ev.sender.send('commentator:updated');
 	return newList;
 };

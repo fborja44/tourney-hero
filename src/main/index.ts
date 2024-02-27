@@ -9,7 +9,9 @@ import {
 	handleDeleteLocalCommentator,
 	handleDeleteLocalPlayer,
 	handleGetCommentatorsList,
-	handleGetPlayersList
+	handleGetPlayersList,
+	handleUpdateLocalCommentator,
+	handleUpdateLocalPlayer
 } from './store';
 
 function createWindow(): void {
@@ -92,10 +94,12 @@ app.whenReady().then(() => {
 	// Local Data
 	ipcMain.handle('commentator:list', handleGetCommentatorsList);
 	ipcMain.handle('commentator:add', handleAddLocalCommentator);
+	ipcMain.handle('commentator:update', handleUpdateLocalCommentator);
 	ipcMain.handle('commentator:remove', handleDeleteLocalCommentator);
 
 	ipcMain.handle('player:list', handleGetPlayersList);
 	ipcMain.handle('player:add', handleAddLocalPlayer);
+	ipcMain.handle('player:update', handleUpdateLocalPlayer);
 	ipcMain.handle('player:remove', handleDeleteLocalPlayer);
 
 	createWindow();

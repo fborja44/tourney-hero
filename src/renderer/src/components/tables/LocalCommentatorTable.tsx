@@ -10,7 +10,6 @@ import {
 	DataGridHeaderCell,
 	DataGridRow,
 	Dialog,
-	DialogTrigger,
 	TableCellLayout,
 	TableColumnDefinition,
 	createTableColumn,
@@ -20,7 +19,7 @@ import {
 	tokens
 } from '@fluentui/react-components';
 import { LocalCommentator } from '@common/interfaces/Data';
-import { Add16Regular, DeleteRegular, Person16Regular } from '@fluentui/react-icons';
+import { Add16Regular, DeleteRegular, EditRegular, Person16Regular } from '@fluentui/react-icons';
 import CommentatorDialog from '../dialogs/local/CommentatorDialog';
 
 const useStyles = makeStyles({
@@ -49,12 +48,17 @@ const useStyles = makeStyles({
 		columnSpan: 'all',
 		paddingTop: tokens.spacingVerticalXL
 	},
+	actions: {
+		display: 'flex',
+		columnGap: tokens.spacingHorizontalS
+	},
 	button: {
 		'& svg': {
 			width: '18px',
 			height: '18px'
 		},
 		'&:hover': {
+			color: tokens.colorBrandForeground1,
 			...shorthands.borderColor(tokens.colorNeutralStroke1)
 		}
 	},
@@ -71,6 +75,7 @@ const LocalCommentatorTable = () => {
 
 	const [data, setData] = useState([]);
 	const [open, setOpen] = useState(false);
+	const [openEdit, setOpenEdit] = useState(false);
 
 	const getCommentatorsList = async () => {
 		const result = await window.api.getCommentators();
@@ -81,9 +86,9 @@ const LocalCommentatorTable = () => {
 
 	useEffect(() => {
 		getCommentatorsList();
-		ipcRenderer.on('commentator:update', getCommentatorsList);
+		ipcRenderer.on('commentator:updated', getCommentatorsList);
 		return () => {
-			ipcRenderer.removeListener('commentator:update', getCommentatorsList);
+			ipcRenderer.removeListener('commentator:updated', getCommentatorsList);
 		};
 	}, []);
 
@@ -112,13 +117,25 @@ const LocalCommentatorTable = () => {
 			columnId: 'actions-column',
 			renderHeaderCell: () => 'Actions',
 			renderCell: (item) => (
-				<Button
-					size="small"
-					appearance="outline"
-					className={mergeClasses(classes.button, classes.delete)}
-					onClick={() => handleDelete(item)}
-					icon={<DeleteRegular />}
-				/>
+				<div className={classes.actions}>
+					<Dialog open={openEdit}>
+						<Button
+							size="small"
+							appearance="outline"
+							className={classes.button}
+							onClick={() => setOpenEdit(true)}
+							icon={<EditRegular />}
+						/>
+						<CommentatorDialog setOpen={setOpenEdit} data={item} />
+					</Dialog>
+					<Button
+						size="small"
+						appearance="outline"
+						className={mergeClasses(classes.button, classes.delete)}
+						onClick={() => handleDelete(item)}
+						icon={<DeleteRegular />}
+					/>
+				</div>
 			)
 		})
 	];
@@ -128,17 +145,15 @@ const LocalCommentatorTable = () => {
 			<div className={classes.header}>
 				<Body1>Commentator Data</Body1>
 				<Dialog open={open}>
-					<DialogTrigger disableButtonEnhancement>
-						<Button
-							appearance="primary"
-							size="small"
-							icon={<Add16Regular />}
-							iconPosition="after"
-							onClick={() => setOpen(true)}
-						>
-							Add Entry
-						</Button>
-					</DialogTrigger>
+					<Button
+						appearance="primary"
+						size="small"
+						icon={<Add16Regular />}
+						iconPosition="after"
+						onClick={() => setOpen(true)}
+					>
+						Add Entry
+					</Button>
 					<CommentatorDialog setOpen={setOpen} />
 				</Dialog>
 			</div>

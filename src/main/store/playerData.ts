@@ -61,12 +61,13 @@ export const handleAddLocalPlayer = (ev: IpcMainInvokeEvent, data: LocalPlayer) 
 	const playersList = getPlayersList();
 
 	if (playersList.find((player) => player.tag === tag)) {
+		console.error('Player not found');
 		return false;
 	}
 
 	playersList.push(data);
 	store.set('players', playersList);
-	ev.sender.send('player:update');
+	ev.sender.send('player:updated');
 	return playersList;
 };
 
@@ -74,7 +75,7 @@ export const handleAddLocalPlayer = (ev: IpcMainInvokeEvent, data: LocalPlayer) 
  * Updates an existing player in the store.
  * @returns The new players list if successful. Otherwise, returns false.
  */
-export const handleUpdateLocalCommentator = (ev: IpcMainInvokeEvent, data: LocalPlayer) => {
+export const handleUpdateLocalPlayer = (ev: IpcMainInvokeEvent, data: LocalPlayer) => {
 	// Validate data
 	const result = JoiLocalPlayer.required().validate(data);
 	if (result.error) {
@@ -86,13 +87,13 @@ export const handleUpdateLocalCommentator = (ev: IpcMainInvokeEvent, data: Local
 
 	const playersList = getPlayersList();
 
-	if (playersList.find((player) => player.id === id)) {
+	if (!playersList.find((player) => player.id === id)) {
 		return false;
 	}
 
 	const newList = playersList.map((player) => (player.id === id ? data : player));
 	store.set('players', newList);
-	ev.sender.send('player:update');
+	ev.sender.send('player:updated');
 	return playersList;
 };
 
@@ -107,10 +108,11 @@ export const handleDeleteLocalPlayer = (ev: IpcMainInvokeEvent, data: string) =>
 
 	const playersList = getPlayersList();
 	if (!playersList.find((player) => player.id === data)) {
+		console.error('Player not found');
 		return false;
 	}
 	const newList = playersList.filter((player) => player.id !== data);
 	store.set('players', newList);
-	ev.sender.send('player:update');
+	ev.sender.send('player:updated');
 	return newList;
 };

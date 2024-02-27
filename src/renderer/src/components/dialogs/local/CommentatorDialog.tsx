@@ -1,3 +1,4 @@
+import { LocalCommentator } from '@common/interfaces/Data';
 import {
 	Button,
 	DialogActions,
@@ -30,17 +31,25 @@ const useStyles = makeStyles({
 
 interface CommentatorDialogProps {
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+	data?: LocalCommentator;
 }
 
-const CommentatorDialog = ({ setOpen }: CommentatorDialogProps) => {
+const CommentatorDialog = ({ setOpen, data }: CommentatorDialogProps) => {
 	const classes = useStyles();
 	const ipcRenderer = window.electron.ipcRenderer;
 
-	const [name, setName] = useState('');
-	const [social, setSocial] = useState('');
+	const [name, setName] = useState(data ? data.name : '');
+	const [social, setSocial] = useState(data ? data.social : '');
 
 	const handleSubmit = async () => {
-		const result = await ipcRenderer.invoke('commentator:add', { id: uuidv4(), name, social });
+		let result;
+		if (data) {
+			// Edit Mode
+			result = await ipcRenderer.invoke('commentator:update', { id: data.id, name, social });
+		} else {
+			// Add mode
+			result = await ipcRenderer.invoke('commentator:add', { id: uuidv4(), name, social });
+		}
 		console.log(result);
 		if (!result) {
 			// TODO: Handle error
@@ -53,7 +62,7 @@ const CommentatorDialog = ({ setOpen }: CommentatorDialogProps) => {
 		<DialogSurface className={classes.surface}>
 			<DialogBody className={classes.body}>
 				<DialogTitle>
-					<Subtitle2>Add New Commentator</Subtitle2>
+					<Subtitle2>{data ? 'Edit Commentator' : 'Add New Commentator'}</Subtitle2>
 				</DialogTitle>
 				<DialogContent className={classes.form}>
 					<MenuTextField
