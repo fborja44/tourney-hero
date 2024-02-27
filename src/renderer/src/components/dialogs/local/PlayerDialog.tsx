@@ -14,6 +14,7 @@ import {
 import MenuCharacterField from '@renderer/components/form/inputs/MenuCharacterField';
 import MenuTextField from '@renderer/components/form/inputs/MenuTextField';
 import { ChangeEvent, useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
 const useStyles = makeStyles({
 	surface: {
@@ -44,6 +45,7 @@ const PlayerDialog = ({ setOpen }: PlayerDialogProps) => {
 
 	const handleSubmit = async () => {
 		const result = await ipcRenderer.invoke('player:add', {
+			id: uuidv4(),
 			tag,
 			character,
 			team,

@@ -4,8 +4,10 @@ import { IpcMainInvokeEvent } from 'electron';
 import Joi from 'joi';
 import { CHARACTERS } from '../../common/constants/data';
 import { LocalPlayer } from '../../common/interfaces/Data';
+import { JoiUUID } from '../../common/validator';
 
 const JoiLocalPlayer = Joi.object({
+	id: JoiUUID.required(),
 	tag: Joi.string().min(1).max(MAX_TAG_LENGTH).required(),
 	character: Joi.string()
 		.valid(...CHARACTERS, '')
@@ -69,6 +71,32 @@ export const handleAddLocalPlayer = (ev: IpcMainInvokeEvent, data: LocalPlayer) 
 };
 
 /**
+ * Updates an existing player in the store.
+ * @returns The new players list if successful. Otherwise, returns false.
+ */
+export const handleUpdateLocalCommentator = (ev: IpcMainInvokeEvent, data: LocalPlayer) => {
+	// Validate data
+	const result = JoiLocalPlayer.required().validate(data);
+	if (result.error) {
+		console.error(result.error);
+		return false;
+	}
+
+	const { id } = data;
+
+	const playersList = getPlayersList();
+
+	if (playersList.find((player) => player.id === id)) {
+		return false;
+	}
+
+	const newList = playersList.map((player) => (player.id === id ? data : player));
+	store.set('players', newList);
+	ev.sender.send('player:update');
+	return playersList;
+};
+
+/**
  * Deletes local player data from the store.
  * @returns The new players list if successful. Otherwise, returns false.
  */
@@ -78,10 +106,10 @@ export const handleDeleteLocalPlayer = (ev: IpcMainInvokeEvent, data: string) =>
 	}
 
 	const playersList = getPlayersList();
-	if (!playersList.find((player) => player.tag === data)) {
+	if (!playersList.find((player) => player.id === data)) {
 		return false;
 	}
-	const newList = playersList.filter((player) => player.tag !== data);
+	const newList = playersList.filter((player) => player.id !== data);
 	store.set('players', newList);
 	ev.sender.send('player:update');
 	return newList;

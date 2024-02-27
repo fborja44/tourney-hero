@@ -3,8 +3,10 @@ import { IpcMainInvokeEvent } from 'electron';
 import Joi from 'joi';
 import store from '.';
 import { LocalCommentator } from '../../common/interfaces/Data';
+import { JoiUUID } from '../../common/validator';
 
 const JoiLocalCommentator = Joi.object({
+	id: JoiUUID.required(),
 	name: Joi.string().min(1).max(MAX_COMMENTATOR_LENGTH).trim().required(),
 	social: Joi.string().max(MAX_COMMENTATOR_LENGTH).allow('').trim().required()
 });
@@ -62,6 +64,34 @@ export const handleAddLocalCommentator = (ev: IpcMainInvokeEvent, data: LocalCom
 };
 
 /**
+ * Updates an existing commentator in the store.
+ * @returns The new commentators list if successful. Otherwise, returns false.
+ */
+export const handleUpdateLocalCommentator = (ev: IpcMainInvokeEvent, data: LocalCommentator) => {
+	// Validate data
+	const result = JoiLocalCommentator.required().validate(data);
+	if (result.error) {
+		console.error(result.error);
+		return false;
+	}
+
+	const { id } = data;
+
+	const commentatorsList = getCommentatorsList();
+
+	if (commentatorsList.find((commentator) => commentator.id === id)) {
+		return false;
+	}
+
+	const newList = commentatorsList.map((commentator) =>
+		commentator.id === id ? data : commentator
+	);
+	store.set('commentators', newList);
+	ev.sender.send('commentator:update');
+	return commentatorsList;
+};
+
+/**
  * Deletes local commentator data from the store.
  * @returns The new commentators list if successful. Otherwise, returns false.
  */
@@ -71,10 +101,10 @@ export const handleDeleteLocalCommentator = (ev: IpcMainInvokeEvent, data: strin
 	}
 
 	const commentatorsList = getCommentatorsList();
-	if (!commentatorsList.find((commentator) => commentator.name === data)) {
+	if (!commentatorsList.find((commentator) => commentator.id === data)) {
 		return false;
 	}
-	const newList = commentatorsList.filter((commentator) => commentator.name !== data);
+	const newList = commentatorsList.filter((commentator) => commentator.id !== data);
 	store.set('commentators', newList);
 	ev.sender.send('commentator:update');
 	return newList;

@@ -96,7 +96,7 @@ const LocalPlayerTable = () => {
 	}, []);
 
 	const handleDelete = async (item: LocalPlayer) => {
-		const result = await ipcRenderer.invoke('player:remove', item.tag);
+		const result = await ipcRenderer.invoke('player:remove', item.id);
 		console.log(result);
 	};
 

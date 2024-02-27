@@ -12,6 +12,7 @@ import {
 } from '@fluentui/react-components';
 import MenuTextField from '@renderer/components/form/inputs/MenuTextField';
 import { ChangeEvent, useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
 const useStyles = makeStyles({
 	surface: {
@@ -39,7 +40,7 @@ const CommentatorDialog = ({ setOpen }: CommentatorDialogProps) => {
 	const [social, setSocial] = useState('');
 
 	const handleSubmit = async () => {
-		const result = await ipcRenderer.invoke('commentator:add', { name, social });
+		const result = await ipcRenderer.invoke('commentator:add', { id: uuidv4(), name, social });
 		console.log(result);
 		if (!result) {
 			// TODO: Handle error

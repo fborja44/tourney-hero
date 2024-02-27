@@ -88,7 +88,7 @@ const LocalCommentatorTable = () => {
 	}, []);
 
 	const handleDelete = async (item: LocalCommentator) => {
-		const result = await ipcRenderer.invoke('commentator:remove', item.name);
+		const result = await ipcRenderer.invoke('commentator:remove', item.id);
 		console.log(result);
 	};
 
