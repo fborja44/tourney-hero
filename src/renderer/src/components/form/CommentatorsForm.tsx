@@ -15,6 +15,8 @@ import {
 	MAX_MESSAGE_LENGTH,
 	MAX_TIMER
 } from '@common/constants/limits';
+import { useEffect, useState } from 'react';
+import CommentatorSelectField from './inputs/CommentatorSelectField';
 
 const CommentatorsForm = () => {
 	const classes = formStyles();
@@ -24,6 +26,8 @@ const CommentatorsForm = () => {
 	const commentatorData: CommentatorData = useSelector(
 		(state: AppState) => state.dataState.commentators
 	);
+
+	const [commentatorList, setCommentatorList] = useState([]);
 
 	/**
 	 * On change handler. Updates the the target field in gameplay redux state.
@@ -38,8 +42,18 @@ const CommentatorsForm = () => {
 		);
 	};
 
-	// const localDataExists = checkLocalData('commentators.json');
-	// console.log(localDataExists);
+	const getCommentatorsList = async () => {
+		const result = await window.api.getCommentators();
+		console.log(result);
+		setCommentatorList(result);
+		return result;
+	};
+
+	useEffect(() => {
+		getCommentatorsList();
+	}, []);
+
+	const localDataExists = commentatorList.length > 0;
 
 	return (
 		<Panel>
@@ -53,33 +67,65 @@ const CommentatorsForm = () => {
 						handleChange={handleCommentatorsChange}
 					/>
 					<span className={classes.gap} />
-					<TextField
-						label="Commentator Left"
-						value={commentatorData.commentator1}
-						targetField={'commentator1'}
-						handleChange={handleCommentatorsChange}
-						placeholder="Commentator 1"
-						maxLength={MAX_COMMENTATOR_LENGTH}
-					/>
+					{localDataExists ? (
+						<CommentatorSelectField
+							commentatorList={commentatorList}
+							label="Commentator Left"
+							value={commentatorData.commentator1}
+							commentatorNumber="1"
+							placeholder="Commentator 1"
+							maxLength={MAX_COMMENTATOR_LENGTH}
+						/>
+					) : (
+						<TextField
+							label="Commentator Left"
+							value={commentatorData.commentator1}
+							targetField={'commentator1'}
+							handleChange={handleCommentatorsChange}
+							placeholder="Commentator 1"
+							maxLength={MAX_COMMENTATOR_LENGTH}
+						/>
+					)}
 					<span className={classes.gap} />
-
-					<TextField
-						label="Commentator Middle"
-						value={commentatorData.commentator2}
-						targetField={'commentator2'}
-						handleChange={handleCommentatorsChange}
-						placeholder="Commentator 2"
-						maxLength={MAX_COMMENTATOR_LENGTH}
-					/>
+					{localDataExists ? (
+						<CommentatorSelectField
+							commentatorList={commentatorList}
+							label="Commentator Middle"
+							value={commentatorData.commentator2}
+							commentatorNumber="2"
+							placeholder="Commentator 2"
+							maxLength={MAX_COMMENTATOR_LENGTH}
+						/>
+					) : (
+						<TextField
+							label="Commentator Middle"
+							value={commentatorData.commentator2}
+							targetField={'commentator2'}
+							handleChange={handleCommentatorsChange}
+							placeholder="Commentator 2"
+							maxLength={MAX_COMMENTATOR_LENGTH}
+						/>
+					)}
 					<span className={classes.gap} />
-					<TextField
-						label="Commentator Right"
-						value={commentatorData.commentator3}
-						targetField={'commentator3'}
-						handleChange={handleCommentatorsChange}
-						placeholder="Commentator 3"
-						maxLength={MAX_COMMENTATOR_LENGTH}
-					/>
+					{localDataExists ? (
+						<CommentatorSelectField
+							commentatorList={commentatorList}
+							label="Commentator Right"
+							value={commentatorData.commentator3}
+							commentatorNumber="3"
+							placeholder="Commentator 3"
+							maxLength={MAX_COMMENTATOR_LENGTH}
+						/>
+					) : (
+						<TextField
+							label="Commentator Right"
+							value={commentatorData.commentator3}
+							targetField={'commentator3'}
+							handleChange={handleCommentatorsChange}
+							placeholder="Commentator 3"
+							maxLength={MAX_COMMENTATOR_LENGTH}
+						/>
+					)}
 				</div>
 				<div className={classes.formRow}>
 					<CheckboxField
