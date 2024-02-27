@@ -1,3 +1,4 @@
+import { LocalPlayer } from '@common/interfaces/Data';
 import { Character } from '@common/interfaces/Types';
 import {
 	Button,
@@ -32,25 +33,39 @@ const useStyles = makeStyles({
 
 interface PlayerDialogProps {
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+	data?: LocalPlayer;
 }
 
-const PlayerDialog = ({ setOpen }: PlayerDialogProps) => {
+const PlayerDialog = ({ setOpen, data }: PlayerDialogProps) => {
 	const classes = useStyles();
 	const ipcRenderer = window.electron.ipcRenderer;
 
-	const [tag, setTag] = useState('');
-	const [team, setTeam] = useState('');
-	const [character, setCharacter] = useState<Character>('Default');
-	const [pronoun, setPronoun] = useState('');
+	const [tag, setTag] = useState(data ? data.tag : '');
+	const [team, setTeam] = useState(data ? data.team : '');
+	const [character, setCharacter] = useState<Character>(
+		data ? data.character ?? 'Default' : 'Default'
+	);
+	const [pronoun, setPronoun] = useState(data ? data.pronoun : '');
 
 	const handleSubmit = async () => {
-		const result = await ipcRenderer.invoke('player:add', {
-			id: uuidv4(),
-			tag,
-			character,
-			team,
-			pronoun
-		});
+		let result;
+		if (data) {
+			result = await ipcRenderer.invoke('player:update', {
+				id: data.id,
+				tag,
+				character,
+				team,
+				pronoun
+			});
+		} else {
+			result = await ipcRenderer.invoke('player:add', {
+				id: uuidv4(),
+				tag,
+				character,
+				team,
+				pronoun
+			});
+		}
 		console.log(result);
 		if (!result) {
 			// TODO: Handle error
@@ -63,7 +78,7 @@ const PlayerDialog = ({ setOpen }: PlayerDialogProps) => {
 		<DialogSurface className={classes.surface}>
 			<DialogBody className={classes.body}>
 				<DialogTitle>
-					<Subtitle2>Add New Player</Subtitle2>
+					<Subtitle2>{data ? 'Edit Player' : 'Add New Player'}</Subtitle2>
 				</DialogTitle>
 				<DialogContent className={classes.form}>
 					<MenuTextField

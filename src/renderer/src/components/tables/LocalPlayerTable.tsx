@@ -20,7 +20,7 @@ import {
 	tokens
 } from '@fluentui/react-components';
 import { LocalPlayer } from '@common/interfaces/Data';
-import { Add16Regular, DeleteRegular, Person16Regular } from '@fluentui/react-icons';
+import { Add16Regular, DeleteRegular, EditRegular, Person16Regular } from '@fluentui/react-icons';
 import CharacterIcon from '../character/CharacterIcon';
 import PlayerDialog from '../dialogs/local/PlayerDialog';
 
@@ -49,6 +49,10 @@ const useStyles = makeStyles({
 		justifyContent: 'center',
 		columnSpan: 'all',
 		paddingTop: tokens.spacingVerticalXL
+	},
+	actions: {
+		display: 'flex',
+		columnGap: tokens.spacingHorizontalS
 	},
 	button: {
 		'& svg': {
@@ -79,6 +83,7 @@ const LocalPlayerTable = () => {
 
 	const [data, setData] = useState([]);
 	const [open, setOpen] = useState(false);
+	const [openEdit, setOpenEdit] = useState(false);
 
 	const getPlayersList = async () => {
 		const result = await window.api.getPlayers();
@@ -136,13 +141,25 @@ const LocalPlayerTable = () => {
 			columnId: 'actions-column',
 			renderHeaderCell: () => 'Actions',
 			renderCell: (item) => (
-				<Button
-					size="small"
-					appearance="outline"
-					className={mergeClasses(classes.button, classes.delete)}
-					onClick={() => handleDelete(item)}
-					icon={<DeleteRegular />}
-				/>
+				<div className={classes.actions}>
+					<Dialog open={openEdit}>
+						<Button
+							size="small"
+							appearance="outline"
+							className={classes.button}
+							onClick={() => setOpenEdit(true)}
+							icon={<EditRegular />}
+						/>
+						<PlayerDialog setOpen={setOpenEdit} data={item} />
+					</Dialog>
+					<Button
+						size="small"
+						appearance="outline"
+						className={mergeClasses(classes.button, classes.delete)}
+						onClick={() => handleDelete(item)}
+						icon={<DeleteRegular />}
+					/>
+				</div>
 			)
 		})
 	];
