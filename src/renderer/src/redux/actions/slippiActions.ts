@@ -29,3 +29,9 @@ export const setRelayPort = createAction('SET_RELAY_PORT', (port: number) => {
 		payload: port
 	};
 });
+
+export const setGameActive = createAction('SET_GAME_ACTIVE', (active: boolean) => {
+	return {
+		payload: active
+	};
+});

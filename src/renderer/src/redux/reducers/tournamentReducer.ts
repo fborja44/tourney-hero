@@ -24,6 +24,7 @@ export interface TournamentState {
 	eventSlug: string;
 	tournament: Tournament | undefined;
 	selectedEvent: TournamentEvent | undefined;
+	selectedMatch: Match | undefined;
 	matches: {
 		matchList: Match[];
 		loading: boolean;
@@ -44,6 +45,7 @@ const initialState: TournamentState = {
 	eventSlug: '',
 	tournament: undefined,
 	selectedEvent: undefined,
+	selectedMatch: undefined,
 	matches: {
 		matchList: [],
 		loading: false,
