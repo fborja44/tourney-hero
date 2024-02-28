@@ -1,6 +1,9 @@
 import { OBSWebSocketClientContext } from '@renderer/obs-websocket/OBSWebsocketProvider';
-import { setGameActive } from '@renderer/redux/actions/slippiActions';
+import { setActiveGame } from '@renderer/redux/actions/slippiActions';
 import { AppState } from '@renderer/redux/reducers/rootReducer';
+import { getSlippiCharacter, getWinnerPort } from '@renderer/utils/slippi';
+import { GameEndType, GameStartType } from '@slippi/slippi-js';
+import { IpcRendererEvent } from 'electron';
 import { useContext, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -15,7 +18,7 @@ const useSlippi = () => {
 		autoSwitchGameToPlayers,
 		autoSwitchPlayersToGame,
 		connected: slippiConnected,
-		gameActive
+		activeGame
 	} = useSelector((state: AppState) => state.slippiState);
 
 	const {
@@ -28,10 +31,18 @@ const useSlippi = () => {
 	 * Autoswitcher
 	 */
 
-	const handleGameStart = async () => {
+	const handleGameStart = async (_ev: IpcRendererEvent, game: GameStartType) => {
 		console.log('Slippi: Game Started');
 		// console.log(autoSwitchPlayersToGame, currentScene);
-		dispatch(setGameActive(true));
+		console.log(
+			getSlippiCharacter(game.players[0]?.characterId ?? 0),
+			`Port ${game.players[0]?.port}`,
+			'vs',
+			getSlippiCharacter(game.players[1]?.characterId ?? 0),
+			`Port ${game.players[1]?.port}`
+		);
+		console.log(game);
+		dispatch(setActiveGame(game));
 		if (
 			sendOBSSceneRequest &&
 			slippiConnected &&
@@ -42,10 +53,12 @@ const useSlippi = () => {
 		}
 	};
 
-	const handleGameEnd = async () => {
+	const handleGameEnd = async (_ev: IpcRendererEvent, game: GameEndType) => {
 		console.log('Slippi: Game Ended');
 		// console.log(autoSwitchGameToPlayers, currentScene);
-		dispatch(setGameActive(false));
+		console.log(game);
+		console.log('Winner:', getWinnerPort(game.placements));
+		dispatch(setActiveGame(null));
 		if (
 			sendOBSSceneRequest &&
 			slippiConnected &&
@@ -78,7 +91,7 @@ const useSlippi = () => {
 		OBSConnected
 	]);
 
-	return { connected: slippiConnected, gameActive };
+	return { connected: slippiConnected, activeGame };
 };
 
 export default useSlippi;

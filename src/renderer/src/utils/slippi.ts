@@ -7,13 +7,13 @@ import { PlacementType } from '@slippi/slippi-js';
  */
 export const getSlippiPort = (port: number) => {
 	switch (port) {
-		case 0:
-			return 'Red';
 		case 1:
-			return 'Blue';
+			return 'Red';
 		case 2:
-			return 'Green';
+			return 'Blue';
 		case 3:
+			return 'Green';
+		case 4:
 			return 'Yellow';
 		default:
 			return 'None';
@@ -90,5 +90,5 @@ export const getSlippiCharacter = (characterId: number): Character => {
  */
 export const getWinnerPort = (placements: PlacementType[]) => {
 	const winnerIndex = placements.find((player) => player.position === 0)?.playerIndex ?? -1;
-	return getSlippiPort(winnerIndex);
+	return getSlippiPort(winnerIndex + 1);
 };

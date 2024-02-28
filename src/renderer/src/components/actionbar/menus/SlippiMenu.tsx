@@ -107,7 +107,7 @@ const SlippiMenu = () => {
 	const [loading, setLoading] = useState<boolean>(false);
 
 	const handleRelay = () => {
-		ipcRenderer.send('slippi:connect');
+		ipcRenderer.invoke('slippi:connect', relay);
 		setLoading(true);
 	};
 

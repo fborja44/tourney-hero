@@ -2,17 +2,18 @@ import { createReducer } from '@reduxjs/toolkit';
 import {
 	setAutoSwitchGameToPlayers,
 	setAutoSwitchPlayersToGame,
-	setGameActive,
+	setActiveGame,
 	setRelayPort,
 	setSlippiConnected
 } from '../actions/slippiActions';
+import { GameStartType } from '@slippi/slippi-js';
 
 export type SlippiState = {
 	connected: boolean;
 	relayPort: number;
 	autoSwitchGameToPlayers: boolean;
 	autoSwitchPlayersToGame: boolean;
-	gameActive: boolean;
+	activeGame: GameStartType | null;
 };
 
 const initialState: SlippiState = {
@@ -20,7 +21,7 @@ const initialState: SlippiState = {
 	relayPort: 51441,
 	autoSwitchGameToPlayers: false,
 	autoSwitchPlayersToGame: false,
-	gameActive: false
+	activeGame: null
 };
 
 const obsReducer = createReducer(initialState, (builder) => {
@@ -37,8 +38,8 @@ const obsReducer = createReducer(initialState, (builder) => {
 		.addCase(setRelayPort, (state, action) => {
 			state.relayPort = action.payload;
 		})
-		.addCase(setGameActive, (state, action) => {
-			state.gameActive = action.payload;
+		.addCase(setActiveGame, (state, action) => {
+			state.activeGame = action.payload;
 		});
 });
 

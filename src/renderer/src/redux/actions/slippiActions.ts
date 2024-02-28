@@ -1,4 +1,5 @@
 import { createAction } from '@reduxjs/toolkit';
+import { GameStartType } from '@slippi/slippi-js';
 
 export const setSlippiConnected = createAction('SET_SLIPPI_STATUS', (connected: boolean) => {
 	return {
@@ -30,8 +31,8 @@ export const setRelayPort = createAction('SET_RELAY_PORT', (port: number) => {
 	};
 });
 
-export const setGameActive = createAction('SET_GAME_ACTIVE', (active: boolean) => {
+export const setActiveGame = createAction('SET_ACTIVE_GAME', (game: GameStartType | null) => {
 	return {
-		payload: active
+		payload: game
 	};
 });

@@ -61,7 +61,7 @@ const Actionbar = () => {
 
 	const { connected } = useContext(OBSWebSocketClientContext);
 
-	const { connected: slippiConnected, gameActive } = useSelector(
+	const { connected: slippiConnected, activeGame } = useSelector(
 		(state: AppState) => state.slippiState
 	);
 
@@ -95,8 +95,8 @@ const Actionbar = () => {
 				title="Slippi Connection"
 				menu={<SlippiMenu />}
 			>
-				{gameActive && slippiConnected
-					? 'Game In Progress'
+				{activeGame !== null && slippiConnected
+					? 'Game In-Progress'
 					: slippiConnected
 						? 'Waiting For Game...'
 						: 'Not Configured'}

@@ -87,7 +87,7 @@ app.whenReady().then(() => {
 	ipcMain.on('ping', () => console.log('pong'));
 
 	// Register IPC handlers
-	ipcMain.on('slippi:connect', handleConnectToSlippi);
+	ipcMain.handle('slippi:connect', handleConnectToSlippi);
 
 	ipcMain.handle('slippi:getFileStats', handleSlippiFileStats);
 
