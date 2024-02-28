@@ -1,4 +1,4 @@
-import { GameStartType, Ports, SlippiGame } from '@slippi/slippi-js';
+import { GameEndType, GameStartType, Ports, SlippiGame } from '@slippi/slippi-js';
 import { dialog } from 'electron';
 const { SlpLiveStream, SlpRealTime } = require('@vinceau/slp-realtime');
 
@@ -34,8 +34,9 @@ export const handleConnectToSlippi = async (ev: Electron.IpcMainInvokeEvent) => 
 			ev.sender.send('game-start');
 		});
 
-		realtime.game.end$.subscribe(() => {
+		realtime.game.end$.subscribe((game: GameEndType) => {
 			console.log('Game Ended');
+			console.log(game);
 			ev.sender.send('game-end');
 		});
 		return slippiStream;
