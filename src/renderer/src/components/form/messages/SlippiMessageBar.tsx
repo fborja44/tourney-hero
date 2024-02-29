@@ -10,19 +10,15 @@ import { useDispatch, useSelector } from 'react-redux';
 
 const useStyles = makeStyles({
 	portErrorMessage: {
-		display: 'flex',
-		flexDirection: 'column'
+		display: 'inline'
 	},
 	portError: {
 		fontWeight: tokens.fontWeightSemibold,
+		marginLeft: tokens.spacingHorizontalS,
 		'& span': {
 			fontStyle: 'italic',
 			marginLeft: tokens.spacingHorizontalXS
 		}
-	},
-	actions: {
-		textWrap: 'nowrap',
-		whiteSpace: 'nowrap'
 	}
 });
 
@@ -82,14 +78,14 @@ const SlippiMessageBar = () => {
 	const validGame = checkGamePorts();
 
 	const Actions = (
-		<div className={classes.actions}>
+		<>
 			<Switch
 				label="Automate Score"
 				onChange={(ev) => {
 					dispatch(setAutoUpdateScore(ev.target.checked));
 				}}
 			/>
-		</div>
+		</>
 	);
 
 	// Slippi Not Connected
@@ -147,19 +143,15 @@ const SlippiMessageBar = () => {
 				actions={Actions}
 				intent="warning"
 			>
-				<div className={classes.portErrorMessage}>
-					Game score will not be automated. Could not match the following in-game ports:
-					<ul>
-						{validGame.map((player) => {
-							return (
-								<li className={classes.portError} key={player.port}>
-									{`Port ${player.port}`}{' '}
-									<span>{`(${characterToString(player.character)})`}</span>
-								</li>
-							);
-						})}
-					</ul>
-				</div>
+				Game score will not be updated. Could not match the following in-game ports:
+				{validGame.map((player) => {
+					return (
+						<span className={classes.portError} key={player.port}>
+							{`Port ${player.port}`}{' '}
+							<span>{`(${characterToString(player.character)})`}</span>
+						</span>
+					);
+				})}
 			</PanelMessageBar>
 		);
 	}

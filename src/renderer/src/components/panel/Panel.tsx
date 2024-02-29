@@ -6,8 +6,6 @@ import EmptyPanel from './EmptyPanel';
 
 const useStyles = makeStyles({
 	container: {
-		display: 'flex',
-		flexDirection: 'column',
 		boxSizing: 'border-box',
 		backgroundColor: tokens.colorNeutralBackground2,
 		width: '100%',
