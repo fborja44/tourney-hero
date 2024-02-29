@@ -2,34 +2,23 @@ import { RouterProvider, createHashRouter } from 'react-router-dom';
 import EmptyPanel from './components/panel/EmptyPanel';
 import PageLayout from './pages/PageLayout';
 import { capitalize, toCamelCase } from './utils/string';
-import { Data, OverlayData } from '@common/interfaces/Data';
+import { OverlayData } from '@common/interfaces/Data';
 import SceneManagerPage from './pages/SceneManagerPage';
 import DashboardPage from './pages/DashboardPage';
 import Main from './components/main/Main';
 import { useSelector } from 'react-redux';
 import { AppState } from './redux/reducers/rootReducer';
 import SceneHeader from './pageheader/SceneHeader';
-import { useContext } from 'react';
-import { SocketClientContext } from './socket/SocketClientProvider';
 import LocalDataPage from './pages/LocalDataPage';
 import SlippiMessageBar from './components/form/messages/SlippiMessageBar';
+import useSocket from './hooks/useSocket';
 
 const AppRouter = () => {
 	const scenesState = useSelector((state: AppState) => state.scenesState);
 
 	const dataState = useSelector((state: AppState) => state.dataState);
 
-	const { socket } = useContext(SocketClientContext);
-
-	/**
-	 * Function to send data to the server through socket.io
-	 * @param event The event name
-	 * @param data The overlay data to send
-	 */
-	const sendData = (event: string, data: Data) => {
-		const result = socket?.emit(event, data);
-		console.log(result ? `Event: ${event}` : 'Transmission failed');
-	};
+	const { sendData } = useSocket();
 
 	const router = createHashRouter([
 		{

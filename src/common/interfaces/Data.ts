@@ -20,6 +20,11 @@ export interface GameplayData {
 	showPlayerCamInfo: boolean;
 }
 
+export interface ScoreData {
+	p1score: number | null;
+	p2score: number | null;
+}
+
 export interface PlayerData {
 	tag: string;
 	tagDisplaySize: number;

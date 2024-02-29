@@ -8,10 +8,17 @@ import {
 	MAX_TEAM_LENGTH
 } from '../constants/limits';
 
+export const JoiScore = Joi.number().min(0).max(MAX_SCORE).integer().allow(null);
+
+export const JoiScores = Joi.object({
+	p1score: JoiScore.required(),
+	p2score: JoiScore.required()
+}).required();
+
 export const JoiPlayer = Joi.object({
 	tag: JoiTag.required(),
 	tagDisplaySize: Joi.number().min(1).max(MAX_SCORE).required(),
-	score: Joi.number().min(0).max(MAX_SCORE).integer().allow(null).required(),
+	score: JoiScore.required(),
 	character: Joi.string()
 		.valid(...CHARACTERS)
 		.required(),
@@ -22,7 +29,7 @@ export const JoiPlayer = Joi.object({
 		.required()
 }).required();
 
-export const JoiGameplay = Joi.object({
+const JoiGameplay = Joi.object({
 	matchType: JoiString(MAX_BRACKET_DATA_LENGTH).required(),
 	roundName: JoiString(MAX_BRACKET_DATA_LENGTH).required(),
 	bracketName: JoiString(MAX_BRACKET_DATA_LENGTH).required(),
@@ -31,3 +38,5 @@ export const JoiGameplay = Joi.object({
 	player2: JoiPlayer.required(),
 	showPlayerCamInfo: Joi.boolean().required()
 }).required();
+
+export default JoiGameplay;

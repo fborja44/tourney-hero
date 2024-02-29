@@ -4,12 +4,12 @@ import { OBSWebSocketClientContext } from '@renderer/obs-websocket/OBSWebsocketP
 import { incrementScore } from '@renderer/redux/actions/dataActions';
 import { setActiveGame } from '@renderer/redux/actions/slippiActions';
 import { AppState } from '@renderer/redux/reducers/rootReducer';
-import { SocketClientContext } from '@renderer/socket/SocketClientProvider';
 import { getWinnerPort } from '@renderer/utils/slippi';
 import { GameEndType, GameStartType } from '@slippi/slippi-js';
 import { IpcRendererEvent } from 'electron';
 import { useContext, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import useSocket from './useSocket';
 
 const useSlippi = () => {
 	const dispatch = useDispatch();
@@ -20,7 +20,7 @@ const useSlippi = () => {
 
 	const { currentScene } = useSelector((state: AppState) => state.obsState);
 
-	const { connected } = useContext(SocketClientContext);
+	const { connected, sendData } = useSocket();
 
 	const {
 		autoSwitchGameToPlayers,
@@ -84,6 +84,14 @@ const useSlippi = () => {
 			console.log(`Winner: ${winner}`);
 
 			if (autoUpdateScore && portsValid && connected && winner !== null) {
+				console.log('Updating scores...');
+				const p1score = player1.score;
+				const p2score = player2.score;
+				// Emit socket event
+				sendData('updateScores', {
+					p1score: winner == '1' ? (p1score ?? 0) + 1 : p1score,
+					p2score: winner == '2' ? (p2score ?? 0) + 1 : p2score
+				});
 				dispatchToast(<MessageToast title={`Updated Score For Player ${winner}`} />, {
 					intent: 'success'
 				});

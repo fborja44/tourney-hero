@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import { JoiGameplay } from './JoiGameplay';
+import JoiGameplay from './JoiGameplay';
 import JoiCommentators from './JoiCommentators';
 import JoiBracket from './JoiBracket';
 import JoiPlayerCard from './JoiPlayerCard';
