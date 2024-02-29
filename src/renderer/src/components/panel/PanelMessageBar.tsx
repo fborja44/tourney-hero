@@ -29,7 +29,13 @@ const PanelMessageBar = ({ title, icon, children, actions, intent }: PanelMessag
 	const classes = useStyles();
 
 	return (
-		<MessageBar className={classes.container} intent={intent} icon={icon} layout="auto">
+		<MessageBar
+			shape="square"
+			className={classes.container}
+			intent={intent}
+			icon={icon}
+			layout="auto"
+		>
 			<MessageBarBody>
 				<MessageBarTitle>
 					<Body1Strong>{title}:</Body1Strong>
