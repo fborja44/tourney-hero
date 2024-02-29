@@ -1,7 +1,11 @@
+import { useToastController } from '@fluentui/react-components';
+import MessageToast from '../components/toasts/MessageToast';
 import { OBSWebSocketClientContext } from '@renderer/obs-websocket/OBSWebsocketProvider';
+import { incrementScore } from '@renderer/redux/actions/dataActions';
 import { setActiveGame } from '@renderer/redux/actions/slippiActions';
 import { AppState } from '@renderer/redux/reducers/rootReducer';
-import { getSlippiCharacter, getWinnerPort } from '@renderer/utils/slippi';
+import { SocketClientContext } from '@renderer/socket/SocketClientProvider';
+import { getWinnerPort } from '@renderer/utils/slippi';
 import { GameEndType, GameStartType } from '@slippi/slippi-js';
 import { IpcRendererEvent } from 'electron';
 import { useContext, useEffect } from 'react';
@@ -9,16 +13,22 @@ import { useDispatch, useSelector } from 'react-redux';
 
 const useSlippi = () => {
 	const dispatch = useDispatch();
-
+	const { dispatchToast } = useToastController('toaster');
 	const ipcRenderer = window.electron.ipcRenderer;
 
+	const { player1, player2 } = useSelector((state: AppState) => state.dataState.gameplay);
+
 	const { currentScene } = useSelector((state: AppState) => state.obsState);
+
+	const { connected } = useContext(SocketClientContext);
 
 	const {
 		autoSwitchGameToPlayers,
 		autoSwitchPlayersToGame,
 		connected: slippiConnected,
-		activeGame
+		activeGame,
+		autoUpdateScore,
+		portsValid
 	} = useSelector((state: AppState) => state.slippiState);
 
 	const {
@@ -28,21 +38,16 @@ const useSlippi = () => {
 	} = useContext(OBSWebSocketClientContext);
 
 	/**
-	 * Autoswitcher
+	 * Auto-switcher
 	 */
 
 	const handleGameStart = async (_ev: IpcRendererEvent, game: GameStartType) => {
 		console.log('Slippi: Game Started');
 		// console.log(autoSwitchPlayersToGame, currentScene);
-		console.log(
-			getSlippiCharacter(game.players[0]?.characterId ?? 0),
-			`Port ${game.players[0]?.port}`,
-			'vs',
-			getSlippiCharacter(game.players[1]?.characterId ?? 0),
-			`Port ${game.players[1]?.port}`
-		);
 		console.log(game);
 		dispatch(setActiveGame(game));
+
+		// Auto-switch
 		if (
 			sendOBSSceneRequest &&
 			slippiConnected &&
@@ -56,9 +61,8 @@ const useSlippi = () => {
 	const handleGameEnd = async (_ev: IpcRendererEvent, game: GameEndType) => {
 		console.log('Slippi: Game Ended');
 		// console.log(autoSwitchGameToPlayers, currentScene);
-		console.log(game);
-		console.log('Winner:', getWinnerPort(game.placements));
-		dispatch(setActiveGame(null));
+
+		// Auto-switch
 		if (
 			sendOBSSceneRequest &&
 			slippiConnected &&
@@ -67,6 +71,28 @@ const useSlippi = () => {
 		) {
 			sendOBSSceneRequest('Players');
 		}
+
+		// Auto-update score
+		if (game.gameEndMethod === 2) {
+			// gameEndMethod = 2 means proper game end (i.e. not a quit out)
+			// Generate winner
+			const winnerPort = getWinnerPort(game.placements);
+
+			// Match winner to player
+			const winner =
+				winnerPort === player1.port ? '1' : winnerPort === player2.port ? '2' : null;
+			console.log(`Winner: ${winner}`);
+
+			if (autoUpdateScore && portsValid && connected && winner !== null) {
+				dispatchToast(<MessageToast title={`Updated Score For Player ${winner}`} />, {
+					intent: 'success'
+				});
+				dispatch(incrementScore(`player${winner}`));
+			}
+		}
+
+		// Set current active game to null
+		dispatch(setActiveGame(null));
 	};
 
 	useEffect(() => {
@@ -74,13 +100,13 @@ const useSlippi = () => {
 			ipcRenderer.on('game-start', handleGameStart);
 			ipcRenderer.on('game-end', handleGameEnd);
 		} else {
-			ipcRenderer.removeListener('game-start', handleGameStart);
-			ipcRenderer.removeListener('game-end', handleGameEnd);
+			ipcRenderer.removeAllListeners('game-start');
+			ipcRenderer.removeAllListeners('game-end');
 		}
 
 		return () => {
-			ipcRenderer.removeListener('game-start', handleGameStart);
-			ipcRenderer.removeListener('game-end', handleGameEnd);
+			ipcRenderer.removeAllListeners('game-start');
+			ipcRenderer.removeAllListeners('game-end');
 		};
 	}, [
 		autoSwitchGameToPlayers,
@@ -88,7 +114,9 @@ const useSlippi = () => {
 		currentScene,
 		slippiConnected,
 		obs,
-		OBSConnected
+		OBSConnected,
+		portsValid,
+		activeGame
 	]);
 
 	return { connected: slippiConnected, activeGame };

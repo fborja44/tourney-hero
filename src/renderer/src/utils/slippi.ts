@@ -87,8 +87,9 @@ export const getSlippiCharacter = (characterId: number): Character => {
  * Gets the port placement of the winner.
  * Singles (1v1) only.
  * @param placements
+ * @returns The numbered port of the player if found. Otherwise, returns -1 (ties, etc).
  */
 export const getWinnerPort = (placements: PlacementType[]) => {
 	const winnerIndex = placements.find((player) => player.position === 0)?.playerIndex ?? -1;
-	return getSlippiPort(winnerIndex + 1);
+	return winnerIndex !== undefined ? getSlippiPort(winnerIndex + 1) : -1;
 };

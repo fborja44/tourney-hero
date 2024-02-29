@@ -42,3 +42,9 @@ export const setAutoUpdateScore = createAction('SET_AUTO_UPDATE_SCORE', (value: 
 		payload: value
 	};
 });
+
+export const setPortsValid = createAction('SET_PORTS_VALID', (value: boolean) => {
+	return {
+		payload: value
+	};
+});

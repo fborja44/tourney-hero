@@ -7,6 +7,7 @@ import {
 	playerCardData
 } from '@common/data/defaultData';
 import {
+	incrementScore,
 	setOverlayData,
 	updateBracket,
 	updateBracketMatch,
@@ -62,6 +63,15 @@ const dataReducer = createReducer(initialState, (builder) => {
 				...state.playerCard,
 				...action.payload
 			};
+		})
+		.addCase(incrementScore, (state, action) => {
+			const targetPlayer = action.payload;
+			if (state.gameplay[targetPlayer].score !== null) {
+				state.gameplay[targetPlayer] = {
+					...state.gameplay[targetPlayer],
+					score: (state.gameplay[targetPlayer].score ?? 0) + 1
+				};
+			}
 		});
 });
 

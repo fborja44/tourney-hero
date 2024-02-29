@@ -24,6 +24,15 @@ export const updateGameplay = createAction(
 	}
 );
 
+export const incrementScore = createAction(
+	'INCREMENT_SCORE',
+	(targetPlayer: 'player1' | 'player2') => {
+		return {
+			payload: targetPlayer
+		};
+	}
+);
+
 export const updatePlayer = createAction(
 	'UPDATE_PLAYER',
 	(targetPlayer: 'player1' | 'player2', updatedPlayer: Partial<PlayerData>) => {

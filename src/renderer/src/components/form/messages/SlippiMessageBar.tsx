@@ -1,11 +1,14 @@
 import { GameplayData } from '@common/interfaces/Data';
+import { Character } from '@common/interfaces/Types';
 import { Switch, makeStyles, tokens } from '@fluentui/react-components';
 import { BotSparkle20Filled } from '@fluentui/react-icons';
 import PanelMessageBar from '@renderer/components/panel/PanelMessageBar';
-import { setAutoUpdateScore } from '@renderer/redux/actions/slippiActions';
+import { setAutoUpdateScore, setPortsValid } from '@renderer/redux/actions/slippiActions';
 import { AppState } from '@renderer/redux/reducers/rootReducer';
+import { SocketClientContext } from '@renderer/socket/SocketClientProvider';
 import { getSlippiCharacter, getSlippiPort } from '@renderer/utils/slippi';
 import { characterToString } from '@renderer/utils/string';
+import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 const useStyles = makeStyles({
@@ -22,20 +25,29 @@ const useStyles = makeStyles({
 	}
 });
 
+interface InvalidPort {
+	port: number;
+	character: Character;
+}
+
 const SlippiMessageBar = () => {
 	const classes = useStyles();
 	const dispatch = useDispatch();
 
 	const gameplayData: GameplayData = useSelector((state: AppState) => state.dataState.gameplay);
 
-	const { connected, activeGame, autoUpdateScore } = useSelector(
+	const { connected, activeGame, autoUpdateScore, portsValid } = useSelector(
 		(state: AppState) => state.slippiState
 	);
+
+	const { connected: connectedToServer } = useContext(SocketClientContext);
+
+	const [validGame, setGameValid] = useState<InvalidPort[]>([]);
 
 	// If game automation is enabled, check if the ports + characters match
 	// Sheik = Zelda
 
-	const checkGamePorts = () => {
+	const checkGamePorts = (): InvalidPort[] => {
 		const { player1, player2 } = gameplayData;
 		const slippi1 = activeGame?.players[0];
 		const slippi2 = activeGame?.players[1];
@@ -46,41 +58,48 @@ const SlippiMessageBar = () => {
 
 		if (slippiPort1 === player1.port && slippiCharacter1 === player1.character) {
 			if (slippiPort2 === player2.port && slippiCharacter2 === player2.character) {
-				return true;
+				return [];
 			}
 			// Could not find match for slippi port 2
-			return [{ port: slippi2?.port ?? 0, character: slippiCharacter2 }];
+			return [{ port: slippi2?.port ?? -2, character: slippiCharacter2 }];
 		} else if (slippiPort1 === player2.port && slippiCharacter1 === player2.character) {
 			if (slippiPort2 === player1.port && slippiCharacter2 === player1.character) {
-				return true;
+				return [];
 			}
 			// Could not find match for slippi port 1
-			return [{ port: slippiPort1, character: slippiCharacter1 }];
+			return [{ port: slippi1?.port ?? -1, character: slippiCharacter1 }];
 		} else if (slippiPort2 === player1.port && slippiCharacter2 === player1.character) {
 			if (slippiPort1 === player2.port && slippiCharacter1 === player2.character) {
-				return true;
+				return [];
 			}
 			// Could not find match for slippi port 2
-			return [{ port: slippi1?.port ?? 0, character: slippiCharacter1 }];
+			return [{ port: slippi1?.port ?? -1, character: slippiCharacter1 }];
 		} else if (slippiPort2 === player2.port && slippiCharacter2 === player2.character) {
 			if (slippiPort1 === player1.port && slippiCharacter1 === player1.character) {
-				return true;
+				return [];
 			}
 			// Could not find match for slippi port 1
-			return [{ port: slippi1?.port, character: slippiCharacter1 }];
+			return [{ port: slippi1?.port ?? -1, character: slippiCharacter1 }];
 		}
 		return [
-			{ port: slippi1?.port ?? 0, character: slippiCharacter1 },
-			{ port: slippi2?.port ?? 0, character: slippiCharacter2 }
+			{ port: slippi1?.port ?? -1, character: slippiCharacter1 },
+			{ port: slippi2?.port ?? -2, character: slippiCharacter2 }
 		];
 	};
 
-	const validGame = checkGamePorts();
+	useEffect(() => {
+		if (activeGame !== null) {
+			const portErrors = checkGamePorts();
+			setGameValid(portErrors);
+			dispatch(setPortsValid(portErrors.length === 0));
+		}
+	}, [autoUpdateScore, activeGame, gameplayData]);
 
 	const Actions = (
 		<>
 			<Switch
 				label="Automate Score"
+				checked={autoUpdateScore}
 				onChange={(ev) => {
 					dispatch(setAutoUpdateScore(ev.target.checked));
 				}}
@@ -103,6 +122,20 @@ const SlippiMessageBar = () => {
 				actions={Actions}
 			>
 				Score Updater Disabled
+			</PanelMessageBar>
+		);
+	}
+
+	// Not Connected To Server
+	if (!connectedToServer) {
+		return (
+			<PanelMessageBar
+				icon={<BotSparkle20Filled />}
+				title="Slippi Automation"
+				intent="warning"
+				actions={Actions}
+			>
+				Game score will not be updated. Not connected to server.
 			</PanelMessageBar>
 		);
 	}
@@ -135,7 +168,7 @@ const SlippiMessageBar = () => {
 	}
 
 	// Ports Do Not Match
-	if (activeGame && validGame !== true) {
+	if (activeGame && !portsValid && validGame.length > 0) {
 		return (
 			<PanelMessageBar
 				icon={<BotSparkle20Filled />}
@@ -146,7 +179,7 @@ const SlippiMessageBar = () => {
 				Game score will not be updated. Could not match the following in-game ports:
 				{validGame.map((player) => {
 					return (
-						<span className={classes.portError} key={player.port}>
+						<span className={classes.portError} key={`${player.port}-error`}>
 							{`Port ${player.port}`}{' '}
 							<span>{`(${characterToString(player.character)})`}</span>
 						</span>
