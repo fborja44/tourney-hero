@@ -36,3 +36,9 @@ export const setActiveGame = createAction('SET_ACTIVE_GAME', (game: GameStartTyp
 		payload: game
 	};
 });
+
+export const setAutoUpdateScore = createAction('SET_AUTO_UPDATE_SCORE', (value: boolean) => {
+	return {
+		payload: value
+	};
+});

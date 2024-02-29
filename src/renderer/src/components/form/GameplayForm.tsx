@@ -10,6 +10,7 @@ import { AppState } from '../../redux/reducers/rootReducer';
 import { ArrowSwapRegular } from '@fluentui/react-icons';
 import CheckboxField from './inputs/CheckboxField';
 import { MAX_BRACKET_DATA_LENGTH } from '@common/constants/limits';
+import SlippiMessageBar from './messages/SlippiMessageBar';
 
 const GameplayForm = () => {
 	const classes = formStyles();
@@ -41,6 +42,7 @@ const GameplayForm = () => {
 
 	return (
 		<Panel>
+			<SlippiMessageBar />
 			<div className={mergeClasses(classes.formSectionRow, classes.relative)}>
 				<PlayerForm playerNumber="1" playerData={gameplayData.player1} />
 				<PlayerForm playerNumber="2" playerData={gameplayData.player2} />
