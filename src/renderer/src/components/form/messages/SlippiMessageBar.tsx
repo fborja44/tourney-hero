@@ -12,8 +12,8 @@ import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 const useStyles = makeStyles({
-	portErrorMessage: {
-		display: 'inline'
+	portErrorContainer: {
+		marginBottom: tokens.spacingVerticalXXS
 	},
 	portError: {
 		fontWeight: tokens.fontWeightSemibold,
@@ -98,7 +98,7 @@ const SlippiMessageBar = () => {
 	const Actions = (
 		<>
 			<Switch
-				label="Automate Score"
+				// label="Toggle"
 				checked={autoUpdateScore}
 				onChange={(ev) => {
 					dispatch(setAutoUpdateScore(ev.target.checked));
@@ -176,15 +176,17 @@ const SlippiMessageBar = () => {
 				actions={Actions}
 				intent="warning"
 			>
-				Game score will not be updated. Could not match the following in-game ports:
-				{validGame.map((player) => {
-					return (
-						<span className={classes.portError} key={`${player.port}-error`}>
-							{`Port ${player.port}`}{' '}
-							<span>{`(${characterToString(player.character)})`}</span>
-						</span>
-					);
-				})}
+				Could not match the following in-game ports:
+				<div className={classes.portErrorContainer}>
+					{validGame.map((player) => {
+						return (
+							<span className={classes.portError} key={`${player.port}-error`}>
+								{`Port ${player.port}`}{' '}
+								<span>{`(${characterToString(player.character)})`}</span>
+							</span>
+						);
+					})}
+				</div>
 			</PanelMessageBar>
 		);
 	}

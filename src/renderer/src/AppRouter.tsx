@@ -12,6 +12,7 @@ import SceneHeader from './pageheader/SceneHeader';
 import { useContext } from 'react';
 import { SocketClientContext } from './socket/SocketClientProvider';
 import LocalDataPage from './pages/LocalDataPage';
+import SlippiMessageBar from './components/form/messages/SlippiMessageBar';
 
 const AppRouter = () => {
 	const scenesState = useSelector((state: AppState) => state.scenesState);
@@ -53,28 +54,35 @@ const AppRouter = () => {
 					element: (
 						<PageLayout
 							header={
-								<SceneHeader
-									title={scene.title}
-									icon={scene.icon}
-									sendData={() => {
-										try {
-											let title = scene.title;
-											if (scene.title === 'Intermission') {
-												title = 'Commentators';
+								<>
+									<SceneHeader
+										title={scene.title}
+										icon={scene.icon}
+										sendData={() => {
+											try {
+												let title = scene.title;
+												if (scene.title === 'Intermission') {
+													title = 'Commentators';
+												}
+												sendData(
+													`update${capitalize(title.replace(' ', ''))}`, // Remove spaces from title if needed and capitalize words
+													dataState[
+														toCamelCase(title) as keyof OverlayData
+													]
+												);
+												console.log(
+													dataState[
+														toCamelCase(title) as keyof OverlayData
+													]
+												);
+											} catch (err) {
+												console.error(err);
 											}
-											sendData(
-												`update${capitalize(title.replace(' ', ''))}`, // Remove spaces from title if needed and capitalize words
-												dataState[toCamelCase(title) as keyof OverlayData]
-											);
-											console.log(
-												dataState[toCamelCase(title) as keyof OverlayData]
-											);
-										} catch (err) {
-											console.error(err);
-										}
-									}}
-									dataField={toCamelCase(scene.title) as keyof OverlayData}
-								/>
+										}}
+										dataField={toCamelCase(scene.title) as keyof OverlayData}
+									/>
+									<SlippiMessageBar />
+								</>
 							}
 						>
 							{scene.panel}
