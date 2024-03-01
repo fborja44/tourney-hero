@@ -1,7 +1,7 @@
 import PageHeader from '../pageheader/PageHeader';
 import { Apps20Regular, TrophyOff20Regular } from '@fluentui/react-icons';
 import Panel from '@renderer/components/panel/Panel';
-import DashboardMatch from '@renderer/components/dashboard/match/DashboardMatch';
+import MatchCard from '@renderer/components/dashboard/match/MatchCard';
 import { Body1 } from '@fluentui/react-components';
 import { AppState } from '@renderer/redux/reducers/rootReducer';
 import { TournamentState } from '@renderer/redux/reducers/tournamentReducer';
@@ -29,7 +29,7 @@ const DashboardPage = () => {
 		return matches.length ? (
 			<div className={classes.listContainer}>
 				{matches.map((match) => (
-					<DashboardMatch key={`${match.id}-dashboard-item`} match={match} />
+					<MatchCard key={`${match.id}-dashboard-item`} match={match} />
 				))}
 			</div>
 		) : (

@@ -27,7 +27,8 @@ import {
 	TargetEdit16Regular,
 	MegaphoneLoud16Regular,
 	ArrowReset20Regular,
-	VideoRegular
+	VideoRegular,
+	LinkAdd16Regular
 } from '@fluentui/react-icons';
 import MatchReportingDialog from '@renderer/components/dialogs/report/MatchReportingDialog';
 import { useState } from 'react';
@@ -49,8 +50,6 @@ const useStyles = makeStyles({
 		backgroundColor: tokens.colorNeutralBackground4Selected,
 		...shorthands.borderRadius(0, 0, tokens.borderRadiusMedium, tokens.borderRadiusMedium),
 		...shorthands.border('1px', 'solid', tokens.colorNeutralStroke3)
-		// ...shorthands.borderRight('1px', 'solid', tokens.colorNeutralStroke3),
-		// ...shorthands.borderBottom('1px', 'solid', tokens.colorNeutralStroke3),
 	},
 	playerContent: {
 		display: 'flex',
@@ -91,12 +90,10 @@ const useStyles = makeStyles({
 		'&:hover': {
 			backgroundColor: tokens.colorNeutralBackground3Hover,
 			cursor: 'pointer'
-			// ...shorthands.borderTop('1px', 'solid', tokens.colorBrandStroke1),
-			// ...shorthands.borderBottom('1px', 'solid', tokens.colorBrandStroke1)
 		}
 	},
 	menuItemBorder: {
-		backgroundColor: tokens.colorPaletteGreenForeground1,
+		backgroundColor: tokens.colorStatusSuccessForeground1,
 		height: '100%',
 		width: '4px'
 	},
@@ -104,12 +101,15 @@ const useStyles = makeStyles({
 		display: 'flex',
 		flexDirection: 'column',
 		width: '100%',
-		...shorthands.padding(0, tokens.spacingHorizontalM),
-		paddingBottom: tokens.spacingVerticalM
+		...shorthands.padding(0, tokens.spacingHorizontalM)
 	},
 	dq: {
 		position: 'relative',
 		bottom: '1px'
+	},
+	menuItemActions: {
+		display: 'flex',
+		columnGap: tokens.spacingHorizontalS
 	}
 });
 
@@ -148,6 +148,29 @@ export const MatchCardHeader = ({ match }: MatchCardHeaderProps) => {
 	);
 };
 
+interface MatchCardStatusProps {
+	status: string;
+	color: string;
+	infoText: string;
+}
+
+const MatchStatus = ({ status, color, infoText }: MatchCardStatusProps) => {
+	const cardClasses = cardStyles();
+	const classes = useStyles();
+
+	return (
+		<div
+			className={mergeClasses(cardClasses.textContent, classes.checkIn)}
+			style={{
+				color: color === 'black' ? tokens.colorNeutralForeground1 : color
+			}}
+		>
+			<Caption2Strong>{status}</Caption2Strong>
+			<Caption2>{infoText}</Caption2>
+		</div>
+	);
+};
+
 interface PlayerContainerProps {
 	player: Entrant;
 	match: Match;
@@ -180,11 +203,12 @@ const PlayerContainer = ({ player, match }: PlayerContainerProps) => {
 	);
 };
 
-interface DashboardMatchProps {
+interface MatchCardProps {
 	match: Match;
+	appearance?: 'card' | 'item';
 }
 
-const DashboardMatch = ({ match }: DashboardMatchProps) => {
+const MatchCard = ({ match, appearance }: MatchCardProps) => {
 	const classes = useStyles();
 	const cardClasses = cardStyles();
 
@@ -195,9 +219,7 @@ const DashboardMatch = ({ match }: DashboardMatchProps) => {
 	const { player1, player2 } = match;
 
 	const waiting = match.state === 1;
-
 	const inProgress = match.state === 2;
-
 	const completed = match.state === 3;
 
 	const status = completed
@@ -206,17 +228,17 @@ const DashboardMatch = ({ match }: DashboardMatchProps) => {
 			? 'Match In Progress...'
 			: 'Waiting to Start...';
 
-	const color = completed
-		? 'black'
-		: inProgress
-			? tokens.colorPaletteMarigoldBackground3
-			: tokens.colorPaletteGreenForeground1;
-
 	const infoText = completed
 		? convertUnixTimestamp(match.completedAt ?? 0)
 		: inProgress
 			? convertUnixTimestamp(match.startedAt ?? 0)
 			: convertUnixTimestamp(match.startAt ?? 0);
+
+	const color = completed
+		? 'black'
+		: inProgress
+			? tokens.colorStatusWarningForeground1
+			: tokens.colorStatusSuccessForeground1;
 
 	const { key, tournamentSlug, eventSlug, validated } = useSelector(
 		(state: AppState) => state.tournamentState
@@ -296,82 +318,69 @@ const DashboardMatch = ({ match }: DashboardMatchProps) => {
 		return false;
 	};
 
-	return (
-		<Card borderColor={color}>
-			<MatchCardHeader match={match} />
-			<div className={classes.playerContent}>
-				<PlayerContainer player={player1} match={match} />
-				<PlayerContainer player={player2} match={match} />
-			</div>
-			<div className={cardClasses.splitFooter}>
-				<div
-					className={mergeClasses(cardClasses.textContent, classes.checkIn)}
-					style={{
-						color: color === 'black' ? tokens.colorNeutralForeground1 : color
-					}}
-				>
-					<Caption2Strong>{status}</Caption2Strong>
-					<Caption2>{infoText}</Caption2>
+	if (appearance === 'card') {
+		return (
+			<Card borderColor={color}>
+				<MatchCardHeader match={match} />
+				<div className={classes.playerContent}>
+					<PlayerContainer player={player1} match={match} />
+					<PlayerContainer player={player2} match={match} />
 				</div>
-				{inProgress && (
-					<Menu positioning={'below-end'}>
-						<MenuTrigger disableButtonEnhancement>
-							{(triggerProps: MenuButtonProps) => (
-								<SplitButton
-									size="small"
-									className={cardClasses.cardButton}
-									icon={<TargetEdit16Regular />}
-									iconPosition="after"
-									primaryActionButton={{ onClick: () => setOpen(true) }}
-									menuButton={triggerProps}
-									disabled={loading || completed}
-								>
-									<Caption1>{!completed ? 'Report' : 'Modify'}</Caption1>
-								</SplitButton>
-							)}
-						</MenuTrigger>
-						<MenuPopover>
-							<MenuList>
-								<MenuItem icon={<ArrowReset20Regular />} onClick={() => resetSet()}>
-									Reset Match
-								</MenuItem>
-							</MenuList>
-						</MenuPopover>
-					</Menu>
-				)}
-				{waiting && (
-					<Button
-						size="small"
-						className={cardClasses.cardButton}
-						icon={<MegaphoneLoud16Regular />}
-						iconPosition="after"
-						onClick={() => markSetInProgress()}
-						disabled={loading}
-					>
-						<Caption1>Call Match</Caption1>
-					</Button>
-				)}
-				<Dialog modalType="modal" open={open}>
-					<MatchReportingDialog match={match} setOpen={setOpen} />
-				</Dialog>
-			</div>
-		</Card>
-	);
-};
+				<div className={cardClasses.splitFooter}>
+					<MatchStatus status={status} color={color} infoText={infoText} />
+					{inProgress && (
+						<Menu positioning={'below-end'}>
+							<MenuTrigger disableButtonEnhancement>
+								{(triggerProps: MenuButtonProps) => (
+									<SplitButton
+										size="small"
+										className={cardClasses.cardButton}
+										icon={<TargetEdit16Regular />}
+										iconPosition="after"
+										primaryActionButton={{ onClick: () => setOpen(true) }}
+										menuButton={triggerProps}
+										disabled={loading || completed}
+									>
+										<Caption1>{!completed ? 'Report' : 'Modify'}</Caption1>
+									</SplitButton>
+								)}
+							</MenuTrigger>
+							<MenuPopover>
+								<MenuList>
+									<MenuItem
+										icon={<ArrowReset20Regular />}
+										onClick={() => resetSet()}
+									>
+										Reset Match
+									</MenuItem>
+								</MenuList>
+							</MenuPopover>
+						</Menu>
+					)}
+					{waiting && (
+						<Button
+							size="small"
+							className={cardClasses.cardButton}
+							icon={<MegaphoneLoud16Regular />}
+							iconPosition="after"
+							onClick={() => markSetInProgress()}
+							disabled={loading}
+						>
+							<Caption1>Call Match</Caption1>
+						</Button>
+					)}
+					<Dialog modalType="modal" open={open}>
+						<MatchReportingDialog match={match} setOpen={setOpen} />
+					</Dialog>
+				</div>
+			</Card>
+		);
+	}
 
-export default DashboardMatch;
-
-interface MenuMatchProps {
-	match: Match;
-}
-
-export const MenuMatch = ({ match }: MenuMatchProps) => {
-	const classes = useStyles();
-
-	const dispatch = useDispatch();
-
-	const { player1, player2 } = match;
-
+	/**
+	 * On-click handler for sidebar match item.
+	 * Updates gameplay and player state per the clicked match.
+	 */
 	const handleClick = () => {
 		dispatch(
 			updateGameplay({
@@ -400,19 +409,11 @@ export const MenuMatch = ({ match }: MenuMatchProps) => {
 		);
 	};
 
-	const color =
-		match.stream !== null && match.state === 2
-			? tokens.colorPaletteRedBackground3
-			: match.stream !== null
-				? tokens.colorPaletteRedBackground2
-				: match.state === 3
-					? 'black'
-					: match.state === 2
-						? tokens.colorPaletteMarigoldBackground3
-						: tokens.colorPaletteGreenForeground1;
-
 	return (
-		<div className={classes.menuItemContainer} onClick={handleClick}>
+		<div
+			className={mergeClasses(classes.menuItemContainer, 'menu-item-container')}
+			onClick={handleClick}
+		>
 			<div className={classes.menuItemBorder} style={{ backgroundColor: color }} />
 			<div className={classes.menuItemContent}>
 				<MatchCardHeader match={match} />
@@ -420,7 +421,57 @@ export const MenuMatch = ({ match }: MenuMatchProps) => {
 					<PlayerContainer player={player1} match={match} />
 					<PlayerContainer player={player2} match={match} />
 				</div>
+				<div className={cardClasses.splitFooter}>
+					<MatchStatus status={status} color={color} infoText={infoText} />
+					<div className={classes.menuItemActions}>
+						{inProgress && (
+							<Menu positioning={'below-end'}>
+								<MenuTrigger disableButtonEnhancement>
+									{(triggerProps: MenuButtonProps) => (
+										<SplitButton
+											size="small"
+											icon={<TargetEdit16Regular />}
+											primaryActionButton={{ onClick: () => setOpen(true) }}
+											menuButton={triggerProps}
+											disabled={loading || completed}
+										/>
+									)}
+								</MenuTrigger>
+								<MenuPopover>
+									<MenuList>
+										<MenuItem
+											icon={<ArrowReset20Regular />}
+											onClick={() => resetSet()}
+										>
+											Reset Match
+										</MenuItem>
+									</MenuList>
+								</MenuPopover>
+							</Menu>
+						)}
+						{waiting && (
+							<Button
+								size="small"
+								className={cardClasses.cardButton}
+								icon={<MegaphoneLoud16Regular />}
+								iconPosition="after"
+								onClick={() => markSetInProgress()}
+								disabled={loading}
+							/>
+						)}
+						<Dialog modalType="modal" open={open}>
+							<MatchReportingDialog match={match} setOpen={setOpen} />
+						</Dialog>
+						{!completed && <Button icon={<LinkAdd16Regular />} size="small" />}
+					</div>
+				</div>
 			</div>
 		</div>
 	);
 };
+
+MatchCard.defaultProps = {
+	appearance: 'card'
+};
+
+export default MatchCard;

@@ -23,7 +23,7 @@ import { AppState } from '../../../redux/reducers/rootReducer';
 import reportSetDataMutation from '../../../graphql/mutations/reportSetMutation';
 import { updateMatch } from '../../../redux/actions/tournamentActions';
 import { getCurrentUnixTimestamp } from '../../../utils/date';
-import { MatchCardHeader } from '../../dashboard/match/DashboardMatch';
+import { MatchCardHeader } from '../../dashboard/match/MatchCard';
 
 const useStyles = makeStyles({
 	dialogSurface: {
@@ -95,7 +95,7 @@ const useStyles = makeStyles({
 		width: 'fit-content'
 	},
 	warning: {
-		color: tokens.colorPaletteMarigoldForeground1,
+		color: tokens.colorStatusWarningForeground1,
 		justifyContent: 'center',
 		alignItems: 'center',
 		'& span': {

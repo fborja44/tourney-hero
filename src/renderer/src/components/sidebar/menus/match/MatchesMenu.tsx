@@ -8,7 +8,7 @@ import TournamentCard from '../tournament/TournamentCard';
 import Empty from '../../SidebarPlaceholder';
 import { AppState } from '../../../../redux/reducers/rootReducer';
 import useMatch from '../../../../hooks/useEventMatches';
-import { MenuMatch } from '../../../dashboard/match/DashboardMatch';
+import MatchCard from '../../../dashboard/match/MatchCard';
 import { sortMatches } from '../../../../utils/tournament';
 
 const useStyles = makeStyles({
@@ -52,7 +52,11 @@ const MatchesMenu = () => {
 
 	const MatchList = filteredMatches.length ? (
 		filteredMatches.map((match) => (
-			<MenuMatch key={`${match.id}-${match.identifier}-item`} match={match} />
+			<MatchCard
+				key={`${match.id}-${match.identifier}-item`}
+				match={match}
+				appearance="item"
+			/>
 		))
 	) : (
 		<Caption1 className={classes.empty}>No Matches Found</Caption1>

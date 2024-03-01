@@ -24,7 +24,7 @@ const useStyles = makeStyles({
 		display: 'flex',
 		flexDirection: 'row',
 		alignItems: 'center',
-		color: tokens.colorPaletteMarigoldForeground1,
+		color: tokens.colorStatusWarningForeground1,
 		textTransform: 'uppercase',
 		columnGap: tokens.spacingHorizontalXS
 	},
