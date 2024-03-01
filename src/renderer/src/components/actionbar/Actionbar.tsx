@@ -78,7 +78,7 @@ const Actionbar = () => {
 			</ActionButton>
 			<ActionButton
 				icon={<Trophy20Regular />}
-				title="start.gg Tournament"
+				title={tournamentState.selectedEvent?.name ?? 'start.gg Tournament'}
 				menu={<TournamentMenu />}
 			>
 				{tournamentLabel}

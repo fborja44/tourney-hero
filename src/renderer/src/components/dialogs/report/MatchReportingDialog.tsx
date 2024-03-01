@@ -79,6 +79,7 @@ const useStyles = makeStyles({
 		justifyContent: 'center',
 		alignItems: 'center',
 		textAlign: 'center',
+		color: tokens.colorNeutralForeground1,
 		...shorthands.borderRadius(0, '5px', '5px', 0),
 		...shorthands.border('0px'),
 		...shorthands.borderLeft('1px', 'solid', tokens.colorNeutralStroke2),

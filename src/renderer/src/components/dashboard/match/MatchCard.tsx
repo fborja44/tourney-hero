@@ -12,6 +12,7 @@ import {
 	MenuPopover,
 	MenuTrigger,
 	SplitButton,
+	Tooltip,
 	makeStyles,
 	mergeClasses,
 	shorthands,
@@ -366,7 +367,7 @@ const MatchCard = ({ match, appearance }: MatchCardProps) => {
 							onClick={() => markSetInProgress()}
 							disabled={loading}
 						>
-							<Caption1>Call Match</Caption1>
+							<Caption1>Start Match</Caption1>
 						</Button>
 					)}
 					<Dialog modalType="modal" open={open}>
@@ -428,13 +429,17 @@ const MatchCard = ({ match, appearance }: MatchCardProps) => {
 							<Menu positioning={'below-end'}>
 								<MenuTrigger disableButtonEnhancement>
 									{(triggerProps: MenuButtonProps) => (
-										<SplitButton
-											size="small"
-											icon={<TargetEdit16Regular />}
-											primaryActionButton={{ onClick: () => setOpen(true) }}
-											menuButton={triggerProps}
-											disabled={loading || completed}
-										/>
+										<Tooltip content="Report Match" relationship="label">
+											<SplitButton
+												size="small"
+												icon={<TargetEdit16Regular />}
+												primaryActionButton={{
+													onClick: () => setOpen(true)
+												}}
+												menuButton={triggerProps}
+												disabled={loading || completed}
+											/>
+										</Tooltip>
 									)}
 								</MenuTrigger>
 								<MenuPopover>
@@ -450,19 +455,25 @@ const MatchCard = ({ match, appearance }: MatchCardProps) => {
 							</Menu>
 						)}
 						{waiting && (
-							<Button
-								size="small"
-								className={cardClasses.cardButton}
-								icon={<MegaphoneLoud16Regular />}
-								iconPosition="after"
-								onClick={() => markSetInProgress()}
-								disabled={loading}
-							/>
+							<Tooltip content="Start Match" relationship="label">
+								<Button
+									size="small"
+									className={cardClasses.cardButton}
+									icon={<MegaphoneLoud16Regular />}
+									iconPosition="after"
+									onClick={() => markSetInProgress()}
+									disabled={loading}
+								/>
+							</Tooltip>
 						)}
 						<Dialog modalType="modal" open={open}>
 							<MatchReportingDialog match={match} setOpen={setOpen} />
 						</Dialog>
-						{!completed && <Button icon={<LinkAdd16Regular />} size="small" />}
+						{!completed && (
+							<Tooltip content="Automate Match" relationship="label">
+								<Button icon={<LinkAdd16Regular />} size="small" disabled />
+							</Tooltip>
+						)}
 					</div>
 				</div>
 			</div>
