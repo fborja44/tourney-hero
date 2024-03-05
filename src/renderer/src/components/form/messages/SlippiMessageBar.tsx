@@ -12,6 +12,10 @@ import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 const useStyles = makeStyles({
+	portErrorMessage: {
+		paddingTop: tokens.spacingVerticalSNudge,
+		paddingBottom: tokens.spacingVerticalSNudge
+	},
 	portErrorContainer: {
 		marginBottom: tokens.spacingVerticalXXS
 	},
@@ -175,6 +179,7 @@ const SlippiMessageBar = () => {
 				title="Slippi Automation"
 				actions={Actions}
 				intent="warning"
+				className={classes.portErrorMessage}
 			>
 				Could not match the following in-game ports:
 				<div className={classes.portErrorContainer}>

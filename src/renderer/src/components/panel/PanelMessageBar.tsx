@@ -6,6 +6,7 @@ import {
 	MessageBarIntent,
 	MessageBarTitle,
 	makeStyles,
+	mergeClasses,
 	tokens
 } from '@fluentui/react-components';
 
@@ -23,15 +24,23 @@ interface PanelMessageBarProps {
 	children?: string | React.ReactNode;
 	actions?: React.ReactNode;
 	intent: MessageBarIntent;
+	className?: string;
 }
 
-const PanelMessageBar = ({ title, icon, children, actions, intent }: PanelMessageBarProps) => {
+const PanelMessageBar = ({
+	title,
+	icon,
+	children,
+	actions,
+	intent,
+	className
+}: PanelMessageBarProps) => {
 	const classes = useStyles();
 
 	return (
 		<MessageBar
 			shape="square"
-			className={classes.container}
+			className={className ? mergeClasses(classes.container, className) : classes.container}
 			intent={intent}
 			icon={icon}
 			layout="auto"
