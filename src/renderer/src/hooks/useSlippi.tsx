@@ -63,14 +63,16 @@ const useSlippi = () => {
 		if (automate && autoUpdateCharacters && portsValid && game.players.length === 2) {
 			const character1 = getSlippiCharacter(game.players[0].characterId ?? -1),
 				character2 = getSlippiCharacter(game.players[1].characterId ?? -1);
-			// Emit socket event
-			sendData('updateCharacters', {
-				p1character: character1,
-				p2character: character2
-			});
-			// Update app state
-			dispatch(updatePlayer('player1', { character: character1 }));
-			dispatch(updatePlayer('player2', { character: character2 }));
+			if (player1.character !== character1 || player2.character !== character2) {
+				// Emit socket event
+				sendData('updateCharacters', {
+					p1character: character1,
+					p2character: character2
+				});
+				// Update app state
+				dispatch(updatePlayer('player1', { character: character1 }));
+				dispatch(updatePlayer('player2', { character: character2 }));
+			}
 		}
 	};
 
