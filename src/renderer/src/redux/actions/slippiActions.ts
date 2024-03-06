@@ -37,11 +37,26 @@ export const setActiveGame = createAction('SET_ACTIVE_GAME', (game: GameStartTyp
 	};
 });
 
+export const setAutomation = createAction('SET_AUTOMATION', (value: boolean) => {
+	return {
+		payload: value
+	};
+});
+
 export const setAutoUpdateScore = createAction('SET_AUTO_UPDATE_SCORE', (value: boolean) => {
 	return {
 		payload: value
 	};
 });
+
+export const setAutoUpdateCharacters = createAction(
+	'SET_AUTO_UPDATE_CHARACTERS',
+	(value: boolean) => {
+		return {
+			payload: value
+		};
+	}
+);
 
 export const setPortsValid = createAction('SET_PORTS_VALID', (value: boolean) => {
 	return {

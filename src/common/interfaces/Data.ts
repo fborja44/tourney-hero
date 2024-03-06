@@ -10,6 +10,8 @@ export interface OverlayData {
 	playerCard: PlayerCardData;
 }
 
+export type AutomationData = ScoreData | CharacterData;
+
 export interface GameplayData {
 	matchType: string;
 	roundName: string;
@@ -23,6 +25,11 @@ export interface GameplayData {
 export interface ScoreData {
 	p1score: number | null;
 	p2score: number | null;
+}
+
+export interface CharacterData {
+	p1character: Character;
+	p2character: Character;
 }
 
 export interface PlayerData {

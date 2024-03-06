@@ -15,13 +15,20 @@ export const JoiScores = Joi.object({
 	p2score: JoiScore.required()
 }).required();
 
+export const JoiCharacter = Joi.string()
+	.valid(...CHARACTERS)
+	.required();
+
+export const JoiCharacters = Joi.object({
+	p1character: JoiCharacter.required(),
+	p2character: JoiCharacter.required()
+}).required();
+
 export const JoiPlayer = Joi.object({
 	tag: JoiTag.required(),
 	tagDisplaySize: Joi.number().min(1).max(MAX_SCORE).required(),
 	score: JoiScore.required(),
-	character: Joi.string()
-		.valid(...CHARACTERS)
-		.required(),
+	character: JoiCharacter,
 	team: JoiString(MAX_TEAM_LENGTH).required(),
 	pronoun: JoiString(MAX_PRONOUN_LENGTH).required(),
 	port: Joi.string()

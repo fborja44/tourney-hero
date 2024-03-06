@@ -1,10 +1,10 @@
 import { useToastController } from '@fluentui/react-components';
 import MessageToast from '../components/toasts/MessageToast';
 import { OBSWebSocketClientContext } from '@renderer/obs-websocket/OBSWebsocketProvider';
-import { incrementScore } from '@renderer/redux/actions/dataActions';
+import { incrementScore, updatePlayer } from '@renderer/redux/actions/dataActions';
 import { setActiveGame } from '@renderer/redux/actions/slippiActions';
 import { AppState } from '@renderer/redux/reducers/rootReducer';
-import { getWinnerPort } from '@renderer/utils/slippi';
+import { getSlippiCharacter, getWinnerPort } from '@renderer/utils/slippi';
 import { GameEndType, GameStartType } from '@slippi/slippi-js';
 import { IpcRendererEvent } from 'electron';
 import { useContext, useEffect } from 'react';
@@ -27,7 +27,9 @@ const useSlippi = () => {
 		autoSwitchPlayersToGame,
 		connected: slippiConnected,
 		activeGame,
+		automate,
 		autoUpdateScore,
+		autoUpdateCharacters,
 		portsValid
 	} = useSelector((state: AppState) => state.slippiState);
 
@@ -56,6 +58,20 @@ const useSlippi = () => {
 		) {
 			sendOBSSceneRequest('Gameplay');
 		}
+
+		// Auto-update characters
+		if (automate && autoUpdateCharacters && portsValid && game.players.length === 2) {
+			const character1 = getSlippiCharacter(game.players[0].characterId ?? -1),
+				character2 = getSlippiCharacter(game.players[1].characterId ?? -1);
+			// Emit socket event
+			sendData('updateCharacters', {
+				p1character: character1,
+				p2character: character2
+			});
+			// Update app state
+			dispatch(updatePlayer('player1', { character: character1 }));
+			dispatch(updatePlayer('player2', { character: character2 }));
+		}
 	};
 
 	const handleGameEnd = async (_ev: IpcRendererEvent, game: GameEndType) => {
@@ -83,7 +99,7 @@ const useSlippi = () => {
 				winnerPort === player1.port ? '1' : winnerPort === player2.port ? '2' : null;
 			console.log(`Winner: ${winner}`);
 
-			if (autoUpdateScore && portsValid && connected && winner !== null) {
+			if (automate && autoUpdateScore && portsValid && connected && winner !== null) {
 				console.log('Updating scores...');
 				const p1score = player1.score;
 				const p2score = player2.score;
@@ -92,10 +108,11 @@ const useSlippi = () => {
 					p1score: winner == '1' ? (p1score ?? 0) + 1 : p1score,
 					p2score: winner == '2' ? (p2score ?? 0) + 1 : p2score
 				});
+				// Update app state
+				dispatch(incrementScore(`player${winner}`));
 				dispatchToast(<MessageToast title={`Updated Score For Player ${winner}`} />, {
 					intent: 'success'
 				});
-				dispatch(incrementScore(`player${winner}`));
 			}
 		}
 
@@ -124,7 +141,10 @@ const useSlippi = () => {
 		obs,
 		OBSConnected,
 		portsValid,
-		activeGame
+		activeGame,
+		automate,
+		autoUpdateCharacters,
+		autoUpdateScore
 	]);
 
 	return { connected: slippiConnected, activeGame };

@@ -6,7 +6,9 @@ import {
 	setRelayPort,
 	setSlippiConnected,
 	setAutoUpdateScore,
-	setPortsValid
+	setPortsValid,
+	setAutomation,
+	setAutoUpdateCharacters
 } from '../actions/slippiActions';
 import { GameStartType } from '@slippi/slippi-js';
 
@@ -17,7 +19,9 @@ export type SlippiState = {
 	portsValid: boolean;
 	autoSwitchGameToPlayers: boolean;
 	autoSwitchPlayersToGame: boolean;
+	automate: boolean;
 	autoUpdateScore: boolean;
+	autoUpdateCharacters: boolean;
 };
 
 const initialState: SlippiState = {
@@ -27,7 +31,9 @@ const initialState: SlippiState = {
 	portsValid: false,
 	autoSwitchGameToPlayers: false,
 	autoSwitchPlayersToGame: false,
-	autoUpdateScore: false
+	automate: false,
+	autoUpdateScore: false,
+	autoUpdateCharacters: false
 };
 
 const obsReducer = createReducer(initialState, (builder) => {
@@ -47,8 +53,14 @@ const obsReducer = createReducer(initialState, (builder) => {
 		.addCase(setActiveGame, (state, action) => {
 			state.activeGame = action.payload;
 		})
+		.addCase(setAutomation, (state, action) => {
+			state.automate = action.payload;
+		})
 		.addCase(setAutoUpdateScore, (state, action) => {
 			state.autoUpdateScore = action.payload;
+		})
+		.addCase(setAutoUpdateCharacters, (state, action) => {
+			state.autoUpdateCharacters = action.payload;
 		})
 		.addCase(setPortsValid, (state, action) => {
 			state.portsValid = action.payload;

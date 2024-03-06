@@ -1,11 +1,11 @@
 import { Toast, ToastBody, ToastTitle } from '@fluentui/react-components';
 
-interface ServerErrorToastProps {
+interface MessageToastProps {
 	title: string;
 	message?: string | null;
 }
 
-const ServerErrorToast = ({ title, message }: ServerErrorToastProps) => {
+const MessageToast = ({ title, message }: MessageToastProps) => {
 	return (
 		<Toast>
 			<ToastTitle>{title}</ToastTitle>
@@ -14,4 +14,4 @@ const ServerErrorToast = ({ title, message }: ServerErrorToastProps) => {
 	);
 };
 
-export default ServerErrorToast;
+export default MessageToast;

@@ -1,13 +1,12 @@
 import { GameplayData } from '@common/interfaces/Data';
-import { Character } from '@common/interfaces/Types';
-import { Switch, makeStyles, tokens } from '@fluentui/react-components';
-import { BotSparkle20Filled } from '@fluentui/react-icons';
+import { Button, Dialog, DialogTrigger, makeStyles, tokens } from '@fluentui/react-components';
+import { BotSparkle20Filled, Settings20Regular } from '@fluentui/react-icons';
+import SlippiSettingsDialog from '@renderer/components/dialogs/slippi/SlippiSettingsDialog';
 import PanelMessageBar from '@renderer/components/panel/PanelMessageBar';
-import { setAutoUpdateScore, setPortsValid } from '@renderer/redux/actions/slippiActions';
+import { setPortsValid } from '@renderer/redux/actions/slippiActions';
 import { AppState } from '@renderer/redux/reducers/rootReducer';
 import { SocketClientContext } from '@renderer/socket/SocketClientProvider';
-import { getSlippiCharacter, getSlippiPort } from '@renderer/utils/slippi';
-import { characterToString } from '@renderer/utils/string';
+import { getSlippiPort } from '@renderer/utils/slippi';
 import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -31,7 +30,6 @@ const useStyles = makeStyles({
 
 interface InvalidPort {
 	port: number;
-	character: Character;
 }
 
 const SlippiMessageBar = () => {
@@ -40,9 +38,8 @@ const SlippiMessageBar = () => {
 
 	const gameplayData: GameplayData = useSelector((state: AppState) => state.dataState.gameplay);
 
-	const { connected, activeGame, autoUpdateScore, portsValid } = useSelector(
-		(state: AppState) => state.slippiState
-	);
+	const { connected, activeGame, automate, autoUpdateScore, autoUpdateCharacters, portsValid } =
+		useSelector((state: AppState) => state.slippiState);
 
 	const { connected: connectedToServer } = useContext(SocketClientContext);
 
@@ -53,42 +50,29 @@ const SlippiMessageBar = () => {
 
 	const checkGamePorts = (): InvalidPort[] => {
 		const { player1, player2 } = gameplayData;
-		const slippi1 = activeGame?.players[0];
-		const slippi2 = activeGame?.players[1];
-		const slippiPort1 = getSlippiPort(slippi1?.port ?? 0);
-		const slippiPort2 = getSlippiPort(slippi2?.port ?? 0);
-		const slippiCharacter1 = getSlippiCharacter(slippi1?.characterId ?? -1);
-		const slippiCharacter2 = getSlippiCharacter(slippi2?.characterId ?? -1);
+		const slippi1 = activeGame?.players[0],
+			slippi2 = activeGame?.players[1];
+		const slippiPort1 = getSlippiPort(slippi1?.port ?? 0),
+			slippiPort2 = getSlippiPort(slippi2?.port ?? 0);
 
-		if (slippiPort1 === player1.port && slippiCharacter1 === player1.character) {
-			if (slippiPort2 === player2.port && slippiCharacter2 === player2.character) {
-				return [];
-			}
-			// Could not find match for slippi port 2
-			return [{ port: slippi2?.port ?? -2, character: slippiCharacter2 }];
-		} else if (slippiPort1 === player2.port && slippiCharacter1 === player2.character) {
-			if (slippiPort2 === player1.port && slippiCharacter2 === player1.character) {
-				return [];
-			}
-			// Could not find match for slippi port 1
-			return [{ port: slippi1?.port ?? -1, character: slippiCharacter1 }];
-		} else if (slippiPort2 === player1.port && slippiCharacter2 === player1.character) {
-			if (slippiPort1 === player2.port && slippiCharacter1 === player2.character) {
-				return [];
-			}
-			// Could not find match for slippi port 2
-			return [{ port: slippi1?.port ?? -1, character: slippiCharacter1 }];
-		} else if (slippiPort2 === player2.port && slippiCharacter2 === player2.character) {
-			if (slippiPort1 === player1.port && slippiCharacter1 === player1.character) {
-				return [];
-			}
-			// Could not find match for slippi port 1
-			return [{ port: slippi1?.port ?? -1, character: slippiCharacter1 }];
+		if (
+			(slippiPort1 === player1.port && slippiPort2 === player2.port) ||
+			(slippiPort1 === player2.port && slippiPort2 === player1.port)
+		) {
+			return [];
 		}
-		return [
-			{ port: slippi1?.port ?? -1, character: slippiCharacter1 },
-			{ port: slippi2?.port ?? -2, character: slippiCharacter2 }
-		];
+
+		const result: InvalidPort[] = [];
+
+		if (slippiPort1 !== player1.port && slippiPort1 !== player2.port) {
+			result.push({ port: slippi1?.port ?? -1 });
+		}
+
+		if (slippiPort2 !== player2.port && slippiPort2 !== player2.port) {
+			result.push({ port: slippi2?.port ?? -2 });
+		}
+
+		return result;
 	};
 
 	useEffect(() => {
@@ -101,13 +85,12 @@ const SlippiMessageBar = () => {
 
 	const Actions = (
 		<>
-			<Switch
-				// label="Toggle"
-				checked={autoUpdateScore}
-				onChange={(ev) => {
-					dispatch(setAutoUpdateScore(ev.target.checked));
-				}}
-			/>
+			<Dialog>
+				<DialogTrigger disableButtonEnhancement>
+					<Button icon={<Settings20Regular />} appearance="transparent" />
+				</DialogTrigger>
+				<SlippiSettingsDialog />
+			</Dialog>
 		</>
 	);
 
@@ -118,14 +101,14 @@ const SlippiMessageBar = () => {
 
 	// Auto-Update Not Enabled
 	// TODO: If auto-update not enabled, and proper ports are detected, alert user
-	if (!autoUpdateScore) {
+	if (!automate || (!autoUpdateScore && !autoUpdateCharacters)) {
 		return (
 			<PanelMessageBar
 				icon={<BotSparkle20Filled />}
 				title="Slippi Automation"
 				actions={Actions}
 			>
-				Score Updater Disabled
+				Disabled
 			</PanelMessageBar>
 		);
 	}
@@ -166,7 +149,7 @@ const SlippiMessageBar = () => {
 				actions={Actions}
 				intent="warning"
 			>
-				Invalid Match - Must Be 1 vs 1
+				Unable To Automate - Must Be 1 vs 1
 			</PanelMessageBar>
 		);
 	}
@@ -186,8 +169,7 @@ const SlippiMessageBar = () => {
 					{validGame.map((player) => {
 						return (
 							<span className={classes.portError} key={`${player.port}-error`}>
-								{`Port ${player.port}`}{' '}
-								<span>{`(${characterToString(player.character)})`}</span>
+								{`Port ${player.port}`}
 							</span>
 						);
 					})}
