@@ -10,6 +10,7 @@ import { AppState } from '../../../../redux/reducers/rootReducer';
 import useMatch from '../../../../hooks/useEventMatches';
 import MatchCard from '../../../dashboard/match/MatchCard';
 import { sortMatches } from '../../../../utils/tournament';
+import MatchSearchBar from './MatchSearchBar';
 
 const useStyles = makeStyles({
 	container: {
@@ -40,7 +41,6 @@ const useStyles = makeStyles({
 	}
 });
 
-// TODO: Selected Match
 const MatchesMenu = () => {
 	const classes = useStyles();
 
@@ -67,6 +67,7 @@ const MatchesMenu = () => {
 			{tournament ? (
 				<>
 					<TournamentCard handleRefresh={refreshMatches} />
+					<MatchSearchBar />
 					<div className={classes.matchList}>
 						{MatchList}
 						{filteredMatches.length > 0 && (

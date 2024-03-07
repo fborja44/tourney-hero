@@ -1,13 +1,8 @@
-import {
-	Button,
-	Caption1,
-	makeStyles,
-	shorthands,
-} from '@fluentui/react-components';
+import { Button, Caption1, makeStyles, shorthands } from '@fluentui/react-components';
 import {
 	VideoProhibited28Regular,
 	ArrowSort16Regular,
-	PlugDisconnected20Regular,
+	PlugDisconnected20Regular
 } from '@fluentui/react-icons';
 import { tokens } from '@fluentui/react-theme';
 import Empty from '../SidebarPlaceholder';
@@ -18,11 +13,11 @@ const useStyles = makeStyles({
 	container: {
 		display: 'flex',
 		flexDirection: 'column',
-		alignItems: 'center',
+		alignItems: 'center'
 	},
 	previewContainer: {
 		textAlign: 'center',
-		...shorthands.margin(tokens.spacingVerticalM, 0),
+		...shorthands.margin(tokens.spacingVerticalM, 0)
 	},
 	preview: {
 		display: 'flex',
@@ -33,15 +28,15 @@ const useStyles = makeStyles({
 		backgroundColor: tokens.colorNeutralBackground2Selected,
 		color: tokens.colorNeutralForegroundDisabled,
 		...shorthands.borderRadius(tokens.borderRadiusLarge),
-		...shorthands.margin(tokens.spacingVerticalS, 0, 0, 0),
+		...shorthands.margin(tokens.spacingVerticalS, 0, 0, 0)
 	},
 	button: {
 		width: '214px',
 		maxWidth: '214px',
 		color: tokens.colorNeutralForeground2,
 		...shorthands.border('1px', 'solid', tokens.colorNeutralStroke2),
-		...shorthands.margin(tokens.spacingVerticalS, 0, 0, 0),
-	},
+		...shorthands.margin(tokens.spacingVerticalS, 0, 0, 0)
+	}
 });
 
 const Preview = ({ title }: { title: string }) => {
@@ -63,20 +58,17 @@ const PreviewMenu = () => {
 
 	return connected ? (
 		<div className={classes.container}>
-			<Preview title='Active Scene' />
+			<Preview title="Active Scene" />
 			<Button
 				className={classes.button}
 				icon={<ArrowSort16Regular />}
-				size='small'
-				appearance='outline'
+				size="small"
+				appearance="outline"
 			/>
-			<Preview title='Preview Scene' />
+			<Preview title="Preview Scene" />
 		</div>
 	) : (
-		<Empty
-			caption={'OBS Websocket Not Configured'}
-			icon={<PlugDisconnected20Regular />}
-		/>
+		<Empty caption={'OBS Websocket Not Configured'} icon={<PlugDisconnected20Regular />} />
 	);
 };
 
