@@ -1,4 +1,4 @@
-import { Body1 } from '@fluentui/react-components';
+import { Body1, mergeClasses } from '@fluentui/react-components';
 import TextField from './inputs/TextField';
 import formStyles from './styles/FormStyles';
 import RadioGroupField from './inputs/RadioGroupField';
@@ -16,6 +16,7 @@ import {
 	MAX_TAG_LENGTH,
 	MAX_TEAM_LENGTH
 } from '@common/constants/limits';
+import { Port } from '@common/interfaces/Types';
 
 interface PlayerFormProps {
 	playerNumber: '1' | '2';
@@ -24,7 +25,7 @@ interface PlayerFormProps {
 
 const PlayerForm = ({ playerNumber, playerData }: PlayerFormProps) => {
 	const classes = formStyles();
-	const playerFormClasses = playerFormStyles();
+	const playerClasses = playerFormStyles();
 	const dispatch = useDispatch();
 
 	/**
@@ -40,15 +41,35 @@ const PlayerForm = ({ playerNumber, playerData }: PlayerFormProps) => {
 		);
 	};
 
+	/**
+	 * Gets the appropriate port color background.
+	 * @param port The player's port
+	 * @returns The port color class.
+	 */
+	const getPortColor = (port: Port) => {
+		switch (port) {
+			case 'Red':
+				return playerClasses.port1;
+			case 'Blue':
+				return playerClasses.port2;
+			case 'Yellow':
+				return playerClasses.port3;
+			case 'Green':
+				return playerClasses.port4;
+			default:
+				return '';
+		}
+	};
+
 	const { entrantList } = useSelector((state: AppState) => state.tournamentState.entrants);
 
 	return (
 		<div
-			className={`${classes.formSection} ${
-				playerNumber === '1'
-					? playerFormClasses.p1Background
-					: playerFormClasses.p2Background
-			}`}
+			className={mergeClasses(
+				classes.formSection,
+				playerNumber === '1' ? playerClasses.p1Section : playerClasses.p2Section,
+				getPortColor(playerData.port)
+			)}
 		>
 			<Body1 className={classes.sectionTitle}>Player {playerNumber}</Body1>
 			<div className={classes.formRow}>

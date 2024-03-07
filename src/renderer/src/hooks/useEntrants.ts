@@ -35,9 +35,10 @@ const useEntrants = () => {
 		}
 		dispatch(setEntrantsLoading(true));
 		dispatch(setEntrantsError(null));
+		// TODO: Get all entrants by fetching pages until empty
 		const entrantData = await fetchData(
 			key,
-			eventEntrantsQuery(tournamentSlug, eventSlug, page, 24)
+			eventEntrantsQuery(tournamentSlug, eventSlug, page, 128)
 		);
 		if (!entrantData) {
 			dispatch(setEntrantsError('Failed To Fetch Entrants'));

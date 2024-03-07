@@ -8,14 +8,15 @@ import { updateGameplay, updatePlayer } from '../../redux/actions/dataActions';
 import { GameplayData } from '@common/interfaces/Data';
 import { AppState } from '../../redux/reducers/rootReducer';
 import { ArrowSwapRegular } from '@fluentui/react-icons';
-import CheckboxField from './inputs/CheckboxField';
 import { MAX_BRACKET_DATA_LENGTH } from '@common/constants/limits';
+// import CheckboxField from './inputs/CheckboxField';
 
 const GameplayForm = () => {
 	const classes = formStyles();
 	const dispatch = useDispatch();
 
-	const gameplayData: GameplayData = useSelector((state: AppState) => state.dataState.gameplay);
+	const { player1, player2, matchType, roundName, bracketName, eventName }: GameplayData =
+		useSelector((state: AppState) => state.dataState.gameplay);
 
 	/**
 	 * On change handler. Updates the the target field in gameplay redux state.
@@ -34,16 +35,16 @@ const GameplayForm = () => {
 	 * Swaps player form data.
 	 */
 	const handleSwapPlayers = () => {
-		const tempPlayer1 = { ...gameplayData.player1 };
-		dispatch(updatePlayer('player1', gameplayData.player2));
+		const tempPlayer1 = { ...player1 };
+		dispatch(updatePlayer('player1', player2));
 		dispatch(updatePlayer('player2', tempPlayer1));
 	};
 
 	return (
 		<Panel>
 			<div className={mergeClasses(classes.formSectionRow, classes.relative)}>
-				<PlayerForm playerNumber="1" playerData={gameplayData.player1} />
-				<PlayerForm playerNumber="2" playerData={gameplayData.player2} />
+				<PlayerForm playerNumber="1" playerData={player1} />
+				<PlayerForm playerNumber="2" playerData={player2} />
 				<Tooltip content={'Swap Players'} relationship={'label'}>
 					<Button
 						icon={<ArrowSwapRegular />}
@@ -53,12 +54,12 @@ const GameplayForm = () => {
 					/>
 				</Tooltip>
 			</div>
-			<div className={mergeClasses(classes.formSection, classes.borderBottom)}>
+			<div className={classes.formSection}>
 				<Body1 className={classes.sectionTitle}>General Information</Body1>
 				<div className={classes.formRow}>
 					<TextField
 						label="Match Type"
-						value={gameplayData.matchType}
+						value={matchType}
 						targetField={'matchType'}
 						handleChange={handleGameplayChange}
 						placeholder="Best of 3"
@@ -67,7 +68,7 @@ const GameplayForm = () => {
 					<span className={classes.gap} />
 					<TextField
 						label="Round Name"
-						value={gameplayData.roundName}
+						value={roundName}
 						targetField={'roundName'}
 						handleChange={handleGameplayChange}
 						placeholder="Winners Round 1"
@@ -76,7 +77,7 @@ const GameplayForm = () => {
 					<span className={classes.gap} />
 					<TextField
 						label="Bracket Name"
-						value={gameplayData.bracketName}
+						value={bracketName}
 						targetField={'bracketName'}
 						handleChange={handleGameplayChange}
 						placeholder="Main Bracket"
@@ -85,7 +86,7 @@ const GameplayForm = () => {
 					<span className={classes.gap} />
 					<TextField
 						label="Event Name"
-						value={gameplayData.eventName}
+						value={eventName}
 						targetField={'eventName'}
 						handleChange={handleGameplayChange}
 						placeholder="Melee Singles"
@@ -93,17 +94,17 @@ const GameplayForm = () => {
 					/>
 				</div>
 			</div>
-			<div className={classes.formSection}>
+			{/* <div className={classes.formSection}>
 				<Body1 className={classes.sectionTitle}>Player Cam Information</Body1>
 				<div className={classes.formRow}>
 					<CheckboxField
 						label="Show Match Info"
-						checked={gameplayData.showPlayerCamInfo}
+						checked={showPlayerCamInfo}
 						targetField={'showPlayerCamInfo'}
 						handleChange={handleGameplayChange}
 					/>
 				</div>
-			</div>
+			</div> */}
 		</Panel>
 	);
 };
