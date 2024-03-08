@@ -73,6 +73,13 @@ const MatchesMenu = () => {
 	 * Search for matches when the search term is changed
 	 */
 	useEffect(() => {
+		// If no search term provided, skip
+		if (searchTerm.trim().length === 0) {
+			clearSearchMatches();
+			setSearchLoading(false);
+			return;
+		}
+
 		setSearchLoading(true);
 		// eslint-disable-next-line prefer-const
 		let timeout: NodeJS.Timeout | undefined;
@@ -80,22 +87,17 @@ const MatchesMenu = () => {
 		clearTimeout(timeout);
 
 		timeout = setTimeout(async () => {
-			if (searchTerm.trim() !== '') {
-				// Find playerId whose tag matches the search
-				const fuseOptions = {
-					keys: ['tag']
-				};
-				const fuse = new Fuse(entrantList, fuseOptions);
-				const result = fuse.search(searchTerm);
-				const entrantIds = result.map((entry) => entry.item.id);
+			// Find playerId whose tag matches the search
+			const fuseOptions = {
+				keys: ['tag']
+			};
+			const fuse = new Fuse(entrantList, fuseOptions);
+			const result = fuse.search(searchTerm);
+			const entrantIds = result.map((entry) => entry.item.id);
 
-				await fetchSearchMatches(1, entrantIds);
-				setSearchLoading(false);
-			} else {
-				clearSearchMatches();
-				setSearchLoading(false);
-			}
-		}, 1500);
+			await fetchSearchMatches(1, entrantIds);
+			setSearchLoading(false);
+		}, 1000);
 
 		return () => clearTimeout(timeout);
 	}, [searchTerm]);
