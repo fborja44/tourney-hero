@@ -61,14 +61,9 @@ const TournamentMenu = () => {
 		(state: AppState) => state.tournamentState
 	);
 	const [keyValue, setKeyValue] = useState(tournamentState.key || '');
-	const [tournamentSlugValue, setTournamentSlugValue] = useState(tournamentState.tournamentSlug);
-
-	// TODO:
-	// ? Redo tournament/event UX by:
-	// ? - Have user input tournament name
-	// ? - Delayed query to see if tournament exists
-	// ? - If tournament exists, load events into a select
-	// ? - If tournament does not exist, or no events are found, disable select
+	const [tournamentSlugValue, setTournamentSlugValue] = useState(
+		tournamentState.tournamentSlug || ''
+	);
 
 	/**
 	 * Saves the key in the menu and in state.

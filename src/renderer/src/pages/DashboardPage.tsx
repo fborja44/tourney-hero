@@ -18,7 +18,9 @@ const DashboardPage = () => {
 
 	const { tournament }: TournamentState = useSelector((state: AppState) => state.tournamentState);
 
-	const { matchList, error } = useSelector((state: AppState) => state.tournamentState.matches);
+	const { matchList, error } = useSelector(
+		(state: AppState) => state.tournamentState.globalMatches
+	);
 
 	/**
 	 * Renders a list of matches given a list of matches

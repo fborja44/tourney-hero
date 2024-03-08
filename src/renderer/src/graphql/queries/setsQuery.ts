@@ -1,7 +1,7 @@
 import { Query } from '@common/interfaces/Types';
 
 const MATCHES_QUERY = `
-	query MatchesQuery($tournamentSlug: String!, $eventSlug: String!, $page: Int, $perPage: Int) {
+	query MatchesQuery($tournamentSlug: String!, $eventSlug: String!, $page: Int, $perPage: Int, $entrantIds: [ID]) {
 		tournament(slug: $tournamentSlug) {
 			id
 			events (filter: {
@@ -15,6 +15,7 @@ const MATCHES_QUERY = `
 					filters: {
 						showByes: false
 						hideEmpty: true
+						entrantIds: $entrantIds
 					}) {
 						pageInfo {
 							totalPages
@@ -100,7 +101,9 @@ const matchesQuery = (
 	tournamentSlug: string,
 	eventSlug: string,
 	page: number = 1,
-	perPage: number = 10
+	perPage: number = 10,
+	entrantIds: number[] = []
+	// stateFilters: number[] = [1, 2, 3]
 ): Query => {
 	return {
 		query: MATCHES_QUERY,
@@ -108,7 +111,9 @@ const matchesQuery = (
 			tournamentSlug,
 			eventSlug,
 			page,
-			perPage: perPage
+			perPage: perPage,
+			entrantIds
+			// stateFilters: stateFilters
 		}
 	};
 };

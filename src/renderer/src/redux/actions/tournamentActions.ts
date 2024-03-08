@@ -42,7 +42,7 @@ export const setMatchesLoading = createAction('SET_MATCHES_LOADING', (loading: b
 
 export const updateMatch = createAction(
 	'UPDATE_MATCH',
-	(matchId: string, updatedMatchData: Partial<Match>) => {
+	(matchId: number, updatedMatchData: Partial<Match>) => {
 		return {
 			payload: { matchId, updatedMatchData }
 		};

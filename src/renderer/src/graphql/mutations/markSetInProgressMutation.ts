@@ -9,7 +9,7 @@ const MARK_SET_IN_PROGRESS_MUTATION = `
     },
 `;
 
-const markSetInProgressMutation = (setId: string): Query => {
+const markSetInProgressMutation = (setId: number): Query => {
 	return {
 		query: MARK_SET_IN_PROGRESS_MUTATION,
 		variables: {

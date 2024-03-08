@@ -9,7 +9,7 @@ const RESET_STATE_MUTATION = `
     },
 `;
 
-const resetSetMutation = (setId: string): Query => {
+const resetSetMutation = (setId: number): Query => {
 	return {
 		query: RESET_STATE_MUTATION,
 		variables: {

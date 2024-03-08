@@ -1,62 +1,62 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { AppState } from '../redux/reducers/rootReducer';
-import matchesQuery from '../graphql/queries/matchesQuery';
+import setsQuery from '../graphql/queries/setsQuery';
 import useQuery from './useQuery';
-import {
-	addMatches,
-	setMatches,
-	setMatchesError,
-	setMatchesLoading
-} from '../redux/actions/tournamentActions';
 import { parseMatch } from '../utils/tournament';
 import { Match } from '@common/interfaces/Types';
 import { useState } from 'react';
+
 /**
- * Start.gg API Query hook.
+ * Hook to get matches from start.gg.
  * Errors must be set manually.
  */
-const useMatch = () => {
-	const dispatch = useDispatch();
-	const { setError, fetchData } = useQuery();
+const useSets = () => {
+	const { error, setError, fetchData } = useQuery();
 
 	const [page, setPage] = useState(1);
+	const [filters, setFilters] = useState<number[]>([1, 2, 3]);
 
 	const { key, tournamentSlug, eventSlug, validated } = useSelector(
 		(state: AppState) => state.tournamentState
 	);
 
-	const { matchList, loading, error } = useSelector(
-		(state: AppState) => state.tournamentState.matches
-	);
+	const [matches, setMatches] = useState<Match[]>([]);
+	const [loading, setLoading] = useState<boolean>(true);
 
 	/**
 	 * Fetches start.gg tournament match data.
-	 *
 	 * TODO: Sort match option
 	 * @param page The page number of matches to fetch
 	 * @returns The fetched matches if successful. Otherwise, returns any empty list.
 	 */
-	const fetchMatches = async (page: number = 1): Promise<Match[]> => {
+	const fetchMatches = async (
+		page: number = 1,
+		entrantIds: number[] = []
+		// stateFilters: number[] = [1, 2, 3]
+	): Promise<Match[]> => {
 		// Check if tournament was configured
 		if (!key || !tournamentSlug || !eventSlug || !validated) {
 			return [];
 		}
 		setPage(page);
-		dispatch(setMatchesLoading(true));
-		dispatch(setMatchesError(null));
+		setLoading(true);
+		setError(null);
 		console.log('Fetching matches...');
-		const matchData = await fetchData(key, matchesQuery(tournamentSlug, eventSlug, page, 12));
+		const matchData = await fetchData(
+			key,
+			setsQuery(tournamentSlug, eventSlug, page, 16, entrantIds)
+		);
 		if (!matchData || !matchData.data) {
 			console.error('Failed to Fetch Matches', matchData);
-			dispatch(setMatchesError('Failed To Fetch Matches'));
-			dispatch(setMatchesLoading(false));
+			setError('Failed To Fetch Matches');
+			setLoading(false);
 			return [];
 		}
 		let matches = matchData.data.tournament.events[0].sets.nodes;
 		console.log(matches);
 		if (!matches.length) {
-			dispatch(setMatchesError('No New Matches'));
-			dispatch(setMatchesLoading(false));
+			setError('No New Matches');
+			setLoading(false);
 			return [];
 		}
 		// Filter out sets where both players have not yet advanced
@@ -71,7 +71,8 @@ const useMatch = () => {
 				.map(async (match: unknown) => await parseMatch(match))
 				.filter((match: unknown) => match !== undefined)
 		);
-		dispatch(setMatchesLoading(false));
+		setLoading(false);
+		setMatches(matches);
 		return matches;
 	};
 
@@ -80,7 +81,7 @@ const useMatch = () => {
 	 */
 	const refreshMatches = async () => {
 		const matches = await fetchMatches();
-		dispatch(setMatches(matches));
+		setMatches(matches);
 		return matches;
 	};
 
@@ -93,12 +94,30 @@ const useMatch = () => {
 			setPage((prevPage) => {
 				return prevPage + 1;
 			});
-			dispatch(addMatches(matches));
+			setMatches((prevMatches) => [...prevMatches, ...matches]);
 		}
 		return matches;
 	};
 
-	return { matchList, loading, error, setError, fetchMatches, refreshMatches, getMoreMatches };
+	/**
+	 * Clears match state
+	 */
+	const clearMatches = async () => {
+		setMatches([]);
+	};
+
+	return {
+		matches,
+		loading,
+		error,
+		setError,
+		filters,
+		setFilters,
+		fetchMatches,
+		refreshMatches,
+		getMoreMatches,
+		clearMatches
+	};
 };
 
-export default useMatch;
+export default useSets;

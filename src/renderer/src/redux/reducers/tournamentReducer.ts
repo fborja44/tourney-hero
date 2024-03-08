@@ -25,7 +25,7 @@ export interface TournamentState {
 	tournament: Tournament | undefined;
 	selectedEvent: TournamentEvent | undefined;
 	selectedMatch: Match | undefined;
-	matches: {
+	globalMatches: {
 		matchList: Match[];
 		loading: boolean;
 		error: string | null;
@@ -41,12 +41,12 @@ export interface TournamentState {
 const initialState: TournamentState = {
 	key: import.meta.env.VITE_START_GG_KEY ?? undefined,
 	validated: false,
-	tournamentSlug: 'full-house-2024',
+	tournamentSlug: '',
 	eventSlug: '',
 	tournament: undefined,
 	selectedEvent: undefined,
 	selectedMatch: undefined,
-	matches: {
+	globalMatches: {
 		matchList: [],
 		loading: false,
 		error: null
@@ -76,20 +76,20 @@ const tournamentReducer = createReducer(initialState, (builder) => {
 			state.selectedEvent = action.payload;
 		})
 		.addCase(setMatches, (state, action) => {
-			state.matches.matchList = action.payload;
+			state.globalMatches.matchList = action.payload;
 		})
 		.addCase(addMatches, (state, action) => {
-			state.matches.matchList = [...state.matches.matchList, ...action.payload];
+			state.globalMatches.matchList = [...state.globalMatches.matchList, ...action.payload];
 		})
 		.addCase(setMatchesLoading, (state, action) => {
-			state.matches.loading = action.payload;
+			state.globalMatches.loading = action.payload;
 		})
 		.addCase(setMatchesError, (state, action) => {
-			state.matches.error = action.payload;
+			state.globalMatches.error = action.payload;
 		})
 		.addCase(updateMatch, (state, action) => {
-			const newMatches = [...state.matches.matchList];
-			state.matches.matchList = newMatches.map((match) => {
+			const newMatches = [...state.globalMatches.matchList];
+			state.globalMatches.matchList = newMatches.map((match) => {
 				if (match.id === action.payload.matchId) {
 					return { ...match, ...action.payload.updatedMatchData };
 				}

@@ -45,7 +45,7 @@ export interface TournamentEvent {
 }
 
 export interface Match {
-	id: string;
+	id: number;
 	identifier: string;
 	hasPlaceholder: string;
 	round: number;
@@ -60,13 +60,13 @@ export interface Match {
 	startAt: number;
 	startedAt: number | null;
 	completedAt: number | null;
-	winnerId: string | null;
+	winnerId: number | null;
 	state: 0 | 1 | 2 | 3 | 4;
 	stream: string | null;
 }
 
 export interface Entrant {
-	id: string;
+	id: number;
 	tag: string;
 	team: string;
 	pronoun: string;

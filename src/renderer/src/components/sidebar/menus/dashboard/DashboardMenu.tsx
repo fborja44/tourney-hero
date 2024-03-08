@@ -6,7 +6,7 @@ import TournamentCard from '../tournament/TournamentCard';
 import Empty from '../../SidebarPlaceholder';
 import { AppState } from '../../../../redux/reducers/rootReducer';
 import { setAutoRefresh, setMatches } from '../../../../redux/actions/tournamentActions';
-import useMatch from '../../../../hooks/useEventMatches';
+import useMatch from '../../../../hooks/useMatches';
 
 const useStyles = makeStyles({
 	container: {
