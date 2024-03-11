@@ -90,7 +90,7 @@ export interface Query {
 
 // TODO: characters
 export interface MutationGameData {
-	winnerId: string;
+	winnerId: number;
 	gameNum: number;
 	entrant1Score?: number;
 	entrant2Score?: number;

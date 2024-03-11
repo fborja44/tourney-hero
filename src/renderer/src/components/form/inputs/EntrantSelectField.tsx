@@ -88,7 +88,9 @@ const EntrantSelectField = ({
 				value={value}
 				freeform
 				onOptionSelect={(_ev, data) => {
-					const player = entrantList.find((entrant) => entrant.id === data.optionValue);
+					const player = entrantList.find(
+						(entrant) => entrant.id.toString() === data.optionValue
+					);
 					const localPlayer = playersList.find(
 						(player) => player.tag === data.optionText
 					);
@@ -111,7 +113,7 @@ const EntrantSelectField = ({
 					<Option
 						key={`${entrant.tag}-${i}-${playerNumber}`}
 						text={entrant.tag}
-						value={entrant.id}
+						value={entrant.id.toString()}
 					>
 						{entrant.tag}
 					</Option>

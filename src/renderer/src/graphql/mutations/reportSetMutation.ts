@@ -10,8 +10,8 @@ const REPORT_SET_DATA_MUTATION = `
 `;
 
 const reportSetDataMutation = (
-	setId: string,
-	winnerId: string,
+	setId: number,
+	winnerId: number,
 	gameData: MutationGameData[] | [],
 	isDQ: boolean = false
 ): Query => {

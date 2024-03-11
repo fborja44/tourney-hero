@@ -233,9 +233,9 @@ const MatchReportingDialog = ({ match, setOpen }: MatchReportingDialog) => {
 	 * @returns A list of game data.
 	 */
 	const generateGameData = (
-		winnerId: string,
+		winnerId: number,
 		winnerScore: number,
-		loserId: string,
+		loserId: number,
 		loserScore: number
 	): MutationGameData[] => {
 		if (winnerScore < 0 || loserScore < 0) {
