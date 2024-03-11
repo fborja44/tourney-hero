@@ -6,7 +6,7 @@ import { useState } from 'react';
 import TournamentCard from '../tournament/TournamentCard';
 import Empty from '../../SidebarPlaceholder';
 import { AppState } from '../../../../redux/reducers/rootReducer';
-import useQuery from '../../../../hooks/useQuery';
+import useQuery from '../../../../hooks/useStartQuery';
 import top8Query from '../../../../graphql/queries/top8Query';
 import { parseTop8Sets } from '../../../../utils/tournament';
 import { updateBracket } from '../../../../redux/actions/dataActions';

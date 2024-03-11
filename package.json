@@ -21,6 +21,7 @@
 		"build:linux": "electron-vite build && electron-builder --linux"
 	},
 	"dependencies": {
+		"@apollo/client": "^3.9.6",
 		"@electron-toolkit/preload": "^3.0.0",
 		"@electron-toolkit/utils": "^3.0.0",
 		"@fluentui/react-components": "^9.46.5",
@@ -31,6 +32,7 @@
 		"axios": "^1.6.7",
 		"electron-store": "^8.1.0",
 		"fuse.js": "^7.0.0",
+		"graphql": "^16.8.1",
 		"joi": "^17.12.2",
 		"obs-websocket-js": "^5.0.4",
 		"react-error-boundary": "^4.0.12",

@@ -11,12 +11,12 @@ import {
 	setTournamentFields
 } from '../../../redux/actions/tournamentActions';
 import tournamentQuery from '../../../graphql/queries/tournamentQuery';
-import useQuery from '../../../hooks/useQuery';
 import { Tournament, TournamentEvent } from '@common/interfaces/Types';
 import { updateGameplay } from '../../../redux/actions/dataActions';
 import { getEventSlug } from '../../../utils/string';
 import MenuSelectField from '../../form/inputs/MenuSelectField';
 import { AppState } from '@renderer/redux/reducers/rootReducer';
+import useStartQuery from '../../../hooks/useStartQuery';
 
 const useStyles = makeStyles({
 	buttonsContainer: {
@@ -48,14 +48,14 @@ const TournamentMenu = () => {
 		setError: setKeyError,
 		loading: keyLoading,
 		fetchData: keyFetch
-	} = useQuery();
+	} = useStartQuery();
 
 	const {
 		error: tournamentError,
 		setError: setTournamentError,
 		loading: tournamentLoading,
 		fetchData: tournamentFetch
-	} = useQuery();
+	} = useStartQuery();
 
 	const tournamentState: TournamentState = useSelector(
 		(state: AppState) => state.tournamentState

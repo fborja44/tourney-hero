@@ -1,3 +1,4 @@
+import { DocumentNode } from 'graphql';
 import React, { JSX } from 'react';
 
 export type Port = 'Red' | 'Blue' | 'Yellow' | 'Green' | 'None';
@@ -82,8 +83,8 @@ export interface Scene {
 	panel: React.ReactNode;
 }
 
-export interface Query {
-	query: string;
+export interface StartQuery {
+	query: DocumentNode;
 	variables?: object;
 	operation?: string;
 }

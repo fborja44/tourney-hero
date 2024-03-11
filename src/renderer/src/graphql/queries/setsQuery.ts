@@ -1,52 +1,55 @@
-import { Query } from '@common/interfaces/Types';
+import { gql } from '@apollo/client';
+import { StartQuery } from '@common/interfaces/Types';
 
-const MATCHES_QUERY = `
-	query MatchesQuery($tournamentSlug: String!, $eventSlug: String!, $page: Int, $perPage: Int, $entrantIds: [ID]) {
+const MATCHES_QUERY = gql`
+	query MatchesQuery(
+		$tournamentSlug: String!
+		$eventSlug: String!
+		$page: Int
+		$perPage: Int
+		$entrantIds: [ID]
+	) {
 		tournament(slug: $tournamentSlug) {
 			id
-			events (filter: {
-				slug: $eventSlug
-			}) {
+			events(filter: { slug: $eventSlug }) {
 				id
 				name
-				sets(page: $page 
+				sets(
+					page: $page
 					perPage: $perPage
 					sortType: MAGIC
-					filters: {
-						showByes: false
-						hideEmpty: true
-						entrantIds: $entrantIds
-					}) {
-						pageInfo {
-							totalPages
-						}
-						nodes {
+					filters: { showByes: false, hideEmpty: true, entrantIds: $entrantIds }
+				) {
+					pageInfo {
+						totalPages
+					}
+					nodes {
+						id
+
+						startAt
+						startedAt
+						completedAt
+
+						winnerId
+						state
+
+						stream {
 							id
+							streamName
+							enabled
+						}
 
-							startAt
-							startedAt
-							completedAt
-
-							winnerId
-							state
-
-							stream {
-								id
-								streamName
-								enabled
+						identifier
+						round
+						hasPlaceholder
+						fullRoundText
+						phaseGroup {
+							wave {
+								identifier
 							}
-
-							identifier
-							round
-							hasPlaceholder
-							fullRoundText
-							phaseGroup {
-								wave {
-									identifier
-								}
-								phase {
-									name
-								}
+							phase {
+								name
+							}
 							rounds {
 								bestOf
 							}
@@ -70,15 +73,15 @@ const MATCHES_QUERY = `
 										value
 									}
 								}
-						}
-						entrant {
-							id
+							}
+							entrant {
+								id
 								participants {
 									gamerTag
 									prefix
 									user {
 										genderPronoun
-										authorizations (types: [TWITTER]) {
+										authorizations(types: [TWITTER]) {
 											id
 											externalUsername
 											type
@@ -104,7 +107,7 @@ const matchesQuery = (
 	perPage: number = 10,
 	entrantIds: number[] = []
 	// stateFilters: number[] = [1, 2, 3]
-): Query => {
+): StartQuery => {
 	return {
 		query: MATCHES_QUERY,
 		variables: {

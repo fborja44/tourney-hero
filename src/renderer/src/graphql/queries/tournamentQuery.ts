@@ -1,14 +1,15 @@
-import { Query } from '@common/interfaces/Types';
+import { gql } from '@apollo/client';
+import { StartQuery } from '@common/interfaces/Types';
 
-const TOURNAMENT_QUERY = `
+const TOURNAMENT_QUERY = gql`
 	query TournamentQuery($tournamentSlug: String) {
 		tournament(slug: $tournamentSlug) {
-		id
-		name
-		images(type: "profile") {
-			url
-		}
-		events(limit: 12, filter: {videogameId: [1]}) {
+			id
+			name
+			images(type: "profile") {
+				url
+			}
+			events(limit: 12, filter: { videogameId: [1] }) {
 				id
 				name
 				slug
@@ -18,7 +19,7 @@ const TOURNAMENT_QUERY = `
 	}
 `;
 
-const tournamentQuery = (tournamentSlug: string): Query => {
+const tournamentQuery = (tournamentSlug: string): StartQuery => {
 	return {
 		query: TOURNAMENT_QUERY,
 		variables: {

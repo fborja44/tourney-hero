@@ -17,7 +17,7 @@ import Card from '../../card/Card';
 import { Send16Regular } from '@fluentui/react-icons';
 import { useState } from 'react';
 import { getTargetWins } from '../../../utils/tournament';
-import useQuery from '../../../hooks/useQuery';
+import useQuery from '../../../hooks/useStartQuery';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../../../redux/reducers/rootReducer';
 import reportSetDataMutation from '../../../graphql/mutations/reportSetMutation';
@@ -149,7 +149,7 @@ const MatchReportingDialog = ({ match, setOpen }: MatchReportingDialog) => {
 	const [score1, setScore1] = useState(player1.score ?? 0);
 	const [score2, setScore2] = useState(player2.score ?? 0);
 
-	const { error, setError, loading, fetchData: sendMutation } = useQuery();
+	const { error, setError, loading, sendMutation } = useQuery();
 
 	const target = getTargetWins(bestOf ?? undefined);
 
@@ -199,7 +199,7 @@ const MatchReportingDialog = ({ match, setOpen }: MatchReportingDialog) => {
 			)
 		);
 		console.log(result);
-		if (result.data) {
+		if (result && result.data) {
 			// Update matches and close dialog
 			dispatch(
 				updateMatch(match.id, {

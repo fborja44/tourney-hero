@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../redux/reducers/rootReducer';
-import useQuery from './useQuery';
+import useQuery from './useStartQuery';
 import { setEntrants, setEntrantsError, setEntrantsLoading } from '../redux/actions/tournamentActions';
 import eventEntrantsQuery from '../graphql/queries/eventEntrantsQuery';
 import { parseEventEntrant } from '../utils/tournament';

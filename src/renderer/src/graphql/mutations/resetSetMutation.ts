@@ -1,15 +1,16 @@
-import { Query } from '@common/interfaces/Types';
+import { gql } from '@apollo/client';
+import { StartQuery } from '@common/interfaces/Types';
 
-const RESET_STATE_MUTATION = `
-    mutation resetSet($setId: ID!) {
-        resetSet(setId: $setId) {
-            id
-            state
-        }
-    },
+const RESET_STATE_MUTATION = gql`
+	mutation resetSet($setId: ID!) {
+		resetSet(setId: $setId) {
+			id
+			state
+		}
+	}
 `;
 
-const resetSetMutation = (setId: number): Query => {
+const resetSetMutation = (setId: number): StartQuery => {
 	return {
 		query: RESET_STATE_MUTATION,
 		variables: {
