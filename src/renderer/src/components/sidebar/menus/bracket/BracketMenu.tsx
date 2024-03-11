@@ -6,7 +6,7 @@ import { useState } from 'react';
 import TournamentCard from '../tournament/TournamentCard';
 import Empty from '../../SidebarPlaceholder';
 import { AppState } from '../../../../redux/reducers/rootReducer';
-import useQuery from '../../../../hooks/useStartQuery';
+import useStartQuery from '../../../../hooks/useStartQuery';
 import top8Query from '../../../../graphql/queries/top8Query';
 import { parseTop8Sets } from '../../../../utils/tournament';
 import { updateBracket } from '../../../../redux/actions/dataActions';
@@ -36,7 +36,7 @@ const BracketMenu = () => {
 
 	const [refreshing, setRefreshing] = useState<boolean>(false);
 
-	const { fetchData } = useQuery();
+	const { fetchData } = useStartQuery();
 
 	/**
 	 * Fetches top 8 bracket data for an event
@@ -46,9 +46,15 @@ const BracketMenu = () => {
 			return;
 		}
 		setRefreshing(true);
-		const { data } = await fetchData(key, top8Query(tournamentSlug, eventSlug));
+		const response = await fetchData(key, top8Query(tournamentSlug, eventSlug));
+		if (!response || response.error) {
+			dispatchToast(<MessageToast title="Failed To Get Top 8 Matches" />, {
+				intent: 'error'
+			});
+			return [];
+		}
 		// Find sets in the data
-		const phases = data.tournament.events[0].phases;
+		const phases = response.data.tournament.events[0].phases;
 		if (!Array.isArray(phases)) {
 			console.error('Invalid phases array');
 		}
@@ -62,12 +68,12 @@ const BracketMenu = () => {
 				}
 			);
 			console.error("This tournament or event does not have a 'Top 8' phase.");
-		} else {
-			console.log(phase);
-			const parsedData = parseTop8Sets(phase[0].sets.nodes);
-			dispatch(updateBracket(parsedData));
 		}
+		const parsedData = parseTop8Sets(phase[0].sets.nodes);
+		dispatch(updateBracket(parsedData));
+
 		setRefreshing(false);
+		return parsedData;
 	};
 
 	return (

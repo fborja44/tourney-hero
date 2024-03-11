@@ -6,7 +6,7 @@ import client from '@renderer/graphql/client';
 /**
  * Start.gg API GraqphQL hook.
  */
-const useQuery = () => {
+const useStartQuery = () => {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const [data, setData] = useState<any>(null);
 	const [loading, setLoading] = useState<boolean>(false);
@@ -61,4 +61,4 @@ const useQuery = () => {
 	return { data, setData, loading, setLoading, error, setError, fetchData, sendMutation };
 };
 
-export default useQuery;
+export default useStartQuery;

@@ -110,7 +110,7 @@ const TournamentMenu = () => {
 			keyValue,
 			tournamentQuery(tournamentSlugValue)
 		);
-		if (!tournamentData.data?.tournament) {
+		if (!tournamentData || !tournamentData.data?.tournament) {
 			setTournamentError('Failed to get tournament');
 			return;
 		}

@@ -33,7 +33,7 @@ import {
 } from '@fluentui/react-icons';
 import MatchReportingDialog from '@renderer/components/dialogs/report/MatchReportingDialog';
 import { useState } from 'react';
-import useQuery from '../../../hooks/useStartQuery';
+import useStartQuery from '../../../hooks/useStartQuery';
 import { AppState } from '../../../redux/reducers/rootReducer';
 import markSetInProgressMutation from '../../../graphql/mutations/markSetInProgressMutation';
 import { updateMatch } from '../../../redux/actions/tournamentActions';
@@ -245,7 +245,7 @@ const MatchCard = ({ match, appearance }: MatchCardProps) => {
 		(state: AppState) => state.tournamentState
 	);
 
-	const { loading, sendMutation, setError } = useQuery();
+	const { loading, sendMutation, setError } = useStartQuery();
 
 	/**
 	 * Makes a set as in progress if it has not yet been started.

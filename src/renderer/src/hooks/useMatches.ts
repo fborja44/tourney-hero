@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import { AppState } from '../redux/reducers/rootReducer';
 import setsQuery from '../graphql/queries/setsQuery';
-import useQuery from './useStartQuery';
+import useStartQuery from './useStartQuery';
 import { parseMatch } from '../utils/tournament';
 import { Match } from '@common/interfaces/Types';
 import { useState } from 'react';
@@ -11,7 +11,7 @@ import { useState } from 'react';
  * Errors must be set manually.
  */
 const useSets = () => {
-	const { error, setError, fetchData } = useQuery();
+	const { error, setError, fetchData } = useStartQuery();
 
 	const [page, setPage] = useState(1);
 	const [filters, setFilters] = useState<number[]>([1, 2, 3]);
