@@ -36,7 +36,7 @@ const BracketFormSection = ({ title, bracketField, className }: BracketFormSecti
 	};
 
 	return (
-		<div className={mergeClasses(classes.formSection, classes.borderBottom, className)}>
+		<div className={mergeClasses(classes.formSection, className)}>
 			<Body1 className={classes.sectionTitle}>{title}</Body1>
 			<div className={classes.formRow}>
 				<TextField

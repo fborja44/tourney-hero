@@ -29,7 +29,15 @@ const FormStyles = makeStyles({
 		...shorthands.padding(tokens.spacingVerticalS, tokens.spacingHorizontalXL)
 	},
 	formSectionLeft: {
-		...shorthands.borderRight('1px', 'solid', tokens.colorNeutralStroke3)
+		...breakpoints.xl({
+			...shorthands.borderRight('1px', 'solid', tokens.colorNeutralStroke3)
+		}),
+		...breakpoints.lg({
+			...shorthands.borderBottom('1px', 'solid', tokens.colorNeutralStroke3)
+		}),
+		...breakpoints.md({
+			...shorthands.borderBottom('1px', 'solid', tokens.colorNeutralStroke3)
+		})
 	},
 	formRowSingle: {
 		display: 'flex',

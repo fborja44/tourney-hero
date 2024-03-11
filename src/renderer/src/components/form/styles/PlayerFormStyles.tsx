@@ -5,7 +5,9 @@ const playerFormStyles = makeStyles({
 	p1Section: {
 		backgroundImage:
 			'linear-gradient(180deg, rgba(63, 16, 17, 0.75) 0%, rgba(63, 16, 17, 0.00) 100%)',
-		...shorthands.borderRight('1px', 'solid', tokens.colorNeutralStroke3),
+		...breakpoints.xl({
+			...shorthands.borderRight('1px', 'solid', tokens.colorNeutralStroke3)
+		}),
 		...breakpoints.lg({
 			...shorthands.borderBottom('1px', 'solid', tokens.colorNeutralStroke3)
 		}),
