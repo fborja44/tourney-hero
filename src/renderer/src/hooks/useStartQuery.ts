@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { generateHeader } from '../utils/tournament';
+import { generateHeader } from '@utils/tournament';
 import { StartQuery } from '@common/interfaces/Types';
 import client from '@renderer/graphql/client';
 

@@ -14,8 +14,8 @@ import OBSMenu from './menus/OBSMenu';
 import SlippiMenu from './menus/SlippiMenu';
 import OverlaysMenu from './menus/OverlaysMenu';
 import { useSelector } from 'react-redux';
-import { TournamentState } from '../../redux/reducers/tournamentReducer';
-import { AppState } from '../../redux/reducers/rootReducer';
+import { TournamentState } from '@redux/reducers/tournamentReducer';
+import { AppState } from '@redux/reducers/rootReducer';
 import { useContext } from 'react';
 import { OBSWebSocketClientContext } from '../../obs-websocket/OBSWebsocketProvider';
 
@@ -74,7 +74,7 @@ const Actionbar = () => {
 				full
 				menu={<OverlaysMenu />}
 			>
-				Full House 2024 Tournament Overlay
+				Melee Tournament Overlay
 			</ActionButton>
 			<ActionButton
 				icon={<Trophy20Regular />}

@@ -3,20 +3,20 @@ import { useState } from 'react';
 import MenuTextField from '../../form/inputs/MenuTextField';
 import { shorthands, tokens, makeStyles, Button, Caption1 } from '@fluentui/react-components';
 import { useDispatch, useSelector } from 'react-redux';
-import { TournamentState } from '../../../redux/reducers/tournamentReducer';
+import { TournamentState } from '@redux/reducers/tournamentReducer';
 import {
 	setEventSlug,
 	setKey,
 	setSelectedEvent,
 	setTournamentFields
-} from '../../../redux/actions/tournamentActions';
-import tournamentQuery from '../../../graphql/queries/tournamentQuery';
+} from '@redux/actions/tournamentActions';
+import tournamentQuery from '@graphql/queries/tournamentQuery';
 import { Tournament, TournamentEvent } from '@common/interfaces/Types';
-import { updateGameplay } from '../../../redux/actions/dataActions';
-import { getEventSlug } from '../../../utils/string';
+import { updateGameplay } from '@redux/actions/dataActions';
+import { getEventSlug } from '@utils/string';
 import MenuSelectField from '../../form/inputs/MenuSelectField';
 import { AppState } from '@renderer/redux/reducers/rootReducer';
-import useStartQuery from '../../../hooks/useStartQuery';
+import useStartQuery from '@hooks/useStartQuery';
 
 const useStyles = makeStyles({
 	buttonsContainer: {

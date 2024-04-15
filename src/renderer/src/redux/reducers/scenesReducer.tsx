@@ -11,13 +11,13 @@ import {
 	// Camera20Regular,
 	DataBarVertical20Regular
 } from '@fluentui/react-icons';
+import { Scene } from '@common/interfaces/Types';
 import GameplayForm from '@renderer/components/form/GameplayForm';
 import CommentatorsForm from '@renderer/components/form/CommentatorsForm';
 import BracketForm from '@renderer/components/form/BracketForm';
-import { Scene } from '@common/interfaces/Types';
 import PlayerCardForm from '@renderer/components/form/PlayerCardForm';
-// import EmptyPanel from '@renderer/components/panel/EmptyPanel';
 import StatsForm from '@renderer/components/form/StatsForm';
+// import EmptyPanel from '@renderer/components/panel/EmptyPanel';
 
 export type ScenesState = Scene[];
 

@@ -1,15 +1,15 @@
 import { Button, makeStyles, tokens, useToastController } from '@fluentui/react-components';
 import { TrophyOff20Regular } from '@fluentui/react-icons';
 import { useDispatch, useSelector } from 'react-redux';
-import { TournamentState } from '../../../../redux/reducers/tournamentReducer';
+import { TournamentState } from '@redux/reducers/tournamentReducer';
 import { useState } from 'react';
 import TournamentCard from '../tournament/TournamentCard';
 import Empty from '../../SidebarPlaceholder';
-import { AppState } from '../../../../redux/reducers/rootReducer';
-import useStartQuery from '../../../../hooks/useStartQuery';
-import top8Query from '../../../../graphql/queries/top8Query';
-import { parseTop8Sets } from '../../../../utils/tournament';
-import { updateBracket } from '../../../../redux/actions/dataActions';
+import { AppState } from '@redux/reducers/rootReducer';
+import useStartQuery from '@hooks/useStartQuery';
+import top8Query from '@graphql/queries/top8Query';
+import { parseTop8Sets } from '@utils/tournament';
+import { updateBracket } from '@redux/actions/dataActions';
 import MessageToast from '../../../toasts/MessageToast';
 
 const useStyles = makeStyles({

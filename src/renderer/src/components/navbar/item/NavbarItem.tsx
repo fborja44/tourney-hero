@@ -2,7 +2,7 @@ import { Body1, makeStyles, mergeClasses, shorthands } from '@fluentui/react-com
 import { tokens } from '@fluentui/react-theme';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { AppState } from '../../../redux/reducers/rootReducer';
+import { AppState } from '@redux/reducers/rootReducer';
 import Pulse from '../../pulse/Pulse';
 
 interface NavbarItemProps {

@@ -4,8 +4,8 @@ import TextField from './inputs/TextField';
 import formStyles from './styles/FormStyles';
 import { CommentatorData } from '@common/interfaces/Data';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppState } from '../../redux/reducers/rootReducer';
-import { updateCommentators } from '../../redux/actions/dataActions';
+import { AppState } from '@redux/reducers/rootReducer';
+import { updateCommentators } from '@redux/actions/dataActions';
 import CheckboxField from './inputs/CheckboxField';
 import NumberField from './inputs/NumberField';
 import SelectField from './inputs/SelectField';
@@ -234,7 +234,7 @@ const CommentatorsForm = () => {
 						value={commentatorData.message}
 						targetField={'message'}
 						handleChange={handleCommentatorsChange}
-						placeholder="Welcome to Full House 2024!"
+						placeholder="Welcome!"
 						maxLength={MAX_MESSAGE_LENGTH}
 					/>
 				</div>

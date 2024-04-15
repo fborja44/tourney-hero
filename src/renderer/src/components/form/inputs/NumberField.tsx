@@ -7,7 +7,7 @@ import {
 	shorthands
 } from '@fluentui/react-components';
 import { tokens } from '@fluentui/react-theme';
-import { isInteger } from '../../../utils/string';
+import { isInteger } from '@utils/string';
 import { useState } from 'react';
 
 const useStyles = makeStyles({

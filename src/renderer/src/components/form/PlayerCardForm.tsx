@@ -3,9 +3,9 @@ import Panel from '../panel/Panel';
 import formStyles from './styles/FormStyles';
 import CheckboxField from './inputs/CheckboxField';
 import { useDispatch, useSelector } from 'react-redux';
-import { updatePlayerCard } from '../../redux/actions/dataActions';
+import { updatePlayerCard } from '@redux/actions/dataActions';
 import { PlayerCardData } from '@common/interfaces/Data';
-import { AppState } from '../../redux/reducers/rootReducer';
+import { AppState } from '@redux/reducers/rootReducer';
 import SelectField from './inputs/SelectField';
 
 const PlayerCardForm = () => {

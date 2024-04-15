@@ -1,6 +1,6 @@
 import { makeStyles, shorthands } from '@fluentui/react-components';
 import { tokens } from '@fluentui/react-theme';
-import breakpoints from '../../../utils/breakpoints';
+import breakpoints from '@utils/breakpoints';
 
 const FormStyles = makeStyles({
 	sectionTitle: {

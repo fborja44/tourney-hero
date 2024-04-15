@@ -1,7 +1,7 @@
 import { createContext, useState } from 'react';
 import OBSWebSocket from 'obs-websocket-js';
 import { useDispatch } from 'react-redux';
-import { setCurrentOBSScene, setOBSScenesList } from '../redux/actions/obsActions';
+import { setCurrentOBSScene, setOBSScenesList } from '@redux/actions/obsActions';
 import { useToastController } from '@fluentui/react-components';
 import MessageToast from '@renderer/components/toasts/MessageToast';
 

@@ -20,11 +20,11 @@ import {
 	setAutoSwitchPlayersToGame,
 	setRelayPort,
 	setSlippiConnected
-} from '../../../redux/actions/slippiActions';
-import { AppState } from '../../../redux/reducers/rootReducer';
+} from '@redux/actions/slippiActions';
+import { AppState } from '@redux/reducers/rootReducer';
 import MessageToast from '../../toasts/MessageToast';
 import MenuTextField from '../../form/inputs/MenuTextField';
-import { isInteger } from '../../../utils/string';
+import { isInteger } from '@utils/string';
 
 const useStyles = makeStyles({
 	container: {

@@ -9,9 +9,9 @@ import {
 } from '@fluentui/react-components';
 import { tokens } from '@fluentui/react-theme';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppState } from '../../../redux/reducers/rootReducer';
+import { AppState } from '@redux/reducers/rootReducer';
 import { Entrant } from '@common/interfaces/Types';
-import { updatePlayer } from '../../../redux/actions/dataActions';
+import { updatePlayer } from '@redux/actions/dataActions';
 import { PlayerData } from '@common/interfaces/Data';
 import { useEffect, useState } from 'react';
 

@@ -19,9 +19,9 @@ import {
 	tokens
 } from '@fluentui/react-components';
 import { Match, Entrant } from '@common/interfaces/Types';
-import { convertUnixTimestamp, getCurrentUnixTimestamp } from '../../../utils/date';
+import { convertUnixTimestamp, getCurrentUnixTimestamp } from '@utils/date';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateGameplay, updatePlayer } from '../../../redux/actions/dataActions';
+import { updateGameplay, updatePlayer } from '@redux/actions/dataActions';
 import Card from '@renderer/components/card/Card';
 import cardStyles from '../../card/styles/CardStyles';
 import {
@@ -33,12 +33,12 @@ import {
 } from '@fluentui/react-icons';
 import MatchReportingDialog from '@renderer/components/dialogs/report/MatchReportingDialog';
 import { useState } from 'react';
-import useStartQuery from '../../../hooks/useStartQuery';
-import { AppState } from '../../../redux/reducers/rootReducer';
-import markSetInProgressMutation from '../../../graphql/mutations/markSetInProgressMutation';
-import { updateMatch } from '../../../redux/actions/tournamentActions';
+import useStartQuery from '@hooks/useStartQuery';
+import { AppState } from '@redux/reducers/rootReducer';
+import markSetInProgressMutation from '@graphql/mutations/markSetInProgressMutation';
+import { updateMatch } from '@redux/actions/tournamentActions';
 import type { MenuButtonProps } from '@fluentui/react-components';
-import resetSetMutation from '../../../graphql/mutations/resetSetMutation';
+import resetSetMutation from '@graphql/mutations/resetSetMutation';
 
 const useStyles = makeStyles({
 	container: {

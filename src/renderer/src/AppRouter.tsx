@@ -1,17 +1,17 @@
 import { RouterProvider, createHashRouter } from 'react-router-dom';
 import EmptyPanel from './components/panel/EmptyPanel';
 import PageLayout from './pages/PageLayout';
-import { capitalize, toCamelCase } from './utils/string';
+import { capitalize, toCamelCase } from '@utils/string';
 import { OverlayData } from '@common/interfaces/Data';
 import SceneManagerPage from './pages/SceneManagerPage';
 import DashboardPage from './pages/DashboardPage';
 import Main from './components/main/Main';
 import { useSelector } from 'react-redux';
-import { AppState } from './redux/reducers/rootReducer';
+import { AppState } from '@redux/reducers/rootReducer';
 import SceneHeader from './pageheader/SceneHeader';
 import LocalDataPage from './pages/LocalDataPage';
 import SlippiMessageBar from './components/form/messages/SlippiMessageBar';
-import useSocket from './hooks/useSocket';
+import useSocket from '@hooks/useSocket';
 
 const AppRouter = () => {
 	const scenesState = useSelector((state: AppState) => state.scenesState);

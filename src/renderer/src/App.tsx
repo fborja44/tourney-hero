@@ -2,11 +2,11 @@ import { makeStyles, shorthands } from '@fluentui/react-components';
 import Actionbar from './components/actionbar/Actionbar';
 import Footer from './components/footer/Footer';
 import AppRouter from './AppRouter';
-import useGlobalMatches from './hooks/useGlobalMatches';
-import useEntrants from './hooks/useEntrants';
-import useSlippi from './hooks/useSlippi';
+import useGlobalMatches from '@hooks/useGlobalMatches';
+import useEntrants from '@hooks/useEntrants';
+import useSlippi from '@hooks/useSlippi';
 import { useEffect } from 'react';
-import { AppState } from './redux/reducers/rootReducer';
+import { AppState } from '@redux/reducers/rootReducer';
 import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles({

@@ -1,8 +1,8 @@
 import { useSelector } from 'react-redux';
-import { AppState } from '../redux/reducers/rootReducer';
-import setsQuery from '../graphql/queries/setsQuery';
+import { AppState } from '@redux/reducers/rootReducer';
+import setsQuery from '@graphql/queries/setsQuery';
 import useStartQuery from './useStartQuery';
-import { parseMatch } from '../utils/tournament';
+import { parseMatch } from '@utils/tournament';
 import { Match } from '@common/interfaces/Types';
 import { useState } from 'react';
 

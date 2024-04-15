@@ -1,12 +1,12 @@
 import { Caption1, Switch, makeStyles, tokens } from '@fluentui/react-components';
 import { TrophyOff20Regular } from '@fluentui/react-icons';
 import { useDispatch, useSelector } from 'react-redux';
-import { TournamentState } from '../../../../redux/reducers/tournamentReducer';
+import { TournamentState } from '@redux/reducers/tournamentReducer';
 import TournamentCard from '../tournament/TournamentCard';
 import Empty from '../../SidebarPlaceholder';
-import { AppState } from '../../../../redux/reducers/rootReducer';
-import { setAutoRefresh, setMatches } from '../../../../redux/actions/tournamentActions';
-import useMatch from '../../../../hooks/useMatches';
+import { AppState } from '@redux/reducers/rootReducer';
+import { setAutoRefresh, setMatches } from '@redux/actions/tournamentActions';
+import useMatch from '@hooks/useMatches';
 
 const useStyles = makeStyles({
 	container: {

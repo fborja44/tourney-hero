@@ -40,7 +40,7 @@ export const commentatorData: CommentatorData = {
 	commentator3: '',
 	social3: '',
 	showCommentators: true,
-	message: '🌲 Welcome to Full House 2024! 🌲',
+	message: 'Welcome!',
 	player1tag: '',
 	player2tag: '',
 	showMessage: true,

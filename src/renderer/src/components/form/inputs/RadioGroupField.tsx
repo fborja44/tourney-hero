@@ -7,7 +7,7 @@ import {
 	makeStyles
 } from '@fluentui/react-components';
 import { tokens } from '@fluentui/react-theme';
-import { capitalize } from '../../../utils/string';
+import { capitalize } from '@utils/string';
 
 const useStyles = makeStyles({
 	formField: {

@@ -3,10 +3,10 @@ import { Scene } from '@common/interfaces/Types';
 import Card from '../../card/Card';
 import cardStyles from '../../card/styles/CardStyles';
 import { useSelector } from 'react-redux';
-import { AppState } from '../../../redux/reducers/rootReducer';
+import { AppState } from '@redux/reducers/rootReducer';
 import ActiveIndicator from '../../pulse/ActiveIndicator';
 import SwitchSceneButton from '@renderer/pageheader/buttons/SwitchSceneButton';
-import { findScene } from '../../../utils/obs';
+import { findScene } from '@utils/obs';
 import { Warning16Regular } from '@fluentui/react-icons';
 
 const useStyles = makeStyles({

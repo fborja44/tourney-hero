@@ -11,7 +11,7 @@ import { ArrowSync16Regular } from '@fluentui/react-icons';
 import { tokens } from '@fluentui/react-theme';
 import { MouseEventHandler } from 'react';
 import { useSelector } from 'react-redux';
-import { AppState } from '../../../../redux/reducers/rootReducer';
+import { AppState } from '@redux/reducers/rootReducer';
 
 const useStyles = makeStyles({
 	tournamentContainer: {

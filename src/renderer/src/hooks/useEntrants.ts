@@ -1,13 +1,13 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { AppState } from '../redux/reducers/rootReducer';
+import { AppState } from '@redux/reducers/rootReducer';
 import useStartQuery from './useStartQuery';
 import {
 	setEntrants,
 	setEntrantsError,
 	setEntrantsLoading
-} from '../redux/actions/tournamentActions';
-import eventEntrantsQuery from '../graphql/queries/eventEntrantsQuery';
-import { parseEventEntrant } from '../utils/tournament';
+} from '@redux/actions/tournamentActions';
+import eventEntrantsQuery from '@graphql/queries/eventEntrantsQuery';
+import { parseEventEntrant } from '@utils/tournament';
 import { Entrant } from '@common/interfaces/Types';
 import { useEffect } from 'react';
 

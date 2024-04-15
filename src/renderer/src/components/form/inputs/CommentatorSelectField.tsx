@@ -9,7 +9,7 @@ import {
 } from '@fluentui/react-components';
 import { tokens } from '@fluentui/react-theme';
 import { useDispatch } from 'react-redux';
-import { updateCommentators } from '../../../redux/actions/dataActions';
+import { updateCommentators } from '@redux/actions/dataActions';
 import { CommentatorData, LocalCommentator } from '@common/interfaces/Data';
 
 const useStyles = makeStyles({

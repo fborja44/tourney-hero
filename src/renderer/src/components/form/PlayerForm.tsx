@@ -4,11 +4,11 @@ import formStyles from './styles/FormStyles';
 import RadioGroupField from './inputs/RadioGroupField';
 import { PlayerData } from '@common/interfaces/Data';
 import NumberField from './inputs/NumberField';
-import { updatePlayer } from '../../redux/actions/dataActions';
+import { updatePlayer } from '@redux/actions/dataActions';
 import { useDispatch, useSelector } from 'react-redux';
 import CharacterField from './inputs/CharacterField';
 import playerFormStyles from './styles/PlayerFormStyles';
-import { AppState } from '../../redux/reducers/rootReducer';
+import { AppState } from '@redux/reducers/rootReducer';
 import EntrantSelectField from './inputs/EntrantSelectField';
 import {
 	MAX_PRONOUN_LENGTH,

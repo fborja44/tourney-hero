@@ -12,7 +12,7 @@ import {
 import { tokens } from '@fluentui/react-theme';
 import CharacterIcon from '../../character/CharacterIcon';
 import { CHARACTERS } from '@common/constants/data';
-import { characterToString } from '../../../utils/string';
+import { characterToString } from '@utils/string';
 import { Character } from '@common/interfaces/Types';
 
 const useStyles = makeStyles({

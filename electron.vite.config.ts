@@ -13,7 +13,11 @@ export default defineConfig({
 		resolve: {
 			alias: {
 				'@renderer': resolve('src/renderer/src'),
-				'@common': resolve('src/common')
+				'@common': resolve('src/common'),
+				'@redux': resolve('src/renderer/src/redux'),
+				'@hooks': resolve('src/renderer/src/hooks'),
+				'@utils': resolve('src/renderer/src/utils'),
+				'@graphql': resolve('src/renderer/src/graphql')
 			}
 		},
 		plugins: [react()]
