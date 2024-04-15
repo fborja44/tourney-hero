@@ -33,7 +33,7 @@ const OBSMenu = () => {
 
 	const [address, setAddress] = useState(currentAddress);
 	const [port, setPort] = useState(currentPort);
-	const [password, setPassword] = useState('');
+	const [password, setPassword] = useState(import.meta.env.VITE_OBS_WEBSOCKET_PASSWORD || '');
 
 	const handleConnect = async () => {
 		if (connect) {
