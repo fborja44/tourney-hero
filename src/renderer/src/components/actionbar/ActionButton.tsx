@@ -21,7 +21,7 @@ const useStyles = makeStyles({
 		...shorthands.borderRadius(0),
 		...shorthands.borderRight('1px', 'solid', tokens.colorNeutralStroke3),
 		':hover': {
-			backgroundColor: tokens.colorNeutralBackground4Hover,
+			backgroundColor: tokens.colorNeutralBackground4Selected,
 			...shorthands.borderRight('1px', 'solid', tokens.colorNeutralStroke3)
 		},
 		':hover svg': {
