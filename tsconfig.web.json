@@ -1,23 +1,23 @@
 {
-  "extends": "@electron-toolkit/tsconfig/tsconfig.web.json",
-  "include": [
-    "src/renderer/src/env.d.ts",
-    "src/renderer/src/**/*",
-    "src/renderer/src/**/*.tsx",
-    "src/preload/*.d.ts", 
-    "src/common/**/*"  
-  ],
-  "compilerOptions": {
-    "composite": true,
-    "jsx": "react-jsx",
-    "baseUrl": ".",
-    "paths": {
-      "@renderer/*": [
-        "src/renderer/src/*"
-      ],
-      "@common/*": [
-        "src/common/*"
-      ]
-    }
-  }
+	"extends": "@electron-toolkit/tsconfig/tsconfig.web.json",
+	"include": [
+		"src/renderer/src/env.d.ts",
+		"src/renderer/src/**/*",
+		"src/renderer/src/**/*.tsx",
+		"src/preload/*.d.ts",
+		"src/common/**/*"
+	],
+	"compilerOptions": {
+		"composite": true,
+		"jsx": "react-jsx",
+		"baseUrl": ".",
+		"paths": {
+			"@renderer/*": ["src/renderer/src/*"],
+			"@common/*": ["src/common/*"],
+			"@redux/*": ["src/renderer/src/redux/*"],
+			"@hooks/*": ["src/renderer/src/hooks/*"],
+      "@utils/*": ["src/renderer/src/utils/*"],
+      "@graphql/*": ["src/renderer/src/graphql/*"]
+		}
+	}
 }
