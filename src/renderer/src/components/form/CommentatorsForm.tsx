@@ -196,15 +196,11 @@ const CommentatorsForm = () => {
 							'Swiss Pools',
 							'Final Bracket',
 							'Melee Doubles',
-							'Sunday Top 8',
 							'Crew Battle',
 							'Money Match',
 							'Grudge Match',
 							'Side Event',
-							'Friendlies',
-							'Tier Tower',
-							'Poker Game',
-							'Watch Party'
+							'Friendlies'
 						]}
 					/>
 					<span className={classes.gap} />
@@ -273,22 +269,6 @@ const CommentatorsForm = () => {
 							handleCommentatorsChange(targetField, value);
 						}}
 					/>
-					{/* <span className={classes.gap} />
-					<TextField
-						label='Player 1 Tag'
-						value={commentatorData.player1tag}
-						targetField={'player1tag'}
-						handleChange={handleCommentatorsChange}
-						placeholder='Player 1'
-					/>
-					<span className={classes.gap} />
-					<TextField
-						label='Player 2 Tag'
-						value={commentatorData.player2tag}
-						targetField={'player2tag'}
-						handleChange={handleCommentatorsChange}
-						placeholder='Player 2'
-					/> */}
 				</div>
 			</div>
 		</Panel>

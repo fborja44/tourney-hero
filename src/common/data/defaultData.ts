@@ -79,5 +79,5 @@ export const bracketData: BracketData = {
 
 export const playerCardData: PlayerCardData = {
 	showPhoto: true,
-	playerTag: 'beta'
+	playerTag: 'Player 1'
 };

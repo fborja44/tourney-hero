@@ -9,10 +9,9 @@ const { SlpLiveStream, SlpRealTime } = require('@vinceau/slp-realtime');
  */
 export const handleConnectToSlippi = async (ev: Electron.IpcMainInvokeEvent, data: string) => {
 	const ADDRESS = '127.0.0.1'; // leave as is for Dolphin or change to "localhost" for a relay on the same computer
-	const PORT = JSON.parse(data);
 	// const PORT = Ports.DEFAULT; // options are DEFAULT, RELAY_START, and LEGACY
+	const PORT = JSON.parse(data);
 
-	// TODO: Port input
 	// Connect to the Slippi livestream
 	try {
 		const connectionType = 'dolphin';

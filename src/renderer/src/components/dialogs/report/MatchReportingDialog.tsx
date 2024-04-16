@@ -181,7 +181,7 @@ const MatchReportingDialog = ({ match, setOpen }: MatchReportingDialog) => {
 		const winnerId = score1 > score2 ? player1.id : player2.id;
 		const loserId = score1 < score2 ? player1.id : player2.id;
 
-		// TODO: Report game data
+		// TODO: Report individual game data
 
 		// TODO: success vs error
 		const result = await sendMutation(

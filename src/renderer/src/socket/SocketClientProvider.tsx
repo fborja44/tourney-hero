@@ -95,7 +95,6 @@ const SocketClientProvider = ({ children }: SocketClientProviderProps) => {
 			// Custom server events
 			socket.on('updateState', (data: OverlayData) => {
 				console.log('Recieved new server data: ', data);
-				// TODO: Update app state
 				// FIRST: Validate data
 				const result = JoiOverlayData.validate(data);
 				if (result.error) {

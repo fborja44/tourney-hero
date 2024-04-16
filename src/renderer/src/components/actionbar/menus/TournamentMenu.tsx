@@ -60,7 +60,9 @@ const TournamentMenu = () => {
 	const tournamentState: TournamentState = useSelector(
 		(state: AppState) => state.tournamentState
 	);
-	const [keyValue, setKeyValue] = useState(tournamentState.key || '');
+	const [keyValue, setKeyValue] = useState(
+		tournamentState.key || import.meta.env.VITE_START_GG_KEY || ''
+	);
 	const [tournamentSlugValue, setTournamentSlugValue] = useState(
 		tournamentState.tournamentSlug || ''
 	);
@@ -192,6 +194,7 @@ const TournamentMenu = () => {
 					}}
 					validationState={keyValidation}
 					validationMessage={keyMessage}
+					disabled={tournamentState.validated}
 				/>
 				<div className={classes.buttonsContainer}>
 					<Button

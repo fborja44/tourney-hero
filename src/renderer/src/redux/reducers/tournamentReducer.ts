@@ -39,7 +39,7 @@ export interface TournamentState {
 }
 
 const initialState: TournamentState = {
-	key: import.meta.env.VITE_START_GG_KEY ?? undefined,
+	key: undefined,
 	validated: false,
 	tournamentSlug: '',
 	eventSlug: '',
