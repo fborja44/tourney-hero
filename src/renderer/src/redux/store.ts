@@ -6,10 +6,15 @@ const store = configureStore({
 	reducer: rootReducer,
 	devTools: true,
 	middleware: (getDefaultMiddleware) =>
-		getDefaultMiddleware({
-			immutableCheck: false,
-			serializableCheck: false
-		}).concat(logger) // TODO: Logger only on dev,
+		import.meta.env.DEV
+			? getDefaultMiddleware({
+					immutableCheck: false,
+					serializableCheck: false
+				}).concat(logger) // Logger only on DEV mode
+			: getDefaultMiddleware({
+					immutableCheck: false,
+					serializableCheck: false
+				})
 });
 
 export default store;
