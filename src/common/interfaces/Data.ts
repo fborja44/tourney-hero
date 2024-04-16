@@ -17,6 +17,8 @@ export interface GameplayData {
 	roundName: string;
 	bracketName: string;
 	eventName: string;
+	showCommentators: boolean;
+	infoMsg: string;
 	player1: PlayerData;
 	player2: PlayerData;
 	showPlayerCamInfo: boolean;

@@ -41,6 +41,8 @@ const JoiGameplay = Joi.object({
 	roundName: JoiString(MAX_BRACKET_DATA_LENGTH).required(),
 	bracketName: JoiString(MAX_BRACKET_DATA_LENGTH).required(),
 	eventName: JoiString(MAX_BRACKET_DATA_LENGTH).required(),
+	infoMsg: JoiString(MAX_BRACKET_DATA_LENGTH).required(),
+	showCommentators: Joi.boolean().required(),
 	player1: JoiPlayer.required(),
 	player2: JoiPlayer.required(),
 	showPlayerCamInfo: Joi.boolean().required()

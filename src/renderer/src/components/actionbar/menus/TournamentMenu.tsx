@@ -136,6 +136,11 @@ const TournamentMenu = () => {
 		handleEventChange(events.length > 0 ? events[0] : undefined);
 
 		dispatch(setTournamentFields(tournamentSlugValue, tournament));
+		dispatch(
+			updateGameplay({
+				infoMsg: `start.gg/${tournamentSlugValue}`
+			})
+		);
 	};
 
 	const handleEventChange = (event: TournamentEvent | undefined) => {

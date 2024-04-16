@@ -11,6 +11,8 @@ export const gameplayData: GameplayData = {
 	roundName: 'Winners Round 1',
 	bracketName: 'Main Bracket',
 	eventName: 'Melee Singles',
+	infoMsg: 'start.gg/short-slug',
+	showCommentators: false,
 	player1: {
 		tag: 'Player 1',
 		tagDisplaySize: 32,

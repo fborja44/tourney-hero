@@ -9,14 +9,23 @@ import { GameplayData } from '@common/interfaces/Data';
 import { AppState } from '@redux/reducers/rootReducer';
 import { ArrowSwapRegular } from '@fluentui/react-icons';
 import { MAX_BRACKET_DATA_LENGTH } from '@common/constants/limits';
+import CheckboxField from './inputs/CheckboxField';
 // import CheckboxField from './inputs/CheckboxField';
 
 const GameplayForm = () => {
 	const classes = formStyles();
 	const dispatch = useDispatch();
 
-	const { player1, player2, matchType, roundName, bracketName, eventName }: GameplayData =
-		useSelector((state: AppState) => state.dataState.gameplay);
+	const {
+		player1,
+		player2,
+		matchType,
+		roundName,
+		bracketName,
+		eventName,
+		infoMsg,
+		showCommentators
+	}: GameplayData = useSelector((state: AppState) => state.dataState.gameplay);
 
 	/**
 	 * On change handler. Updates the the target field in gameplay redux state.
@@ -84,12 +93,30 @@ const GameplayForm = () => {
 						maxLength={MAX_BRACKET_DATA_LENGTH}
 					/>
 					<span className={classes.gap} />
+				</div>
+				<div className={classes.formRow}>
+					<CheckboxField
+						label="Show Comms."
+						checked={showCommentators}
+						targetField={'showCommentators'}
+						handleChange={handleGameplayChange}
+					/>
+					<span className={classes.gap} />
 					<TextField
 						label="Event Name"
 						value={eventName}
 						targetField={'eventName'}
 						handleChange={handleGameplayChange}
 						placeholder="Melee Singles"
+						maxLength={MAX_BRACKET_DATA_LENGTH}
+					/>
+					<span className={classes.gap} />
+					<TextField
+						label="Info Message"
+						value={infoMsg}
+						targetField={'infoMsg'}
+						handleChange={handleGameplayChange}
+						placeholder="start.gg/short-slug"
 						maxLength={MAX_BRACKET_DATA_LENGTH}
 					/>
 				</div>
