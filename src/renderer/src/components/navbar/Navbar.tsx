@@ -67,7 +67,7 @@ const Navbar = () => {
 
 	const { socket, connected } = useContext(SocketClientContext);
 
-	const [selectedTab, setSelectedTab] = useState('/');
+	const [selectedTab, setSelectedTab] = useState('/gameplay');
 
 	/**
 	 * Scenes State
@@ -83,7 +83,7 @@ const Navbar = () => {
 					<NavbarItem
 						icon={<Apps20Regular />}
 						label="Match Dashboard"
-						to="/"
+						to="/dashboard"
 						selectedTab={selectedTab}
 						setSelectedTab={setSelectedTab}
 					/>

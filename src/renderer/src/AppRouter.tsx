@@ -1,4 +1,4 @@
-import { RouterProvider, createHashRouter } from 'react-router-dom';
+import { Navigate, RouterProvider, createHashRouter } from 'react-router-dom';
 import EmptyPanel from './components/panel/EmptyPanel';
 import PageLayout from './pages/PageLayout';
 import { capitalize, toCamelCase } from '@utils/string';
@@ -25,8 +25,9 @@ const AppRouter = () => {
 			path: '/',
 			element: <Main />,
 			children: [
+				{ path: '/', element: <Navigate to="/gameplay" replace={true} /> },
 				{
-					path: '',
+					path: '/dashboard',
 					element: <DashboardPage />
 				},
 				{
