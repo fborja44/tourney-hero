@@ -5,15 +5,14 @@ import {
 	makeStyles,
 	shorthands,
 	ComboboxProps,
-	Option
+	Option,
+	SelectionEvents,
+	OptionOnSelectData
 } from '@fluentui/react-components';
 import { tokens } from '@fluentui/react-theme';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { AppState } from '@redux/reducers/rootReducer';
 import { Entrant } from '@common/interfaces/Types';
-import { updatePlayer } from '@redux/actions/dataActions';
-import { PlayerData } from '@common/interfaces/Data';
-import { useEffect, useState } from 'react';
 
 const useStyles = makeStyles({
 	formField: {
@@ -50,7 +49,8 @@ const useStyles = makeStyles({
 type FluentFieldProps = FieldProps & ComboboxProps;
 
 interface EntrantSelectFieldProps extends FluentFieldProps {
-	playerNumber: '1' | '2';
+	playerNumber?: '1' | '2';
+	onOptionSelect: (event: SelectionEvents, data: OptionOnSelectData) => void;
 }
 
 const EntrantSelectField = ({
@@ -60,24 +60,13 @@ const EntrantSelectField = ({
 	value,
 	defaultValue,
 	playerNumber,
-	maxLength
+	maxLength,
+	onOptionSelect,
+	onChange
 }: EntrantSelectFieldProps) => {
 	const classes = useStyles();
-	const dispatch = useDispatch();
 
 	const { entrantList } = useSelector((state: AppState) => state.tournamentState.entrants);
-	const [playersList, setPlayersList] = useState<PlayerData[]>([]);
-
-	const getPlayersList = async () => {
-		const result = await window.api.getPlayers();
-		console.log(result);
-		setPlayersList(result);
-		return result;
-	};
-
-	useEffect(() => {
-		getPlayersList();
-	}, []);
 
 	return (
 		<Field label={label} className={classes.formField} size={size}>
@@ -87,31 +76,14 @@ const EntrantSelectField = ({
 				placeholder={placeholder}
 				value={value}
 				freeform
-				onOptionSelect={(_ev, data) => {
-					const player = entrantList.find(
-						(entrant) => entrant.id.toString() === data.optionValue
-					);
-					const localPlayer = playersList.find(
-						(player) => player.tag === data.optionText
-					);
-
-					const playerData: Partial<PlayerData> = {
-						tag: localPlayer?.tag ?? player?.tag ?? '',
-						team: localPlayer?.team ?? player?.team ?? '',
-						pronoun: localPlayer?.pronoun ?? player?.pronoun ?? '',
-						character: localPlayer?.character ?? player?.character ?? 'Default'
-					};
-					dispatch(updatePlayer(`player${playerNumber}`, playerData));
-				}}
-				onChange={(event) => {
-					dispatch(updatePlayer(`player${playerNumber}`, { tag: event.target.value }));
-				}}
+				onOptionSelect={onOptionSelect}
+				onChange={onChange}
 				defaultValue={defaultValue}
 				maxLength={maxLength}
 			>
 				{entrantList.map((entrant: Entrant, i: number) => (
 					<Option
-						key={`${entrant.tag}-${i}-${playerNumber}`}
+						key={`${entrant.tag}-${i}-${playerNumber ?? '0'}`}
 						text={entrant.tag}
 						value={entrant.id.toString()}
 					>

@@ -46,7 +46,7 @@ type FluentFieldProps = FieldProps & DropdownProps;
 interface CharacterFieldProps extends FluentFieldProps {
 	targetField: string;
 	handleChange: (targetField: string, value: Character) => void;
-	playerNumber: string;
+	playerNumber?: string;
 }
 
 const CharacterField = ({

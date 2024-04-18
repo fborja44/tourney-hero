@@ -1,4 +1,4 @@
-import { Body1 } from '@fluentui/react-components';
+import { Body1, mergeClasses } from '@fluentui/react-components';
 import Panel from '../panel/Panel';
 import TextField from './inputs/TextField';
 import formStyles from './styles/FormStyles';
@@ -57,7 +57,7 @@ const CommentatorsForm = () => {
 
 	return (
 		<Panel>
-			<div className={`${classes.formSection} ${classes.borderBottom}`}>
+			<div className={mergeClasses(classes.formSection, classes.borderBottom)}>
 				<Body1 className={classes.sectionTitle}>Commentators</Body1>
 				<div className={classes.formRow}>
 					<CheckboxField

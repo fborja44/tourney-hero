@@ -17,6 +17,7 @@ import {
 	MAX_TEAM_LENGTH
 } from '@common/constants/limits';
 import { Port } from '@common/interfaces/Types';
+import { useEffect, useState } from 'react';
 
 interface PlayerFormProps {
 	playerNumber: '1' | '2';
@@ -61,7 +62,37 @@ const PlayerForm = ({ playerNumber, playerData }: PlayerFormProps) => {
 		}
 	};
 
+	const [playersList, setPlayersList] = useState<PlayerData[]>([]);
+
+	const getPlayersList = async () => {
+		const result = await window.api.getPlayers();
+		console.log(result);
+		setPlayersList(result);
+		return result;
+	};
+
+	useEffect(() => {
+		getPlayersList();
+	}, []);
+
 	const { entrantList } = useSelector((state: AppState) => state.tournamentState.entrants);
+
+	const handleEntrantSelect = (_ev, data) => {
+		const player = entrantList.find((entrant) => entrant.id.toString() === data.optionValue);
+		const localPlayer = playersList.find((player) => player.tag === data.optionText);
+
+		const playerData: Partial<PlayerData> = {
+			tag: localPlayer?.tag ?? player?.tag ?? '',
+			team: localPlayer?.team ?? player?.team ?? '',
+			pronoun: localPlayer?.pronoun ?? player?.pronoun ?? '',
+			character: localPlayer?.character ?? player?.character ?? 'Default'
+		};
+		dispatch(updatePlayer(`player${playerNumber}`, playerData));
+	};
+
+	const handleTagChange = (event) => {
+		dispatch(updatePlayer(`player${playerNumber}`, { tag: event.target.value }));
+	};
 
 	return (
 		<div
@@ -85,7 +116,8 @@ const PlayerForm = ({ playerNumber, playerData }: PlayerFormProps) => {
 				) : (
 					<EntrantSelectField
 						label="Entrant Selector / Tag"
-						playerNumber={playerNumber}
+						onOptionSelect={handleEntrantSelect}
+						onChange={handleTagChange}
 						value={playerData.tag}
 						placeholder={`Player ${playerNumber}`}
 						maxLength={MAX_TAG_LENGTH}
