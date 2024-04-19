@@ -96,14 +96,14 @@ export interface EntrantPlayerData {
 	team: string;
 	tag: string;
 	pronoun: string;
+	country: string;
+	state: string;
 	twitter: string;
 	twitch: string;
 	character: Character;
 	seed: number;
 	matches: PlayerCardMatch[];
 	placements: PlayerCardPlacement[];
-	country: string;
-	state: string;
 }
 
 export interface Scene {
