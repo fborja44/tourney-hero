@@ -1,5 +1,5 @@
 import { UUID } from 'crypto';
-import { Character, Port } from './Types';
+import { Character, EntrantPlayerData, Port } from './Types';
 
 export type Data = GameplayData | CommentatorData | BracketData | PlayerCardData;
 
@@ -90,8 +90,8 @@ export interface BracketData {
 }
 
 export interface PlayerCardData {
-	showPhoto: boolean;
-	playerTag: string;
+	showTeamLogo: boolean;
+	player: EntrantPlayerData;
 }
 
 export interface LocalCommentator {

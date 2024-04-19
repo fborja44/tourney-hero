@@ -29,6 +29,8 @@ const PlayerForm = ({ playerNumber, playerData }: PlayerFormProps) => {
 	const playerClasses = playerFormStyles();
 	const dispatch = useDispatch();
 
+	const { entrantList } = useSelector((state: AppState) => state.tournamentState.entrants);
+
 	/**
 	 * On change handler. Updates the the target field in gameplay redux state.
 	 * @param targetField
@@ -62,6 +64,7 @@ const PlayerForm = ({ playerNumber, playerData }: PlayerFormProps) => {
 		}
 	};
 
+	// TODO: put in hook
 	const [playersList, setPlayersList] = useState<PlayerData[]>([]);
 
 	const getPlayersList = async () => {
@@ -74,8 +77,6 @@ const PlayerForm = ({ playerNumber, playerData }: PlayerFormProps) => {
 	useEffect(() => {
 		getPlayersList();
 	}, []);
-
-	const { entrantList } = useSelector((state: AppState) => state.tournamentState.entrants);
 
 	const handleEntrantSelect = (_ev, data) => {
 		const player = entrantList.find((entrant) => entrant.id.toString() === data.optionValue);

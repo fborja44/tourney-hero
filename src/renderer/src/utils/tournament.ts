@@ -1,6 +1,12 @@
 import { bracketData } from '@common/data/defaultData';
 import { BracketData, BracketMatch } from '@common/interfaces/Data';
-import { Match, Entrant } from '@common/interfaces/Types';
+import {
+	Match,
+	Entrant,
+	EntrantPlayerData,
+	PlayerCardMatch,
+	PlayerCardPlacement
+} from '@common/interfaces/Types';
 
 /**
  * Generates the authorization header for an API call.
@@ -272,7 +278,7 @@ export const parseEventEntrant = async (node: any): Promise<Entrant> => {
 	// Set team to undefined beforehand to allow for local data
 	const prefix = !participant.prefix ? undefined : participant.prefix;
 
-	// Check for local data
+	// TODO: Check for local data
 	// const localPlayerData = await getLocalPlayerData(participant.gamerTag);
 
 	const player: Entrant = {
@@ -282,6 +288,62 @@ export const parseEventEntrant = async (node: any): Promise<Entrant> => {
 		pronoun: user?.genderPronoun ?? '',
 		imageUrl: user?.images[0]?.url ?? '',
 		character: 'Default'
+	};
+	return player;
+};
+
+/**
+ * Converts an event entrant node to a entrant player card data object
+ * @param node Entrant node data
+ * @returns Entrant player data object
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const parseEventEntrantPlayerData = async (entrant: any): Promise<EntrantPlayerData> => {
+	const participants = entrant?.participants;
+	const participant = participants ? participants[0] : null;
+	const user = participant?.user;
+
+	// Set team to undefined beforehand to allow for local data
+	const prefix = !participant.prefix ? undefined : participant.prefix;
+
+	// TODO: Check for local data
+	// const localPlayerData = await getLocalPlayerData(participant.gamerTag);
+
+	const matches: PlayerCardMatch[] = entrant.paginatedSets.nodes.map((match) => ({
+		player1Tag: match.slots[0].entrant?.name ?? '',
+		player1Score: match.slots[0].standing?.stats?.score?.value || 0,
+		player2Tag: match.slots[1].entrant?.name ?? '',
+		player2Score: match.slots[0].standing?.stats?.score?.value || 0,
+		roundName: match.fullRoundText
+	}));
+
+	let placements: PlayerCardPlacement[] = [];
+	if (user) {
+		placements = user.tournaments.nodes.map((tournament) => ({
+			placement: 5,
+			iconSrc: tournament.images ? tournament.images[0]?.url ?? '' : '',
+			name: tournament.name
+		}));
+	}
+
+	const twitter =
+		user.authorizations?.find((social) => social.type === 'TWITTER')?.externalUsername || '';
+	const twitch =
+		user.authorizations?.find((social) => social.type === 'TWITCH')?.externalUsername || '';
+
+	const player: EntrantPlayerData = {
+		id: entrant.id,
+		tag: participant.gamerTag ?? '',
+		team: prefix ?? '',
+		pronoun: user?.genderPronoun ?? '',
+		character: 'Default',
+		twitter: twitter,
+		twitch: twitch,
+		seed: entrant.initialSeedNum ?? 0,
+		matches: matches,
+		placements: placements,
+		country: user?.location.country ?? '',
+		state: user?.location.state ?? ''
 	};
 	return player;
 };

@@ -77,6 +77,35 @@ export interface Entrant {
 	isWinner?: boolean;
 }
 
+export interface PlayerCardMatch {
+	player1Tag: string;
+	player1Score: number;
+	player2Tag: string;
+	player2Score: number;
+	roundName: string;
+}
+
+export interface PlayerCardPlacement {
+	placement: number;
+	iconSrc: string;
+	name: string;
+}
+
+export interface EntrantPlayerData {
+	id: number;
+	team: string;
+	tag: string;
+	pronoun: string;
+	twitter: string;
+	twitch: string;
+	character: Character;
+	seed: number;
+	matches: PlayerCardMatch[];
+	placements: PlayerCardPlacement[];
+	country: string;
+	state: string;
+}
+
 export interface Scene {
 	title: string;
 	icon: React.ReactNode | JSX.Element;

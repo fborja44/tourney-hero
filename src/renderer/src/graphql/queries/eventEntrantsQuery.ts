@@ -18,6 +18,7 @@ const EVENT_ENTRANTS_QUERY = gql`
 							gamerTag
 							prefix
 							user {
+								id
 								genderPronoun
 								authorizations(types: [TWITTER]) {
 									id
