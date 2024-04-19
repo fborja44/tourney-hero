@@ -105,6 +105,9 @@ const Sidebar = () => {
 								icon={<EmojiSad24Regular />}
 							/>
 						}
+						onError={(error) => {
+							console.error(error);
+						}}
 					>
 						{selectedTab === 'preview' && <PreviewMenu />}
 						{selectedTab === 'matches' && (

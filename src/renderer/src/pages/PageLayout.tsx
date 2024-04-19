@@ -13,6 +13,9 @@ const PageLayout = ({ header, children }: PageLayoutProps) => {
 			{header}
 			<ErrorBoundary
 				fallback={<EmptyPanel text="An error has occurred" icon={<EmojiSad20Regular />} />}
+				onError={(error) => {
+					console.error(error);
+				}}
 			>
 				{children}
 			</ErrorBoundary>

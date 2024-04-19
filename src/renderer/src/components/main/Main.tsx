@@ -26,7 +26,12 @@ const Main = () => {
 	return (
 		<div className={classes.mainContainer}>
 			<Navbar />
-			<ErrorBoundary fallback={<EmptyPanel text={'An error has occurred'} />}>
+			<ErrorBoundary
+				fallback={<EmptyPanel text={'An error has occurred'} />}
+				onError={(error) => {
+					console.error(error);
+				}}
+			>
 				<main className={classes.main}>
 					<Outlet />
 				</main>

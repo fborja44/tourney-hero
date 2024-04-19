@@ -44,7 +44,6 @@ const CommentatorsForm = () => {
 
 	const getCommentatorsList = async () => {
 		const result = await window.api.getCommentators();
-		console.log(result);
 		setCommentatorList(result);
 		return result;
 	};
