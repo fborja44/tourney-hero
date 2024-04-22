@@ -7,7 +7,7 @@ const EVENT_ENTRANT_DATA_QUERY = gql`
 			id
 			initialSeedNum
 			name
-			paginatedSets(page: 1, perPage: 5, filters: { hideEmpty: true, state: [3] }) {
+			paginatedSets(page: 1, perPage: 4, filters: { hideEmpty: true, state: [3] }) {
 				nodes {
 					id
 					fullRoundText
@@ -17,6 +17,9 @@ const EVENT_ENTRANT_DATA_QUERY = gql`
 					winnerId
 					slots {
 						id
+						entrant {
+							name
+						}
 						standing {
 							placement
 							stats {
@@ -41,10 +44,16 @@ const EVENT_ENTRANT_DATA_QUERY = gql`
 						}
 						type
 					}
-					tournaments(query: { page: 1, perPage: 5, filter: { past: true } }) {
+					tournaments(
+						query: { page: 1, perPage: 4, filter: { past: true, videogameId: [1] } }
+					) {
 						nodes {
 							id
 							name
+							images(type: "profile") {
+								url
+								ratio
+							}
 						}
 					}
 					location {

@@ -1,12 +1,7 @@
 import { bracketData } from '@common/data/defaultData';
-import { BracketData, BracketMatch } from '@common/interfaces/Data';
-import {
-	Match,
-	Entrant,
-	EntrantPlayerData,
-	PlayerCardMatch,
-	PlayerCardPlacement
-} from '@common/interfaces/Types';
+import { BracketData, BracketMatch, PlayerCardData } from '@common/interfaces/Data';
+import { Match, Entrant, PlayerCardMatch, PlayerCardPlacement } from '@common/interfaces/Types';
+import { trimNamePrefix } from './string';
 
 /**
  * Generates the authorization header for an API call.
@@ -297,8 +292,10 @@ export const parseEventEntrant = async (node: any): Promise<Entrant> => {
  * @param node Entrant node data
  * @returns Entrant player data object
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const parseEventEntrantPlayerData = async (entrant: any): Promise<EntrantPlayerData> => {
+export const parseEventEntrantPlayerData = async (
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	entrant: any
+): Promise<Partial<PlayerCardData>> => {
 	const participants = entrant?.participants;
 	const participant = participants ? participants[0] : null;
 	const user = participant?.user;
@@ -309,16 +306,19 @@ export const parseEventEntrantPlayerData = async (entrant: any): Promise<Entrant
 	// TODO: Check for local data
 	// const localPlayerData = await getLocalPlayerData(participant.gamerTag);
 
+	// Parse match data
 	const matches: PlayerCardMatch[] = entrant.paginatedSets.nodes.map((match) => ({
-		player1Tag: match.slots[0].entrant?.name ?? '',
+		player1Tag: trimNamePrefix(match.slots[0].entrant?.name) ?? 'Unknown',
 		player1Score: match.slots[0].standing?.stats?.score?.value || 0,
-		player2Tag: match.slots[1].entrant?.name ?? '',
+		player2Tag: trimNamePrefix(match.slots[1].entrant?.name) ?? 'Unknown',
 		player2Score: match.slots[0].standing?.stats?.score?.value || 0,
 		roundName: match.fullRoundText
 	}));
 
+	// Parse placement data
 	let placements: PlayerCardPlacement[] = [];
 	if (user) {
+		console.log(user.tournaments);
 		placements = user.tournaments.nodes.map((tournament) => ({
 			placement: 5,
 			iconSrc: tournament.images ? tournament.images[0]?.url ?? '' : '',
@@ -327,16 +327,15 @@ export const parseEventEntrantPlayerData = async (entrant: any): Promise<Entrant
 	}
 
 	const twitter =
-		user.authorizations?.find((social) => social.type === 'TWITTER')?.externalUsername || '';
+		user?.authorizations?.find((social) => social.type === 'TWITTER')?.externalUsername ?? '';
 	const twitch =
-		user.authorizations?.find((social) => social.type === 'TWITCH')?.externalUsername || '';
+		user?.authorizations?.find((social) => social.type === 'TWITCH')?.externalUsername ?? '';
 
-	const player: EntrantPlayerData = {
+	const player: Partial<PlayerCardData> = {
 		id: entrant.id,
-		tag: participant.gamerTag ?? '',
+		tag: participant.gamerTag ?? entrant.name ?? '',
 		team: prefix ?? '',
 		pronoun: user?.genderPronoun ?? '',
-		character: 'Default',
 		twitter: twitter,
 		twitch: twitch,
 		seed: entrant.initialSeedNum ?? 0,

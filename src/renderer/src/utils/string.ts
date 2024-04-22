@@ -77,3 +77,21 @@ export const getEventSlug = (slug: string): string => {
 	const segments = slug.split('/');
 	return segments[segments.length - 1];
 };
+
+/**
+ * Trims the team prefix from a start.gg entrant name or other string.
+ * @param str The tag or string to trim
+ * @returns The new string without the prefix
+ */
+export const trimNamePrefix = (str: string): string => {
+	if (typeof str !== 'string') {
+		return '';
+	}
+
+	const pipeIndex = str.indexOf('|');
+	if (pipeIndex !== -1) {
+		return str.slice(pipeIndex + 1).trim();
+	}
+	// Return the original string if pipe character is not found
+	return str.trim();
+};

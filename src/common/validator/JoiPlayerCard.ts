@@ -16,15 +16,16 @@ const JoiPlayerMatch = Joi.object({
 	player2Tag: JoiString(MAX_TAG_LENGTH).required(),
 	player2Score: JoiScore,
 	roundName: JoiString(MAX_BRACKET_DATA_LENGTH).required()
-}).required();
+});
 
 const JoiPlayerPlacement = Joi.object({
 	placement: Joi.number().min(0).max(5000).required(),
 	iconSrc: JoiString(MAX_URL_LENGTH).required(),
 	name: JoiString(MAX_TOURNAMENT_NAME_LENGTH).required()
-}).required();
+});
 
-const JoiPlayerCardData = Joi.object({
+const JoiPlayerCard = Joi.object({
+	showTeamLogo: Joi.boolean().required(),
 	id: Joi.number().integer().min(0).required(),
 	team: JoiString(MAX_TEAM_LENGTH).required(),
 	tag: JoiTag.required(),
@@ -33,15 +34,10 @@ const JoiPlayerCardData = Joi.object({
 	state: JoiString().required(),
 	twitter: JoiString().required(),
 	twitch: JoiString().required(),
-	character: JoiCharacter,
 	seed: Joi.number().integer().min(0).max(5000).required(),
-	matches: Joi.array().items(JoiPlayerMatch).min(0).max(5).required(),
-	placements: Joi.array().items(JoiPlayerPlacement).min(0).max(5).required()
-});
-
-const JoiPlayerCard = Joi.object({
-	showTeamLogo: Joi.boolean().required(),
-	player: JoiPlayerCardData.required()
+	matches: Joi.array().min(0).max(4).items(JoiPlayerMatch).required(),
+	placements: Joi.array().min(0).max(4).items(JoiPlayerPlacement).required(),
+	character: JoiCharacter.required()
 }).required();
 
 export default JoiPlayerCard;

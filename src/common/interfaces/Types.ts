@@ -91,21 +91,6 @@ export interface PlayerCardPlacement {
 	name: string;
 }
 
-export interface EntrantPlayerData {
-	id: number;
-	team: string;
-	tag: string;
-	pronoun: string;
-	country: string;
-	state: string;
-	twitter: string;
-	twitch: string;
-	character: Character;
-	seed: number;
-	matches: PlayerCardMatch[];
-	placements: PlayerCardPlacement[];
-}
-
 export interface Scene {
 	title: string;
 	icon: React.ReactNode | JSX.Element;

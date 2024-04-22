@@ -65,11 +65,11 @@ const PlayerCardForm = () => {
 			return false;
 		}
 
-		dispatch(updatePlayerCard({ player: entrantData }));
+		dispatch(updatePlayerCard(entrantData));
 		return true;
 	};
 
-	const { tag, character, twitter, twitch, team } = playerCardData.player;
+	const { tag, character, twitter, twitch, team } = playerCardData;
 
 	// TODO: Display match results and placements
 

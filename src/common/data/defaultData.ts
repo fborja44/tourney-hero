@@ -81,18 +81,16 @@ export const bracketData: BracketData = {
 
 export const playerCardData: PlayerCardData = {
 	showTeamLogo: true,
-	player: {
-		tag: 'Player 1',
-		team: '',
-		pronoun: '',
-		twitter: '',
-		twitch: '',
-		character: 'Default',
-		seed: 0,
-		matches: [],
-		placements: [],
-		id: 0,
-		country: '',
-		state: ''
-	}
+	tag: 'Player 1',
+	character: 'Default',
+	team: '',
+	pronoun: '',
+	twitter: '',
+	twitch: '',
+	seed: 0,
+	matches: [],
+	placements: [],
+	id: 0,
+	country: '',
+	state: ''
 };

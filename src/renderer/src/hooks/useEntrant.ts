@@ -3,7 +3,7 @@ import { AppState } from '@redux/reducers/rootReducer';
 import useStartQuery from './useStartQuery';
 import eventEntrantDataQuery from '@renderer/graphql/queries/eventEntrantDataQuery';
 import { parseEventEntrantPlayerData } from '@utils/tournament';
-import { EntrantPlayerData } from '@common/interfaces/Types';
+import { PlayerCardData } from '@common/interfaces/Data';
 
 /**
  * Start.gg API Query hook.
@@ -25,7 +25,7 @@ const useEntrant = () => {
 	 * @param id The id of the entrant
 	 * @returns The fetched entrant data if successful. Otherwise, returns null.
 	 */
-	const fetchEntrantData = async (entrantId: number): Promise<EntrantPlayerData | null> => {
+	const fetchEntrantData = async (entrantId: number): Promise<Partial<PlayerCardData> | null> => {
 		// Check if tournament was configured
 		if (!key || !tournamentSlug || !eventSlug || !validated) {
 			return null;
