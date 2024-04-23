@@ -2,6 +2,7 @@ import { bracketData } from '@common/data/defaultData';
 import { BracketData, BracketMatch, PlayerCardData } from '@common/interfaces/Data';
 import { Match, Entrant, PlayerCardMatch, PlayerCardPlacement } from '@common/interfaces/Types';
 import { trimNamePrefix } from './string';
+import { getCountryCode } from './location';
 
 /**
  * Generates the authorization header for an API call.
@@ -341,8 +342,8 @@ export const parseEventEntrantPlayerData = async (
 		seed: entrant.initialSeedNum ?? 0,
 		matches: matches,
 		placements: placements,
-		country: user?.location.country ?? '',
-		state: user?.location.state ?? ''
+		countryCode: user?.location?.country ? getCountryCode(user?.location.country) : ''
+		// state: user?.location.state ?? ''
 	};
 	return player;
 };

@@ -9,3 +9,4 @@ export const JoiAlphanum = Joi.string().alphanum().required();
 export const JoiUUID = Joi.string()
 	.regex(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i)
 	.required();
+export const JoiLocationCode = Joi.string().length(2).uppercase().required();

@@ -1,4 +1,4 @@
-import { Body1 } from '@fluentui/react-components';
+import { Body1, OptionOnSelectData } from '@fluentui/react-components';
 import Panel from '../panel/Panel';
 import formStyles from './styles/FormStyles';
 import CheckboxField from './inputs/CheckboxField';
@@ -13,6 +13,7 @@ import EntrantSelectField from './inputs/EntrantSelectField';
 import EmptyPanel from '../panel/EmptyPanel';
 import { useEffect, useState } from 'react';
 import useEntrant from '@renderer/hooks/useEntrant';
+import CountryField from './inputs/CountryField';
 
 const PlayerCardForm = () => {
 	const classes = formStyles();
@@ -69,7 +70,11 @@ const PlayerCardForm = () => {
 		return true;
 	};
 
-	const { tag, character, twitter, twitch, team } = playerCardData;
+	const handleCountrySelect = (_ev, data: OptionOnSelectData) => {
+		handlePlayerCardChange('countryCode', data.optionValue ?? '??');
+	};
+
+	const { tag, character, twitter, twitch, team, countryCode } = playerCardData;
 
 	// TODO: Display match results and placements
 
@@ -86,12 +91,21 @@ const PlayerCardForm = () => {
 						placeholder={'Select An Entrant'}
 						maxLength={MAX_TAG_LENGTH}
 					/>
-					<span className={classes.gap} />
+				</div>
+				<div className={classes.formRow}>
 					<CharacterField
 						label="Character"
 						targetField="character"
 						handleChange={handlePlayerCardChange}
 						value={character}
+					/>
+				</div>
+				<div className={classes.formRow}>
+					<CountryField
+						label="Country"
+						targetField="country"
+						onOptionSelect={handleCountrySelect}
+						value={countryCode}
 					/>
 				</div>
 				<div className={classes.formRow}>

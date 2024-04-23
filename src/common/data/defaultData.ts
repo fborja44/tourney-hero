@@ -93,6 +93,6 @@ export const playerCardData: PlayerCardData = {
 	matches: [],
 	placements: [],
 	id: 0,
-	country: '',
-	state: ''
+	countryCode: 'US'
+	// stateCode: ''
 };
