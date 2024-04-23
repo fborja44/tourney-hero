@@ -1,3 +1,4 @@
+import { DataField } from '@common/interfaces/Data';
 import {
 	Field,
 	FieldProps,
@@ -25,8 +26,8 @@ const useStyles = makeStyles({
 type FluentFieldProps = FieldProps & InputProps;
 
 interface TextFieldProps extends FluentFieldProps {
-	targetField: string;
-	handleChange: (targetField: string, value: string) => void;
+	targetField: DataField;
+	handleChange: (targetField: DataField, value: string) => void;
 }
 
 const TextField = ({

@@ -20,7 +20,8 @@ export const gameplayData: GameplayData = {
 		character: 'Default',
 		team: '',
 		port: 'Red',
-		pronoun: ''
+		pronoun: '',
+		countryCode: 'US'
 	},
 	player2: {
 		tag: 'Player 2',
@@ -29,7 +30,8 @@ export const gameplayData: GameplayData = {
 		character: 'Default',
 		team: '',
 		port: 'Blue',
-		pronoun: ''
+		pronoun: '',
+		countryCode: 'US'
 	},
 	showPlayerCamInfo: true
 };

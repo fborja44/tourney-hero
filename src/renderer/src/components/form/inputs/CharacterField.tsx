@@ -12,6 +12,7 @@ import CharacterIcon from '../../character/CharacterIcon';
 import { CHARACTERS } from '@common/constants/data';
 import { characterToString } from '@utils/string';
 import { Character } from '@common/interfaces/Types';
+import { DataField } from '@common/interfaces/Data';
 
 const useStyles = makeStyles({
 	formField: {
@@ -44,8 +45,8 @@ const useStyles = makeStyles({
 type FluentFieldProps = FieldProps & DropdownProps;
 
 interface CharacterFieldProps extends FluentFieldProps {
-	targetField: string;
-	handleChange: (targetField: string, value: Character) => void;
+	targetField: DataField;
+	handleChange: (targetField: DataField, value: Character) => void;
 	playerNumber?: string;
 }
 

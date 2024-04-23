@@ -1,3 +1,4 @@
+import { DataField } from '@common/interfaces/Data';
 import { Checkbox, Field, FieldProps, CheckboxProps, makeStyles } from '@fluentui/react-components';
 import { tokens } from '@fluentui/react-theme';
 
@@ -18,8 +19,8 @@ type FluentFieldProps = FieldProps & CheckboxProps;
 
 interface CheckboxFieldProps extends FluentFieldProps {
 	label: string;
-	targetField: string;
-	handleChange: (targetField: string, value: string | boolean) => void;
+	targetField: DataField;
+	handleChange: (targetField: DataField, value: string | boolean) => void;
 	playerNumber?: string;
 }
 

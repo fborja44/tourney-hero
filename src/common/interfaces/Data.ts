@@ -1,7 +1,14 @@
 import { UUID } from 'crypto';
 import { Character, PlayerCardMatch, PlayerCardPlacement, Port } from './Types';
 
-export type Data = GameplayData | CommentatorData | BracketData | PlayerCardData;
+export type SceneData = GameplayData | PlayerData | CommentatorData | BracketData | PlayerCardData;
+
+export type DataField =
+	| keyof GameplayData
+	| keyof PlayerData
+	| keyof CommentatorData
+	| keyof BracketData
+	| keyof PlayerCardData;
 
 export interface OverlayData {
 	gameplay: GameplayData;
@@ -42,6 +49,7 @@ export interface PlayerData {
 	team: string;
 	pronoun: string | undefined;
 	port: Port;
+	countryCode: string;
 }
 
 export interface CommentatorData {

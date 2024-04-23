@@ -1,8 +1,8 @@
-import { Body1, mergeClasses } from '@fluentui/react-components';
+import { Body1, OptionOnSelectData, mergeClasses } from '@fluentui/react-components';
 import TextField from './inputs/TextField';
 import formStyles from './styles/FormStyles';
 import RadioGroupField from './inputs/RadioGroupField';
-import { PlayerData } from '@common/interfaces/Data';
+import { DataField, PlayerData } from '@common/interfaces/Data';
 import NumberField from './inputs/NumberField';
 import { updatePlayer } from '@redux/actions/dataActions';
 import { useDispatch, useSelector } from 'react-redux';
@@ -18,6 +18,7 @@ import {
 } from '@common/constants/limits';
 import { Port } from '@common/interfaces/Types';
 import { useEffect, useState } from 'react';
+import CountryField from './inputs/CountryField';
 
 interface PlayerFormProps {
 	playerNumber: '1' | '2';
@@ -36,7 +37,7 @@ const PlayerForm = ({ playerNumber, playerData }: PlayerFormProps) => {
 	 * @param targetField
 	 * @param value
 	 */
-	const handlePlayerChange = (targetField: string, value: string | number | boolean) => {
+	const handlePlayerChange = (targetField: DataField, value: string | number | boolean) => {
 		dispatch(
 			updatePlayer(`player${playerNumber}`, {
 				[targetField]: value
@@ -69,7 +70,6 @@ const PlayerForm = ({ playerNumber, playerData }: PlayerFormProps) => {
 
 	const getPlayersList = async () => {
 		const result = await window.api.getPlayers();
-		console.log(result);
 		setPlayersList(result);
 		return result;
 	};
@@ -92,7 +92,11 @@ const PlayerForm = ({ playerNumber, playerData }: PlayerFormProps) => {
 	};
 
 	const handleTagChange = (event) => {
-		dispatch(updatePlayer(`player${playerNumber}`, { tag: event.target.value }));
+		handlePlayerChange('tag', event.target.value);
+	};
+
+	const handleCountrySelect = (_ev, data: OptionOnSelectData) => {
+		handlePlayerChange('countryCode', data.optionValue ?? '??');
 	};
 
 	return (
@@ -151,6 +155,15 @@ const PlayerForm = ({ playerNumber, playerData }: PlayerFormProps) => {
 					value={playerData.character}
 					targetField="character"
 					handleChange={handlePlayerChange}
+					playerNumber={playerNumber}
+				/>
+			</div>
+			<div className={classes.formRow}>
+				<CountryField
+					label="Country"
+					value={playerData.countryCode}
+					targetField="country"
+					onOptionSelect={handleCountrySelect}
 					playerNumber={playerNumber}
 				/>
 			</div>

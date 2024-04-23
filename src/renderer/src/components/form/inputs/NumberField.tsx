@@ -1,3 +1,4 @@
+import { DataField } from '@common/interfaces/Data';
 import {
 	Field,
 	FieldProps,
@@ -29,8 +30,8 @@ const useStyles = makeStyles({
 type FluentFieldProps = FieldProps & SpinButtonProps;
 
 interface NumberFieldProps extends FluentFieldProps {
-	targetField: string;
-	handleChange: (targetField: string, value: number) => void;
+	targetField: DataField;
+	handleChange: (targetField: DataField, value: number) => void;
 	suffix?: string;
 }
 

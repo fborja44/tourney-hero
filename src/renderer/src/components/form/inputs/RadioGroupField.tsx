@@ -1,3 +1,4 @@
+import { DataField } from '@common/interfaces/Data';
 import {
 	Field,
 	FieldProps,
@@ -23,8 +24,8 @@ type FluentFieldProps = FieldProps & RadioGroupProps;
 interface RadioGroupFieldProps extends FluentFieldProps {
 	items: string[];
 	label: string;
-	targetField: string;
-	handleChange: (targetField: string, value: string) => void;
+	targetField: DataField;
+	handleChange: (targetField: DataField, value: string) => void;
 	playerNumber?: string;
 }
 

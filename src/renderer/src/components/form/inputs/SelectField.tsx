@@ -1,3 +1,4 @@
+import { DataField } from '@common/interfaces/Data';
 import {
 	Select,
 	Field,
@@ -44,8 +45,8 @@ type FluentFieldProps = FieldProps & SelectProps;
 
 interface SelectFieldProps extends FluentFieldProps {
 	options: string[];
-	targetField: string;
-	handleChange: (targetField: string, value: string) => void;
+	targetField: DataField;
+	handleChange: (targetField: DataField, value: string) => void;
 }
 
 const SelectField = ({
