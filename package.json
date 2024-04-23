@@ -32,6 +32,7 @@
 		"electron-store": "^8.1.0",
 		"fuse.js": "^7.0.0",
 		"graphql": "^16.8.1",
+		"i18n-iso-countries": "^7.11.0",
 		"joi": "^17.12.2",
 		"obs-websocket-js": "^5.0.4",
 		"react-error-boundary": "^4.0.12",
