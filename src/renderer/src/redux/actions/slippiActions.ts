@@ -63,3 +63,9 @@ export const setPortsValid = createAction('SET_PORTS_VALID', (value: boolean) =>
 		payload: value
 	};
 });
+
+export const setReplayDirectory = createAction('SET_REPLAY_DIRECTORY', (path: string) => {
+	return {
+		payload: path
+	};
+});

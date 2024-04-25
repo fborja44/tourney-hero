@@ -31,7 +31,7 @@ const useStyles = makeStyles({
 type FluentFieldProps = FieldProps & InputProps;
 
 interface MenuTextFieldProps extends FluentFieldProps {
-	handleChange: (ev: ChangeEvent<HTMLInputElement>, data: InputOnChangeData) => void;
+	handleChange?: (ev: ChangeEvent<HTMLInputElement>, data: InputOnChangeData) => void;
 }
 
 const MenuTextField = ({

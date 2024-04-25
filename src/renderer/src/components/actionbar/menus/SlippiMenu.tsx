@@ -19,6 +19,7 @@ import {
 	setAutoSwitchGameToPlayers,
 	setAutoSwitchPlayersToGame,
 	setRelayPort,
+	setReplayDirectory,
 	setSlippiConnected
 } from '@redux/actions/slippiActions';
 import { AppState } from '@redux/reducers/rootReducer';
@@ -41,6 +42,7 @@ const useStyles = makeStyles({
 	buttonsContainer: {
 		display: 'flex',
 		flexDirection: 'row',
+		alignItems: 'center',
 		...shorthands.margin(tokens.spacingVerticalS, 0, 0, 0),
 		'& button': {
 			...shorthands.margin(0, tokens.spacingHorizontalM, 0, 0)
@@ -87,6 +89,10 @@ const useStyles = makeStyles({
 	},
 	portField: {
 		marginBottom: tokens.spacingVerticalXS
+	},
+	caption: {
+		fontStyle: 'italic',
+		color: tokens.colorNeutralForeground2
 	}
 });
 
@@ -99,9 +105,8 @@ const SlippiMenu = () => {
 
 	const { connected: OBSConnected } = useContext(OBSWebSocketClientContext);
 
-	const { autoSwitchGameToPlayers, autoSwitchPlayersToGame, connected, relayPort } = useSelector(
-		(state: AppState) => state.slippiState
-	);
+	const { autoSwitchGameToPlayers, autoSwitchPlayersToGame, connected, relayPort, replayDir } =
+		useSelector((state: AppState) => state.slippiState);
 
 	const [relay, setRelay] = useState<number>(relayPort);
 	const [loading, setLoading] = useState<boolean>(false);
@@ -141,6 +146,11 @@ const SlippiMenu = () => {
 		);
 		setLoading(false);
 		dispatch(setSlippiConnected(false));
+	};
+
+	const handleDirSelect = async () => {
+		const path = await window.api.getDir();
+		dispatch(setReplayDirectory(path));
 	};
 
 	useEffect(() => {
@@ -212,7 +222,17 @@ const SlippiMenu = () => {
 					</div>
 				)}
 				<div className={classes.buttonsContainer}>
-					{!connected && (
+					{connected ? (
+						<Button
+							size="small"
+							iconPosition="after"
+							onClick={() => {
+								handleDisconnect();
+							}}
+						>
+							Disconnect
+						</Button>
+					) : (
 						<Button
 							size="small"
 							appearance="primary"
@@ -223,17 +243,22 @@ const SlippiMenu = () => {
 							Connect to Slippi
 						</Button>
 					)}
-					{connected && (
-						<Button
-							size="small"
-							iconPosition="after"
-							onClick={() => {
-								handleDisconnect();
-							}}
-						>
-							Disconnect
-						</Button>
-					)}
+				</div>
+			</div>
+			<div className={classes.container}>
+				<Caption1>Slippi Replays</Caption1>
+				<MenuTextField
+					label="Slippi Replay Directory"
+					value={replayDir}
+					placeholder="Select Your Replay Directory"
+					className={classes.portField}
+					disabled
+				/>
+				<div className={classes.buttonsContainer}>
+					<Button size="small" appearance="primary" onClick={handleDirSelect}>
+						Select Directory
+					</Button>
+					<Caption1 className={classes.caption}>Found 0 file(s).</Caption1>
 				</div>
 			</div>
 		</>

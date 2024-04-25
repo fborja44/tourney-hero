@@ -7,6 +7,7 @@ declare global {
 			getFileStats;
 			getCommentators;
 			getPlayers;
+			getDir;
 		};
 	}
 }

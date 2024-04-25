@@ -4,7 +4,7 @@ const { SlpLiveStream, SlpRealTime } = require('@vinceau/slp-realtime');
 
 /**
  * Event handler to connect to a slippi relay
- * @param ev The electron even
+ * @param ev The electron event
  * @param data The Slippi port data
  */
 export const handleConnectToSlippi = async (ev: Electron.IpcMainInvokeEvent, data: string) => {

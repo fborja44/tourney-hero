@@ -27,9 +27,6 @@ const useStyles = makeStyles({
 			...shorthands.margin(0, tokens.spacingHorizontalM, 0, 0)
 		}
 	},
-	tournamentInfoContainer: {
-		marginTop: tokens.spacingVerticalS
-	},
 	spacing: {
 		marginBottom: tokens.spacingVerticalS
 	},
@@ -223,7 +220,7 @@ const TournamentMenu = () => {
 				</div>
 			</div>
 			{tournamentState.validated && (
-				<div className={classes.tournamentInfoContainer}>
+				<div>
 					<Caption1>Start.gg Tournament Information</Caption1>
 					<MenuTextField
 						label="Tournament Slug"
@@ -256,7 +253,7 @@ const TournamentMenu = () => {
 				</div>
 			)}
 			{tournamentState.tournament && (
-				<div className={classes.tournamentInfoContainer}>
+				<div>
 					<Caption1>Tournament Event Selection</Caption1>
 					<MenuSelectField
 						label="Event Slug"
