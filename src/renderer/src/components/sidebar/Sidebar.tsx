@@ -20,6 +20,7 @@ import Empty from './SidebarPlaceholder';
 import BracketMenu from './menus/bracket/BracketMenu';
 import { ErrorBoundary } from 'react-error-boundary';
 import DashboardMenu from './menus/dashboard/DashboardMenu';
+import ReplaysMenu from './menus/replays/ReplaysMenu';
 
 const WIDTH = '240px';
 
@@ -115,6 +116,7 @@ const Sidebar = () => {
 								<Route path={`/`} element={<DashboardMenu />} />
 								<Route path="*" element={<MatchesMenu />} />
 								<Route path={`/bracket`} element={<BracketMenu />} />
+								<Route path={`/statistics`} element={<ReplaysMenu />} />
 								{/* <Route
 									path="*"
 									element={
