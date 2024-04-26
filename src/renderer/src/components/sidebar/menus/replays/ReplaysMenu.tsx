@@ -8,6 +8,7 @@ import Empty from '../../SidebarPlaceholder';
 import { AppState } from '@redux/reducers/rootReducer';
 import { sortMatches } from '@utils/tournament';
 import { useEffect, useState } from 'react';
+import ReplayCard from '@renderer/components/dashboard/replay/ReplayCard';
 
 const useStyles = makeStyles({
 	container: {
@@ -46,7 +47,9 @@ const ReplaysMenu = () => {
 
 	return (
 		<div className={classes.container}>
-			<div className={classes.matchList}></div>
+			<div className={classes.matchList}>
+				<ReplayCard />
+			</div>
 		</div>
 	);
 };

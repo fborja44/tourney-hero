@@ -76,7 +76,7 @@ const Navbar = () => {
 
 	return (
 		<section className={classes.container}>
-			<SidebarHeader title={'Overlay Menu'} />
+			<SidebarHeader>Overlay Menu</SidebarHeader>
 			<div className={classes.tabList}>
 				<MenuGroup>
 					<MenuGroupHeader className={classes.groupHeader}>Dashboard</MenuGroupHeader>

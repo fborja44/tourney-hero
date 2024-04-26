@@ -14,7 +14,9 @@ const cardStyles = makeStyles({
 		display: 'flex',
 		flexDirection: 'row',
 		justifyContent: 'space-between',
-		alignItems: 'center'
+		alignItems: 'center',
+		paddingTop: tokens.spacingVerticalXS,
+		paddingBottom: tokens.spacingVerticalS
 	},
 	cardButton: {
 		height: 'fit-content'
@@ -38,6 +40,10 @@ const cardStyles = makeStyles({
 			width: '13px',
 			height: '13px'
 		}
+	},
+	caption: {
+		fontStyle: 'italic',
+		color: tokens.colorNeutralForeground3
 	}
 });
 

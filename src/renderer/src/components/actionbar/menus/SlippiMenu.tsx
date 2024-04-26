@@ -92,7 +92,7 @@ const useStyles = makeStyles({
 	},
 	caption: {
 		fontStyle: 'italic',
-		color: tokens.colorNeutralForeground2
+		color: tokens.colorNeutralForeground3
 	}
 });
 
@@ -258,7 +258,7 @@ const SlippiMenu = () => {
 					<Button size="small" appearance="primary" onClick={handleDirSelect}>
 						Select Directory
 					</Button>
-					<Caption1 className={classes.caption}>Found 0 file(s).</Caption1>
+					{replayDir && <Caption1 className={classes.caption}>Found 0 file(s).</Caption1>}
 				</div>
 			</div>
 		</>

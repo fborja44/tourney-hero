@@ -116,3 +116,22 @@ export interface InputValidation {
 	status: 'error' | 'none' | 'success' | 'warning' | undefined;
 	message: string | undefined;
 }
+
+export interface ReplayPlayer {
+	name: string;
+	code: string;
+	stocksRemaining: string;
+	character: string;
+	port: Port;
+	winner: boolean;
+}
+
+export interface ReplayData {
+	id: string;
+	fileName: string;
+	player1: ReplayPlayer;
+	player2: ReplayPlayer;
+	stage: string;
+	date: Date;
+	lastFrame: number;
+}

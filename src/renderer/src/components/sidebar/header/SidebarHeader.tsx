@@ -1,4 +1,4 @@
-import { Body1, Button, makeStyles, shorthands } from '@fluentui/react-components';
+import { Button, makeStyles, shorthands } from '@fluentui/react-components';
 import { ChevronRight12Regular, ChevronLeft12Regular } from '@fluentui/react-icons';
 import { tokens } from '@fluentui/react-theme';
 import { MouseEventHandler } from 'react';
@@ -16,18 +16,6 @@ const useStyles = makeStyles({
 		...shorthands.borderBottom('1px', 'solid', tokens.colorNeutralStroke3),
 		...shorthands.padding(0, tokens.spacingHorizontalM)
 	},
-	title: {
-		display: 'flex',
-		flexDirection: 'row',
-		alignItems: 'center',
-		color: tokens.colorNeutralForeground2,
-		'& span': {
-			fontWeight: tokens.fontWeightRegular
-		},
-		'& svg': {
-			...shorthands.margin(0, tokens.spacingHorizontalS, 0, 0)
-		}
-	},
 	open: {
 		justifyContent: 'space-between'
 	},
@@ -37,20 +25,17 @@ const useStyles = makeStyles({
 });
 
 interface SidebarProps {
-	title: string | React.ReactNode;
+	children: React.ReactNode;
 	open?: boolean;
 	onClick?: MouseEventHandler<HTMLButtonElement>;
 }
 
-const SidebarHeader = ({ onClick, open, title }: SidebarProps) => {
+const SidebarHeader = ({ onClick, open, children }: SidebarProps) => {
 	const classes = useStyles();
+
 	return (
 		<div className={`${classes.container} ${open ? classes.open : classes.closed}`}>
-			{open && (
-				<div className={classes.title}>
-					<Body1>{title}</Body1>
-				</div>
-			)}
+			{open && children}
 			{onClick && (
 				<Button
 					icon={open ? <ChevronRight12Regular /> : <ChevronLeft12Regular />}
