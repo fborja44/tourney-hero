@@ -1,3 +1,4 @@
+import { ReplayData } from '@common/interfaces/Types';
 import { createAction } from '@reduxjs/toolkit';
 import { GameStartType } from '@slippi/slippi-js';
 
@@ -67,5 +68,11 @@ export const setPortsValid = createAction('SET_PORTS_VALID', (value: boolean) =>
 export const setReplayDirectory = createAction('SET_REPLAY_DIRECTORY', (path: string) => {
 	return {
 		payload: path
+	};
+});
+
+export const setReplayList = createAction('SET_REPLAY_LIST', (replayList: ReplayData[]) => {
+	return {
+		payload: replayList
 	};
 });

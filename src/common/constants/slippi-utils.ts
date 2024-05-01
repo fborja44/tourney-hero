@@ -1,5 +1,5 @@
-import { Character } from '@common/interfaces/Types';
-import { PlacementType } from '@slippi/slippi-js';
+import { Character, ReplayPlayer } from '@common/interfaces/Types';
+import { FrameEntryType, MetadataType, PlacementType } from '@slippi/slippi-js';
 
 /**
  * Gets the string representation of a Slippi game port.
@@ -92,4 +92,33 @@ export const getSlippiCharacter = (characterId: number): Character => {
 export const getWinnerPort = (placements: PlacementType[]) => {
 	const winnerIndex = placements.find((player) => player.position === 0)?.playerIndex ?? -1;
 	return winnerIndex !== undefined ? getSlippiPort(winnerIndex + 1) : -1;
+};
+
+export const parseSlippiPlayers = (
+	metadata: MetadataType,
+	winners: PlacementType[],
+	lastFrame: FrameEntryType | null
+) => {
+	if (!metadata.players) {
+		return [];
+	}
+
+	const winnerPort = getWinnerPort(winners);
+
+	// Convert players object to array
+	const players: ReplayPlayer[] = Object.keys(metadata.players).map((key) => {
+		const player = metadata.players?.[key];
+		const port = getSlippiPort(parseInt(key));
+		const stocksRemaining = lastFrame?.players[key].post.stocksRemaining;
+		return {
+			name: player.names?.netplay,
+			code: player.names?.code,
+			stocksRemaining: stocksRemaining,
+			characterId: player.characters[0],
+			port: port,
+			winner: port === winnerPort
+		};
+	});
+
+	return players;
 };

@@ -1,14 +1,9 @@
-import { Button, Caption1, Spinner, makeStyles, shorthands } from '@fluentui/react-components';
-import { TrophyOffRegular, ChevronDown20Regular } from '@fluentui/react-icons';
+import { makeStyles, shorthands } from '@fluentui/react-components';
 import { tokens } from '@fluentui/react-theme';
-import { useSelector } from 'react-redux';
 import { ACTIONBAR_HEIGHT, FOOTER_HEIGHT, SECTION_HEADER_HEIGHT } from '@common/constants/elements';
-import TournamentCard from '../tournament/TournamentCard';
-import Empty from '../../SidebarPlaceholder';
-import { AppState } from '@redux/reducers/rootReducer';
-import { sortMatches } from '@utils/tournament';
-import { useEffect, useState } from 'react';
 import ReplayCard from '@renderer/components/dashboard/replay/ReplayCard';
+import { useSelector } from 'react-redux';
+import { AppState } from '@renderer/redux/reducers/rootReducer';
 
 const useStyles = makeStyles({
 	container: {
@@ -45,10 +40,15 @@ const useStyles = makeStyles({
 const ReplaysMenu = () => {
 	const classes = useStyles();
 
+	const { replayList } = useSelector((state: AppState) => state.slippiState);
+	console.log(replayList);
+
 	return (
 		<div className={classes.container}>
 			<div className={classes.matchList}>
-				<ReplayCard />
+				{replayList.map((replay) => (
+					<ReplayCard key={replay.fileName} replay={replay} />
+				))}
 			</div>
 		</div>
 	);

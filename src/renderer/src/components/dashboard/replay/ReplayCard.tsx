@@ -1,4 +1,4 @@
-import { ReplayData } from '@common/interfaces/Types';
+import { ReplayData, ReplayPlayer } from '@common/interfaces/Types';
 import {
 	Body1Strong,
 	Caption1,
@@ -96,18 +96,20 @@ const useStyles = makeStyles({
 	}
 });
 
-interface ReplayCardHeaderProps {
+interface ReplayDataProps {
 	replay: ReplayData;
 }
 
-export const ReplayCardHeader = ({ replay }: ReplayCardHeaderProps) => {
+export const ReplayCardHeader = ({ replay }: ReplayDataProps) => {
 	const cardClasses = cardStyles();
 	const classes = useStyles();
 
 	return (
 		<div className={cardClasses.textContent}>
 			<div className={cardClasses.textContentRow}>
-				<Caption2 className={classes.matchInfo}>Apr 19, 2024 - 6:58 PM</Caption2>
+				<Caption2 className={classes.matchInfo}>
+					{replay.date?.toLocaleDateString()}
+				</Caption2>
 				<div className={classes.time}>
 					<Caption2 className={classes.matchInfo}>3m 26s</Caption2>
 					<TimerFilled />
@@ -121,10 +123,10 @@ export const ReplayCardHeader = ({ replay }: ReplayCardHeaderProps) => {
 };
 
 interface PlayerContainerProps {
-	replay: ReplayData;
+	player: ReplayPlayer;
 }
 
-const PlayerContainer = ({ replay }: PlayerContainerProps) => {
+const PlayerContainer = ({ player }: PlayerContainerProps) => {
 	const classes = useStyles();
 
 	// const isWinner = match.winnerId === player.id;
@@ -133,30 +135,22 @@ const PlayerContainer = ({ replay }: PlayerContainerProps) => {
 		<div className={classes.playerSlot}>
 			<CharacterIcon character={'Falco'} className={classes.characterIcon} />
 			<div className={classes.playerContainer}>
-				<Caption1>FIZZI#36</Caption1>
+				<Caption1>
+					{player.name} ?? {player.code}
+				</Caption1>
 				<Body1Strong className={classes.playerScore}>0</Body1Strong>
 			</div>
 		</div>
 	);
 };
 
-const ReplayCard = () => {
+const ReplayCard = ({ replay }: ReplayDataProps) => {
 	const classes = useStyles();
 	const cardClasses = cardStyles();
 
 	const handleClick = () => {
 		// TODO
 	};
-
-	const replay: ReplayData = {
-        id: '0',
-        fileName: '',
-        player1: undefined,
-        player2: undefined,
-        stage: '',
-        date: undefined,
-        lastFrame: 0
-    };
 
 	return (
 		<div
@@ -166,8 +160,8 @@ const ReplayCard = () => {
 			<div className={classes.menuItemContent}>
 				<ReplayCardHeader replay={replay} />
 				<div className={classes.playerContent}>
-					<PlayerContainer replay={replay} />
-					<PlayerContainer replay={replay} />
+					<PlayerContainer player={replay.player1} />
+					<PlayerContainer player={replay.player2} />
 				</div>
 				<div className={cardClasses.splitFooter}>
 					<Caption2 className={cardClasses.caption}>replay_name.slp</Caption2>

@@ -6,7 +6,7 @@ import PanelMessageBar from '@renderer/components/panel/PanelMessageBar';
 import { setPortsValid } from '@renderer/redux/actions/slippiActions';
 import { AppState } from '@renderer/redux/reducers/rootReducer';
 import { SocketClientContext } from '@renderer/socket/SocketClientProvider';
-import { getSlippiPort } from '@renderer/utils/slippi';
+import { getSlippiPort } from '@common/constants/slippi-utils';
 import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 

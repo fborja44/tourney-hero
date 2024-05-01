@@ -4,7 +4,7 @@ import { OBSWebSocketClientContext } from '@renderer/obs-websocket/OBSWebsocketP
 import { incrementScore, updatePlayer } from '@renderer/redux/actions/dataActions';
 import { setActiveGame } from '@renderer/redux/actions/slippiActions';
 import { AppState } from '@renderer/redux/reducers/rootReducer';
-import { getSlippiCharacter, getWinnerPort } from '@renderer/utils/slippi';
+import { getSlippiCharacter, getWinnerPort } from '@common/constants/slippi-utils';
 import { GameEndType, GameStartType } from '@slippi/slippi-js';
 import { IpcRendererEvent } from 'electron';
 import { useContext, useEffect } from 'react';

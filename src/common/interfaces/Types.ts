@@ -154,7 +154,7 @@ export interface InputValidation {
 export interface ReplayPlayer {
 	name: string | null | undefined;
 	code: string | null | undefined;
-	stocksRemaining: string;
+	stocksRemaining: number;
 	characterId: number;
 	port: Port;
 	winner: boolean;

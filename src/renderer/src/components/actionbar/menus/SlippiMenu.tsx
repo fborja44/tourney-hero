@@ -20,6 +20,7 @@ import {
 	setAutoSwitchPlayersToGame,
 	setRelayPort,
 	setReplayDirectory,
+	setReplayList,
 	setSlippiConnected
 } from '@redux/actions/slippiActions';
 import { AppState } from '@redux/reducers/rootReducer';
@@ -105,8 +106,14 @@ const SlippiMenu = () => {
 
 	const { connected: OBSConnected } = useContext(OBSWebSocketClientContext);
 
-	const { autoSwitchGameToPlayers, autoSwitchPlayersToGame, connected, relayPort, replayDir } =
-		useSelector((state: AppState) => state.slippiState);
+	const {
+		autoSwitchGameToPlayers,
+		autoSwitchPlayersToGame,
+		connected,
+		relayPort,
+		replayDir,
+		replayList
+	} = useSelector((state: AppState) => state.slippiState);
 
 	const [relay, setRelay] = useState<number>(relayPort);
 	const [loading, setLoading] = useState<boolean>(false);
@@ -149,8 +156,9 @@ const SlippiMenu = () => {
 	};
 
 	const handleDirSelect = async () => {
-		const path = await window.api.getReplayDir();
+		const { replayDir: path, replayData } = await window.api.getReplayDir();
 		dispatch(setReplayDirectory(path));
+		dispatch(setReplayList(replayData));
 	};
 
 	useEffect(() => {
@@ -258,7 +266,11 @@ const SlippiMenu = () => {
 					<Button size="small" appearance="primary" onClick={handleDirSelect}>
 						Select Directory
 					</Button>
-					{replayDir && <Caption1 className={classes.caption}>Found 0 file(s).</Caption1>}
+					{replayDir && (
+						<Caption1 className={classes.caption}>
+							Found {replayList.length} file(s).
+						</Caption1>
+					)}
 				</div>
 			</div>
 		</>
