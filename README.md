@@ -3,7 +3,7 @@
 # Tourney Hero - Tournament Organizer UI
 An all-purpose tool to manage Super Smash Bros. Melee tournaments and deliver high quality streams under a single unified UI. This tool enables tournament organizers to easily manage and customize stream overlays and graphics, oversee tournament matches, and perform automated tasks.
 
-Connects to the companion **Tourney Hero Server** to deliver the stream UI: *[COMING SOON]*
+Connects to the companion [**Tourney Hero Server**](https://github.com/fborja44/tourney-hero-server) to deliver the stream UI.
 
 If you are a local Tournament Organizer with any requests, please feel free to send me a message.
 
