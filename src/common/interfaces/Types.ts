@@ -32,6 +32,40 @@ export type Character =
 	| 'Zelda'
 	| 'Default';
 
+export type Stage =
+	| 'Fountain of Dreams'
+	| 'Pokémon Stadium'
+	| "Princess Peach's Castle"
+	| 'Kongo Jungle'
+	| 'Brinstar'
+	| 'Corneria'
+	| "Yoshi's Story"
+	| 'Onett'
+	| 'Mute City'
+	| 'Rainbow Cruise'
+	| 'Jungle Japes'
+	| 'Great Bay'
+	| 'Hyrule Temple'
+	| 'Brinstar Depths'
+	| "Yoshi's Island"
+	| "Green Greens"
+	| "Fourside"
+	| "Mushroom Kingdom I"
+	| "Mushroom Kingdom II"
+	| "Akaneia"
+	| "Venom"
+	| "Poké Floats"
+	| "Big Blue"
+	| "Icicle Mountain"
+	| "Icetop"
+	| "Flat Zone"
+	| "Dream Land N64"
+	| "Yoshi's Island N64"
+	| "Kongo Jungle N64"
+	| "Battlefield"
+	| "Final Destination"
+	| "Unknown";
+
 export interface Tournament {
 	id: string;
 	name: string;
@@ -118,20 +152,20 @@ export interface InputValidation {
 }
 
 export interface ReplayPlayer {
-	name: string;
-	code: string;
+	name: string | null | undefined;
+	code: string | null | undefined;
 	stocksRemaining: string;
-	character: string;
+	characterId: number;
 	port: Port;
 	winner: boolean;
 }
 
 export interface ReplayData {
-	id: string;
+	platform: string | null | undefined;
 	fileName: string;
 	player1: ReplayPlayer;
 	player2: ReplayPlayer;
-	stage: string;
-	date: Date;
-	lastFrame: number;
+	stageId: number | null | undefined;
+	date: Date | null | undefined;
+	lastFrame: number | null | undefined;
 }

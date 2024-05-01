@@ -13,7 +13,7 @@ import {
 	handleUpdateLocalCommentator,
 	handleUpdateLocalPlayer
 } from './store';
-import { handleSelectDir } from './events/file';
+import { handleSelectReplayDir } from './events/file';
 
 function createWindow(): void {
 	// Create the browser window.
@@ -90,7 +90,7 @@ app.whenReady().then(() => {
 	// Register IPC handlers
 	ipcMain.handle('slippi:connect', handleConnectToSlippi);
 	ipcMain.handle('slippi:getFileStats', handleSlippiFileStats);
-	ipcMain.handle('dir:select', handleSelectDir);
+	ipcMain.handle('slippi:selectDir', handleSelectReplayDir);
 
 	// Local Data
 	ipcMain.handle('commentator:list', handleGetCommentatorsList);

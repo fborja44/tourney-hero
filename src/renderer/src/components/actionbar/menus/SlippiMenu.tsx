@@ -149,7 +149,7 @@ const SlippiMenu = () => {
 	};
 
 	const handleDirSelect = async () => {
-		const path = await window.api.getDir();
+		const path = await window.api.getReplayDir();
 		dispatch(setReplayDirectory(path));
 	};
 

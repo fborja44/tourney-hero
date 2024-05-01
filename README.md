@@ -42,7 +42,7 @@ For an example tournament produced using this application, see: [Full House 2024
 
 ### Instructions
 1. `cd` to root folder
-2. `npm i` to run install dependencies
+2. `npm i` to install dependencies
 3. `npm run dev` to run the electron dev server
 
 ### Build

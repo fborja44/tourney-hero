@@ -4,7 +4,7 @@ import { electronAPI } from '@electron-toolkit/preload';
 // Custom APIs for renderer
 const api = {
 	getFileStats: () => ipcRenderer.invoke('slippi:getFileStats'),
-	getDir: () => ipcRenderer.invoke('dir:select'),
+	getReplayDir: () => ipcRenderer.invoke('slippi:selectDir'),
 	getCommentators: () => ipcRenderer.invoke('commentator:list'),
 	getPlayers: () => ipcRenderer.invoke('player:list')
 };
