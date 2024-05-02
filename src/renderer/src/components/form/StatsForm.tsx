@@ -41,12 +41,6 @@ const StatsForm = () => {
 					/>
 				</div>
 			</div>
-			<div className={classes.formSection}>
-				<Body1 className={classes.sectionTitle}>Slippi Replay Upload</Body1>
-				<Button size="small" appearance="primary" onClick={handleClick}>
-					Select Replays
-				</Button>
-			</div>
 		</Panel>
 	);
 };

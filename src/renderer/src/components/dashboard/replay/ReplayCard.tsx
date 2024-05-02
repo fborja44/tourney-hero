@@ -11,6 +11,8 @@ import {
 import cardStyles from '@renderer/components/card/styles/CardStyles';
 import CharacterIcon from '@renderer/components/character/CharacterIcon';
 import { TimerFilled } from '@fluentui/react-icons';
+import { getSlippiCharacter, getSlippiStage } from '@common/constants/slippi-utils';
+import { formatFrames } from '@renderer/utils/date';
 
 const useStyles = makeStyles({
 	container: {
@@ -108,15 +110,24 @@ export const ReplayCardHeader = ({ replay }: ReplayDataProps) => {
 		<div className={cardClasses.textContent}>
 			<div className={cardClasses.textContentRow}>
 				<Caption2 className={classes.matchInfo}>
-					{replay.date?.toLocaleDateString()}
+					{replay.date?.toLocaleDateString('en-US', {
+						month: 'short',
+						day: '2-digit',
+						year: 'numeric',
+						hour: 'numeric',
+						minute: '2-digit',
+						hour12: true
+					})}
 				</Caption2>
 				<div className={classes.time}>
-					<Caption2 className={classes.matchInfo}>3m 26s</Caption2>
+					<Caption2 className={classes.matchInfo}>
+						{formatFrames(replay.lastFrame)}
+					</Caption2>
 					<TimerFilled />
 				</div>
 			</div>
 			<div className={cardClasses.textContentRow}>
-				<Caption1>Battlefield</Caption1>
+				<Caption1>{getSlippiStage(replay.stageId)}</Caption1>
 			</div>
 		</div>
 	);
@@ -133,12 +144,13 @@ const PlayerContainer = ({ player }: PlayerContainerProps) => {
 
 	return (
 		<div className={classes.playerSlot}>
-			<CharacterIcon character={'Falco'} className={classes.characterIcon} />
+			<CharacterIcon
+				character={getSlippiCharacter(player.characterId)}
+				className={classes.characterIcon}
+			/>
 			<div className={classes.playerContainer}>
-				<Caption1>
-					{player.name} ?? {player.code}
-				</Caption1>
-				<Body1Strong className={classes.playerScore}>0</Body1Strong>
+				<Caption1>{player.code ?? player.name ?? 'Unknown'}</Caption1>
+				<Body1Strong className={classes.playerScore}>{player.stocksRemaining}</Body1Strong>
 			</div>
 		</div>
 	);
@@ -152,6 +164,10 @@ const ReplayCard = ({ replay }: ReplayDataProps) => {
 		// TODO
 	};
 
+	if (!replay || !replay.player1 || !replay.player2) {
+		return null;
+	}
+
 	return (
 		<div
 			className={mergeClasses(classes.menuItemContainer, 'menu-item-container')}
@@ -164,7 +180,7 @@ const ReplayCard = ({ replay }: ReplayDataProps) => {
 					<PlayerContainer player={replay.player2} />
 				</div>
 				<div className={cardClasses.splitFooter}>
-					<Caption2 className={cardClasses.caption}>replay_name.slp</Caption2>
+					<Caption2 className={cardClasses.caption}>{replay.fileName}</Caption2>
 				</div>
 			</div>
 		</div>

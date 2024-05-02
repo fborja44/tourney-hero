@@ -35,3 +35,18 @@ export const getCurrentUnixTimestamp = () => {
 	// Get the Unix timestamp (in seconds) by dividing by 1000
 	return Math.floor(currentDate.getTime() / 1000);
 };
+
+/**
+ * Formats a frame count to the string 'XXm XXs'
+ * @param frameCount The frame count to format
+ * @returns The formatted string
+ */
+export const formatFrames = (frameCount: number | null | undefined) => {
+	if (!frameCount) {
+		return 'Unknown';
+	}
+	const totalSeconds = frameCount / 60;
+	const minutes = Math.floor(totalSeconds / 60);
+	const seconds = Math.floor(totalSeconds % 60);
+	return `${minutes}m ${seconds}s`;
+};

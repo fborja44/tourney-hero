@@ -48,23 +48,23 @@ export type Stage =
 	| 'Hyrule Temple'
 	| 'Brinstar Depths'
 	| "Yoshi's Island"
-	| "Green Greens"
-	| "Fourside"
-	| "Mushroom Kingdom I"
-	| "Mushroom Kingdom II"
-	| "Akaneia"
-	| "Venom"
-	| "Poké Floats"
-	| "Big Blue"
-	| "Icicle Mountain"
-	| "Icetop"
-	| "Flat Zone"
-	| "Dream Land N64"
+	| 'Green Greens'
+	| 'Fourside'
+	| 'Mushroom Kingdom I'
+	| 'Mushroom Kingdom II'
+	| 'Akaneia'
+	| 'Venom'
+	| 'Poké Floats'
+	| 'Big Blue'
+	| 'Icicle Mountain'
+	| 'Icetop'
+	| 'Flat Zone'
+	| 'Dream Land N64'
 	| "Yoshi's Island N64"
-	| "Kongo Jungle N64"
-	| "Battlefield"
-	| "Final Destination"
-	| "Unknown";
+	| 'Kongo Jungle N64'
+	| 'Battlefield'
+	| 'Final Destination'
+	| 'Unknown';
 
 export interface Tournament {
 	id: string;
@@ -165,7 +165,7 @@ export interface ReplayData {
 	fileName: string;
 	player1: ReplayPlayer;
 	player2: ReplayPlayer;
-	stageId: number | null | undefined;
+	stageId: number;
 	date: Date | null | undefined;
 	lastFrame: number | null | undefined;
 }

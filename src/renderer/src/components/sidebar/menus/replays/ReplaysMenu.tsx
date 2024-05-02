@@ -41,7 +41,6 @@ const ReplaysMenu = () => {
 	const classes = useStyles();
 
 	const { replayList } = useSelector((state: AppState) => state.slippiState);
-	console.log(replayList);
 
 	return (
 		<div className={classes.container}>
