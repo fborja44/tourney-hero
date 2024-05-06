@@ -6,9 +6,9 @@ import { useContext } from 'react';
 import { OBSWebSocketClientContext } from '@renderer/obs-websocket/OBSWebsocketProvider';
 import { AppState } from '@renderer/redux/reducers/rootReducer';
 import { useSelector } from 'react-redux';
-import DashboardScene from '@renderer/components/dashboard/scene/DashboardScene';
+import DashboardScene from '@renderer/components/cards/scene/DashboardScene';
 import EmptyPanel from '@renderer/components/panel/EmptyPanel';
-import dashboardStyles from '@renderer/components/dashboard/styles/DashboardStyles';
+import dashboardStyles from '@renderer/components/cards/styles/DashboardStyles';
 import FormStyles from '@renderer/components/form/styles/FormStyles';
 import { Body1 } from '@fluentui/react-components';
 

@@ -6,14 +6,14 @@ import { EmojiSad24Regular } from '@fluentui/react-icons';
 import { makeStyles, shorthands } from '@fluentui/react-components';
 import { tokens } from '@fluentui/react-theme';
 import SidebarHeader from './header/SidebarHeader';
-import MatchesMenu from './menus/match/MatchesMenu';
+import MatchesMenu from './menu/match/MatchesMenu';
 import { ACTIONBAR_HEIGHT, FOOTER_HEIGHT, SECTION_HEADER_HEIGHT } from '@common/constants/elements';
 import { Route, Routes } from 'react-router-dom';
-import Empty from './SidebarPlaceholder';
-import BracketMenu from './menus/bracket/BracketMenu';
+import Empty from './placeholder/SidebarPlaceholder';
+import BracketMenu from './menu/bracket/BracketMenu';
 import { ErrorBoundary } from 'react-error-boundary';
-import DashboardMenu from './menus/dashboard/DashboardMenu';
-import ReplaysMenu from './menus/replays/ReplaysMenu';
+import DashboardMenu from './menu/dashboard/DashboardMenu';
+import ReplaysMenu from './menu/replays/ReplaysMenu';
 import SidebarTitle from './header/SidebarTitle';
 
 const WIDTH = '240px';
@@ -95,18 +95,9 @@ const Sidebar = () => {
 					>
 						<Routes>
 							<Route path={`/`} element={<DashboardMenu />} />
-							<Route path="*" element={<MatchesMenu />} />
 							<Route path={`/bracket`} element={<BracketMenu />} />
 							<Route path={`/statistics`} element={<ReplaysMenu />} />
-							{/* <Route
-									path="*"
-									element={
-										<Empty
-											caption={'Nothing to do.'}
-											icon={<Sparkle24Regular />}
-										/>
-									}
-								/> */}
+							<Route path="*" element={<MatchesMenu />} />
 						</Routes>
 					</ErrorBoundary>
 				</div>

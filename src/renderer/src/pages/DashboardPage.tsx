@@ -1,7 +1,7 @@
 import PageHeader from '../pageheader/PageHeader';
 import { Apps20Regular, TrophyOff20Regular } from '@fluentui/react-icons';
 import Panel from '@renderer/components/panel/Panel';
-import MatchCard from '@renderer/components/dashboard/match/MatchCard';
+import MatchCard from '@renderer/components/cards/match/MatchCard';
 import { Body1 } from '@fluentui/react-components';
 import { AppState } from '@renderer/redux/reducers/rootReducer';
 import { TournamentState } from '@renderer/redux/reducers/tournamentReducer';
@@ -10,7 +10,7 @@ import EmptyPanel from '@renderer/components/panel/EmptyPanel';
 import FormStyles from '@renderer/components/form/styles/FormStyles';
 import { Match } from '@common/interfaces/Types';
 import PageLayout from './PageLayout';
-import dashboardStyles from '@renderer/components/dashboard/styles/DashboardStyles';
+import dashboardStyles from '@renderer/components/cards/styles/DashboardStyles';
 
 const DashboardPage = () => {
 	const classes = dashboardStyles();

@@ -15,7 +15,6 @@ import {
 	Tooltip,
 	makeStyles,
 	mergeClasses,
-	shorthands,
 	tokens
 } from '@fluentui/react-components';
 import { Match, Entrant } from '@common/interfaces/Types';
@@ -39,78 +38,15 @@ import markSetInProgressMutation from '@graphql/mutations/markSetInProgressMutat
 import { updateMatch } from '@redux/actions/tournamentActions';
 import type { MenuButtonProps } from '@fluentui/react-components';
 import resetSetMutation from '@graphql/mutations/resetSetMutation';
+import menuItemStyles from '../styles/MenuItemStyles';
 
 const useStyles = makeStyles({
-	container: {
-		width: '250px'
-	},
-	content: {
-		display: 'flex',
-		flexDirection: 'column',
-		...shorthands.padding(0, tokens.spacingHorizontalM),
-		backgroundColor: tokens.colorNeutralBackground4Selected,
-		...shorthands.borderRadius(0, 0, tokens.borderRadiusMedium, tokens.borderRadiusMedium),
-		...shorthands.border('1px', 'solid', tokens.colorNeutralStroke3)
-	},
-	playerContent: {
-		display: 'flex',
-		flexDirection: 'column',
-		...shorthands.gap(tokens.spacingVerticalS)
-	},
-	matchInfo: {
-		color: tokens.colorNeutralForeground2
-	},
-	playerContainer: {
-		height: '25px',
-		paddingLeft: tokens.spacingHorizontalS,
-		display: 'flex',
-		flexDirection: 'row',
-		justifyContent: 'space-between',
-		alignItems: 'center',
-		backgroundColor: tokens.colorNeutralBackground1,
-		...shorthands.border('1px', 'solid', tokens.colorNeutralStroke2),
-		...shorthands.borderRadius(tokens.borderRadiusMedium)
-	},
-	playerScore: {
-		display: 'flex',
-		justifyContent: 'center',
-		alignItems: 'center',
-		...shorthands.borderLeft('1px', 'solid', tokens.colorNeutralStroke2),
-		height: '100%',
-		width: '25px',
-		fontSize: '13px'
-	},
 	checkIn: {
 		color: tokens.colorPaletteGreenForeground1
-	},
-	menuItemContainer: {
-		display: 'flex',
-		flexDirection: 'row',
-		width: '100%',
-		...shorthands.borderBottom('1px', 'solid', tokens.colorNeutralStroke3),
-		'&:hover': {
-			backgroundColor: tokens.colorNeutralBackground3Hover,
-			cursor: 'pointer'
-		}
-	},
-	menuItemBorder: {
-		backgroundColor: tokens.colorStatusSuccessForeground1,
-		height: '100%',
-		width: '4px'
-	},
-	menuItemContent: {
-		display: 'flex',
-		flexDirection: 'column',
-		width: '100%',
-		...shorthands.padding(0, tokens.spacingHorizontalM)
 	},
 	dq: {
 		position: 'relative',
 		bottom: '1px'
-	},
-	menuItemActions: {
-		display: 'flex',
-		columnGap: tokens.spacingHorizontalS
 	}
 });
 
@@ -120,18 +56,18 @@ interface MatchCardHeaderProps {
 
 export const MatchCardHeader = ({ match }: MatchCardHeaderProps) => {
 	const cardClasses = cardStyles();
-	const classes = useStyles();
+	const itemClasses = menuItemStyles();
 
 	return (
 		<div className={cardClasses.textContent}>
 			<div className={cardClasses.textContentRow}>
-				<Caption2 className={classes.matchInfo}>
+				<Caption2 className={itemClasses.matchInfo}>
 					{match.bracket.name}{' '}
 					{match.bracket.bestOf !== undefined && (
 						<span>- Best of {match.bracket.bestOf}</span>
 					)}
 				</Caption2>
-				<Caption2 className={classes.matchInfo}>Match {match.identifier}</Caption2>
+				<Caption2 className={itemClasses.matchInfo}>Match {match.identifier}</Caption2>
 			</div>
 			<div className={cardClasses.textContentRow}>
 				<Caption1>
@@ -178,14 +114,15 @@ interface PlayerContainerProps {
 }
 
 const PlayerContainer = ({ player, match }: PlayerContainerProps) => {
+	const itemClasses = menuItemStyles();
 	const classes = useStyles();
 
 	const isWinner = match.winnerId === player.id;
 
 	return (
-		<div className={classes.playerContainer}>
+		<div className={itemClasses.playerContainer}>
 			<Caption1>{player.tag}</Caption1>
-			<Body1Strong className={classes.playerScore}>
+			<Body1Strong className={itemClasses.playerScore}>
 				{player.score !== undefined ? (
 					player.score === -1 ? (
 						<Caption1Strong className={classes.dq}>DQ</Caption1Strong>
@@ -210,8 +147,8 @@ interface MatchCardProps {
 }
 
 const MatchCard = ({ match, appearance }: MatchCardProps) => {
-	const classes = useStyles();
 	const cardClasses = cardStyles();
+	const itemClasses = menuItemStyles();
 
 	const dispatch = useDispatch();
 
@@ -321,7 +258,7 @@ const MatchCard = ({ match, appearance }: MatchCardProps) => {
 		return (
 			<Card borderColor={color}>
 				<MatchCardHeader match={match} />
-				<div className={classes.playerContent}>
+				<div className={itemClasses.playerContent}>
 					<PlayerContainer player={player1} match={match} />
 					<PlayerContainer player={player2} match={match} />
 				</div>
@@ -409,20 +346,17 @@ const MatchCard = ({ match, appearance }: MatchCardProps) => {
 	};
 
 	return (
-		<div
-			className={mergeClasses(classes.menuItemContainer, 'menu-item-container')}
-			onClick={handleClick}
-		>
-			<div className={classes.menuItemBorder} style={{ backgroundColor: color }} />
-			<div className={classes.menuItemContent}>
+		<div className={itemClasses.menuItemContainer} onClick={handleClick}>
+			<div className={itemClasses.menuItemBorder} style={{ backgroundColor: color }} />
+			<div className={itemClasses.menuItemContent}>
 				<MatchCardHeader match={match} />
-				<div className={classes.playerContent}>
+				<div className={itemClasses.playerContent}>
 					<PlayerContainer player={player1} match={match} />
 					<PlayerContainer player={player2} match={match} />
 				</div>
 				<div className={cardClasses.splitFooter}>
 					<MatchStatus status={status} color={color} infoText={infoText} />
-					<div className={classes.menuItemActions}>
+					<div className={itemClasses.menuItemActions}>
 						{inProgress && (
 							<Menu positioning={'below-end'}>
 								<MenuTrigger disableButtonEnhancement>

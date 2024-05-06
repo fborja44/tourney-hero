@@ -5,7 +5,6 @@ import {
 	Caption2,
 	makeStyles,
 	mergeClasses,
-	shorthands,
 	tokens
 } from '@fluentui/react-components';
 import cardStyles from '@renderer/components/card/styles/CardStyles';
@@ -13,27 +12,10 @@ import CharacterIcon from '@renderer/components/character/CharacterIcon';
 import { TimerFilled } from '@fluentui/react-icons';
 import { getSlippiCharacter, getSlippiStage } from '@common/constants/slippi-utils';
 import { formatFrames } from '@renderer/utils/date';
+import menuItemStyles from '../styles/MenuItemStyles';
+import { characterToString } from '@renderer/utils/string';
 
 const useStyles = makeStyles({
-	container: {
-		width: '250px'
-	},
-	content: {
-		display: 'flex',
-		flexDirection: 'column',
-		backgroundColor: tokens.colorNeutralBackground4Selected,
-		...shorthands.padding(0, tokens.spacingHorizontalM),
-		...shorthands.borderRadius(0, 0, tokens.borderRadiusMedium, tokens.borderRadiusMedium),
-		...shorthands.border('1px', 'solid', tokens.colorNeutralStroke3)
-	},
-	playerContent: {
-		display: 'flex',
-		flexDirection: 'column',
-		...shorthands.gap(tokens.spacingVerticalS)
-	},
-	matchInfo: {
-		color: tokens.colorNeutralForeground2
-	},
 	characterIcon: {
 		position: 'absolute'
 	},
@@ -44,48 +26,9 @@ const useStyles = makeStyles({
 		position: 'relative',
 		width: '100%'
 	},
-	playerContainer: {
-		height: '25px',
+	replayPlayerContainer: {
 		paddingLeft: tokens.spacingHorizontalMNudge,
-		display: 'flex',
-		flexDirection: 'row',
-		width: '100%',
-		justifyContent: 'space-between',
-		alignItems: 'center',
-		backgroundColor: tokens.colorNeutralBackground1,
-		marginLeft: tokens.spacingHorizontalM,
-		...shorthands.border('1px', 'solid', tokens.colorNeutralStroke2),
-		...shorthands.borderRadius(tokens.borderRadiusMedium)
-	},
-	playerScore: {
-		display: 'flex',
-		justifyContent: 'center',
-		alignItems: 'center',
-		height: '100%',
-		width: '25px',
-		fontSize: '13px',
-		...shorthands.borderLeft('1px', 'solid', tokens.colorNeutralStroke2)
-	},
-	menuItemContainer: {
-		display: 'flex',
-		flexDirection: 'row',
-		width: '100%',
-		...shorthands.borderBottom('1px', 'solid', tokens.colorNeutralStroke3),
-		'&:hover': {
-			backgroundColor: tokens.colorNeutralBackground3Hover,
-			cursor: 'pointer'
-		}
-	},
-	menuItemBorder: {
-		backgroundColor: tokens.colorStatusSuccessForeground1,
-		height: '100%',
-		width: '4px'
-	},
-	menuItemContent: {
-		display: 'flex',
-		flexDirection: 'column',
-		width: '100%',
-		...shorthands.padding(0, tokens.spacingHorizontalM)
+		marginLeft: tokens.spacingHorizontalM
 	},
 	time: {
 		display: 'flex',
@@ -104,12 +47,13 @@ interface ReplayDataProps {
 
 export const ReplayCardHeader = ({ replay }: ReplayDataProps) => {
 	const cardClasses = cardStyles();
+	const itemClasses = menuItemStyles();
 	const classes = useStyles();
 
 	return (
 		<div className={cardClasses.textContent}>
 			<div className={cardClasses.textContentRow}>
-				<Caption2 className={classes.matchInfo}>
+				<Caption2 className={itemClasses.matchInfo}>
 					{replay.date?.toLocaleDateString('en-US', {
 						month: 'short',
 						day: '2-digit',
@@ -120,7 +64,7 @@ export const ReplayCardHeader = ({ replay }: ReplayDataProps) => {
 					})}
 				</Caption2>
 				<div className={classes.time}>
-					<Caption2 className={classes.matchInfo}>
+					<Caption2 className={itemClasses.matchInfo}>
 						{formatFrames(replay.lastFrame)}
 					</Caption2>
 					<TimerFilled />
@@ -137,28 +81,34 @@ interface PlayerContainerProps {
 	player: ReplayPlayer;
 }
 
+// TODO: CPU Player, Offline vs Online indicator
 const PlayerContainer = ({ player }: PlayerContainerProps) => {
+	const itemClasses = menuItemStyles();
 	const classes = useStyles();
 
 	// const isWinner = match.winnerId === player.id;
+	const character = getSlippiCharacter(player.characterId);
 
 	return (
 		<div className={classes.playerSlot}>
-			<CharacterIcon
-				character={getSlippiCharacter(player.characterId)}
-				className={classes.characterIcon}
-			/>
-			<div className={classes.playerContainer}>
-				<Caption1>{player.code ?? player.name ?? 'Unknown'}</Caption1>
-				<Body1Strong className={classes.playerScore}>{player.stocksRemaining}</Body1Strong>
+			<CharacterIcon character={character} className={classes.characterIcon} />
+			<div
+				className={mergeClasses(itemClasses.playerContainer, classes.replayPlayerContainer)}
+			>
+				<Caption1>
+					{player.code ?? player.name ?? characterToString(character) ?? 'Unknown'}
+				</Caption1>
+				<Body1Strong className={itemClasses.playerScore}>
+					{player.stocksRemaining}
+				</Body1Strong>
 			</div>
 		</div>
 	);
 };
 
 const ReplayCard = ({ replay }: ReplayDataProps) => {
-	const classes = useStyles();
 	const cardClasses = cardStyles();
+	const itemClasses = menuItemStyles();
 
 	const handleClick = () => {
 		// TODO
@@ -169,13 +119,10 @@ const ReplayCard = ({ replay }: ReplayDataProps) => {
 	}
 
 	return (
-		<div
-			className={mergeClasses(classes.menuItemContainer, 'menu-item-container')}
-			onClick={handleClick}
-		>
-			<div className={classes.menuItemContent}>
+		<div className={itemClasses.menuItemContainer} onClick={handleClick}>
+			<div className={itemClasses.menuItemContent}>
 				<ReplayCardHeader replay={replay} />
-				<div className={classes.playerContent}>
+				<div className={itemClasses.playerContent}>
 					<PlayerContainer player={replay.player1} />
 					<PlayerContainer player={replay.player2} />
 				</div>

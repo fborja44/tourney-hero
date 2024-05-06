@@ -15,8 +15,7 @@ const cardStyles = makeStyles({
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',
-		paddingTop: tokens.spacingVerticalXS,
-		paddingBottom: tokens.spacingVerticalS
+		...shorthands.padding(tokens.spacingVerticalXXS, 0)
 	},
 	cardButton: {
 		height: 'fit-content'
@@ -43,7 +42,8 @@ const cardStyles = makeStyles({
 	},
 	caption: {
 		fontStyle: 'italic',
-		color: tokens.colorNeutralForeground3
+		color: tokens.colorNeutralForeground3,
+		...shorthands.padding(tokens.spacingVerticalSNudge, 0)
 	}
 });
 

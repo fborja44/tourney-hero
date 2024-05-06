@@ -17,12 +17,12 @@ const useStyles = makeStyles({
 	}
 });
 
-interface EmptyProps {
+interface SidebarPlaceholderProps {
 	caption?: string;
 	icon: React.ReactNode;
 }
 
-const Empty = ({ caption, icon }: EmptyProps) => {
+const SidebarPlaceholder = ({ caption, icon }: SidebarPlaceholderProps) => {
 	const classes = useStyles();
 	return (
 		<div className={classes.empty}>
@@ -32,4 +32,4 @@ const Empty = ({ caption, icon }: EmptyProps) => {
 	);
 };
 
-export default Empty;
+export default SidebarPlaceholder;

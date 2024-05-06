@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { TournamentState } from '@redux/reducers/tournamentReducer';
 import { useState } from 'react';
 import TournamentCard from '../tournament/TournamentCard';
-import Empty from '../../SidebarPlaceholder';
+import Empty from '../../placeholder/SidebarPlaceholder';
 import { AppState } from '@redux/reducers/rootReducer';
 import useStartQuery from '@hooks/useStartQuery';
 import top8Query from '@graphql/queries/top8Query';
