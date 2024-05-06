@@ -129,6 +129,7 @@ export interface Scene {
 	title: string;
 	icon: React.ReactNode | JSX.Element;
 	panel: React.ReactNode;
+	source: string;
 }
 
 export interface StartQuery {

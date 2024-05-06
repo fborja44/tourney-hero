@@ -46,8 +46,7 @@ const AppRouter = () => {
 							header={
 								<>
 									<SceneHeader
-										title={scene.title}
-										icon={scene.icon}
+										scene={scene}
 										sendData={() => {
 											try {
 												let title = scene.title;

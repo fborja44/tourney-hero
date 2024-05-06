@@ -25,12 +25,14 @@ const initialState: ScenesState = [
 	{
 		title: 'Gameplay',
 		icon: <XboxController20Regular />,
-		panel: <GameplayForm />
+		panel: <GameplayForm />,
+		source: '/'
 	},
 	{
 		title: 'Commentators',
 		icon: <Mic20Regular />,
-		panel: <CommentatorsForm />
+		panel: <CommentatorsForm />,
+		source: '/commentators'
 	},
 	// {
 	// 	title: 'Intermission',
@@ -40,14 +42,16 @@ const initialState: ScenesState = [
 	{
 		title: 'Player Card',
 		icon: <VideoPersonRegular />,
-		panel: <PlayerCardForm />
+		panel: <PlayerCardForm />,
+		source: '/player'
 	},
 	{
 		title: 'Statistics',
 		icon: <DataBarVertical20Regular />,
-		panel: <StatsForm />
+		panel: <StatsForm />,
+		source: '/stats'
 	},
-	{ title: 'Bracket', icon: <BranchFork20Regular />, panel: <BracketForm /> },
+	{ title: 'Bracket', icon: <BranchFork20Regular />, panel: <BracketForm />, source: '/bracket' }
 	// {
 	// 	title: 'Players',
 	// 	icon: <People20Regular />,
