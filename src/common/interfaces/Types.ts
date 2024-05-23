@@ -162,6 +162,7 @@ export interface ReplayPlayer {
 }
 
 export interface ReplayData {
+	isOnline: boolean;
 	platform: string | null | undefined;
 	fileName: string;
 	player1: ReplayPlayer;

@@ -1,7 +1,7 @@
 import { Caption2, makeStyles, shorthands } from '@fluentui/react-components';
 import {
-	ColumnSingle16Regular,
-	BoardSplit16Regular,
+	// ColumnSingle16Regular,
+	// BoardSplit16Regular,
 	QuestionCircle16Regular
 } from '@fluentui/react-icons';
 import { tokens } from '@fluentui/react-theme';
@@ -40,12 +40,15 @@ const Footer = () => {
 	return (
 		<footer className={classes.footerContainer}>
 			<div className={classes.itemGroup}>
+				{/* TODO */}
 				<FooterButton icon={<QuestionCircle16Regular />} />
 			</div>
 			<div>
-				<Caption2 className={classes.copy}>Francis Borja © 2023 - 2024</Caption2>
-				<FooterButton icon={<BoardSplit16Regular />} />
-				<FooterButton icon={<ColumnSingle16Regular />} />
+				<Caption2 className={classes.copy}>
+					Francis &apos;beta&apos; Borja © 2023 - 2024
+				</Caption2>
+				{/* <FooterButton icon={<BoardSplit16Regular />} />
+				<FooterButton icon={<ColumnSingle16Regular />} /> */}
 			</div>
 		</footer>
 	);

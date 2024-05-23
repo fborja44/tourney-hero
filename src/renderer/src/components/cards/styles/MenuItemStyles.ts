@@ -32,7 +32,9 @@ const menuItemStyles = makeStyles({
 		...shorthands.gap(tokens.spacingVerticalS)
 	},
 	matchInfo: {
-		color: tokens.colorNeutralForeground2
+		color: tokens.colorNeutralForeground2,
+		textWrap: 'nowrap',
+		whiteSpace: 'nowrap'
 	},
 	playerContainer: {
 		height: '25px',
@@ -45,6 +47,14 @@ const menuItemStyles = makeStyles({
 		backgroundColor: tokens.colorNeutralBackground1,
 		...shorthands.border('1px', 'solid', tokens.colorNeutralStroke2),
 		...shorthands.borderRadius(tokens.borderRadiusMedium)
+	},
+	playerTagContainer: {
+		display: 'flex',
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		alignItems: 'center',
+		width: '100%',
+		paddingRight: tokens.spacingHorizontalS
 	},
 	playerScore: {
 		display: 'flex',

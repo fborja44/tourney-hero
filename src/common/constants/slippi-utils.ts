@@ -7,13 +7,13 @@ import { FrameEntryType, MetadataType, PlacementType } from '@slippi/slippi-js';
  */
 export const getSlippiPort = (port: number) => {
 	switch (port) {
-		case 1:
+		case 0:
 			return 'Red';
-		case 2:
+		case 1:
 			return 'Blue';
-		case 3:
+		case 2:
 			return 'Green';
-		case 4:
+		case 3:
 			return 'Yellow';
 		default:
 			return 'None';
@@ -162,7 +162,7 @@ export const getSlippiStage = (stageId: number) => {
  */
 export const getWinnerPort = (placements: PlacementType[]) => {
 	const winnerIndex = placements.find((player) => player.position === 0)?.playerIndex ?? -1;
-	return winnerIndex !== undefined ? getSlippiPort(winnerIndex + 1) : -1;
+	return winnerIndex !== undefined ? getSlippiPort(winnerIndex) : -1;
 };
 
 export const parseSlippiPlayers = (
@@ -174,8 +174,9 @@ export const parseSlippiPlayers = (
 		return [];
 	}
 
+	// Get winner port
 	const winnerPort = getWinnerPort(winners);
-
+	
 	// Convert players object to array
 	const players: ReplayPlayer[] = Object.keys(metadata.players).map((key) => {
 		const player = metadata.players?.[key];

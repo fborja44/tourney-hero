@@ -15,6 +15,7 @@ const cardStyles = makeStyles({
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',
+		columnGap: tokens.spacingHorizontalM,
 		...shorthands.padding(tokens.spacingVerticalXXS, 0)
 	},
 	cardButton: {
@@ -24,6 +25,10 @@ const cardStyles = makeStyles({
 		display: 'flex',
 		flexDirection: 'column',
 		...shorthands.padding(tokens.spacingVerticalS, 0)
+	},
+	textContentCol: {
+		display: 'flex',
+		flexDirection: 'column'
 	},
 	textContentRow: {
 		display: 'flex',

@@ -33,9 +33,12 @@ const readReplayDir = (replayDir: string) => {
 					continue;
 				}
 
+				// TODO: Check if stock mode
+
 				try {
 					const players = parseSlippiPlayers(metadata, winners, lastFrame);
 					const data: ReplayData = {
+						isOnline: !metadata.consoleNick,
 						platform: metadata.playedOn,
 						fileName: file,
 						player1: players[0],

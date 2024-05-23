@@ -5,11 +5,12 @@ import {
 	Caption2,
 	makeStyles,
 	mergeClasses,
+	shorthands,
 	tokens
 } from '@fluentui/react-components';
 import cardStyles from '@renderer/components/card/styles/CardStyles';
 import CharacterIcon from '@renderer/components/character/CharacterIcon';
-import { TimerFilled } from '@fluentui/react-icons';
+import { CrownFilled, TimerFilled } from '@fluentui/react-icons';
 import { getSlippiCharacter, getSlippiStage } from '@common/constants/slippi-utils';
 import { formatFrames } from '@renderer/utils/date';
 import menuItemStyles from '../styles/MenuItemStyles';
@@ -38,6 +39,21 @@ const useStyles = makeStyles({
 		'& svg': {
 			color: tokens.colorNeutralForeground4
 		}
+	},
+	fileName: {
+		textOverflow: 'ellipsis',
+		...shorthands.overflow('hidden', 'hidden')
+	},
+	stageIcon: {
+		width: '38px',
+		height: '30px',
+		objectFit: 'cover',
+		right: tokens.spacingHorizontalM,
+		...shorthands.border('1px', 'solid', tokens.colorNeutralStroke2),
+		...shorthands.borderRadius(tokens.borderRadiusMedium)
+	},
+	crown: {
+		color: tokens.colorPaletteMarigoldBackground3
 	}
 });
 
@@ -46,32 +62,30 @@ interface ReplayDataProps {
 }
 
 export const ReplayCardHeader = ({ replay }: ReplayDataProps) => {
+	const classes = useStyles();
 	const cardClasses = cardStyles();
 	const itemClasses = menuItemStyles();
-	const classes = useStyles();
 
 	return (
 		<div className={cardClasses.textContent}>
 			<div className={cardClasses.textContentRow}>
-				<Caption2 className={itemClasses.matchInfo}>
-					{replay.date?.toLocaleDateString('en-US', {
-						month: 'short',
-						day: '2-digit',
-						year: 'numeric',
-						hour: 'numeric',
-						minute: '2-digit',
-						hour12: true
-					})}
-				</Caption2>
-				<div className={classes.time}>
+				<div className={cardClasses.textContentCol}>
 					<Caption2 className={itemClasses.matchInfo}>
-						{formatFrames(replay.lastFrame)}
+						{replay.date?.toLocaleDateString('en-US', {
+							month: 'short',
+							day: '2-digit',
+							year: 'numeric',
+							hour: 'numeric',
+							minute: '2-digit',
+							hour12: true
+						})}
 					</Caption2>
-					<TimerFilled />
+					<Caption1>{getSlippiStage(replay.stageId)}</Caption1>
 				</div>
-			</div>
-			<div className={cardClasses.textContentRow}>
-				<Caption1>{getSlippiStage(replay.stageId)}</Caption1>
+				<img
+					className={classes.stageIcon}
+					src={`/assets/stageicons/${encodeURIComponent(replay.stageId)}.png`}
+				/>
 			</div>
 		</div>
 	);
@@ -95,8 +109,17 @@ const PlayerContainer = ({ player }: PlayerContainerProps) => {
 			<div
 				className={mergeClasses(itemClasses.playerContainer, classes.replayPlayerContainer)}
 			>
-				<Caption1>
-					{player.code ?? player.name ?? characterToString(character) ?? 'Unknown'}
+				<Caption1 className={itemClasses.playerTagContainer}>
+					<span>
+						{player.code
+							? player.code
+							: player.name
+								? player.name
+								: player.characterId
+									? characterToString(character)
+									: 'Unknown'}
+					</span>
+					{player.winner && <CrownFilled className={classes.crown} />}
 				</Caption1>
 				<Body1Strong className={itemClasses.playerScore}>
 					{player.stocksRemaining}
@@ -107,6 +130,7 @@ const PlayerContainer = ({ player }: PlayerContainerProps) => {
 };
 
 const ReplayCard = ({ replay }: ReplayDataProps) => {
+	const classes = useStyles();
 	const cardClasses = cardStyles();
 	const itemClasses = menuItemStyles();
 
@@ -127,7 +151,15 @@ const ReplayCard = ({ replay }: ReplayDataProps) => {
 					<PlayerContainer player={replay.player2} />
 				</div>
 				<div className={cardClasses.splitFooter}>
-					<Caption2 className={cardClasses.caption}>{replay.fileName}</Caption2>
+					<Caption2 className={mergeClasses(cardClasses.caption, classes.fileName)}>
+						{replay.fileName}
+					</Caption2>
+					<div className={classes.time}>
+						<Caption2 className={itemClasses.matchInfo}>
+							{formatFrames(replay.lastFrame)}
+						</Caption2>
+						<TimerFilled />
+					</div>
 				</div>
 			</div>
 		</div>

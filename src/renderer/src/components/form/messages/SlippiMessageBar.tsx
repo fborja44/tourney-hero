@@ -52,8 +52,8 @@ const SlippiMessageBar = () => {
 		const { player1, player2 } = gameplayData;
 		const slippi1 = activeGame?.players[0],
 			slippi2 = activeGame?.players[1];
-		const slippiPort1 = getSlippiPort(slippi1?.port ?? 0),
-			slippiPort2 = getSlippiPort(slippi2?.port ?? 0);
+		const slippiPort1 = getSlippiPort(slippi1?.port ? slippi1.port - 1 : 0),
+			slippiPort2 = getSlippiPort(slippi2?.port ? slippi2.port - 1 : 0);
 
 		if (
 			(slippiPort1 === player1.port && slippiPort2 === player2.port) ||
