@@ -160,11 +160,7 @@ const MatchCard = ({ match, appearance }: MatchCardProps) => {
 	const inProgress = match.state === 2;
 	const completed = match.state === 3;
 
-	const status = completed
-		? 'Match Completed'
-		: inProgress
-			? 'Match In Progress...'
-			: 'Waiting to Start...';
+	const status = completed ? 'Match Completed' : inProgress ? 'In Progress...' : 'Not Started';
 
 	const infoText = completed
 		? convertUnixTimestamp(match.completedAt ?? 0)

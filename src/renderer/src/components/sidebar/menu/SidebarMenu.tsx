@@ -89,7 +89,9 @@ const SidebarMenu = ({
 
 	return (
 		<div className={classes.container}>
-			<Searchbar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+			{!disabled && !empty && (
+				<Searchbar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+			)}
 			<SidebarMenuContent
 				loading={loading}
 				empty={empty}
