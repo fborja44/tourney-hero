@@ -65,7 +65,7 @@ const MenuCharacterField = ({ label, value, size, handleChange }: MenuCharacterF
 				onOptionSelect={handleChange}
 				defaultValue="Default"
 			>
-				{Array.from({ length: 27 }, (_, i) => i).map((characterId) => (
+				{Array.from({ length: 26 }, (_, i) => i).map((characterId) => (
 					<Option
 						text={getSlippiCharacterByExternalId(characterId)}
 						value={characterId.toString()}
@@ -77,6 +77,9 @@ const MenuCharacterField = ({ label, value, size, handleChange }: MenuCharacterF
 						<span>{getSlippiCharacterByExternalId(characterId)}</span>
 					</Option>
 				))}
+				<Option text={'Default'} value={undefined}>
+					<span>Default</span>
+				</Option>
 			</Dropdown>
 		</Field>
 	);

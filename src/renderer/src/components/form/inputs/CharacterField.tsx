@@ -76,9 +76,9 @@ const CharacterField = ({
 				onOptionSelect={(_ev, data) =>
 					handleChange(targetField, data.optionValue as Character)
 				}
-				defaultValue="Default"
+				defaultValue="null"
 			>
-				{Array.from({ length: 27 }, (_, i) => i).map((characterId) => (
+				{Array.from({ length: 26 }, (_, i) => i).map((characterId) => (
 					<Option
 						text={getSlippiCharacterByExternalId(characterId)}
 						value={characterId.toString()}
@@ -90,6 +90,9 @@ const CharacterField = ({
 						<span>{getSlippiCharacterByExternalId(characterId)}</span>
 					</Option>
 				))}
+				<Option text={'Default'} value={undefined}>
+					<span>Default</span>
+				</Option>
 			</Dropdown>
 		</Field>
 	);

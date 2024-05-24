@@ -86,7 +86,7 @@ const PlayerForm = ({ playerNumber, playerData }: PlayerFormProps) => {
 			tag: localPlayer?.tag ?? player?.tag ?? '',
 			team: localPlayer?.team ?? player?.team ?? '',
 			pronoun: localPlayer?.pronoun ?? player?.pronoun ?? '',
-			character: localPlayer?.character ?? player?.character ?? 'Default'
+			characterId: localPlayer?.characterId ?? player?.characterId ?? null
 		};
 		dispatch(updatePlayer(`player${playerNumber}`, playerData));
 	};
@@ -152,8 +152,8 @@ const PlayerForm = ({ playerNumber, playerData }: PlayerFormProps) => {
 			<div className={classes.formRow}>
 				<CharacterField
 					label="Character"
-					value={playerData.character}
-					targetField="character"
+					value={playerData.characterId?.toString()}
+					targetField="characterId"
 					handleChange={handlePlayerChange}
 					playerNumber={playerNumber}
 				/>
