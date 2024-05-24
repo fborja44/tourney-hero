@@ -327,7 +327,7 @@ const MatchCard = ({ match, appearance }: MatchCardProps) => {
 				score: player1.score ?? 0,
 				team: player1.team ?? '',
 				pronoun: player1.pronoun ?? '',
-				character: player1.character ?? 'Default'
+				characterId: player1.characterId ?? null
 			})
 		);
 		dispatch(
@@ -336,7 +336,7 @@ const MatchCard = ({ match, appearance }: MatchCardProps) => {
 				score: player2.score ?? 0,
 				team: player2.team ?? '',
 				pronoun: player2.pronoun ?? '',
-				character: player2.character ?? 'Default'
+				characterId: player2.characterId ?? null
 			})
 		);
 	};

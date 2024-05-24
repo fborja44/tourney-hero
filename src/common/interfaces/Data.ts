@@ -1,5 +1,5 @@
 import { UUID } from 'crypto';
-import { Character, PlayerCardMatch, PlayerCardPlacement, Port } from './Types';
+import { CharacterId, PlayerCardMatch, PlayerCardPlacement, Port } from './Types';
 
 export type SceneData = GameplayData | PlayerData | CommentatorData | BracketData | PlayerCardData;
 
@@ -37,15 +37,15 @@ export interface ScoreData {
 }
 
 export interface CharacterData {
-	p1character: Character;
-	p2character: Character;
+	p1characterId: CharacterId;
+	p2characterId: CharacterId;
 }
 
 export interface PlayerData {
 	tag: string;
 	tagDisplaySize: number;
 	score: number | null;
-	character: Character;
+	characterId: CharacterId;
 	team: string;
 	pronoun: string | undefined;
 	port: Port;
@@ -101,7 +101,7 @@ export interface PlayerCardData {
 	showTeamLogo: boolean;
 	id: number;
 	team: string;
-	character: Character;
+	characterId: CharacterId;
 	tag: string;
 	pronoun: string;
 	countryCode: string;
@@ -122,7 +122,7 @@ export interface LocalCommentator {
 export interface LocalPlayer {
 	id: UUID;
 	tag: string;
-	character?: Character;
+	characterId?: CharacterId;
 	team?: string;
 	pronoun?: string;
 }

@@ -37,7 +37,7 @@ const JoiPlayerCard = Joi.object({
 	seed: Joi.number().integer().min(0).max(5000).required(),
 	matches: Joi.array().min(0).max(4).items(JoiPlayerMatch).required(),
 	placements: Joi.array().min(0).max(4).items(JoiPlayerPlacement).required(),
-	character: JoiCharacter.required()
+	characterId: JoiCharacter.required()
 }).required();
 
 export default JoiPlayerCard;

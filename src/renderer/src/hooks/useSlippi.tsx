@@ -4,7 +4,7 @@ import { OBSWebSocketClientContext } from '@renderer/obs-websocket/OBSWebsocketP
 import { incrementScore, updatePlayer } from '@renderer/redux/actions/dataActions';
 import { setActiveGame } from '@renderer/redux/actions/slippiActions';
 import { AppState } from '@renderer/redux/reducers/rootReducer';
-import { getSlippiCharacter, getWinnerPort } from '@common/constants/slippi-utils';
+import { getSlippiCharacterByInternalId, getWinnerPort } from '@common/constants/slippi-utils';
 import { GameEndType, GameStartType } from '@slippi/slippi-js';
 import { IpcRendererEvent } from 'electron';
 import { useContext, useEffect } from 'react';
@@ -61,8 +61,8 @@ const useSlippi = () => {
 
 		// Auto-update characters
 		if (automate && autoUpdateCharacters && portsValid && game.players.length === 2) {
-			const character1 = getSlippiCharacter(game.players[0].characterId ?? -1),
-				character2 = getSlippiCharacter(game.players[1].characterId ?? -1);
+			const character1 = getSlippiCharacterByInternalId(game.players[0].characterId ?? -1),
+				character2 = getSlippiCharacterByInternalId(game.players[1].characterId ?? -1);
 			if (player1.character !== character1 || player2.character !== character2) {
 				// Emit socket event
 				sendData('updateCharacters', {

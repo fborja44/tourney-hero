@@ -11,9 +11,7 @@ import {
 } from '@fluentui/react-components';
 import { tokens } from '@fluentui/react-theme';
 import CharacterIcon from '../../character/CharacterIcon';
-import { CHARACTERS } from '@common/constants/data';
-import { characterToString } from '@utils/string';
-import { Character } from '@common/interfaces/Types';
+import { getSlippiCharacterByExternalId } from '@common/constants/slippi-utils';
 
 const useStyles = makeStyles({
 	formField: {
@@ -60,21 +58,23 @@ const MenuCharacterField = ({ label, value, size, handleChange }: MenuCharacterF
 				// @ts-expect-error !Ignoring type error to display custom value
 				value={
 					<div className={classes.display}>
-						<CharacterIcon className={classes.icon} character={value as Character} />
-						<span>{characterToString(value as Character)}</span>
+						<CharacterIcon className={classes.icon} characterId={value} />
+						<span>{getSlippiCharacterByExternalId(value)}</span>
 					</div>
 				}
 				onOptionSelect={handleChange}
 				defaultValue="Default"
 			>
-				{CHARACTERS.map((character) => (
+				{Array.from({ length: 27 }, (_, i) => i).map((characterId) => (
 					<Option
-						text={characterToString(character)}
-						value={character}
-						key={`${character}-local`}
+						text={getSlippiCharacterByExternalId(characterId)}
+						value={characterId.toString()}
+						key={`${characterId}-local`}
 					>
-						<CharacterIcon className={classes.icon} character={character} />
-						<span>{characterToString(character)}</span>
+						{characterId < 26 && (
+							<CharacterIcon className={classes.icon} characterId={characterId} />
+						)}
+						<span>{getSlippiCharacterByExternalId(characterId)}</span>
 					</Option>
 				))}
 			</Dropdown>

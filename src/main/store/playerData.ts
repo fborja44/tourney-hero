@@ -2,16 +2,14 @@ import store from '.';
 import { MAX_PRONOUN_LENGTH, MAX_TAG_LENGTH, MAX_TEAM_LENGTH } from '../../common/constants/limits';
 import { IpcMainInvokeEvent } from 'electron';
 import Joi from 'joi';
-import { CHARACTERS } from '../../common/constants/data';
 import { LocalPlayer } from '../../common/interfaces/Data';
 import { JoiUUID } from '../../common/validator';
+import { JoiCharacter } from '../../common/validator/JoiGameplay';
 
 const JoiLocalPlayer = Joi.object({
 	id: JoiUUID.required(),
 	tag: Joi.string().min(1).max(MAX_TAG_LENGTH).required(),
-	character: Joi.string()
-		.valid(...CHARACTERS, '')
-		.required(),
+	characterId: JoiCharacter.required(),
 	team: Joi.string().max(MAX_TEAM_LENGTH).allow('').trim().required(),
 	pronoun: Joi.string().max(MAX_PRONOUN_LENGTH).allow('').trim().required()
 });

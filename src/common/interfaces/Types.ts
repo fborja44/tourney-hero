@@ -3,15 +3,17 @@ import React, { JSX } from 'react';
 
 export type Port = 'Red' | 'Blue' | 'Yellow' | 'Green' | 'None';
 
+export type CharacterId = number | null;
+
 export type Character =
 	| 'Bowser'
-	| 'CaptainFalcon'
-	| 'DonkeyKong'
-	| 'DrMario'
+	| 'Captain Falcon'
+	| 'Donkey Kong'
+	| 'Dr. Mario'
 	| 'Falco'
 	| 'Fox'
 	| 'Ganondorf'
-	| 'IceClimbers'
+	| 'Ice Climbers'
 	| 'Jigglypuff'
 	| 'Kirby'
 	| 'Link'
@@ -19,7 +21,7 @@ export type Character =
 	| 'Mario'
 	| 'Marth'
 	| 'Mewtwo'
-	| 'MrGameWatch'
+	| 'Mr. Game & Watch'
 	| 'Ness'
 	| 'Peach'
 	| 'Pichu'
@@ -28,7 +30,7 @@ export type Character =
 	| 'Samus'
 	| 'Sheik'
 	| 'Yoshi'
-	| 'YoungLink'
+	| 'Young Link'
 	| 'Zelda'
 	| 'Default';
 
@@ -106,7 +108,7 @@ export interface Entrant {
 	team: string;
 	pronoun: string;
 	imageUrl: string | null;
-	character?: Character;
+	characterId?: number;
 	score?: number | null;
 	isWinner?: boolean;
 }

@@ -4,14 +4,13 @@ import formStyles from './styles/FormStyles';
 import CheckboxField from './inputs/CheckboxField';
 import { useDispatch, useSelector } from 'react-redux';
 import { updatePlayerCard } from '@redux/actions/dataActions';
-import { PlayerCardData, PlayerData } from '@common/interfaces/Data';
+import { PlayerCardData } from '@common/interfaces/Data';
 import { AppState } from '@redux/reducers/rootReducer';
 import TextField from './inputs/TextField';
 import CharacterField from './inputs/CharacterField';
 import { MAX_TAG_LENGTH, MAX_TEAM_LENGTH } from '@common/constants/limits';
 import EntrantSelectField from './inputs/EntrantSelectField';
 import EmptyPanel from '../panel/EmptyPanel';
-import { useEffect, useState } from 'react';
 import useEntrant from '@renderer/hooks/useEntrant';
 import CountryField from './inputs/CountryField';
 
@@ -74,7 +73,7 @@ const PlayerCardForm = () => {
 		handlePlayerCardChange('countryCode', data.optionValue ?? '??');
 	};
 
-	const { tag, character, twitter, twitch, team, countryCode } = playerCardData;
+	const { tag, characterId, twitter, twitch, team, countryCode } = playerCardData;
 
 	// TODO: Display match results and placements
 
@@ -95,9 +94,9 @@ const PlayerCardForm = () => {
 				<div className={classes.formRow}>
 					<CharacterField
 						label="Character"
-						targetField="character"
+						targetField="characterId"
 						handleChange={handlePlayerCardChange}
-						value={character}
+						value={characterId?.toString()}
 					/>
 				</div>
 				<div className={classes.formRow}>

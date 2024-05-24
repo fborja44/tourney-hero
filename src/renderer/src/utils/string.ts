@@ -1,6 +1,3 @@
-import { CHARACTERS } from '@common/constants/data';
-import { Character } from '@common/interfaces/Types';
-
 /**
  * Capitalizes the first character in a string
  * @param string The string to capitalize
@@ -26,36 +23,6 @@ export const toCamelCase = (string: string) => {
 		.split(' ')
 		.map((word, index) => (index === 0 ? word.toLowerCase() : capitalize(word)))
 		.join('');
-};
-
-/**
- * Generates a proper string representation for a character
- * @param character The character to get a string for
- * @returns The associated character string
- */
-export const characterToString = (character: Character) => {
-	if (typeof character !== 'string') {
-		throw new TypeError('Input must be of type string');
-	}
-	if (!CHARACTERS.includes(character)) {
-		throw new TypeError('Invalid character');
-	}
-	switch (character) {
-		case 'CaptainFalcon':
-			return 'Captain Falcon';
-		case 'DrMario':
-			return 'Dr. Mario';
-		case 'DonkeyKong':
-			return 'Donkey Kong';
-		case 'IceClimbers':
-			return 'Ice Climbers';
-		case 'MrGameWatch':
-			return 'Mr. Game & Watch';
-		case 'YoungLink':
-			return 'Young Link';
-		default:
-			return character;
-	}
 };
 
 /**

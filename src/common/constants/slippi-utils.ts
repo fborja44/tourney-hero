@@ -24,16 +24,22 @@ export const getSlippiPort = (port: number) => {
  * Gets the string representation of a Slippi Internal Character ID.
  * @param characterId The Slippi character ID
  */
-export const getSlippiCharacter = (characterId: number): Character => {
+export const getSlippiCharacterByInternalId = (
+	characterId: number | string | undefined
+): Character => {
+	if (typeof characterId === 'string') {
+		characterId = parseInt(characterId);
+	}
+
 	switch (characterId) {
 		case 0:
 			return 'Mario';
 		case 1:
 			return 'Fox';
 		case 2:
-			return 'CaptainFalcon';
+			return 'Captain Falcon';
 		case 3:
-			return 'DonkeyKong';
+			return 'Donkey Kong';
 		case 4:
 			return 'Kirby';
 		case 5:
@@ -47,9 +53,9 @@ export const getSlippiCharacter = (characterId: number): Character => {
 		case 9:
 			return 'Peach';
 		case 10:
-			return 'IceClimbers';
+			return 'Ice Climbers';
 		case 11:
-			return 'IceClimbers';
+			return 'Ice Climbers';
 		case 12:
 			return 'Pikachu';
 		case 13:
@@ -67,19 +73,90 @@ export const getSlippiCharacter = (characterId: number): Character => {
 		case 19:
 			return 'Zelda';
 		case 20:
-			return 'YoungLink';
+			return 'Young Link';
 		case 21:
-			return 'DrMario';
+			return 'Dr. Mario';
 		case 22:
 			return 'Falco';
 		case 23:
 			return 'Pichu';
 		case 24:
-			return 'MrGameWatch';
+			return 'Mr. Game & Watch';
+		case 25:
+			return 'Ganondorf';
+		case 26:
+			return 'Roy';
+		default:
+			return 'Default';
+	}
+};
+
+/**
+ * Gets the string representation of a Slippi Internal Character ID.
+ * @param characterId The Slippi character ID
+ */
+export const getSlippiCharacterByExternalId = (
+	characterId: number | string | undefined
+): Character => {
+	if (typeof characterId === 'string') {
+		characterId = parseInt(characterId);
+	}
+
+	switch (characterId) {
+		case 0:
+			return 'Captain Falcon';
+		case 1:
+			return 'Donkey Kong';
+		case 2:
+			return 'Fox';
+		case 3:
+			return 'Mr. Game & Watch';
+		case 4:
+			return 'Kirby';
+		case 5:
+			return 'Bowser';
+		case 6:
+			return 'Link';
+		case 7:
+			return 'Luigi';
+		case 8:
+			return 'Mario';
+		case 9:
+			return 'Marth';
+		case 10:
+			return 'Mewtwo';
+		case 11:
+			return 'Ness';
+		case 12:
+			return 'Peach';
+		case 13:
+			return 'Pikachu';
+		case 14:
+			return 'Ice Climbers';
+		case 15:
+			return 'Jigglypuff';
+		case 16:
+			return 'Samus';
+		case 17:
+			return 'Yoshi';
+		case 18:
+			return 'Zelda';
+		case 19:
+			return 'Sheik';
+		case 20:
+			return 'Falco';
+		case 21:
+			return 'Young Link';
+		case 22:
+			return 'Dr. Mario';
+		case 23:
+			return 'Roy';
+		case 24:
+			return 'Pichu';
 		case 25:
 			return 'Ganondorf';
 		default:
-			return 'Roy';
+			return 'Default';
 	}
 };
 
@@ -176,7 +253,7 @@ export const parseSlippiPlayers = (
 
 	// Get winner port
 	const winnerPort = getWinnerPort(winners);
-	
+
 	// Convert players object to array
 	const players: ReplayPlayer[] = Object.keys(metadata.players).map((key) => {
 		const player = metadata.players?.[key];
