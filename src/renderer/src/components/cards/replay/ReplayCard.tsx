@@ -11,7 +11,7 @@ import {
 import cardStyles from '@renderer/components/card/styles/CardStyles';
 import CharacterIcon from '@renderer/components/character/CharacterIcon';
 import { CrownFilled, TimerFilled } from '@fluentui/react-icons';
-import { getSlippiCharacterByInternalId, getSlippiStage } from '@common/constants/slippi-utils';
+import { getSlippiCharacterData, getSlippiStage } from '@common/constants/slippi-utils';
 import { formatFrames } from '@renderer/utils/date';
 import menuItemStyles from '../styles/MenuItemStyles';
 
@@ -100,11 +100,14 @@ const PlayerContainer = ({ player }: PlayerContainerProps) => {
 	const classes = useStyles();
 
 	// const isWinner = match.winnerId === player.id;
-	const character = getSlippiCharacterByInternalId(player.characterId);
+	const character = getSlippiCharacterData(player.characterId);
 
 	return (
 		<div className={classes.playerSlot}>
-			<CharacterIcon characterId={player.characterId} className={classes.characterIcon} />
+			<CharacterIcon
+				characterId={character?.externalId ?? undefined}
+				className={classes.characterIcon}
+			/>
 			<div
 				className={mergeClasses(itemClasses.playerContainer, classes.replayPlayerContainer)}
 			>
@@ -115,7 +118,7 @@ const PlayerContainer = ({ player }: PlayerContainerProps) => {
 							: player.name
 								? player.name
 								: player.characterId
-									? character
+									? character?.name
 									: 'Unknown'}
 					</span>
 					{player.winner && <CrownFilled className={classes.crown} />}

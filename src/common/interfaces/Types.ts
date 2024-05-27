@@ -3,6 +3,18 @@ import React, { JSX } from 'react';
 
 export type Port = 'Red' | 'Blue' | 'Yellow' | 'Green' | 'None';
 
+export type SlippiCharacter = {
+	name: Character;
+	internalId: CharacterId;
+	externalId: CharacterId;
+};
+
+export type SlippiStage = {
+	name: Stage;
+	internalId: CharacterId;
+	externalId: CharacterId;
+};
+
 export type CharacterId = number | null;
 
 export type Character =
