@@ -1,3 +1,4 @@
+require('ts-node').register();
 import { app, shell, BrowserWindow, ipcMain, nativeTheme, session } from 'electron';
 import { join } from 'path';
 import { electronApp, optimizer, is } from '@electron-toolkit/utils';

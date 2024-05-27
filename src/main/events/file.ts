@@ -1,11 +1,13 @@
 import { SlippiGame } from '@slippi/slippi-js';
 import { dialog } from 'electron';
-import fs from 'node:fs';
-import path from 'node:path';
+import fs from 'fs';
+import path from 'path';
 import { ReplayData } from '../../common/interfaces/Types';
 import { parseSlippiPlayers } from '../../common/constants/slippi-utils';
+import { Worker } from 'worker_threads';
+import { is } from '@electron-toolkit/utils';
 
-const readReplayDir = (replayDir: string) => {
+export const readReplayDir = (replayDir: string) => {
 	// TODO: Decouple/parse on separate thread
 	return new Promise((resolve) => {
 		fs.readdir(replayDir, (_err, files) => {
@@ -15,46 +17,51 @@ const readReplayDir = (replayDir: string) => {
 
 			// Parse replay metadata for 10 most recent replays
 			for (let i = replayNum - 1; i > replayNum - Math.min(10, replayNum) - 1; i--) {
-				const file = filePaths[i];
-				const replayPath = path.join(replayDir, file);
-				const replay = new SlippiGame(replayPath);
-				const metadata = replay.getMetadata();
-				const settings = replay.getSettings();
-				const winners = replay.getWinners();
-				const lastFrame = replay.getLatestFrame();
-
-				// Missing data
-				if (!metadata || !metadata.players) {
-					continue;
-				}
-
-				// Check if singles match
-				if (Object.keys(metadata.players).length > 2) {
-					continue;
-				}
-
-				// TODO: Check if stock mode
-
-				try {
-					const players = parseSlippiPlayers(metadata, winners, lastFrame);
-					const data: ReplayData = {
-						isOnline: !metadata.consoleNick,
-						platform: metadata.playedOn,
-						fileName: file,
-						player1: players[0],
-						player2: players[1],
-						stageId: settings?.stageId ?? -1,
-						date: metadata.startAt ? new Date(metadata.startAt) : undefined,
-						lastFrame: metadata.lastFrame
-					};
-					replayData.push(data);
-				} catch (err) {
-					console.error(`Failed to parse replay '${file}'`, err);
-				}
+				const data = parseReplayMetadata(filePaths[i], replayDir);
+				if (data) replayData.push(data);
 			}
 			resolve(replayData);
 		});
 	});
+};
+
+export const parseReplayMetadata = (file, replayDir): ReplayData | null => {
+	const replayPath = path.join(replayDir, file);
+	const replay = new SlippiGame(replayPath);
+	const metadata = replay.getMetadata();
+	const settings = replay.getSettings();
+	const winners = replay.getWinners();
+	const lastFrame = replay.getLatestFrame();
+
+	// Missing data
+	if (!metadata || !metadata.players) {
+		return null;
+	}
+
+	// Check if singles match
+	if (Object.keys(metadata.players).length > 2) {
+		return null;
+	}
+
+	// TODO: Check if stock mode
+
+	try {
+		const players = parseSlippiPlayers(metadata, winners, lastFrame);
+		const data: ReplayData = {
+			isOnline: !metadata.consoleNick,
+			platform: metadata.playedOn,
+			fileName: file,
+			player1: players[0],
+			player2: players[1],
+			stageId: settings?.stageId ?? -1,
+			date: metadata.startAt ? new Date(metadata.startAt) : undefined,
+			lastFrame: metadata.lastFrame
+		};
+		return data;
+	} catch (err) {
+		console.error(`Failed to parse replay '${file}'`, err);
+		return null;
+	}
 };
 
 /**
@@ -68,7 +75,24 @@ export const handleSelectReplayDir = async () => {
 	});
 	if (!result.canceled) {
 		const replayDir = result.filePaths[0];
+
+		// Create new thread
+		let workerPath;
+		if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
+			workerPath = path.resolve(__dirname, '../../src/main/scripts/get_replay_metadata.ts');
+		} else {
+			workerPath = path.resolve(__dirname, '../scripts/get_replay_metadata.ts');
+		}
+		const worker = new Worker(workerPath, {
+			execArgv: ['-r', 'ts-node/register']
+		});
+
+		worker.postMessage(replayDir);
+
 		const replayData = await readReplayDir(replayDir);
+
+		worker.terminate();
+
 		return { replayDir, replayData };
 	}
 	return undefined;

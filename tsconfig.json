@@ -1,4 +1,15 @@
 {
 	"files": [],
-	"references": [{ "path": "./tsconfig.node.json" }, { "path": "./tsconfig.web.json" }]
+	"references": [{ "path": "./tsconfig.node.json" }, { "path": "./tsconfig.web.json" }],
+	"compilerOptions": {
+		"esModuleInterop": true,
+		"paths": {
+			"@renderer/*": ["/src/renderer/src"],
+			"@common/*": ["/src/common"],
+			"@redux/*": ["/src/renderer/src/redux"],
+			"@hooks/*": ["/src/renderer/src/hooks"],
+			"@utils/*": ["/src/renderer/src/utils"],
+			"@graphql/*": ["/src/renderer/src/graphql"]
+		}
+	}
 }

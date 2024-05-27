@@ -1,4 +1,4 @@
-import { Character, ReplayPlayer } from '@common/interfaces/Types';
+import { Character, ReplayPlayer } from '../interfaces/Types';
 import { FrameEntryType, MetadataType, PlacementType } from '@slippi/slippi-js';
 
 /**
