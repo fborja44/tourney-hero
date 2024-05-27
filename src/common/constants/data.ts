@@ -2,13 +2,13 @@ import { Character } from '../interfaces/Types';
 
 export const CHARACTERS: Character[] = [
 	'Bowser',
-	'CaptainFalcon',
-	'DonkeyKong',
-	'DrMario',
+	'Captain Falcon',
+	'Donkey Kong',
+	'Dr. Mario',
 	'Falco',
 	'Fox',
 	'Ganondorf',
-	'IceClimbers',
+	'Ice Climbers',
 	'Jigglypuff',
 	'Kirby',
 	'Link',
@@ -16,7 +16,7 @@ export const CHARACTERS: Character[] = [
 	'Mario',
 	'Marth',
 	'Mewtwo',
-	'MrGameWatch',
+	'Mr. Game & Watch',
 	'Ness',
 	'Peach',
 	'Pichu',
@@ -25,7 +25,7 @@ export const CHARACTERS: Character[] = [
 	'Samus',
 	'Sheik',
 	'Yoshi',
-	'YoungLink',
+	'Young Link',
 	'Zelda',
 	'Default'
 ];
