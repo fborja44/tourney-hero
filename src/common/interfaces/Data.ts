@@ -1,5 +1,5 @@
 import { UUID } from 'crypto';
-import { CharacterId, PlayerCardMatch, PlayerCardPlacement, Port, ReplayData } from './Types';
+import { CharacterId, PlayerCardMatch, PlayerCardPlacement, Port } from './Types';
 
 export type SceneData = GameplayData | PlayerData | CommentatorData | BracketData | PlayerCardData;
 
@@ -15,7 +15,7 @@ export interface OverlayData {
 	commentators: CommentatorData;
 	bracket: BracketData;
 	playerCard: PlayerCardData;
-	stats: StatsData;
+	statistics: StatsData;
 }
 
 export type AutomationData = ScoreData | CharacterData;
@@ -117,7 +117,6 @@ export interface PlayerCardData {
 export interface StatsData {
 	player1: PlayerData;
 	player2: PlayerData;
-	gameData: ReplayData[];
 }
 
 export interface LocalCommentator {

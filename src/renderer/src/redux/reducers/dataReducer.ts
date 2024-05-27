@@ -25,7 +25,7 @@ export const initialState: OverlayData = {
 	commentators: commentatorData,
 	bracket: bracketData,
 	playerCard: playerCardData,
-	stats: statsData
+	statistics: statsData
 };
 
 const dataReducer = createReducer(initialState, (builder) => {
@@ -69,15 +69,15 @@ const dataReducer = createReducer(initialState, (builder) => {
 			};
 		})
 		.addCase(updateStats, (state, action) => {
-			state.stats = {
-				...state.stats,
+			state.statistics = {
+				...state.statistics,
 				...action.payload
 			};
 		})
 		.addCase(updatedStatsPlayers, (state, action) => {
 			const { targetPlayer, updatedPlayer } = action.payload;
-			state.stats[targetPlayer] = {
-				...state.stats[targetPlayer],
+			state.statistics[targetPlayer] = {
+				...state.statistics[targetPlayer],
 				...updatedPlayer
 			};
 		})

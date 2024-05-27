@@ -108,6 +108,5 @@ export const statsData: StatsData = {
 		...defaultPlayer,
 		tag: 'Player 2',
 		port: 'Blue'
-	},
-	gameData: []
+	}
 };
