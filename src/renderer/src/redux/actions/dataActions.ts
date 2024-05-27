@@ -6,7 +6,8 @@ import {
 	GameplayData,
 	OverlayData,
 	PlayerCardData,
-	PlayerData
+	PlayerData,
+	StatsData
 } from '@common/interfaces/Data';
 
 export const setOverlayData = createAction('SET_DATA', (newOverlayData: OverlayData) => {
@@ -71,6 +72,21 @@ export const updatePlayerCard = createAction(
 	(updatedPlayerCard: Partial<PlayerCardData>) => {
 		return {
 			payload: updatedPlayerCard
+		};
+	}
+);
+
+export const updateStats = createAction('UPDATE_STATS', (updatedStats: Partial<StatsData>) => {
+	return {
+		payload: updatedStats
+	};
+});
+
+export const updatedStatsPlayers = createAction(
+	'UPDATE_STATS_PLAYER',
+	(targetPlayer: 'player1' | 'player2', updatedPlayer: Partial<PlayerData>) => {
+		return {
+			payload: { targetPlayer, updatedPlayer }
 		};
 	}
 );

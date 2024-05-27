@@ -4,7 +4,8 @@ import {
 	bracketData,
 	commentatorData,
 	gameplayData,
-	playerCardData
+	playerCardData,
+	statsData
 } from '@common/data/defaultData';
 import {
 	incrementScore,
@@ -14,14 +15,17 @@ import {
 	updateCommentators,
 	updateGameplay,
 	updatePlayer,
-	updatePlayerCard
+	updatePlayerCard,
+	updateStats,
+	updatedStatsPlayers
 } from '../actions/dataActions';
 
 export const initialState: OverlayData = {
 	gameplay: gameplayData,
 	commentators: commentatorData,
 	bracket: bracketData,
-	playerCard: playerCardData
+	playerCard: playerCardData,
+	stats: statsData
 };
 
 const dataReducer = createReducer(initialState, (builder) => {
@@ -62,6 +66,19 @@ const dataReducer = createReducer(initialState, (builder) => {
 			state.playerCard = {
 				...state.playerCard,
 				...action.payload
+			};
+		})
+		.addCase(updateStats, (state, action) => {
+			state.stats = {
+				...state.stats,
+				...action.payload
+			};
+		})
+		.addCase(updatedStatsPlayers, (state, action) => {
+			const { targetPlayer, updatedPlayer } = action.payload;
+			state.stats[targetPlayer] = {
+				...state.stats[targetPlayer],
+				...updatedPlayer
 			};
 		})
 		.addCase(incrementScore, (state, action) => {

@@ -4,7 +4,6 @@ import formStyles from './styles/FormStyles';
 import RadioGroupField from './inputs/RadioGroupField';
 import { DataField, PlayerData } from '@common/interfaces/Data';
 import NumberField from './inputs/NumberField';
-import { updatePlayer } from '@redux/actions/dataActions';
 import { useDispatch, useSelector } from 'react-redux';
 import CharacterField from './inputs/CharacterField';
 import playerFormStyles from './styles/PlayerFormStyles';
@@ -19,13 +18,15 @@ import {
 import { Port } from '@common/interfaces/Types';
 import { useEffect, useState } from 'react';
 import CountryField from './inputs/CountryField';
+import { PlayerUpdateFunction } from './PlayerFormSection';
 
 interface PlayerFormProps {
 	playerNumber: '1' | '2';
 	playerData: PlayerData;
+	updateFn: PlayerUpdateFunction;
 }
 
-const PlayerForm = ({ playerNumber, playerData }: PlayerFormProps) => {
+const PlayerForm = ({ playerNumber, playerData, updateFn }: PlayerFormProps) => {
 	const classes = formStyles();
 	const playerClasses = playerFormStyles();
 	const dispatch = useDispatch();
@@ -39,7 +40,7 @@ const PlayerForm = ({ playerNumber, playerData }: PlayerFormProps) => {
 	 */
 	const handlePlayerChange = (targetField: DataField, value: string | number | boolean) => {
 		dispatch(
-			updatePlayer(`player${playerNumber}`, {
+			updateFn(`player${playerNumber}`, {
 				[targetField]: value
 			})
 		);
@@ -88,7 +89,7 @@ const PlayerForm = ({ playerNumber, playerData }: PlayerFormProps) => {
 			pronoun: localPlayer?.pronoun ?? player?.pronoun ?? '',
 			characterId: localPlayer?.characterId ?? player?.characterId ?? null
 		};
-		dispatch(updatePlayer(`player${playerNumber}`, playerData));
+		dispatch(updateFn(`player${playerNumber}`, playerData));
 	};
 
 	const handleTagChange = (event) => {

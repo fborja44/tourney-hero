@@ -3,8 +3,21 @@ import {
 	BracketMatch,
 	CommentatorData,
 	GameplayData,
-	PlayerCardData
+	PlayerCardData,
+	PlayerData,
+	StatsData
 } from '../interfaces/Data';
+
+export const defaultPlayer: PlayerData = {
+	tag: 'Player',
+	tagDisplaySize: 32,
+	score: 0,
+	characterId: null,
+	team: '',
+	port: 'Red',
+	pronoun: '',
+	countryCode: 'US'
+};
 
 export const gameplayData: GameplayData = {
 	matchType: 'Best of 3',
@@ -14,24 +27,13 @@ export const gameplayData: GameplayData = {
 	infoMsg: 'start.gg/short-slug',
 	showCommentators: false,
 	player1: {
-		tag: 'Player 1',
-		tagDisplaySize: 32,
-		score: 0,
-		characterId: null,
-		team: '',
-		port: 'Red',
-		pronoun: '',
-		countryCode: 'US'
+		...defaultPlayer,
+		tag: 'Player 1'
 	},
 	player2: {
+		...defaultPlayer,
 		tag: 'Player 2',
-		tagDisplaySize: 32,
-		score: 0,
-		characterId: null,
-		team: '',
-		port: 'Blue',
-		pronoun: '',
-		countryCode: 'US'
+		port: 'Blue'
 	},
 	showPlayerCamInfo: true
 };
@@ -95,4 +97,17 @@ export const playerCardData: PlayerCardData = {
 	id: 0,
 	countryCode: 'US'
 	// stateCode: ''
+};
+
+export const statsData: StatsData = {
+	player1: {
+		...defaultPlayer,
+		tag: 'Player 1'
+	},
+	player2: {
+		...defaultPlayer,
+		tag: 'Player 2',
+		port: 'Blue'
+	},
+	gameData: []
 };

@@ -1,15 +1,14 @@
-import { Body1, Button, Tooltip, mergeClasses } from '@fluentui/react-components';
+import { Body1 } from '@fluentui/react-components';
 import Panel from '../panel/Panel';
 import TextField from './inputs/TextField';
 import formStyles from './styles/FormStyles';
-import PlayerForm from './PlayerForm';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateGameplay, updatePlayer } from '@redux/actions/dataActions';
 import { GameplayData } from '@common/interfaces/Data';
 import { AppState } from '@redux/reducers/rootReducer';
-import { ArrowSwapRegular } from '@fluentui/react-icons';
 import { MAX_BRACKET_DATA_LENGTH } from '@common/constants/limits';
 import CheckboxField from './inputs/CheckboxField';
+import PlayerFormSection from './PlayerFormSection';
 // import CheckboxField from './inputs/CheckboxField';
 
 const GameplayForm = () => {
@@ -40,29 +39,9 @@ const GameplayForm = () => {
 		);
 	};
 
-	/**
-	 * Swaps player form data.
-	 */
-	const handleSwapPlayers = () => {
-		const tempPlayer1 = { ...player1 };
-		dispatch(updatePlayer('player1', player2));
-		dispatch(updatePlayer('player2', tempPlayer1));
-	};
-
 	return (
 		<Panel>
-			<div className={mergeClasses(classes.formSectionRow, classes.relative)}>
-				<PlayerForm playerNumber="1" playerData={player1} />
-				<PlayerForm playerNumber="2" playerData={player2} />
-				<Tooltip content={'Swap Players'} relationship={'label'}>
-					<Button
-						icon={<ArrowSwapRegular />}
-						className={classes.swapButton}
-						appearance="secondary"
-						onClick={handleSwapPlayers}
-					/>
-				</Tooltip>
-			</div>
+			<PlayerFormSection player1={player1} player2={player2} updateFn={updatePlayer} />
 			<div className={classes.formSection}>
 				<Body1 className={classes.sectionTitle}>General Information</Body1>
 				<div className={classes.formRow}>
