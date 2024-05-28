@@ -58,9 +58,7 @@ const readReplayDir = (replayDir: string) => {
 };
 
 /**
- * Event handler to select a directory
- * @param ev The electron event
- * @param data The
+ * Event handler to select a directory.
  */
 export const handleSelectReplayDir = async () => {
 	const result = await dialog.showOpenDialog({

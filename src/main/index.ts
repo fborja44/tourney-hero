@@ -14,6 +14,7 @@ import {
 	handleUpdateLocalPlayer
 } from './store';
 import { handleSelectReplayDir } from './events/file';
+import { handleComputeGameStats } from './slippi/computeSetStats';
 
 function createWindow(): void {
 	// Create the browser window.
@@ -91,6 +92,7 @@ app.whenReady().then(() => {
 	ipcMain.handle('slippi:connect', handleConnectToSlippi);
 	ipcMain.handle('slippi:getFileStats', handleSlippiFileStats);
 	ipcMain.handle('slippi:selectDir', handleSelectReplayDir);
+	ipcMain.handle('slippi:getSetStats', handleComputeGameStats);
 
 	// Local Data
 	ipcMain.handle('commentator:list', handleGetCommentatorsList);

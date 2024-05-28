@@ -23,7 +23,8 @@ if (process.contextIsolated) {
 			removeCommentator: () => ipcRenderer.send('commentator:remove'),
 			addPlayer: () => ipcRenderer.send('player:add'),
 			updatePlayer: () => ipcRenderer.send('player:update'),
-			removePlayer: () => ipcRenderer.send('player:remove')
+			removePlayer: () => ipcRenderer.send('player:remove'),
+			getSetStats: () => ipcRenderer.send('slippi:getSetStats')
 		});
 	} catch (error) {
 		console.error(error);
