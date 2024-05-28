@@ -1,6 +1,7 @@
 import { ReplayData, ReplayPlayer } from '@common/interfaces/Types';
 import {
 	Body1Strong,
+	Button,
 	Caption1,
 	Caption2,
 	makeStyles,
@@ -16,6 +17,7 @@ import { formatFrames } from '@renderer/utils/date';
 import menuItemStyles from '../styles/MenuItemStyles';
 import { useDispatch } from 'react-redux';
 import { addSelectedReplay, removeSelectedReplay } from '@renderer/redux/actions/replaysActions';
+import Card from '@renderer/components/card/Card';
 
 const useStyles = makeStyles({
 	characterIcon: {
@@ -61,6 +63,7 @@ const useStyles = makeStyles({
 interface ReplayDataProps {
 	replay: ReplayData;
 	selected?: boolean;
+	appearance?: 'card' | 'item';
 }
 
 export const ReplayCardHeader = ({ replay }: ReplayDataProps) => {
@@ -134,7 +137,7 @@ const PlayerContainer = ({ player }: PlayerContainerProps) => {
 	);
 };
 
-const ReplayCard = ({ replay, selected }: ReplayDataProps) => {
+const ReplayCard = ({ replay, selected, appearance }: ReplayDataProps) => {
 	const classes = useStyles();
 	const cardClasses = cardStyles();
 	const itemClasses = menuItemStyles();
@@ -151,6 +154,43 @@ const ReplayCard = ({ replay, selected }: ReplayDataProps) => {
 
 	if (!replay || !replay.player1 || !replay.player2) {
 		return null;
+	}
+
+	if (appearance === 'card') {
+		return (
+			<Card>
+				<ReplayCardHeader replay={replay} />
+				<div className={itemClasses.playerContent}>
+					<PlayerContainer player={replay.player1} />
+					<PlayerContainer player={replay.player2} />
+				</div>
+				<div className={cardClasses.splitFooter}>
+					<div className={cardClasses.textContent}>
+						<Caption2
+							className={mergeClasses(cardClasses.captionText, classes.fileName)}
+						>
+							{replay.fileName}
+						</Caption2>
+						<div className={classes.time}>
+							<TimerFilled />
+							<Caption2 className={itemClasses.matchInfo}>
+								{formatFrames(replay.lastFrame)}
+							</Caption2>
+						</div>
+					</div>
+					<Button
+						size="small"
+						className={cardClasses.cardButton}
+						iconPosition="after"
+						onClick={() => {
+							dispatch(removeSelectedReplay(replay.fileName));
+						}}
+					>
+						<Caption1>Remove</Caption1>
+					</Button>
+				</div>
+			</Card>
+		);
 	}
 
 	return (
@@ -181,6 +221,10 @@ const ReplayCard = ({ replay, selected }: ReplayDataProps) => {
 			</div>
 		</div>
 	);
+};
+
+ReplayCard.defaultProps = {
+	appearance: 'item'
 };
 
 export default ReplayCard;

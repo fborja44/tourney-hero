@@ -49,6 +49,10 @@ const cardStyles = makeStyles({
 		fontStyle: 'italic',
 		color: tokens.colorNeutralForeground3,
 		...shorthands.padding(tokens.spacingVerticalSNudge, 0)
+	},
+	captionText: {
+		fontStyle: 'italic',
+		color: tokens.colorNeutralForeground3,
 	}
 });
 

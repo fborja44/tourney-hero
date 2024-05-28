@@ -93,7 +93,7 @@ const FormStyles = makeStyles({
 		})
 	},
 	spacing: {
-		...shorthands.padding(tokens.spacingVerticalM, 0)
+		paddingBottom: tokens.spacingVerticalS
 	}
 });
 
