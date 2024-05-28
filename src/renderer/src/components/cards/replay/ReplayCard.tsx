@@ -14,6 +14,8 @@ import { CrownFilled, TimerFilled } from '@fluentui/react-icons';
 import { getSlippiCharacterData, getSlippiStage } from '@common/constants/slippi-utils';
 import { formatFrames } from '@renderer/utils/date';
 import menuItemStyles from '../styles/MenuItemStyles';
+import { useDispatch } from 'react-redux';
+import { addSelectedReplay, removeSelectedReplay } from '@renderer/redux/actions/replaysActions';
 
 const useStyles = makeStyles({
 	characterIcon: {
@@ -58,6 +60,7 @@ const useStyles = makeStyles({
 
 interface ReplayDataProps {
 	replay: ReplayData;
+	selected?: boolean;
 }
 
 export const ReplayCardHeader = ({ replay }: ReplayDataProps) => {
@@ -131,13 +134,19 @@ const PlayerContainer = ({ player }: PlayerContainerProps) => {
 	);
 };
 
-const ReplayCard = ({ replay }: ReplayDataProps) => {
+const ReplayCard = ({ replay, selected }: ReplayDataProps) => {
 	const classes = useStyles();
 	const cardClasses = cardStyles();
 	const itemClasses = menuItemStyles();
 
+	const dispatch = useDispatch();
+
 	const handleClick = () => {
-		// TODO
+		if (!selected) {
+			dispatch(addSelectedReplay(replay.fileName));
+		} else {
+			dispatch(removeSelectedReplay(replay.fileName));
+		}
 	};
 
 	if (!replay || !replay.player1 || !replay.player2) {
@@ -145,7 +154,13 @@ const ReplayCard = ({ replay }: ReplayDataProps) => {
 	}
 
 	return (
-		<div className={itemClasses.menuItemContainer} onClick={handleClick}>
+		<div
+			className={mergeClasses(
+				itemClasses.menuItemContainer,
+				selected ? itemClasses.selected : ''
+			)}
+			onClick={handleClick}
+		>
 			<div className={itemClasses.menuItemContent}>
 				<ReplayCardHeader replay={replay} />
 				<div className={itemClasses.playerContent}>

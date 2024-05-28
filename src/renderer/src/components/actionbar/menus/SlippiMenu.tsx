@@ -19,10 +19,9 @@ import {
 	setAutoSwitchGameToPlayers,
 	setAutoSwitchPlayersToGame,
 	setRelayPort,
-	setReplayDirectory,
-	setReplayList,
 	setSlippiConnected
 } from '@redux/actions/slippiActions';
+import { setReplayDirectory, setReplayList } from '@redux/actions/replaysActions';
 import { AppState } from '@redux/reducers/rootReducer';
 import MessageToast from '../../toasts/MessageToast';
 import MenuTextField from '../../form/inputs/MenuTextField';
@@ -107,7 +106,12 @@ const SlippiMenu = () => {
 	const { connected: OBSConnected } = useContext(OBSWebSocketClientContext);
 
 	const { autoSwitchGameToPlayers, autoSwitchPlayersToGame, connected, relayPort, replayDir } =
-		useSelector((state: AppState) => state.slippiState);
+		useSelector((state: AppState) => {
+			return {
+				...state.slippiState,
+				...state.replayState
+			};
+		});
 
 	const [relay, setRelay] = useState<number>(relayPort);
 	const [loading, setLoading] = useState<boolean>(false);

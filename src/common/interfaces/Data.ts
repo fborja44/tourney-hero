@@ -8,6 +8,7 @@ export type DataField =
 	| keyof PlayerData
 	| keyof CommentatorData
 	| keyof BracketData
+	| keyof BracketMatch
 	| keyof PlayerCardData;
 
 export interface OverlayData {

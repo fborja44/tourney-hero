@@ -6,7 +6,9 @@ import { Replay20Regular } from '@fluentui/react-icons';
 import { useState } from 'react';
 
 const ReplaysMenu = () => {
-	const { replayList, replayDir } = useSelector((state: AppState) => state.slippiState);
+	const { replayList, replayDir, selectedReplays } = useSelector(
+		(state: AppState) => state.replayState
+	);
 
 	const [searchTerm, setSearchTerm] = useState('');
 	const [searchLoading, setSearchLoading] = useState(false);
@@ -21,7 +23,11 @@ const ReplaysMenu = () => {
 			setSearchTerm={setSearchTerm}
 		>
 			{replayList.map((replay) => (
-				<ReplayCard key={replay.fileName} replay={replay} />
+				<ReplayCard
+					key={replay.fileName}
+					replay={replay}
+					selected={selectedReplays.includes(replay.fileName)}
+				/>
 			))}
 		</SidebarMenu>
 	);

@@ -11,6 +11,12 @@ const menuItemStyles = makeStyles({
 			cursor: 'pointer'
 		}
 	},
+	selected: {
+		backgroundImage: `linear-gradient(90deg, ${tokens.colorBrandBackground2} 0%, ${tokens.colorNeutralBackground3} 80%)`,
+		'&:hover': {
+			backgroundImage: `linear-gradient(90deg, ${tokens.colorBrandBackground2} 0%, ${tokens.colorNeutralBackground3Hover} 80%)`
+		}
+	},
 	menuItemBorder: {
 		backgroundColor: tokens.colorStatusSuccessForeground1,
 		height: '100%',

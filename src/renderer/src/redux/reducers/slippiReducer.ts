@@ -8,12 +8,9 @@ import {
 	setAutoUpdateScore,
 	setPortsValid,
 	setAutomation,
-	setAutoUpdateCharacters,
-	setReplayDirectory,
-	setReplayList
+	setAutoUpdateCharacters
 } from '../actions/slippiActions';
 import { GameStartType } from '@slippi/slippi-js';
-import { ReplayData } from '@common/interfaces/Types';
 
 export type SlippiState = {
 	connected: boolean;
@@ -25,8 +22,6 @@ export type SlippiState = {
 	automate: boolean;
 	autoUpdateScore: boolean;
 	autoUpdateCharacters: boolean;
-	replayDir: string;
-	replayList: ReplayData[];
 };
 
 const initialState: SlippiState = {
@@ -38,12 +33,10 @@ const initialState: SlippiState = {
 	autoSwitchPlayersToGame: false,
 	automate: false,
 	autoUpdateScore: false,
-	autoUpdateCharacters: false,
-	replayDir: '',
-	replayList: []
+	autoUpdateCharacters: false
 };
 
-const obsReducer = createReducer(initialState, (builder) => {
+const slippiReducer = createReducer(initialState, (builder) => {
 	builder
 		.addCase(setSlippiConnected, (state, action) => {
 			state.connected = action.payload;
@@ -71,13 +64,7 @@ const obsReducer = createReducer(initialState, (builder) => {
 		})
 		.addCase(setPortsValid, (state, action) => {
 			state.portsValid = action.payload;
-		})
-		.addCase(setReplayDirectory, (state, action) => {
-			state.replayDir = action.payload;
-		})
-		.addCase(setReplayList, (state, action) => {
-			state.replayList = action.payload;
 		});
 });
 
-export default obsReducer;
+export default slippiReducer;

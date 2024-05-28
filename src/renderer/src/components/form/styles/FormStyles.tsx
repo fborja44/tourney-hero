@@ -91,6 +91,9 @@ const FormStyles = makeStyles({
 			top: 'calc(50% - 17px)',
 			transform: 'rotate(90deg)'
 		})
+	},
+	spacing: {
+		...shorthands.padding(tokens.spacingVerticalM, 0)
 	}
 });
 
