@@ -199,16 +199,18 @@ const TournamentMenu = () => {
 					disabled={tournamentState.validated}
 				/>
 				<div className={classes.buttonsContainer}>
-					<Button
-						size="small"
-						appearance="primary"
-						onClick={handleSaveKey}
-						iconPosition="after"
-						className={classes.keyButton}
-						disabled={keyLoading}
-					>
-						{keyLoading ? 'Validating...' : 'Test API Key'}
-					</Button>
+					{!tournamentState.validated && (
+						<Button
+							size="small"
+							appearance="primary"
+							onClick={handleSaveKey}
+							iconPosition="after"
+							className={classes.keyButton}
+							disabled={keyLoading}
+						>
+							{keyLoading ? 'Validating...' : 'Test API Key'}
+						</Button>
+					)}
 					<Button
 						size="small"
 						onClick={handleClearKey}

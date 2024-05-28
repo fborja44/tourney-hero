@@ -4,6 +4,7 @@ import {
 	Trophy20Regular,
 	PlugConnected20Regular,
 	PlugDisconnected20Regular
+	// Video20Regular
 } from '@fluentui/react-icons';
 import { tokens } from '@fluentui/react-theme';
 import ActionButton from './ActionButton';
@@ -18,6 +19,7 @@ import { TournamentState } from '@redux/reducers/tournamentReducer';
 import { AppState } from '@redux/reducers/rootReducer';
 import { useContext } from 'react';
 import { OBSWebSocketClientContext } from '../../obs-websocket/OBSWebsocketProvider';
+// import TwitchMenu from './menus/TwitchMenu';
 
 const useStyles = makeStyles({
 	container: {
@@ -101,6 +103,9 @@ const Actionbar = () => {
 						? 'Waiting For Game...'
 						: 'Not Configured'}
 			</ActionButton>
+			{/* <ActionButton icon={<Video20Regular />} title="Twitch Connection" menu={<TwitchMenu />}>
+				Not Connected
+			</ActionButton> */}
 		</div>
 	);
 };
