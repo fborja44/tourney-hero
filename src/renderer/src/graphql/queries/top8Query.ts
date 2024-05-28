@@ -14,10 +14,45 @@ const TOP_8_QUERY = gql`
 					sets(page: $page, perPage: $perPage, sortType: ROUND) {
 						nodes {
 							id
-							fullRoundText
-							completedAt
+
+							startAt
 							startedAt
+							completedAt
+
+							winnerId
+							state
+
+							stream {
+								id
+								streamName
+								enabled
+							}
+
+							identifier
 							round
+							hasPlaceholder
+							fullRoundText
+							phaseGroup {
+								wave {
+									identifier
+								}
+								phase {
+									name
+								}
+								rounds {
+									bestOf
+								}
+							}
+							totalGames
+							games {
+								selections {
+									selectionType
+									selectionValue
+									entrant {
+										id
+									}
+								}
+							}
 							slots {
 								id
 								standing {
@@ -30,7 +65,21 @@ const TOP_8_QUERY = gql`
 								}
 								entrant {
 									id
-									name
+									participants {
+										gamerTag
+										prefix
+										user {
+											genderPronoun
+											authorizations(types: [TWITTER]) {
+												id
+												externalUsername
+												type
+											}
+											images(type: "profile") {
+												url
+											}
+										}
+									}
 								}
 							}
 						}

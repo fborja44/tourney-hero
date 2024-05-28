@@ -19,7 +19,9 @@ import { Calculator20Regular } from '@fluentui/react-icons';
 const useStyles = makeStyles({
 	listContainer: {
 		display: 'flex',
-		columnGap: tokens.spacingHorizontalXL
+		columnGap: tokens.spacingHorizontalXL,
+		rowGap: tokens.spacingHorizontalXL,
+		flexWrap: 'wrap'
 	},
 	statsButton: {
 		width: '100%',

@@ -1,51 +1,39 @@
-import { Button, makeStyles, tokens, useToastController } from '@fluentui/react-components';
+import { Button, useToastController } from '@fluentui/react-components';
 import { TrophyOff20Regular } from '@fluentui/react-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { TournamentState } from '@redux/reducers/tournamentReducer';
 import { useState } from 'react';
-import TournamentCard from '../tournament/TournamentCard';
 import Empty from '../../placeholder/SidebarPlaceholder';
 import { AppState } from '@redux/reducers/rootReducer';
 import useStartQuery from '@hooks/useStartQuery';
 import top8Query from '@graphql/queries/top8Query';
-import { parseTop8Sets } from '@utils/tournament';
+import { parseMatch, parseTop8Sets } from '@utils/tournament';
 import { updateBracket } from '@redux/actions/dataActions';
 import MessageToast from '../../../toasts/MessageToast';
-
-const useStyles = makeStyles({
-	container: {
-		display: 'flex',
-		flexDirection: 'column',
-		height: '100%'
-	},
-	button: {
-		marginTop: tokens.spacingVerticalM,
-		width: 'fit-content',
-		alignSelf: 'center'
-	}
-});
+import { setTop8Matches } from '@renderer/redux/actions/tournamentActions';
+import SidebarMenu from '../SidebarMenu';
+import MatchCard from '@renderer/components/cards/match/MatchCard';
 
 const BracketMenu = () => {
-	const classes = useStyles();
 	const dispatch = useDispatch();
 	const { dispatchToast } = useToastController('toaster');
 
-	const { key, tournament, tournamentSlug, eventSlug }: TournamentState = useSelector(
-		(state: AppState) => state.tournamentState
-	);
+	const { key, tournament, tournamentSlug, eventSlug, top8Matches }: TournamentState =
+		useSelector((state: AppState) => state.tournamentState);
+	const { matchList, loading, error } = top8Matches;
 
-	const [refreshing, setRefreshing] = useState<boolean>(false);
+	const [searchTerm, setSearchTerm] = useState('');
+	const [searchLoading, setSearchLoading] = useState(false);
 
 	const { fetchData } = useStartQuery();
 
 	/**
 	 * Fetches top 8 bracket data for an event
 	 */
-	const fetchTop8 = async () => {
+	const handleFetchTop8 = async () => {
 		if (!key || !tournament) {
 			return;
 		}
-		setRefreshing(true);
 		const response = await fetchData(key, top8Query(tournamentSlug, eventSlug));
 		if (!response || response.error) {
 			dispatchToast(<MessageToast title="Failed To Get Top 8 Matches" />, {
@@ -69,32 +57,33 @@ const BracketMenu = () => {
 			);
 			console.error("This tournament or event does not have a 'Top 8' phase.");
 		}
-		const parsedData = parseTop8Sets(phase[0].sets.nodes);
-		dispatch(updateBracket(parsedData));
+		const nodes = phase[0].sets.nodes;
+		const parsedData = parseTop8Sets(nodes);
+		const top8Matches = await Promise.all(nodes.map((set) => parseMatch(set)));
 
-		setRefreshing(false);
+		// TODO: Refactor
+		dispatch(updateBracket(parsedData));
+		dispatch(setTop8Matches(top8Matches));
 		return parsedData;
 	};
 
 	return (
-		<div className={classes.container}>
-			{tournament ? (
-				<>
-					<TournamentCard handleRefresh={fetchTop8} />
-					<Button
-						onClick={fetchTop8}
-						size="small"
-						className={classes.button}
-						appearance="primary"
-						disabled={refreshing}
-					>
-						Fetch Top 8 Matches
-					</Button>
-				</>
-			) : (
-				<Empty icon={<TrophyOff20Regular />} caption={'Tournament Not Configured'} />
-			)}
-		</div>
+		<SidebarMenu
+			placeholderIcon={<TrophyOff20Regular />}
+			placeholderText="Tournament Not Configured"
+			empty={!matchList.length}
+			disabled={!tournament}
+			searchTerm={searchTerm}
+			setSearchTerm={setSearchTerm}
+		>
+			{matchList.map((match) => (
+				<MatchCard
+					key={`${match.id}-${match.identifier}-item`}
+					match={match}
+					appearance="item"
+				/>
+			))}
+		</SidebarMenu>
 	);
 };
 

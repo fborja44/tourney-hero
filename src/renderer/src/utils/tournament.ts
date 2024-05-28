@@ -120,7 +120,7 @@ export const parseSetEntrant = async (slot: any): Promise<Entrant> => {
 		imageUrl: image ?? '',
 		score: standing?.stats?.score?.value ?? undefined,
 		isWinner: standing?.placement === 1,
-		character: localPlayerData?.character ?? 'Default'
+		characterId: localPlayerData?.character ?? 'Default'
 	};
 	return player;
 };
@@ -283,7 +283,7 @@ export const parseEventEntrant = async (node: any): Promise<Entrant> => {
 		team: prefix ?? '',
 		pronoun: user?.genderPronoun ?? '',
 		imageUrl: user?.images[0]?.url ?? '',
-		character: 'Default'
+		characterId: undefined
 	};
 	return player;
 };

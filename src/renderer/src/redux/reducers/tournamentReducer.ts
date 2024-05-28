@@ -12,6 +12,9 @@ import {
 	setMatchesError,
 	setMatchesLoading,
 	setSelectedEvent,
+	setTop8Matches,
+	setTop8MatchesError,
+	setTop8MatchesLoading,
 	setTournamentFields,
 	updateMatch
 } from '../actions/tournamentActions';
@@ -36,6 +39,11 @@ export interface TournamentState {
 		error: string | null;
 	};
 	autoRefresh: boolean;
+	top8Matches: {
+		matchList: Match[];
+		loading: boolean;
+		error: string | null;
+	};
 }
 
 const initialState: TournamentState = {
@@ -53,6 +61,11 @@ const initialState: TournamentState = {
 	},
 	entrants: {
 		entrantList: [],
+		loading: false,
+		error: null
+	},
+	top8Matches: {
+		matchList: [],
 		loading: false,
 		error: null
 	},
@@ -110,6 +123,15 @@ const tournamentReducer = createReducer(initialState, (builder) => {
 		})
 		.addCase(setAutoRefresh, (state, action) => {
 			state.autoRefresh = action.payload;
+		})
+		.addCase(setTop8Matches, (state, action) => {
+			state.top8Matches.matchList = action.payload;
+		})
+		.addCase(setTop8MatchesLoading, (state, action) => {
+			state.top8Matches.loading = action.payload;
+		})
+		.addCase(setTop8MatchesError, (state, action) => {
+			state.top8Matches.error = action.payload;
 		});
 });
 
