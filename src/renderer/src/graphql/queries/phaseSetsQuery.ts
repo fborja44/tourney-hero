@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 import { StartQuery } from '@common/interfaces/Types';
 
-const TOP_8_QUERY = gql`
-	query Top8($tournamentSlug: String!, $eventSlug: String!, $page: Int, $perPage: Int) {
+const PHASE_SETS_QUERY = gql`
+	query PhaseSets($tournamentSlug: String!, $eventSlug: String!, $page: Int, $perPage: Int) {
 		tournament(slug: $tournamentSlug) {
 			id
 			events(filter: { slug: $eventSlug }) {
@@ -90,14 +90,14 @@ const TOP_8_QUERY = gql`
 	}
 `;
 
-const top8Query = (
+const phaseSetsQuery = (
 	tournamentSlug: string,
 	eventSlug: string,
 	page: number = 1,
 	perPage: number = 10
 ): StartQuery => {
 	return {
-		query: TOP_8_QUERY,
+		query: PHASE_SETS_QUERY,
 		variables: {
 			tournamentSlug,
 			eventSlug,
@@ -107,4 +107,4 @@ const top8Query = (
 	};
 };
 
-export default top8Query;
+export default phaseSetsQuery;

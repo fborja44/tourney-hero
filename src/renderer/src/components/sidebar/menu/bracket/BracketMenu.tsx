@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { TournamentState } from '@redux/reducers/tournamentReducer';
 import { AppState } from '@redux/reducers/rootReducer';
 import useStartQuery from '@hooks/useStartQuery';
-import top8Query from '@graphql/queries/top8Query';
-import { parseMatch, parseTop8Sets } from '@utils/tournament';
+import phaseSetsQuery from '@graphql/queries/phaseSetsQuery';
+import { parseMatch, parseTop8 } from '@utils/tournament';
 import { updateBracket } from '@redux/actions/dataActions';
 import MessageToast from '../../../toasts/MessageToast';
 import { setTop8Matches } from '@renderer/redux/actions/tournamentActions';
@@ -39,7 +39,7 @@ const BracketMenu = () => {
 		if (!key || !tournament) {
 			return;
 		}
-		const response = await fetchData(key, top8Query(tournamentSlug, eventSlug));
+		const response = await fetchData(key, phaseSetsQuery(tournamentSlug, eventSlug));
 		if (!response || response.error) {
 			dispatchToast(<MessageToast title="Failed To Get Top 8 Matches" />, {
 				intent: 'error'
@@ -47,6 +47,7 @@ const BracketMenu = () => {
 			return [];
 		}
 		// Find sets in the data
+		console.log(response);
 		const phases = response.data.tournament.events[0].phases;
 		if (!Array.isArray(phases)) {
 			console.error('Invalid phases array');
@@ -65,10 +66,9 @@ const BracketMenu = () => {
 			console.error(`This tournament or event does not have a ${TOP8_EVENT_NAME} phase.`);
 		}
 		const nodes = phase[0].sets.nodes;
-		const parsedData = parseTop8Sets(nodes);
 		const top8Matches = await Promise.all(nodes.map((set) => parseMatch(set)));
+		const parsedData = parseTop8(top8Matches);
 
-		// TODO: Refactor
 		dispatch(updateBracket(parsedData));
 		dispatch(setTop8Matches(top8Matches));
 		return parsedData;
