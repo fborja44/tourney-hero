@@ -1,5 +1,9 @@
 import { Button, Caption1, makeStyles, shorthands } from '@fluentui/react-components';
-import { TrophyOff20Regular, ChevronDown20Regular } from '@fluentui/react-icons';
+import {
+	TrophyOff20Regular,
+	ChevronDown20Regular,
+	ArrowSync16Regular
+} from '@fluentui/react-icons';
 import { tokens } from '@fluentui/react-theme';
 import { useSelector } from 'react-redux';
 import { AppState } from '@redux/reducers/rootReducer';
@@ -44,11 +48,7 @@ const MatchesMenu = () => {
 	const [searchLoading, setSearchLoading] = useState(false);
 	// const [stateFilters, setStateFilters] = useState([1, 2, 3]);
 
-	const {
-		matches: searchMatches,
-		fetchMatches: fetchSearchMatches,
-		clearMatches: clearSearchMatches
-	} = useMatches();
+	const { matches: searchMatches, fetchMatches, clearMatches: clearSearchMatches } = useMatches();
 
 	const { getMoreGlobalMatches } = useGlobalMatches();
 
@@ -78,7 +78,7 @@ const MatchesMenu = () => {
 			const result = fuse.search(searchTerm);
 			const entrantIds = result.map((entry) => entry.item.id);
 
-			await fetchSearchMatches(1, entrantIds);
+			await fetchMatches(1, entrantIds);
 			setSearchLoading(false);
 		}, 1000);
 
@@ -102,29 +102,33 @@ const MatchesMenu = () => {
 			placeholderText="Tournament Not Configured"
 			empty={!sortedMatches.length}
 			disabled={!tournament}
+			actions={[
+				{
+					label: 'Refresh Matches',
+					onClick: () => fetchMatches(1)
+				}
+			]}
 		>
 			{MatchList}
-			{sortedMatches.length > 0 && (
-				<Button
-					size="small"
-					appearance="transparent"
-					className={classes.moreButton}
-					onClick={getMoreGlobalMatches}
-					disabled={loading || error !== null || !sortedMatches.length}
-				>
-					{error ? (
-						<Caption1 className={classes.error}>{error}</Caption1>
-					) : (
-						!loading &&
-						searchMatches.length === 0 && (
-							<>
-								<span>Load More Matches</span>
-								<ChevronDown20Regular />
-							</>
-						)
-					)}
-				</Button>
-			)}
+			<Button
+				size="small"
+				appearance="transparent"
+				className={classes.moreButton}
+				onClick={getMoreGlobalMatches}
+				disabled={loading || error !== null || !sortedMatches.length}
+			>
+				{error ? (
+					<Caption1 className={classes.error}>{error}</Caption1>
+				) : (
+					!loading &&
+					searchMatches.length === 0 && (
+						<>
+							<span>Load More Matches</span>
+							<ChevronDown20Regular />
+						</>
+					)
+				)}
+			</Button>
 		</SidebarMenu>
 	);
 };

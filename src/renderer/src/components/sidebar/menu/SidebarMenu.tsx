@@ -4,6 +4,7 @@ import { ACTIONBAR_HEIGHT, FOOTER_HEIGHT, SECTION_HEADER_HEIGHT } from '@common/
 import SidebarPlaceholder from '../placeholder/SidebarPlaceholder';
 import React from 'react';
 import { SparkleRegular } from '@fluentui/react-icons';
+import SidebarActions, { SidebarActionsProps } from '../actions/SidebarActions';
 
 const useStyles = makeStyles({
 	container: {
@@ -65,13 +66,13 @@ const SidebarMenuContent = ({
 	}
 
 	if (empty) {
-		<Caption1 className={classes.empty}>No Items Found</Caption1>;
+		return <Caption1 className={classes.empty}>No Items Found</Caption1>;
 	}
 
 	return <div className={classes.itemList}>{children}</div>;
 };
 
-interface SidebarMenuProps extends SearchbarProps, SidebarMenuContentProps {
+interface SidebarMenuProps extends SearchbarProps, SidebarMenuContentProps, SidebarActionsProps {
 	children: React.ReactNode;
 }
 
@@ -83,15 +84,15 @@ const SidebarMenu = ({
 	disabled,
 	empty,
 	placeholderIcon,
-	placeholderText
+	placeholderText,
+	actions
 }: SidebarMenuProps) => {
 	const classes = useStyles();
 
 	return (
 		<div className={classes.container}>
-			{!disabled && !empty && (
-				<Searchbar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-			)}
+			{!disabled && <Searchbar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />}
+			{actions?.length && <SidebarActions actions={actions} />}
 			<SidebarMenuContent
 				loading={loading}
 				empty={empty}
@@ -107,7 +108,7 @@ const SidebarMenu = ({
 
 SidebarMenu.defaultProps = {
 	placeholderIcon: <SparkleRegular />,
-	placeholderText: 'Nothing To DO'
+	placeholderText: 'Nothing To Do'
 };
 
 export default SidebarMenu;

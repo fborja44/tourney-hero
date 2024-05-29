@@ -39,6 +39,13 @@ const BracketFormSection = ({ title, bracketField, className }: BracketFormSecti
 		<div className={mergeClasses(classes.formSection, className)}>
 			<Body1 className={classes.sectionTitle}>{title}</Body1>
 			<div className={classes.formRow}>
+				<CheckboxField
+					label="Completed"
+					checked={bracketData[bracketField].completed}
+					targetField={'completed'}
+					handleChange={handleMatchChange}
+					style={{ flexGrow: 1 }}
+				/>
 				<TextField
 					label="Player 1 Tag"
 					value={bracketData[bracketField].p1tag}
@@ -58,6 +65,13 @@ const BracketFormSection = ({ title, bracketField, className }: BracketFormSecti
 				/>
 			</div>
 			<div className={classes.formRow}>
+				<CheckboxField
+					label="Started"
+					checked={bracketData[bracketField].started}
+					targetField={'started'}
+					handleChange={handleMatchChange}
+					style={{ flexGrow: 1 }}
+				/>
 				<TextField
 					label="Player 2 Tag"
 					value={bracketData[bracketField].p2tag}
@@ -74,22 +88,6 @@ const BracketFormSection = ({ title, bracketField, className }: BracketFormSecti
 					handleChange={handleMatchChange}
 					min={-1}
 					max={MAX_SCORE}
-				/>
-			</div>
-			<div className={classes.formRow}>
-				<CheckboxField
-					label="Completed"
-					checked={bracketData[bracketField].completed}
-					targetField={'completed'}
-					handleChange={handleMatchChange}
-					style={{ flexGrow: 1 }}
-				/>
-				<CheckboxField
-					label="Started"
-					checked={bracketData[bracketField].started}
-					targetField={'started'}
-					handleChange={handleMatchChange}
-					style={{ flexGrow: 1 }}
 				/>
 			</div>
 		</div>

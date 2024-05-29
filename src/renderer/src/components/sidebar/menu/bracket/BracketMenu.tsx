@@ -1,9 +1,8 @@
-import { Button, useToastController } from '@fluentui/react-components';
-import { TrophyOff20Regular } from '@fluentui/react-icons';
+import { useToastController } from '@fluentui/react-components';
+import { ArrowSync16Regular, TrophyOff20Regular } from '@fluentui/react-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { TournamentState } from '@redux/reducers/tournamentReducer';
 import { useState } from 'react';
-import Empty from '../../placeholder/SidebarPlaceholder';
 import { AppState } from '@redux/reducers/rootReducer';
 import useStartQuery from '@hooks/useStartQuery';
 import top8Query from '@graphql/queries/top8Query';
@@ -14,18 +13,28 @@ import { setTop8Matches } from '@renderer/redux/actions/tournamentActions';
 import SidebarMenu from '../SidebarMenu';
 import MatchCard from '@renderer/components/cards/match/MatchCard';
 
+const TOP8_EVENT_NAME = 'Top 8';
+
 const BracketMenu = () => {
 	const dispatch = useDispatch();
 	const { dispatchToast } = useToastController('toaster');
 
-	const { key, tournament, tournamentSlug, eventSlug, top8Matches }: TournamentState =
-		useSelector((state: AppState) => state.tournamentState);
+	const {
+		key,
+		tournament,
+		tournamentSlug,
+		eventSlug,
+		top8Matches,
+		selectedEvent
+	}: TournamentState = useSelector((state: AppState) => state.tournamentState);
 	const { matchList, loading, error } = top8Matches;
 
 	const [searchTerm, setSearchTerm] = useState('');
 	const [searchLoading, setSearchLoading] = useState(false);
 
 	const { fetchData } = useStartQuery();
+
+	const top8Exists = selectedEvent?.phases.includes(TOP8_EVENT_NAME);
 
 	/**
 	 * Fetches top 8 bracket data for an event
@@ -47,15 +56,17 @@ const BracketMenu = () => {
 			console.error('Invalid phases array');
 		}
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		const phase = phases.filter((phase: any) => phase.name === 'Top 8');
+		const phase = phases.filter((phase: any) => phase.name === TOP8_EVENT_NAME);
 		if (!phase.length) {
 			dispatchToast(
-				<MessageToast title="This tournament or event does not have a 'Top 8' phase." />,
+				<MessageToast
+					title={`This tournament or event does not have a ${TOP8_EVENT_NAME} phase.`}
+				/>,
 				{
 					intent: 'error'
 				}
 			);
-			console.error("This tournament or event does not have a 'Top 8' phase.");
+			console.error(`This tournament or event does not have a ${TOP8_EVENT_NAME} phase.`);
 		}
 		const nodes = phase[0].sets.nodes;
 		const parsedData = parseTop8Sets(nodes);
@@ -70,11 +81,22 @@ const BracketMenu = () => {
 	return (
 		<SidebarMenu
 			placeholderIcon={<TrophyOff20Regular />}
-			placeholderText="Tournament Not Configured"
+			placeholderText={
+				top8Exists ? 'Tournament Not Configured' : 'Event Does Not Have A Top 8 Phase'
+			}
 			empty={!matchList.length}
-			disabled={!tournament}
+			disabled={!tournament || !top8Exists}
 			searchTerm={searchTerm}
 			setSearchTerm={setSearchTerm}
+			actions={[
+				{ label: 'Update Fields', onClick: handleFetchTop8 },
+				{
+					label: 'Auto-Sync',
+					onClick: () => {},
+					icon: <ArrowSync16Regular />,
+					disabled: true
+				}
+			]}
 		>
 			{matchList.map((match) => (
 				<MatchCard

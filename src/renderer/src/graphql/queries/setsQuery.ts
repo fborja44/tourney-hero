@@ -100,7 +100,7 @@ const MATCHES_QUERY = gql`
 	}
 `;
 
-const matchesQuery = (
+const setsQuery = (
 	tournamentSlug: string,
 	eventSlug: string,
 	page: number = 1,
@@ -121,4 +121,4 @@ const matchesQuery = (
 	};
 };
 
-export default matchesQuery;
+export default setsQuery;

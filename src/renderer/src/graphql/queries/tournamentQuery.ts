@@ -14,6 +14,10 @@ const TOURNAMENT_QUERY = gql`
 				name
 				slug
 				state
+				phases {
+					id
+					name
+				}
 			}
 		}
 	}

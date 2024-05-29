@@ -7,7 +7,9 @@ import { TournamentState } from '@redux/reducers/tournamentReducer';
 import {
 	setEventSlug,
 	setKey,
+	setMatches,
 	setSelectedEvent,
+	setTop8Matches,
 	setTournamentFields
 } from '@redux/actions/tournamentActions';
 import tournamentQuery from '@graphql/queries/tournamentQuery';
@@ -114,14 +116,18 @@ const TournamentMenu = () => {
 			return;
 		}
 
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		const events = tournamentData?.data?.tournament?.events?.map((event: any) => {
-			return {
-				id: event.id,
-				name: event.name,
-				slug: getEventSlug(event.slug)
-			};
-		});
+		// Get Tournament events
+		const events: TournamentEvent[] = tournamentData?.data?.tournament?.events?.map(
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+			(event: any) => {
+				return {
+					id: event.id,
+					name: event.name,
+					slug: getEventSlug(event.slug),
+					phases: event.phases?.map((phase) => phase.name) ?? []
+				};
+			}
+		);
 
 		const tournament: Tournament = {
 			id: tournamentData.data?.tournament?.id,
@@ -156,6 +162,8 @@ const TournamentMenu = () => {
 		dispatch(setEventSlug(''));
 		dispatch(setSelectedEvent(undefined));
 		dispatch(setTournamentFields('', undefined));
+		dispatch(setMatches([]));
+		dispatch(setTop8Matches([]));
 	};
 
 	const fieldsLoading = tournamentLoading;
@@ -240,14 +248,16 @@ const TournamentMenu = () => {
 						disabled={fieldsLoading || tournamentValidation === 'success'}
 					/>
 					<div className={classes.buttonsContainer}>
-						<Button
-							size="small"
-							appearance="primary"
-							onClick={handleSaveTournament}
-							iconPosition="after"
-						>
-							{fieldsLoading ? 'Validating...' : 'Save Tournament'}
-						</Button>
+						{!(fieldsLoading || tournamentValidation === 'success') && (
+							<Button
+								size="small"
+								appearance="primary"
+								onClick={handleSaveTournament}
+								iconPosition="after"
+							>
+								{fieldsLoading ? 'Validating...' : 'Save Tournament'}
+							</Button>
+						)}
 						<Button size="small" onClick={handleClearFields} iconPosition="after">
 							Clear Tournament
 						</Button>

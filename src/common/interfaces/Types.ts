@@ -91,6 +91,7 @@ export interface TournamentEvent {
 	id: string;
 	name: string;
 	slug: string;
+	phases: string[];
 }
 
 export interface Match {
