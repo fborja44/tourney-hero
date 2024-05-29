@@ -1,9 +1,5 @@
 import { Button, Caption1, makeStyles, shorthands } from '@fluentui/react-components';
-import {
-	TrophyOff20Regular,
-	ChevronDown20Regular,
-	ArrowSync16Regular
-} from '@fluentui/react-icons';
+import { TrophyOff20Regular, ChevronDown20Regular } from '@fluentui/react-icons';
 import { tokens } from '@fluentui/react-theme';
 import { useSelector } from 'react-redux';
 import { AppState } from '@redux/reducers/rootReducer';

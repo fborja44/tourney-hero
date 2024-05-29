@@ -2,7 +2,6 @@ import { useToastController } from '@fluentui/react-components';
 import { ArrowSync16Regular, TrophyOff20Regular } from '@fluentui/react-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { TournamentState } from '@redux/reducers/tournamentReducer';
-import { useState } from 'react';
 import { AppState } from '@redux/reducers/rootReducer';
 import useStartQuery from '@hooks/useStartQuery';
 import top8Query from '@graphql/queries/top8Query';
@@ -28,9 +27,6 @@ const BracketMenu = () => {
 		selectedEvent
 	}: TournamentState = useSelector((state: AppState) => state.tournamentState);
 	const { matchList, loading, error } = top8Matches;
-
-	const [searchTerm, setSearchTerm] = useState('');
-	const [searchLoading, setSearchLoading] = useState(false);
 
 	const { fetchData } = useStartQuery();
 
@@ -85,9 +81,9 @@ const BracketMenu = () => {
 				top8Exists ? 'Tournament Not Configured' : 'Event Does Not Have A Top 8 Phase'
 			}
 			empty={!matchList.length}
+			loading={loading}
 			disabled={!tournament || !top8Exists}
-			searchTerm={searchTerm}
-			setSearchTerm={setSearchTerm}
+			error={error}
 			actions={[
 				{ label: 'Update Fields', onClick: handleFetchTop8 },
 				{

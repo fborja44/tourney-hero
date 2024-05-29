@@ -43,6 +43,7 @@ interface SidebarMenuContentProps {
 	empty?: boolean;
 	disabled?: boolean;
 	loading?: boolean;
+	error?: string | boolean | null;
 	placeholderIcon?: React.ReactNode;
 	placeholderText?: string;
 }
@@ -51,6 +52,7 @@ const SidebarMenuContent = ({
 	children,
 	empty,
 	disabled,
+	error,
 	loading,
 	placeholderIcon,
 	placeholderText
@@ -63,6 +65,10 @@ const SidebarMenuContent = ({
 
 	if (loading) {
 		return <Spinner size="small" className={classes.spinner} />;
+	}
+
+	if (error) {
+		return <Caption1 className={classes.empty}>An Error Has Occurred</Caption1>;
 	}
 
 	if (empty) {
@@ -83,6 +89,7 @@ const SidebarMenu = ({
 	loading,
 	disabled,
 	empty,
+	error,
 	placeholderIcon,
 	placeholderText,
 	actions
@@ -96,6 +103,7 @@ const SidebarMenu = ({
 			<SidebarMenuContent
 				loading={loading}
 				empty={empty}
+				error={error}
 				disabled={disabled}
 				placeholderIcon={placeholderIcon}
 				placeholderText={placeholderText}
