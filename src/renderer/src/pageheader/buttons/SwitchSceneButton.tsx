@@ -4,40 +4,62 @@ import { OBSWebSocketClientContext } from '@renderer/obs-websocket/OBSWebsocketP
 import { AppState } from '@renderer/redux/reducers/rootReducer';
 import { useSelector } from 'react-redux';
 import { findScene } from '@renderer/utils/obs';
+import { Scene } from '@common/interfaces/Types';
+import { Add12Regular } from '@fluentui/react-icons';
 
 interface SwitchSceneButtonProps {
-	sceneName: string;
+	scene: Scene;
 	className?: string;
 	disabled?: boolean;
 }
 
-const SwitchSceneButton = ({ className, disabled, sceneName }: SwitchSceneButtonProps) => {
+const SwitchSceneButton = ({ className, disabled, scene }: SwitchSceneButtonProps) => {
 	const {
 		obs,
 		connected: OBSConnected,
-		sendOBSSceneRequest
+		sendOBSSceneRequest,
+		createOBSScene
 	} = useContext(OBSWebSocketClientContext);
 
 	const { currentScene, sceneList } = useSelector((state: AppState) => state.obsState);
+
+	const { title: sceneName, source } = scene;
 
 	const active = currentScene === sceneName;
 
 	const sceneExists = findScene(sceneList, sceneName) !== undefined;
 
-	const handleClick = () => {
+	const handleSwitchScene = () => {
 		if (obs && sendOBSSceneRequest) {
 			sendOBSSceneRequest(sceneName);
 		}
 	};
 
-	return (
+	const handleCreateScene = () => {
+		if (obs && createOBSScene) {
+			createOBSScene(sceneName, source);
+		}
+	};
+
+	return sceneExists ? (
 		<Button
 			className={className}
 			size="small"
 			disabled={disabled || !obs || !OBSConnected || !sceneExists || active}
-			onClick={handleClick}
+			onClick={handleSwitchScene}
 		>
-			{sceneExists ? 'Switch To Scene' : 'Scene Not Found'}
+			Switch To Scene
+		</Button>
+	) : (
+		<Button
+			className={className}
+			size="small"
+			disabled={disabled || !obs || !OBSConnected || sceneExists || active}
+			onClick={handleCreateScene}
+			icon={<Add12Regular />}
+			iconPosition="after"
+		>
+			Create Scene
 		</Button>
 	);
 };

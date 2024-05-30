@@ -1,7 +1,7 @@
 import { MenuGroup, MenuGroupHeader, makeStyles, shorthands } from '@fluentui/react-components';
 import {
 	Apps20Regular,
-	WindowEdit20Regular,
+	SlideSettings20Regular,
 	Server16Regular,
 	DatabasePerson20Regular
 } from '@fluentui/react-icons';
@@ -88,7 +88,7 @@ const Navbar = () => {
 						setSelectedTab={setSelectedTab}
 					/>
 					<NavbarItem
-						icon={<WindowEdit20Regular />}
+						icon={<SlideSettings20Regular />}
 						label="Scene Manager"
 						to="/scenes"
 						selectedTab={selectedTab}
@@ -103,7 +103,9 @@ const Navbar = () => {
 					/>
 				</MenuGroup>
 				<MenuGroup>
-					<MenuGroupHeader className={classes.groupHeader}>Scenes</MenuGroupHeader>
+					<MenuGroupHeader className={classes.groupHeader}>
+						Scene Controls
+					</MenuGroupHeader>
 					{scenes.map((scene) => (
 						<NavbarItem
 							key={`${scene.title}-sidebar`}

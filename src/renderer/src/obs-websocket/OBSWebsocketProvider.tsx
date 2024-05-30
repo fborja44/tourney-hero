@@ -1,9 +1,14 @@
 import { createContext, useState } from 'react';
-import OBSWebSocket from 'obs-websocket-js';
-import { useDispatch } from 'react-redux';
-import { setCurrentOBSScene, setOBSScenesList } from '@redux/actions/obsActions';
+import OBSWebSocket, { RequestBatchRequest } from 'obs-websocket-js';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+	setCurrentOBSScene,
+	setOBSScenesCollections,
+	setOBSScenesList
+} from '@redux/actions/obsActions';
 import { useToastController } from '@fluentui/react-components';
 import MessageToast from '@renderer/components/toasts/MessageToast';
+import { AppState } from '@renderer/redux/reducers/rootReducer';
 
 interface OBSWebSocketProviderProps {
 	children: React.ReactNode;
@@ -17,6 +22,8 @@ interface OBSWebSocketClientState {
 	connect: ((address: string, port: string, password: string) => Promise<boolean>) | undefined;
 	disconnect: (() => void) | undefined;
 	sendOBSSceneRequest: ((sceneName: string) => void) | undefined;
+	createOBSScene: ((sceneName: string, sourceURL: string) => void) | undefined;
+	createOBSSceneCollection: ((sceneCollectionName: string) => void) | undefined;
 }
 
 const defaultAddress = 'ws://127.0.0.1';
@@ -29,7 +36,9 @@ export const OBSWebSocketClientContext = createContext<OBSWebSocketClientState>(
 	connected: false,
 	connect: undefined,
 	disconnect: undefined,
-	sendOBSSceneRequest: undefined
+	sendOBSSceneRequest: undefined,
+	createOBSScene: undefined,
+	createOBSSceneCollection: undefined
 });
 
 /**
@@ -44,6 +53,8 @@ const OBSWebSocketClientProvider = ({ children }: OBSWebSocketProviderProps) => 
 	const [connected, setConnected] = useState<boolean>(false);
 	const [address, setAddress] = useState<string>(defaultAddress);
 	const [port, setPort] = useState<string>(defaultPort);
+
+	const sceneState = useSelector((state: AppState) => state.scenesState);
 
 	/**
 	 * Connect to a obs websocket server.
@@ -73,10 +84,7 @@ const OBSWebSocketClientProvider = ({ children }: OBSWebSocketProviderProps) => 
 			}
 
 			// Get current scene list
-			const sceneData = await obs.call('GetSceneList');
-			console.log(sceneData);
-			dispatch(setOBSScenesList(sceneData.scenes));
-			dispatch(setCurrentOBSScene(sceneData.currentProgramSceneName));
+			updateSceneState(obs);
 
 			// Set event listeners
 			obs.once('ExitStarted', () => {
@@ -95,6 +103,18 @@ const OBSWebSocketClientProvider = ({ children }: OBSWebSocketProviderProps) => 
 				dispatch(setCurrentOBSScene(event.sceneName));
 			});
 
+			obs.on('CurrentSceneCollectionChanged', async () => {
+				console.log('Current Scene Collection Changed');
+				updateSceneState(obs);
+				// const { sceneCollections } = await obs.call('GetSceneCollectionList');
+				// dispatch(setOBSScenesCollections(sceneCollections));
+			});
+
+			obs.on('SceneCollectionListChanged', async (event) => {
+				console.log('Scene Collection List Changed');
+				dispatch(setOBSScenesCollections(event.sceneCollections));
+			});
+
 			setAddress(address);
 			setPort(port);
 			setConnected(true);
@@ -110,14 +130,72 @@ const OBSWebSocketClientProvider = ({ children }: OBSWebSocketProviderProps) => 
 	};
 
 	/**
+	 * Updates the scene state based on the current scene list.
+	 * @param obs OBS Websocket object
+	 */
+	const updateSceneState = async (obs: OBSWebSocket) => {
+		const sceneData = await obs.call('GetSceneList');
+		dispatch(setOBSScenesList(sceneData.scenes));
+		dispatch(setCurrentOBSScene(sceneData.currentProgramSceneName));
+	};
+
+	/**
 	 * Sends a request through OBS Websocket to set the current program scene
 	 */
 	const sendOBSSceneRequest = async (sceneName: string) => {
 		try {
 			if (websocket && connected) {
-				await websocket.call('SetCurrentProgramScene', { sceneName: sceneName });
+				await websocket.call('SetCurrentProgramScene', { sceneName });
 			} else {
 				console.error('OBS Not Connected; Failed to switch scene.');
+			}
+		} catch (err) {
+			console.error(err);
+		}
+	};
+
+	/**
+	 * Sends a request through OBS Websocket to create a new scene
+	 * TODO: Create sources
+	 * @param sceneName The name of the scene to create
+	 */
+	const createOBSScene = async (sceneName: string) => {
+		try {
+			if (websocket && connected) {
+				await websocket.call('CreateScene', { sceneName });
+			} else {
+				console.error('OBS Not Connected; Failed to create scene.');
+			}
+		} catch (err) {
+			console.error(err);
+		}
+	};
+
+	/**
+	 * Sends a request through OBS Websocket to create a new scene collection with all app scenes automatically generated.
+	 * TODO: Create sources
+	 * @param collectionName The name of the collection to create
+	 */
+	const createOBSSceneCollection = async (sceneCollectionName: string) => {
+		try {
+			if (websocket && connected) {
+				// Create collection
+				await websocket.call('CreateSceneCollection', {
+					sceneCollectionName
+				});
+				// Create scene list
+				const sceneRequests: RequestBatchRequest[] = sceneState.map((scene) => {
+					return { requestType: 'CreateScene', requestData: { sceneName: scene.title } };
+				});
+				await websocket.callBatch(sceneRequests.reverse());
+				// Remove default scene item
+				try {
+					await websocket.call('RemoveScene', { sceneName: 'Scene' });
+				} catch (err) {
+					console.log('No default scene found');
+				}
+			} else {
+				console.error('OBS Not Connected; Failed to create scene.');
 			}
 		} catch (err) {
 			console.error(err);
@@ -142,7 +220,9 @@ const OBSWebSocketClientProvider = ({ children }: OBSWebSocketProviderProps) => 
 		connected: websocket !== null && connected,
 		connect: connect,
 		disconnect: disconnect,
-		sendOBSSceneRequest: sendOBSSceneRequest
+		sendOBSSceneRequest,
+		createOBSScene,
+		createOBSSceneCollection
 	};
 
 	return (

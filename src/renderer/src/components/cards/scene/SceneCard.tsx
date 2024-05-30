@@ -36,11 +36,11 @@ const useStyles = makeStyles({
 	}
 });
 
-interface DashboardSceneProps {
+interface SceneCardProps {
 	scene: Scene;
 }
 
-const DashboardScene = ({ scene }: DashboardSceneProps) => {
+const SceneCard = ({ scene }: SceneCardProps) => {
 	const classes = useStyles();
 	const cardClasses = cardStyles();
 
@@ -70,10 +70,10 @@ const DashboardScene = ({ scene }: DashboardSceneProps) => {
 				)}
 			</div>
 			<div className={classes.buttonContainer}>
-				<SwitchSceneButton sceneName={scene.title} />
+				<SwitchSceneButton scene={scene} />
 			</div>
 		</Card>
 	);
 };
 
-export default DashboardScene;
+export default SceneCard;

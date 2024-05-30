@@ -90,7 +90,7 @@ const SceneHeader = ({ scene, dataField, sendData }: SceneHeaderProps) => {
 		<PageHeader title={`${scene.title} Control Panel`} icon={scene.icon}>
 			<div className={classes.buttonContainer}>
 				{active && <ActiveIndicator />}
-				<SwitchSceneButton sceneName={scene.title} className={classes.button} />
+				<SwitchSceneButton scene={scene} className={classes.button} />
 				{sendData && (
 					<SendDataButton
 						className={classes.button}
