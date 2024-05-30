@@ -26,6 +26,7 @@ const useStyles = makeStyles({
 
 interface SidebarActionButtonProps {
 	border?: boolean;
+	toggle?: boolean;
 }
 
 export const SidebarActionButton = (props: SidebarActionButtonProps & ButtonProps) => {
@@ -38,7 +39,7 @@ export const SidebarActionButton = (props: SidebarActionButtonProps & ButtonProp
 				props.border ? classes.divider : ''
 			)}
 			iconPosition="after"
-			appearance="subtle"
+			appearance={props.toggle ? 'primary' : 'subtle'}
 			size="small"
 		/>
 	);
@@ -46,6 +47,7 @@ export const SidebarActionButton = (props: SidebarActionButtonProps & ButtonProp
 
 export interface SidebarAction {
 	label: string;
+	toggle?: boolean;
 }
 
 export interface SidebarActionsProps {

@@ -12,7 +12,6 @@ import { Route, Routes } from 'react-router-dom';
 import SidebarPlaceholder from './placeholder/SidebarPlaceholder';
 import BracketMenu from './menu/bracket/BracketMenu';
 import { ErrorBoundary } from 'react-error-boundary';
-import DashboardMenu from './menu/dashboard/DashboardMenu';
 import ReplaysMenu from './menu/replays/ReplaysMenu';
 import SidebarTitle from './header/SidebarTitle';
 import { setMatches } from '@renderer/redux/actions/tournamentActions';
@@ -104,7 +103,6 @@ const Sidebar = () => {
 						}}
 					>
 						<Routes>
-							<Route path={`/`} element={<DashboardMenu />} />
 							<Route path={`/bracket`} element={<BracketMenu />} />
 							<Route path={`/statistics`} element={<ReplaysMenu />} />
 							<Route path="*" element={<MatchesMenu />} />

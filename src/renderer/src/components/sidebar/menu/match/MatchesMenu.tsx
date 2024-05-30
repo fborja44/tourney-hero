@@ -1,7 +1,7 @@
 import { Button, Caption1, makeStyles, shorthands } from '@fluentui/react-components';
 import { TrophyOff20Regular, ChevronDown20Regular } from '@fluentui/react-icons';
 import { tokens } from '@fluentui/react-theme';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '@redux/reducers/rootReducer';
 import useGlobalMatches from '@hooks/useGlobalMatches';
 import MatchCard from '../../../cards/match/MatchCard';
@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react';
 import useMatches from '@renderer/hooks/useMatches';
 import Fuse from 'fuse.js';
 import SidebarMenu from '../SidebarMenu';
+import { setAutoRefresh } from '@renderer/redux/actions/tournamentActions';
 
 const useStyles = makeStyles({
 	moreButton: {
@@ -31,8 +32,9 @@ const useStyles = makeStyles({
 
 const MatchesMenu = () => {
 	const classes = useStyles();
+	const dispatch = useDispatch();
 
-	const { tournament } = useSelector((state: AppState) => state.tournamentState);
+	const { tournament, autoRefresh } = useSelector((state: AppState) => state.tournamentState);
 
 	const { matchList, loading, error } = useSelector(
 		(state: AppState) => state.tournamentState.globalMatches
@@ -102,6 +104,11 @@ const MatchesMenu = () => {
 				{
 					label: 'Refresh Matches',
 					onClick: () => fetchMatches(1)
+				},
+				{
+					label: 'Auto-Sync',
+					onClick: () => dispatch(setAutoRefresh(!autoRefresh)),
+					toggle: autoRefresh
 				}
 			]}
 		>
