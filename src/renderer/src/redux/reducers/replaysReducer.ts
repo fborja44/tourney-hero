@@ -2,6 +2,7 @@ import { createReducer } from '@reduxjs/toolkit';
 import {
 	addSelectedReplay,
 	removeSelectedReplay,
+	resetReplayData,
 	setReplayDirectory,
 	setReplayList
 } from '../actions/replaysActions';
@@ -21,6 +22,10 @@ const initialState: ReplayState = {
 
 const replaysReducer = createReducer(initialState, (builder) => {
 	builder
+		.addCase(resetReplayData, (state) => {
+			// eslint-disable-next-line @typescript-eslint/no-unused-vars
+			state = initialState;
+		})
 		.addCase(setReplayDirectory, (state, action) => {
 			state.replayDir = action.payload;
 		})

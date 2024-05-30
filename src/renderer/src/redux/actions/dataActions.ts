@@ -16,6 +16,12 @@ export const setOverlayData = createAction('SET_DATA', (newOverlayData: OverlayD
 	};
 });
 
+export const resetOverlayData = createAction('RESET_OVERLAY_DATA', () => {
+	return {
+		payload: true
+	};
+});
+
 export const updateGameplay = createAction(
 	'UPDATE_GAMEPLAY',
 	(updatedGameplay: Partial<GameplayData>) => {

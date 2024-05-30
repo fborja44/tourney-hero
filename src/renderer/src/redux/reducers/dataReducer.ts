@@ -9,6 +9,7 @@ import {
 } from '@common/data/defaultData';
 import {
 	incrementScore,
+	resetOverlayData,
 	setOverlayData,
 	updateBracket,
 	updateBracketMatch,
@@ -32,6 +33,10 @@ const dataReducer = createReducer(initialState, (builder) => {
 	builder
 		.addCase(setOverlayData, (state, action) => {
 			state = { ...state, ...action.payload };
+		})
+		.addCase(resetOverlayData, (state) => {
+			// eslint-disable-next-line @typescript-eslint/no-unused-vars
+			state = initialState;
 		})
 		.addCase(updateGameplay, (state, action) => {
 			state.gameplay = {

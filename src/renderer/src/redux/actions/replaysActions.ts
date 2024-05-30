@@ -1,6 +1,13 @@
 import { ReplayData } from '@common/interfaces/Types';
 import { createAction } from '@reduxjs/toolkit';
 
+export const resetReplayData = createAction('RESET_REPLAY_DATA', () => {
+	return {
+		payload: true
+	};
+});
+
+
 export const setReplayDirectory = createAction('SET_REPLAY_DIRECTORY', (path: string) => {
 	return {
 		payload: path

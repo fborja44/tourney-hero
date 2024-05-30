@@ -1,4 +1,4 @@
-import { makeStyles, tokens } from '@fluentui/react-components';
+import { Button, makeStyles, tokens } from '@fluentui/react-components';
 import { Sparkle24Regular } from '@fluentui/react-icons';
 
 const useStyles = makeStyles({
@@ -14,6 +14,9 @@ const useStyles = makeStyles({
 		'& .text': {
 			marginBottom: tokens.spacingVerticalS
 		}
+	},
+	button: {
+		marginTop: tokens.spacingVerticalM
 	}
 });
 
@@ -21,15 +24,26 @@ interface EmptyPanelProps {
 	text: string;
 	icon: React.ReactNode;
 	hideIcon: boolean;
+	resetData?: (...args) => void;
 }
 
-const EmptyPanel = ({ text, icon, hideIcon }: EmptyPanelProps) => {
+const EmptyPanel = ({ text, icon, hideIcon, resetData }: EmptyPanelProps) => {
 	const classes = useStyles();
 
 	return (
 		<div className={classes.empty}>
 			<span className="text">{text}</span>
 			{!hideIcon && icon}
+			{resetData && (
+				<Button
+					className={classes.button}
+					onClick={resetData}
+					size="small"
+					appearance="primary"
+				>
+					Reset Data
+				</Button>
+			)}
 		</div>
 	);
 };
