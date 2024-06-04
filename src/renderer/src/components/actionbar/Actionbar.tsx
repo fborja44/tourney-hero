@@ -18,7 +18,7 @@ import { useSelector } from 'react-redux';
 import { TournamentState } from '@redux/reducers/tournamentReducer';
 import { AppState } from '@redux/reducers/rootReducer';
 import { useContext } from 'react';
-import { OBSWebSocketClientContext } from '../../obs-websocket/OBSWebsocketProvider';
+import { OBSWebSocketClientContext } from '../../obs/OBSWebsocketProvider';
 // import TwitchMenu from './menus/TwitchMenu';
 
 const useStyles = makeStyles({

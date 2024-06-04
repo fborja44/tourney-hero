@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react';
 import MenuTextField from '../../form/inputs/MenuTextField';
 import { shorthands, tokens, makeStyles, Button, Caption1 } from '@fluentui/react-components';
-import { OBSWebSocketClientContext } from '../../../obs-websocket/OBSWebsocketProvider';
+import { OBSWebSocketClientContext } from '../../../obs/OBSWebsocketProvider';
 
 const useStyles = makeStyles({
 	buttonsContainer: {

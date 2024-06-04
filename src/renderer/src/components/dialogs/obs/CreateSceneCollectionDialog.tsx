@@ -13,7 +13,7 @@ import {
 } from '@fluentui/react-components';
 import { Add12Regular, SlideAdd16Regular } from '@fluentui/react-icons';
 import MenuTextField from '@renderer/components/form/inputs/MenuTextField';
-import { OBSWebSocketClientContext } from '@renderer/obs-websocket/OBSWebsocketProvider';
+import { OBSWebSocketClientContext } from '@renderer/obs/OBSWebsocketProvider';
 import { AppState } from '@renderer/redux/reducers/rootReducer';
 import { useContext, useState } from 'react';
 import { useSelector } from 'react-redux';

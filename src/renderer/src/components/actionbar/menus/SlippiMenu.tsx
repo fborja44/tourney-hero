@@ -13,7 +13,7 @@ import {
 	useToastController
 } from '@fluentui/react-components';
 import { QuestionCircleRegular } from '@fluentui/react-icons';
-import { OBSWebSocketClientContext } from '../../../obs-websocket/OBSWebsocketProvider';
+import { OBSWebSocketClientContext } from '../../../obs/OBSWebsocketProvider';
 import { useDispatch, useSelector } from 'react-redux';
 import {
 	setAutoSwitchGameToPlayers,

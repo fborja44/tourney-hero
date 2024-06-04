@@ -62,3 +62,33 @@ export const trimNamePrefix = (str: string): string => {
 	// Return the original string if pipe character is not found
 	return str.trim();
 };
+
+/**
+ * Extracts the port number from a given server address.
+ * @param address The server address to extract the port from.
+ * @returns The port number if present, otherwise null.
+ */
+export const getPortFromAddress = (address: string): number | null => {
+	try {
+		// Create a new URL object
+		const url = new URL(address);
+
+		// Get the port from the URL object
+		const port = url.port;
+
+		// Return the port as a number if it's not an empty string
+		return port ? parseInt(port) : null;
+	} catch (e) {
+		// If URL construction fails, try manual extraction
+
+		// Regular expression to match the port in the address
+		const portRegex = /:(\d+)$/;
+		const match = address.match(portRegex);
+
+		if (match && match[1]) {
+			return parseInt(match[1]);
+		} else {
+			return null;
+		}
+	}
+};

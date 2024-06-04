@@ -3,7 +3,7 @@ import { WindowEdit20Regular, PlugDisconnected20Regular } from '@fluentui/react-
 import Panel from '@renderer/components/panel/Panel';
 import PageLayout from './PageLayout';
 import { useContext } from 'react';
-import { OBSWebSocketClientContext } from '@renderer/obs-websocket/OBSWebsocketProvider';
+import { OBSWebSocketClientContext } from '@renderer/obs/OBSWebsocketProvider';
 import { AppState } from '@renderer/redux/reducers/rootReducer';
 import { useSelector } from 'react-redux';
 import SceneCard from '@renderer/components/cards/scene/SceneCard';

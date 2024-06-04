@@ -3,7 +3,7 @@ import { Provider as ReduxProvider } from 'react-redux';
 import store from '@redux/store';
 import App from './App';
 import SocketClientProvider from './socket/SocketClientProvider';
-import OBSWebSocketClientProvider from './obs-websocket/OBSWebsocketProvider';
+import OBSWebSocketClientProvider from './obs/OBSWebsocketProvider';
 import { ApolloProvider } from '@apollo/client';
 import client from './graphql/client';
 

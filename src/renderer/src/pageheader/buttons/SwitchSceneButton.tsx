@@ -1,6 +1,6 @@
 import { Button } from '@fluentui/react-components';
 import { useContext } from 'react';
-import { OBSWebSocketClientContext } from '@renderer/obs-websocket/OBSWebsocketProvider';
+import { OBSWebSocketClientContext } from '@renderer/obs/OBSWebsocketProvider';
 import { AppState } from '@renderer/redux/reducers/rootReducer';
 import { useSelector } from 'react-redux';
 import { findScene } from '@renderer/utils/obs';
@@ -23,7 +23,7 @@ const SwitchSceneButton = ({ className, disabled, scene }: SwitchSceneButtonProp
 
 	const { currentScene, sceneList } = useSelector((state: AppState) => state.obsState);
 
-	const { title: sceneName, source } = scene;
+	const { title: sceneName } = scene;
 
 	const active = currentScene === sceneName;
 
@@ -37,7 +37,7 @@ const SwitchSceneButton = ({ className, disabled, scene }: SwitchSceneButtonProp
 
 	const handleCreateScene = () => {
 		if (obs && createOBSScene) {
-			createOBSScene(sceneName, source);
+			createOBSScene(sceneName, scene);
 		}
 	};
 

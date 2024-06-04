@@ -17,6 +17,7 @@ import CommentatorsForm from '@renderer/components/form/CommentatorsForm';
 import BracketForm from '@renderer/components/form/BracketForm';
 import PlayerCardForm from '@renderer/components/form/PlayerCardForm';
 import StatsForm from '@renderer/components/form/StatsForm';
+import { BackgroundBrowserSource } from '@renderer/obs/sources';
 // import EmptyPanel from '@renderer/components/panel/EmptyPanel';
 
 export type ScenesState = Scene[];
@@ -26,13 +27,13 @@ const initialState: ScenesState = [
 		title: 'Gameplay',
 		icon: <XboxController20Regular />,
 		panel: <GameplayForm />,
-		source: '/'
+		endpoint: '/'
 	},
 	{
 		title: 'Commentators',
 		icon: <Mic20Regular />,
 		panel: <CommentatorsForm />,
-		source: '/commentators'
+		endpoint: '/commentators'
 	},
 	// {
 	// 	title: 'Intermission',
@@ -43,15 +44,22 @@ const initialState: ScenesState = [
 		title: 'Player Card',
 		icon: <VideoPersonRegular />,
 		panel: <PlayerCardForm />,
-		source: '/player'
+		endpoint: '/player',
+		peripheralSources: [BackgroundBrowserSource]
 	},
 	{
 		title: 'Statistics',
 		icon: <DataBarVertical20Regular />,
 		panel: <StatsForm />,
-		source: '/stats'
+		endpoint: '/stats'
 	},
-	{ title: 'Bracket', icon: <BranchFork20Regular />, panel: <BracketForm />, source: '/bracket' }
+	{
+		title: 'Bracket',
+		icon: <BranchFork20Regular />,
+		panel: <BracketForm />,
+		endpoint: '/bracket',
+		peripheralSources: [BackgroundBrowserSource]
+	}
 	// {
 	// 	title: 'Players',
 	// 	icon: <People20Regular />,

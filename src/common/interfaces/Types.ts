@@ -140,11 +140,20 @@ export interface PlayerCardPlacement {
 	name: string;
 }
 
+export interface BrowserSource {
+	sourceName: string;
+	endpoint: string;
+	shutdown?: boolean;
+	width?: number;
+	height?: number;
+}
+
 export interface Scene {
 	title: string;
 	icon: React.ReactNode | JSX.Element;
 	panel: React.ReactNode;
-	source: string;
+	endpoint: string;
+	peripheralSources?: BrowserSource[];
 }
 
 export interface StartQuery {

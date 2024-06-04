@@ -1,4 +1,4 @@
-import { createContext, useState } from 'react';
+import { createContext, useContext, useState } from 'react';
 import OBSWebSocket, { RequestBatchRequest } from 'obs-websocket-js';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -9,6 +9,9 @@ import {
 import { useToastController } from '@fluentui/react-components';
 import MessageToast from '@renderer/components/toasts/MessageToast';
 import { AppState } from '@renderer/redux/reducers/rootReducer';
+import { Scene } from '@common/interfaces/Types';
+import { SocketClientContext } from '@renderer/socket/SocketClientProvider';
+import { getPortFromAddress } from '@renderer/utils/string';
 
 interface OBSWebSocketProviderProps {
 	children: React.ReactNode;
@@ -22,7 +25,7 @@ interface OBSWebSocketClientState {
 	connect: ((address: string, port: string, password: string) => Promise<boolean>) | undefined;
 	disconnect: (() => void) | undefined;
 	sendOBSSceneRequest: ((sceneName: string) => void) | undefined;
-	createOBSScene: ((sceneName: string, sourceURL: string) => void) | undefined;
+	createOBSScene: ((sceneName: string, scene: Scene) => void) | undefined;
 	createOBSSceneCollection: ((sceneCollectionName: string) => void) | undefined;
 }
 
@@ -55,6 +58,8 @@ const OBSWebSocketClientProvider = ({ children }: OBSWebSocketProviderProps) => 
 	const [port, setPort] = useState<string>(defaultPort);
 
 	const sceneState = useSelector((state: AppState) => state.scenesState);
+
+	const { address: serverAddress } = useContext(SocketClientContext);
 
 	/**
 	 * Connect to a obs websocket server.
@@ -155,14 +160,75 @@ const OBSWebSocketClientProvider = ({ children }: OBSWebSocketProviderProps) => 
 	};
 
 	/**
+	 *
+	 * @param sceneName
+	 * @param inputName
+	 * @param inputKind
+	 * @param inputSettings
+	 */
+	const createBrowserSource = async (
+		sceneName: string,
+		inputName: string,
+		endpoint: string,
+		width: number = 1920,
+		height: number = 1080,
+		shutdown: boolean = true
+	) => {
+		if (websocket && connected) {
+			// Check if input exists in list
+			const { inputs } = await websocket.call('GetInputList');
+			if (inputs.some((input) => input.inputName)) {
+				// Input already exists
+				await websocket.call('CreateSceneItem', {
+					sceneName,
+					sourceName: inputName
+				});
+			} else {
+				await websocket.call('CreateInput', {
+					sceneName,
+					inputName,
+					inputKind: 'browser_source',
+					inputSettings: {
+						url: `http://localhost:${getPortFromAddress(serverAddress) ?? '3001'}${endpoint}`,
+						width: width,
+						height: height,
+						shutdown: shutdown
+					}
+				});
+			}
+		} else {
+			console.error('OBS Not Connected; Failed to create browser source.');
+		}
+	};
+
+	/**
 	 * Sends a request through OBS Websocket to create a new scene
 	 * TODO: Create sources
 	 * @param sceneName The name of the scene to create
 	 */
-	const createOBSScene = async (sceneName: string) => {
+	const createOBSScene = async (sceneName: string, scene?: Scene) => {
 		try {
 			if (websocket && connected) {
 				await websocket.call('CreateScene', { sceneName });
+				// Create peripheral sources first
+				for (const source of scene?.peripheralSources ?? []) {
+					await createBrowserSource(
+						sceneName,
+						source.sourceName,
+						source.endpoint,
+						source.width,
+						source.height,
+						source.shutdown
+					);
+				}
+				if (scene) {
+					// Create primary source
+					await createBrowserSource(
+						sceneName,
+						`${scene.title} Browser Source`,
+						scene.endpoint
+					);
+				}
 			} else {
 				console.error('OBS Not Connected; Failed to create scene.');
 			}
