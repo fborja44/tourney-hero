@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from 'react';
-import OBSWebSocket, { RequestBatchRequest } from 'obs-websocket-js';
+import OBSWebSocket from 'obs-websocket-js';
 import { useDispatch, useSelector } from 'react-redux';
 import {
 	setCurrentOBSScene,
@@ -142,6 +142,9 @@ const OBSWebSocketClientProvider = ({ children }: OBSWebSocketProviderProps) => 
 		const sceneData = await obs.call('GetSceneList');
 		dispatch(setOBSScenesList(sceneData.scenes));
 		dispatch(setCurrentOBSScene(sceneData.currentProgramSceneName));
+
+		const collectionData = await obs.call('GetSceneCollectionList');
+		dispatch(setOBSScenesCollections(collectionData.sceneCollections));
 	};
 
 	/**
@@ -177,7 +180,7 @@ const OBSWebSocketClientProvider = ({ children }: OBSWebSocketProviderProps) => 
 		if (websocket && connected) {
 			// Check if input exists in list
 			const { inputs } = await websocket.call('GetInputList');
-			if (inputs.some((input) => input.inputName)) {
+			if (inputs.some((input) => input.inputName === inputName)) {
 				// Input already exists
 				await websocket.call('CreateSceneItem', {
 					sceneName,
@@ -250,10 +253,9 @@ const OBSWebSocketClientProvider = ({ children }: OBSWebSocketProviderProps) => 
 					sceneCollectionName
 				});
 				// Create scene list
-				const sceneRequests: RequestBatchRequest[] = sceneState.map((scene) => {
-					return { requestType: 'CreateScene', requestData: { sceneName: scene.title } };
-				});
-				await websocket.callBatch(sceneRequests.reverse());
+				for (const scene of sceneState) {
+					await createOBSScene(scene.title, scene);
+				}
 				// Remove default scene item
 				try {
 					await websocket.call('RemoveScene', { sceneName: 'Scene' });
