@@ -1,5 +1,5 @@
 import { Caption1, makeStyles, shorthands, tokens } from '@fluentui/react-components';
-import { Scene } from '@common/interfaces/Types';
+import { SceneData } from '@common/interfaces/Types';
 import Card from '../../card/Card';
 import cardStyles from '../../card/styles/CardStyles';
 import { useSelector } from 'react-redux';
@@ -37,25 +37,25 @@ const useStyles = makeStyles({
 });
 
 interface SceneCardProps {
-	scene: Scene;
+	sceneData: SceneData;
 }
 
-const SceneCard = ({ scene }: SceneCardProps) => {
+const SceneCard = ({ sceneData }: SceneCardProps) => {
 	const classes = useStyles();
 	const cardClasses = cardStyles();
 
 	const { currentScene, sceneList } = useSelector((state: AppState) => state.obsState);
 
-	const active = currentScene === scene.title;
+	const active = currentScene === sceneData.title;
 
-	const sceneExists = findScene(sceneList, scene.title) !== undefined;
+	const sceneExists = findScene(sceneList, sceneData.title) !== undefined;
 
 	return (
 		<Card>
 			<div className={cardClasses.cardTitle}>
 				<div className={classes.title}>
-					{scene.icon}
-					<span>{scene.title}</span>
+					{sceneData.icon}
+					<span>{sceneData.title}</span>
 				</div>
 				{sceneExists ? (
 					active ? (
@@ -70,7 +70,7 @@ const SceneCard = ({ scene }: SceneCardProps) => {
 				)}
 			</div>
 			<div className={classes.buttonContainer}>
-				<SwitchSceneButton scene={scene} />
+				<SwitchSceneButton sceneData={sceneData} />
 			</div>
 		</Card>
 	);

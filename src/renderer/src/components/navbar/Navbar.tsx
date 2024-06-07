@@ -11,7 +11,7 @@ import SidebarHeader from '../sidebar/header/SidebarHeader';
 import NavbarFooter from './footer/NavbarFooter';
 import { SocketClientContext } from '../../socket/SocketClientProvider';
 import { useContext, useState } from 'react';
-import { Scene } from '@common/interfaces/Types';
+import { SceneData } from '@common/interfaces/Types';
 import {
 	ACTIONBAR_HEIGHT,
 	FOOTER_HEIGHT,
@@ -72,7 +72,7 @@ const Navbar = () => {
 	/**
 	 * Scenes State
 	 */
-	const scenes: Scene[] = useSelector((state: AppState) => state.scenesState);
+	const scenes: SceneData[] = useSelector((state: AppState) => state.scenesState);
 
 	return (
 		<section className={classes.container}>

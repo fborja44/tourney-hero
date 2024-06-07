@@ -22,7 +22,7 @@ const SceneManagerPage = () => {
 	const appScenes = useSelector((state: AppState) => state.scenesState);
 
 	const elementList = appScenes.map((scene) => (
-		<SceneCard key={`${scene.title}-card`} scene={scene} />
+		<SceneCard key={`${scene.title}-card`} sceneData={scene} />
 	));
 
 	return (

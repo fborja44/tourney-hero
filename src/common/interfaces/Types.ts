@@ -148,11 +148,11 @@ export interface BrowserSource {
 	height?: number;
 }
 
-export interface Scene {
+export interface SceneData {
 	title: string;
 	icon: React.ReactNode | JSX.Element;
 	panel: React.ReactNode;
-	endpoint: string;
+	source: BrowserSource;
 	peripheralSources?: BrowserSource[];
 }
 

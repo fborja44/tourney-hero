@@ -15,7 +15,7 @@ import SendDataButton from './buttons/SendDataButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { SocketClientContext } from '@renderer/socket/SocketClientProvider';
 import PageHeader from './PageHeader';
-import { SceneData, OverlayData } from '@common/interfaces/Data';
+import { DisplayData, OverlayData } from '@common/interfaces/Data';
 import {
 	updateBracket,
 	updateCommentators,
@@ -28,7 +28,7 @@ import ActiveIndicator from '@renderer/components/pulse/ActiveIndicator';
 import SwitchSceneButton from './buttons/SwitchSceneButton';
 import { ActionCreatorWithPreparedPayload } from '@reduxjs/toolkit';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { Scene } from '@common/interfaces/Types';
+import { SceneData } from '@common/interfaces/Types';
 
 const useStyles = makeStyles({
 	buttonContainer: {
@@ -44,7 +44,7 @@ const useStyles = makeStyles({
 });
 
 interface SceneHeaderProps {
-	scene: Scene;
+	scene: SceneData;
 	dataField: keyof OverlayData;
 	sendData?: () => void;
 }
@@ -61,7 +61,7 @@ const SceneHeader = ({ scene, dataField, sendData }: SceneHeaderProps) => {
 	let updateDataState: ActionCreatorWithPreparedPayload<
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		any,
-		Partial<SceneData>,
+		Partial<DisplayData>,
 		string,
 		never,
 		never
@@ -90,7 +90,7 @@ const SceneHeader = ({ scene, dataField, sendData }: SceneHeaderProps) => {
 		<PageHeader title={`${scene.title} Control Panel`} icon={scene.icon}>
 			<div className={classes.buttonContainer}>
 				{active && <ActiveIndicator />}
-				<SwitchSceneButton scene={scene} className={classes.button} />
+				<SwitchSceneButton sceneData={scene} className={classes.button} />
 				{sendData && (
 					<SendDataButton
 						className={classes.button}

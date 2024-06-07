@@ -9,7 +9,7 @@ import {
 import { useToastController } from '@fluentui/react-components';
 import MessageToast from '@renderer/components/toasts/MessageToast';
 import { AppState } from '@renderer/redux/reducers/rootReducer';
-import { Scene } from '@common/interfaces/Types';
+import { BrowserSource, SceneData } from '@common/interfaces/Types';
 import { SocketClientContext } from '@renderer/socket/SocketClientProvider';
 import { getPortFromAddress } from '@renderer/utils/string';
 
@@ -24,9 +24,10 @@ interface OBSWebSocketClientState {
 	connected: boolean;
 	connect: ((address: string, port: string, password: string) => Promise<boolean>) | undefined;
 	disconnect: (() => void) | undefined;
-	sendOBSSceneRequest: ((sceneName: string) => void) | undefined;
-	createOBSScene: ((sceneName: string, scene: Scene) => void) | undefined;
+	switchCurrentSceneProgram: ((sceneName: string) => void) | undefined;
+	createOBSScene: ((sceneData: SceneData) => void) | undefined;
 	createOBSSceneCollection: ((sceneCollectionName: string) => void) | undefined;
+	repairOBSScene: ((scene: SceneData) => void) | undefined;
 }
 
 const defaultAddress = 'ws://127.0.0.1';
@@ -39,9 +40,10 @@ export const OBSWebSocketClientContext = createContext<OBSWebSocketClientState>(
 	connected: false,
 	connect: undefined,
 	disconnect: undefined,
-	sendOBSSceneRequest: undefined,
+	switchCurrentSceneProgram: undefined,
 	createOBSScene: undefined,
-	createOBSSceneCollection: undefined
+	createOBSSceneCollection: undefined,
+	repairOBSScene: undefined
 });
 
 /**
@@ -150,12 +152,52 @@ const OBSWebSocketClientProvider = ({ children }: OBSWebSocketProviderProps) => 
 	/**
 	 * Sends a request through OBS Websocket to set the current program scene
 	 */
-	const sendOBSSceneRequest = async (sceneName: string) => {
+	const switchCurrentSceneProgram = async (sceneName: string) => {
+		if (!(websocket && connected)) {
+			console.error('OBS Not Connected; Failed to switch scene.');
+			return;
+		}
+
 		try {
-			if (websocket && connected) {
-				await websocket.call('SetCurrentProgramScene', { sceneName });
+			await websocket.call('SetCurrentProgramScene', { sceneName });
+		} catch (err) {
+			console.error(err);
+		}
+	};
+
+	/**
+	 * Creates a browser source in the specified scene.
+	 * @param sceneName The scene to create the browser source in.
+	 * @param source The browser source to create.
+	 */
+	const createBrowserSource = async (sceneName: string, source: BrowserSource) => {
+		if (!(websocket && connected)) {
+			console.error('OBS Not Connected; Failed to browser source.');
+			return;
+		}
+
+		try {
+			// Check if input exists in list
+			const { inputs } = await websocket.call('GetInputList');
+			if (inputs.some((input) => input.inputName === source.sourceName)) {
+				// Input already exists
+				await websocket.call('CreateSceneItem', {
+					sceneName,
+					sourceName: source.sourceName
+				});
 			} else {
-				console.error('OBS Not Connected; Failed to switch scene.');
+				// Input does not exist, create a new one
+				await websocket.call('CreateInput', {
+					sceneName,
+					inputName: source.sourceName,
+					inputKind: 'browser_source',
+					inputSettings: {
+						url: `http://localhost:${getPortFromAddress(serverAddress) ?? '3001'}${source.endpoint}`,
+						width: source.width ?? 1920,
+						height: source.height ?? 1080,
+						shutdown: source.shutdown ?? true
+					}
+				});
 			}
 		} catch (err) {
 			console.error(err);
@@ -163,78 +205,85 @@ const OBSWebSocketClientProvider = ({ children }: OBSWebSocketProviderProps) => 
 	};
 
 	/**
-	 *
-	 * @param sceneName
-	 * @param inputName
-	 * @param inputKind
-	 * @param inputSettings
+	 * Sets the settings of a browser srouce.
+	 * @param source The browser source data to update.
 	 */
-	const createBrowserSource = async (
-		sceneName: string,
-		inputName: string,
-		endpoint: string,
-		width: number = 1920,
-		height: number = 1080,
-		shutdown: boolean = true
-	) => {
-		if (websocket && connected) {
-			// Check if input exists in list
-			const { inputs } = await websocket.call('GetInputList');
-			if (inputs.some((input) => input.inputName === inputName)) {
-				// Input already exists
-				await websocket.call('CreateSceneItem', {
-					sceneName,
-					sourceName: inputName
-				});
-			} else {
-				await websocket.call('CreateInput', {
-					sceneName,
-					inputName,
-					inputKind: 'browser_source',
-					inputSettings: {
-						url: `http://localhost:${getPortFromAddress(serverAddress) ?? '3001'}${endpoint}`,
-						width: width,
-						height: height,
-						shutdown: shutdown
-					}
-				});
+	const setBrowserSourceSettings = async (source: BrowserSource) => {
+		if (!(websocket && connected)) {
+			console.error('OBS Not Connected; Failed to set browser source settings.');
+			return;
+		}
+
+		try {
+			await websocket.call('SetInputSettings', {
+				inputName: source.sourceName,
+				inputSettings: {
+					url: `http://localhost:${getPortFromAddress(serverAddress) ?? '3001'}${source.endpoint}`,
+					width: source.width ?? 1920,
+					height: source.height ?? 1080,
+					shutdown: source.shutdown ?? true
+				}
+			});
+		} catch (err) {
+			console.error(err);
+		}
+	};
+
+	/**
+	 * Sends a request to delete an OBS input.
+	 * @param sceneName The scene of the item to delete.
+	 * @param inputName The item to delete
+	 */
+	// const deleteOBSInput = async (inputName: string) => {
+	// 	if (!(websocket && connected)) {
+	// 		console.error('OBS Not Connected; Failed to create scene.');
+	// 		return;
+	// 	}
+
+	// 	try {
+	// 		await websocket.call('RemoveInput', {
+	// 			inputName
+	// 		});
+	// 	} catch (err) {
+	// 		console.error(err);
+	// 	}
+	// };
+
+	/**
+	 * Creates scene items within an app scene.
+	 * @param sceneData The scene data to create
+	 */
+	const createOBSSceneItems = async (sceneData: SceneData) => {
+		if (!(websocket && connected)) {
+			console.error('OBS Not Connected; Failed to create scene.');
+			return;
+		}
+
+		try {
+			// Create peripheral items
+			for (const source of sceneData.peripheralSources ?? []) {
+				await createBrowserSource(sceneData.title, source);
 			}
-		} else {
-			console.error('OBS Not Connected; Failed to create browser source.');
+			// Create primary source
+			await createBrowserSource(sceneData.title, sceneData.source);
+		} catch (err) {
+			console.error(err);
 		}
 	};
 
 	/**
 	 * Sends a request through OBS Websocket to create a new scene
-	 * TODO: Create sources
-	 * @param sceneName The name of the scene to create
+	 * @param sceneData The app scene data to use, if provided
 	 */
-	const createOBSScene = async (sceneName: string, scene?: Scene) => {
+	const createOBSScene = async (sceneData: SceneData) => {
+		if (!(websocket && connected)) {
+			console.error('OBS Not Connected; Failed to create scene.');
+			return;
+		}
+
 		try {
-			if (websocket && connected) {
-				await websocket.call('CreateScene', { sceneName });
-				// Create peripheral sources first
-				for (const source of scene?.peripheralSources ?? []) {
-					await createBrowserSource(
-						sceneName,
-						source.sourceName,
-						source.endpoint,
-						source.width,
-						source.height,
-						source.shutdown
-					);
-				}
-				if (scene) {
-					// Create primary source
-					await createBrowserSource(
-						sceneName,
-						`${scene.title} Browser Source`,
-						scene.endpoint
-					);
-				}
-			} else {
-				console.error('OBS Not Connected; Failed to create scene.');
-			}
+			await websocket.call('CreateScene', { sceneName: sceneData.title });
+			await createOBSSceneItems(sceneData);
 		} catch (err) {
 			console.error(err);
 		}
@@ -246,27 +295,64 @@ const OBSWebSocketClientProvider = ({ children }: OBSWebSocketProviderProps) => 
 	 * @param collectionName The name of the collection to create
 	 */
 	const createOBSSceneCollection = async (sceneCollectionName: string) => {
+		if (!(websocket && connected)) {
+			console.error('OBS Not Connected; Failed to create scene.');
+			return;
+		}
+
 		try {
-			if (websocket && connected) {
-				// Create collection
-				await websocket.call('CreateSceneCollection', {
-					sceneCollectionName
-				});
-				// Create scene list
-				for (const scene of sceneState) {
-					await createOBSScene(scene.title, scene);
-				}
-				// Remove default scene item
-				try {
-					await websocket.call('RemoveScene', { sceneName: 'Scene' });
-				} catch (err) {
-					console.log('No default scene found');
-				}
-			} else {
-				console.error('OBS Not Connected; Failed to create scene.');
+			// Create collection
+			await websocket.call('CreateSceneCollection', {
+				sceneCollectionName
+			});
+			// Create scene list
+			for (const scene of sceneState) {
+				await createOBSScene(scene);
+			}
+			// Remove default scene item
+			try {
+				await websocket.call('RemoveScene', { sceneName: 'Scene' });
+			} catch (err) {
+				console.log('No default scene found');
 			}
 		} catch (err) {
 			console.error(err);
+		}
+	};
+
+	/**
+	 * Checks if a scene exists in the scene collection.
+	 * If yes, will delete all relevant scene items (if they exist) and recreate them.
+	 * If not, will create the scene.
+	 * @param scene The scene to create
+	 */
+	const repairOBSScene = async (sceneData: SceneData) => {
+		if (!(websocket && connected)) {
+			console.error('OBS Not Connected; Failed to repair scene.');
+			return;
+		}
+
+		// Check if scene exists in current collection
+		const { scenes } = await websocket.call('GetSceneList');
+		if (!scenes.some((scene) => scene.sceneName === sceneData.title)) {
+			// Create the scene
+			await createOBSScene(sceneData);
+		} else {
+			// Update the scene items
+			const { sceneItems } = await websocket.call('GetSceneItemList', {
+				sceneName: sceneData.title
+			});
+
+			for (const source of [...(sceneData.peripheralSources ?? []), sceneData.source]) {
+				console.log(sceneItems);
+				if (sceneItems.some((item) => item.sourceName === source.sourceName)) {
+					// Update existing scene inputs
+					await setBrowserSourceSettings(source);
+				} else {
+					// Create missing scene inputs
+					await createBrowserSource(sceneData.title, source);
+				}
+			}
 		}
 	};
 
@@ -288,9 +374,10 @@ const OBSWebSocketClientProvider = ({ children }: OBSWebSocketProviderProps) => 
 		connected: websocket !== null && connected,
 		connect: connect,
 		disconnect: disconnect,
-		sendOBSSceneRequest,
+		switchCurrentSceneProgram,
 		createOBSScene,
-		createOBSSceneCollection
+		createOBSSceneCollection,
+		repairOBSScene
 	};
 
 	return (

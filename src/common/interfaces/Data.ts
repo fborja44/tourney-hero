@@ -1,7 +1,12 @@
 import { UUID } from 'crypto';
 import { CharacterId, PlayerCardMatch, PlayerCardPlacement, Port } from './Types';
 
-export type SceneData = GameplayData | PlayerData | CommentatorData | BracketData | PlayerCardData;
+export type DisplayData =
+	| GameplayData
+	| PlayerData
+	| CommentatorData
+	| BracketData
+	| PlayerCardData;
 
 export type DataField =
 	| keyof GameplayData
