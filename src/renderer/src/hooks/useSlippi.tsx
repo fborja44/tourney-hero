@@ -36,7 +36,7 @@ const useSlippi = () => {
 	const {
 		obs,
 		connected: OBSConnected,
-		sendOBSSceneRequest
+		switchCurrentSceneProgram
 	} = useContext(OBSWebSocketClientContext);
 
 	/**
@@ -51,12 +51,12 @@ const useSlippi = () => {
 
 		// Auto-switch
 		if (
-			sendOBSSceneRequest &&
+			switchCurrentSceneProgram &&
 			slippiConnected &&
 			autoSwitchPlayersToGame &&
 			currentScene === 'Players'
 		) {
-			sendOBSSceneRequest('Gameplay');
+			switchCurrentSceneProgram('Gameplay');
 		}
 
 		// Auto-update characters
@@ -82,12 +82,12 @@ const useSlippi = () => {
 
 		// Auto-switch
 		if (
-			sendOBSSceneRequest &&
+			switchCurrentSceneProgram &&
 			slippiConnected &&
 			autoSwitchGameToPlayers &&
 			currentScene === 'Gameplay'
 		) {
-			sendOBSSceneRequest('Players');
+			switchCurrentSceneProgram('Players');
 		}
 
 		// Auto-update score
