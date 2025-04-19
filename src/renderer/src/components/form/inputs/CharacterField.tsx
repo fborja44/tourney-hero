@@ -9,7 +9,6 @@ import {
 } from '@fluentui/react-components';
 import { tokens } from '@fluentui/react-theme';
 import CharacterIcon from '../../character/CharacterIcon';
-import { Character } from '@common/interfaces/Types';
 import { DataField } from '@common/interfaces/Data';
 import { getSlippiCharacterByExternalId } from '@common/constants/slippi-utils';
 
@@ -45,7 +44,7 @@ type FluentFieldProps = FieldProps & DropdownProps;
 
 interface CharacterFieldProps extends FluentFieldProps {
 	targetField: DataField;
-	handleChange: (targetField: DataField, value: Character) => void;
+	handleChange: (targetField: DataField, value: string | number | boolean | null) => void;
 	playerNumber?: string;
 }
 
@@ -74,7 +73,7 @@ const CharacterField = ({
 					</div>
 				}
 				onOptionSelect={(_ev, data) =>
-					handleChange(targetField, data.optionValue as Character)
+					handleChange(targetField, data.optionValue ? parseInt(data.optionValue) : null)
 				}
 				defaultValue="null"
 			>

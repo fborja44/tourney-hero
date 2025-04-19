@@ -38,7 +38,10 @@ const PlayerForm = ({ playerNumber, playerData, updateFn }: PlayerFormProps) => 
 	 * @param targetField
 	 * @param value
 	 */
-	const handlePlayerChange = (targetField: DataField, value: string | number | boolean) => {
+	const handlePlayerChange = (
+		targetField: DataField,
+		value: string | number | boolean | null
+	) => {
 		dispatch(
 			updateFn(`player${playerNumber}`, {
 				[targetField]: value

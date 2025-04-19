@@ -6,7 +6,8 @@ export type DisplayData =
 	| PlayerData
 	| CommentatorData
 	| BracketData
-	| PlayerCardData;
+	| PlayerCardData
+	| StatsData;
 
 export type DataField =
 	| keyof GameplayData
@@ -14,7 +15,8 @@ export type DataField =
 	| keyof CommentatorData
 	| keyof BracketData
 	| keyof BracketMatch
-	| keyof PlayerCardData;
+	| keyof PlayerCardData
+	| keyof StatsData;
 
 export interface OverlayData {
 	gameplay: GameplayData;
