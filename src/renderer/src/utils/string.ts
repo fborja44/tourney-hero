@@ -26,13 +26,13 @@ export const toCamelCase = (string: string) => {
 };
 
 /**
- * Checks if a given string contains only numberic characters
+ * Checks if a given string represents a valid integer (including negative numbers)
  * @param string
- * @returns
+ * @returns True if the string represents an integer, false otherwise.
  */
 export const isInteger = (string: string) => {
-	if (typeof string != 'string') return false;
-	return /^\d+$/.test(string) && Number.isInteger(parseInt(string, 10));
+	if (typeof string !== 'string') return false;
+	return /^-?\d+$/.test(string) && Number.isInteger(Number(string));
 };
 
 /**

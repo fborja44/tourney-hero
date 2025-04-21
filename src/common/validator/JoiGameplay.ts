@@ -5,10 +5,11 @@ import {
 	MAX_BRACKET_DATA_LENGTH,
 	MAX_PRONOUN_LENGTH,
 	MAX_SCORE,
-	MAX_TEAM_LENGTH
+	MAX_TEAM_LENGTH,
+	MIN_SCORE
 } from '../constants/limits';
 
-export const JoiScore = Joi.number().min(0).max(MAX_SCORE).integer().allow(null);
+export const JoiScore = Joi.number().min(MIN_SCORE).max(MAX_SCORE).integer().allow(null);
 
 export const JoiScores = Joi.object({
 	p1score: JoiScore.required(),

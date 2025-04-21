@@ -13,7 +13,8 @@ import {
 	MAX_PRONOUN_LENGTH,
 	MAX_SCORE,
 	MAX_TAG_LENGTH,
-	MAX_TEAM_LENGTH
+	MAX_TEAM_LENGTH,
+	MIN_SCORE
 } from '@common/constants/limits';
 import { Port } from '@common/interfaces/Types';
 import { useEffect, useState } from 'react';
@@ -149,7 +150,7 @@ const PlayerForm = ({ playerNumber, playerData, updateFn }: PlayerFormProps) => 
 					value={playerData.score}
 					targetField="score"
 					handleChange={handlePlayerChange}
-					min={0}
+					min={MIN_SCORE}
 					max={MAX_SCORE}
 				/>
 			</div>
