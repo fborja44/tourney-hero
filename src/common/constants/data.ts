@@ -1,4 +1,4 @@
-import { SlippiCharacter, SlippiStage } from '@common/interfaces/Types';
+import { SlippiCharacter, SlippiStage } from '../interfaces/Types';
 
 export const SLIPPI_CHARACTERS: SlippiCharacter[] = [
 	{

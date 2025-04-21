@@ -1,6 +1,6 @@
-import { Character, ReplayPlayer, SlippiCharacter } from '@common/interfaces/Types';
 import { FrameEntryType, MetadataType, PlacementType } from '@slippi/slippi-js';
 import { SLIPPI_CHARACTERS, SLIPPI_STAGES } from './data';
+import { Character, ReplayPlayer, SlippiCharacter } from '../interfaces/Types';
 
 /**
  * Gets the string representation of a Slippi game port.
