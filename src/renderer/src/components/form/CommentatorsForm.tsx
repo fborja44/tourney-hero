@@ -188,7 +188,7 @@ const CommentatorsForm = () => {
 						targetField={'eventName'}
 						handleChange={handleCommentatorsChange}
 						options={[
-							'Welcome To',
+							'Opening',
 							'Intermission',
 							'Melee Singles',
 							'Grand Finals',
@@ -199,7 +199,8 @@ const CommentatorsForm = () => {
 							'Money Match',
 							'Grudge Match',
 							'Side Event',
-							'Friendlies'
+							'Friendlies',
+							'Poker'
 						]}
 					/>
 					<span className={classes.gap} />

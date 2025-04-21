@@ -53,8 +53,8 @@ export const commentatorData: CommentatorData = {
 	showMatch: false,
 	timerMinutes: 5,
 	showTimer: false,
-	eventTime: 'Next',
-	eventName: 'Welcome To',
+	eventTime: 'Now',
+	eventName: 'Opening',
 	day: 0,
 	showEvent: true,
 	showAds: false
