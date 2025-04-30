@@ -83,7 +83,7 @@ const CrewBattleField = ({
 	const [open, setOpen] = useState(false);
 
 	const handleCharacterSelect = (characterId: CharacterId) => {
-		if (characterId === null) return;
+		console.log(characterId);
 		handleChange(targetField, [
 			...(headsList as HeadData[]),
 			{ characterId: characterId, isToggled: false }

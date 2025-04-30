@@ -31,7 +31,7 @@ const useStyles = makeStyles({
 const CharacterToken = ({ head, index, handleRemove, handleToggle }: CharacterTokenProps) => {
 	const classes = useStyles();
 
-	if (!head.characterId) return null;
+	if (head.characterId === null) return null;
 
 	return (
 		<div
