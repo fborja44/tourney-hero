@@ -67,7 +67,7 @@ const CharacterSelectDialog = ({ setOpen, handleSelect }: CharacterSelectDialogP
 									className={classes.button}
 									onClick={() => {
 										handleSelect(char.externalId);
-										setOpen(false);
+										// setOpen(false);
 									}}
 								/>
 							)

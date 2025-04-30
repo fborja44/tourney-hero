@@ -8,7 +8,7 @@ import {
 	shorthands
 } from '@fluentui/react-components';
 import { tokens } from '@fluentui/react-theme';
-import { DataField } from '@common/interfaces/Data';
+import { DataField, HeadData } from '@common/interfaces/Data';
 import { Add16Filled } from '@fluentui/react-icons';
 import { useState } from 'react';
 import CharacterSelectDialog from '@renderer/components/dialogs/input/CharacterSelectDialog';
@@ -62,7 +62,7 @@ interface CrewBattleFieldProps extends FluentFieldProps {
 	targetField: DataField;
 	handleChange: (
 		targetField: DataField,
-		value: string | number | number[] | boolean | null
+		value: string | number | HeadData[] | boolean | null
 	) => void;
 	playerNumber: '1' | '2';
 }
@@ -84,12 +84,24 @@ const CrewBattleField = ({
 
 	const handleCharacterSelect = (characterId: CharacterId) => {
 		if (characterId === null) return;
-		handleChange(targetField, [...(headsList as number[]), characterId]);
+		handleChange(targetField, [
+			...(headsList as HeadData[]),
+			{ characterId: characterId, isToggled: false }
+		]);
 	};
 
 	const handleCharacterRemove = (index: number) => {
-		const updatedList = [...(headsList as number[])];
+		const updatedList = [...(headsList as HeadData[])];
 		updatedList.splice(index, 1);
+		handleChange(targetField, updatedList);
+	};
+
+	const handleToggle = (index: number) => {
+		const updatedList = [...(headsList as HeadData[])];
+		updatedList[index] = {
+			...updatedList[index],
+			isToggled: !updatedList[index].isToggled
+		};
 		handleChange(targetField, updatedList);
 	};
 
@@ -109,12 +121,13 @@ const CrewBattleField = ({
 			</Dialog>
 			<div className={classes.content}>
 				{headsList.map(
-					(characterId, i) =>
-						characterId !== null && (
+					(head, i) =>
+						head.characterId !== null && (
 							<CharacterToken
-								key={`head-token-${characterId}-${playerNumber}-${i}`}
-								characterId={characterId}
+								key={`head-token-${head.characterId}-${playerNumber}-${i}`}
+								head={head}
 								handleRemove={handleCharacterRemove}
+								handleToggle={handleToggle}
 								index={i}
 							/>
 						)

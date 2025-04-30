@@ -2,7 +2,7 @@ import { Body1, OptionOnSelectData, mergeClasses } from '@fluentui/react-compone
 import TextField from './inputs/TextField';
 import formStyles from './styles/FormStyles';
 import RadioGroupField from './inputs/RadioGroupField';
-import { DataField, PlayerData } from '@common/interfaces/Data';
+import { DataField, HeadData, PlayerData } from '@common/interfaces/Data';
 import NumberField from './inputs/NumberField';
 import { useDispatch, useSelector } from 'react-redux';
 import CharacterField from './inputs/CharacterField';
@@ -42,7 +42,7 @@ const PlayerForm = ({ playerNumber, playerData, updateFn }: PlayerFormProps) => 
 	 */
 	const handlePlayerChange = (
 		targetField: DataField,
-		value: string | number | number[] | boolean | null
+		value: string | number | HeadData[] | boolean | null
 	) => {
 		dispatch(
 			updateFn(`player${playerNumber}`, {

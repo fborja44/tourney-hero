@@ -1,12 +1,13 @@
-import { CharacterId } from '@common/interfaces/Types';
-import { Button, makeStyles, shorthands, tokens } from '@fluentui/react-components';
+import { HeadData } from '@common/interfaces/Data';
+import { Button, makeStyles, mergeClasses, shorthands, tokens } from '@fluentui/react-components';
 import { Dismiss16Regular } from '@fluentui/react-icons';
 import CharacterIcon from '@renderer/components/character/CharacterIcon';
 
 interface CharacterTokenProps {
-	characterId: CharacterId;
+	head: HeadData;
 	index: number;
 	handleRemove: (index: number) => void;
+	handleToggle: (index: number) => void;
 }
 
 const useStyles = makeStyles({
@@ -17,24 +18,36 @@ const useStyles = makeStyles({
 		columnGap: tokens.spacingHorizontalXS,
 		backgroundColor: tokens.colorBrandBackground,
 		...shorthands.borderRadius(tokens.borderRadiusCircular),
-		...shorthands.padding(tokens.spacingVerticalXXS, tokens.spacingHorizontalS)
+		...shorthands.padding(tokens.spacingVerticalXXS, tokens.spacingHorizontalS),
+		'&:hover': {
+			cursor: 'pointer'
+		}
+	},
+	toggled: {
+		backgroundColor: tokens.colorNeutralBackground1
 	}
 });
 
-const CharacterToken = ({ characterId, index, handleRemove }: CharacterTokenProps) => {
+const CharacterToken = ({ head, index, handleRemove, handleToggle }: CharacterTokenProps) => {
 	const classes = useStyles();
 
-	if (!characterId) return null;
+	if (!head.characterId) return null;
 
 	return (
-		<div className={classes.token}>
-			<CharacterIcon characterId={characterId} size={20} />
+		<div
+			className={mergeClasses(classes.token, head.isToggled ? classes.toggled : '')}
+			onClick={() => handleToggle(index)}
+		>
+			<CharacterIcon characterId={head.characterId} size={20} />
 			<Button
 				icon={<Dismiss16Regular />}
 				size="small"
-				appearance="primary"
+				appearance={head.isToggled ? 'subtle' : 'primary'}
 				shape="circular"
-				onClick={() => handleRemove(index)}
+				onClick={(ev) => {
+					ev.stopPropagation();
+					handleRemove(index);
+				}}
 			/>
 		</div>
 	);

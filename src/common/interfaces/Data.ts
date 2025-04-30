@@ -50,6 +50,11 @@ export interface CharacterData {
 	p2characterId: CharacterId;
 }
 
+export interface HeadData {
+	characterId: CharacterId;
+	isToggled: boolean;
+}
+
 export interface PlayerData {
 	tag: string;
 	tagDisplaySize: number;
@@ -59,7 +64,7 @@ export interface PlayerData {
 	pronoun: string | undefined;
 	port: Port;
 	countryCode: string;
-	heads: CharacterId[];
+	heads: HeadData[];
 }
 
 export interface CommentatorData {
