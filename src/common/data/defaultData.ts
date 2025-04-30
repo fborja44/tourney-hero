@@ -16,7 +16,8 @@ export const defaultPlayer: PlayerData = {
 	team: '',
 	port: 'Red',
 	pronoun: '',
-	countryCode: 'US'
+	countryCode: 'US',
+	heads: []
 };
 
 export const gameplayData: GameplayData = {

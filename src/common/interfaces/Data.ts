@@ -59,6 +59,7 @@ export interface PlayerData {
 	pronoun: string | undefined;
 	port: Port;
 	countryCode: string;
+	heads: CharacterId[];
 }
 
 export interface CommentatorData {

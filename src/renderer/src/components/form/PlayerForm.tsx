@@ -20,6 +20,7 @@ import { Port } from '@common/interfaces/Types';
 import { useEffect, useState } from 'react';
 import CountryField from './inputs/CountryField';
 import { PlayerUpdateFunction } from './PlayerFormSection';
+import CrewBattleField from './inputs/CrewBattleField';
 
 interface PlayerFormProps {
 	playerNumber: '1' | '2';
@@ -41,7 +42,7 @@ const PlayerForm = ({ playerNumber, playerData, updateFn }: PlayerFormProps) => 
 	 */
 	const handlePlayerChange = (
 		targetField: DataField,
-		value: string | number | boolean | null
+		value: string | number | number[] | boolean | null
 	) => {
 		dispatch(
 			updateFn(`player${playerNumber}`, {
@@ -199,6 +200,14 @@ const PlayerForm = ({ playerNumber, playerData, updateFn }: PlayerFormProps) => 
 					targetField="port"
 					handleChange={handlePlayerChange}
 					items={['Red', 'Blue', 'Yellow', 'Green']} // or 'None'
+					playerNumber={playerNumber}
+				/>
+			</div>
+			<div className={classes.formRow}>
+				<CrewBattleField
+					label="Crew Battle / Stocks"
+					targetField="heads"
+					handleChange={handlePlayerChange}
 					playerNumber={playerNumber}
 				/>
 			</div>
