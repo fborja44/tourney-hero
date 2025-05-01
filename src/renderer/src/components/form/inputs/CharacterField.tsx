@@ -72,9 +72,14 @@ const CharacterField = ({
 						<span>{getSlippiCharacterByExternalId(value)}</span>
 					</div>
 				}
-				onOptionSelect={(_ev, data) =>
-					handleChange(targetField, data.optionValue ? parseInt(data.optionValue) : null)
-				}
+				onOptionSelect={(_ev, data) => {
+					handleChange(
+						targetField,
+						data.optionValue && data.optionValue !== 'Default'
+							? parseInt(data.optionValue)
+							: null
+					);
+				}}
 				defaultValue="null"
 			>
 				{Array.from({ length: 26 }, (_, i) => i).map((characterId) => (

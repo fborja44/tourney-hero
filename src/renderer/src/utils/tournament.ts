@@ -106,7 +106,7 @@ export const parseSetEntrant = async (slot: any): Promise<Entrant> => {
 		prefix =
 			participant1 && participant2 && participant1.prefix === participant2.prefix
 				? participant1.prefix
-				: '' ?? '';
+				: '';
 		pronoun = '';
 	} else {
 		// Skip tag and pronoun
@@ -120,7 +120,7 @@ export const parseSetEntrant = async (slot: any): Promise<Entrant> => {
 		imageUrl: image ?? '',
 		score: standing?.stats?.score?.value ?? undefined,
 		isWinner: standing?.placement === 1,
-		characterId: localPlayerData?.character ?? 'Default'
+		characterId: localPlayerData?.character ?? null
 	};
 	return player;
 };
