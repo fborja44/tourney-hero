@@ -4,26 +4,26 @@ import {
 	XboxController20Regular,
 	Mic20Regular,
 	BranchFork20Regular,
-	VideoPersonRegular,
+	VideoPersonRegular
 	// Timer20Regular,
 	// People20Regular,
 	// Money20Regular,
 	// Camera20Regular,
-	DataBarVertical20Regular
+	// DataBarVertical20Regular
 } from '@fluentui/react-icons';
 import { SceneData } from '@common/interfaces/Types';
 import GameplayForm from '@renderer/components/form/GameplayForm';
 import CommentatorsForm from '@renderer/components/form/CommentatorsForm';
 import BracketForm from '@renderer/components/form/BracketForm';
 import PlayerCardForm from '@renderer/components/form/PlayerCardForm';
-import StatsForm from '@renderer/components/form/StatsForm';
+// import StatsForm from '@renderer/components/form/StatsForm';
 import {
 	BackgroundBrowserSource,
 	BracketBrowserSource,
 	CommentatorsBrowserSource,
 	GameplayBrowserSource,
-	PlayerCardBrowserSource,
-	StatisticsBrowserSource
+	PlayerCardBrowserSource
+	// StatisticsBrowserSource
 } from '@renderer/obs/sources';
 // import EmptyPanel from '@renderer/components/panel/EmptyPanel';
 
@@ -54,12 +54,12 @@ const initialState: ScenesState = [
 		source: PlayerCardBrowserSource,
 		peripheralSources: [BackgroundBrowserSource]
 	},
-	{
-		title: 'Statistics',
-		icon: <DataBarVertical20Regular />,
-		panel: <StatsForm />,
-		source: StatisticsBrowserSource
-	},
+	// {
+	// 	title: 'Statistics',
+	// 	icon: <DataBarVertical20Regular />,
+	// 	panel: <StatsForm />,
+	// 	source: StatisticsBrowserSource
+	// },
 	{
 		title: 'Bracket',
 		icon: <BranchFork20Regular />,

@@ -173,14 +173,14 @@ const CommentatorsForm = () => {
 						handleChange={handleCommentatorsChange}
 						disabled={true}
 					/>
-					<span className={classes.gap} />
+					{/* <span className={classes.gap} />
 					<SelectField
 						label="Event Time"
 						value={commentatorData.eventTime}
 						targetField={'eventTime'}
 						handleChange={handleCommentatorsChange}
 						options={['Next', 'Now']}
-					/>
+					/> */}
 					<span className={classes.gap} />
 					<SelectField
 						label="Event Name"
@@ -251,7 +251,7 @@ const CommentatorsForm = () => {
 						max={MAX_TIMER}
 					/>
 				</div>
-				<div className={classes.formRow}>
+				{/* <div className={classes.formRow}>
 					<CheckboxField
 						label="Show Ads"
 						checked={commentatorData.showAds}
@@ -269,7 +269,7 @@ const CommentatorsForm = () => {
 							handleCommentatorsChange(targetField, value);
 						}}
 					/>
-				</div>
+				</div> */}
 			</div>
 		</Panel>
 	);

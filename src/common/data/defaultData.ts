@@ -26,7 +26,7 @@ export const gameplayData: GameplayData = {
 	roundName: 'Winners Round 1',
 	bracketName: 'Main Bracket',
 	eventName: 'Melee Singles',
-	infoMsg: 'start.gg/short-slug',
+	infoMsg: 'start.gg/full-house-2025',
 	showCommentators: false,
 	player1: {
 		...defaultPlayer,
@@ -48,7 +48,7 @@ export const commentatorData: CommentatorData = {
 	commentator3: '',
 	social3: '',
 	showCommentators: true,
-	message: 'Welcome!',
+	message: 'Welcome to Full House 2025!',
 	player1tag: '',
 	player2tag: '',
 	showMessage: true,
@@ -57,7 +57,7 @@ export const commentatorData: CommentatorData = {
 	showTimer: false,
 	eventTime: 'Now',
 	eventName: 'Opening',
-	day: 0,
+	day: 1,
 	showEvent: true,
 	showAds: false
 };
