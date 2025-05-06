@@ -65,6 +65,7 @@ export interface PlayerData {
 	port: Port;
 	countryCode: string;
 	heads: HeadData[];
+	seed: number | null;
 }
 
 export interface CommentatorData {

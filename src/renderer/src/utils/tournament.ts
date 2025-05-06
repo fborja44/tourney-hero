@@ -77,6 +77,7 @@ export const parseSetEntrant = async (slot: any): Promise<Entrant> => {
 	const standing = slot.standing;
 	const entrant = slot.entrant;
 	const participants = entrant?.participants;
+	const seed = entrant?.initialSeedNum;
 
 	let tag = '';
 	let prefix = '';
@@ -120,7 +121,8 @@ export const parseSetEntrant = async (slot: any): Promise<Entrant> => {
 		imageUrl: image ?? '',
 		score: standing?.stats?.score?.value ?? undefined,
 		isWinner: standing?.placement === 1,
-		characterId: localPlayerData?.character ?? null
+		characterId: localPlayerData?.character ?? null,
+		seed: seed ?? null
 	};
 	return player;
 };

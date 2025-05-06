@@ -91,6 +91,7 @@ const MATCHES_QUERY = gql`
 										}
 									}
 								}
+								initialSeedNum
 							}
 						}
 					}

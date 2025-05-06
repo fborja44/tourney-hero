@@ -124,6 +124,7 @@ export interface Entrant {
 	characterId?: number;
 	score?: number | null;
 	isWinner?: boolean;
+	seed?: number | null;
 }
 
 export interface PlayerCardMatch {

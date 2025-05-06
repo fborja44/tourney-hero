@@ -7,7 +7,7 @@ import {
 	MAX_TEAM_LENGTH,
 	MAX_TOURNAMENT_NAME_LENGTH,
 	MAX_URL_LENGTH
-} from '@common/constants/limits';
+} from '../constants/limits';
 import { JoiCharacter, JoiScore } from './JoiGameplay';
 
 const JoiPlayerMatch = Joi.object({

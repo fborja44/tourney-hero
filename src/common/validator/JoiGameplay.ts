@@ -5,6 +5,7 @@ import {
 	MAX_BRACKET_DATA_LENGTH,
 	MAX_PRONOUN_LENGTH,
 	MAX_SCORE,
+	MAX_SEED,
 	MAX_TEAM_LENGTH,
 	MIN_SCORE
 } from '../constants/limits';
@@ -23,6 +24,11 @@ export const JoiCharacters = Joi.object({
 	p2characterId: JoiCharacter.required()
 }).required();
 
+export const JoiHead = Joi.object({
+	characterId: JoiCharacter,
+	isToggled: Joi.boolean()
+});
+
 export const JoiPlayer = Joi.object({
 	tag: JoiTag.required(),
 	tagDisplaySize: Joi.number().min(1).max(MAX_SCORE).required(),
@@ -33,7 +39,9 @@ export const JoiPlayer = Joi.object({
 	port: Joi.string()
 		.valid(...PORTS)
 		.required(),
-	countryCode: JoiLocationCode.required()
+	countryCode: JoiLocationCode.required(),
+	heads: Joi.array().items(JoiHead).min(0),
+	seed: Joi.number().integer().min(1).max(MAX_SEED).allow(null).required()
 }).required();
 
 const JoiGameplay = Joi.object({

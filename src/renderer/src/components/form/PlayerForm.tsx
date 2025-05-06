@@ -12,6 +12,7 @@ import EntrantSelectField from './inputs/EntrantSelectField';
 import {
 	MAX_PRONOUN_LENGTH,
 	MAX_SCORE,
+	MAX_SEED,
 	MAX_TAG_LENGTH,
 	MAX_TEAM_LENGTH,
 	MIN_SCORE
@@ -137,13 +138,12 @@ const PlayerForm = ({ playerNumber, playerData, updateFn }: PlayerFormProps) => 
 			</div>
 			<div className={classes.formRow}>
 				<NumberField
-					label="Tag Display Size"
-					value={playerData.tagDisplaySize}
-					targetField="tagDisplaySize"
+					label="Seed"
+					value={playerData.seed}
+					targetField="seed"
 					handleChange={handlePlayerChange}
-					min={0}
-					suffix=" px"
-					disabled
+					min={1}
+					max={MAX_SEED}
 				/>
 				<span className={classes.gap} />
 				<NumberField
