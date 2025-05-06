@@ -199,7 +199,7 @@ const PlayerForm = ({ playerNumber, playerData, updateFn }: PlayerFormProps) => 
 					value={playerData.port}
 					targetField="port"
 					handleChange={handlePlayerChange}
-					items={['Red', 'Blue', 'Yellow', 'Green']} // or 'None'
+					items={['Red', 'Blue', 'Yellow', 'Green', 'None']} // or 'None'
 					playerNumber={playerNumber}
 				/>
 			</div>
