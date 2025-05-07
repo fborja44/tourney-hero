@@ -127,7 +127,8 @@ const LocalPlayerTable = () => {
 			columnId: 'character-column',
 			renderHeaderCell: () => 'Character',
 			renderCell: (item) =>
-				item.characterId && (
+				item.characterId !== null &&
+				item.characterId !== undefined && (
 					<TableCellLayout className={classes.characterContainer}>
 						<CharacterIcon size={20} characterId={item.characterId} />
 					</TableCellLayout>
@@ -136,13 +137,13 @@ const LocalPlayerTable = () => {
 		createTableColumn({
 			columnId: 'team-column',
 			renderHeaderCell: () => 'Team',
-			renderCell: (item) => item.characterId && <TableCellLayout>{item.team}</TableCellLayout>
+			renderCell: (item) =>
+				item.team !== null && <TableCellLayout>{item.team}</TableCellLayout>
 		}),
 		createTableColumn({
 			columnId: 'pronouns-column',
 			renderHeaderCell: () => 'Pronoun(s)',
-			renderCell: (item) =>
-				item.characterId && <TableCellLayout>{item.pronoun}</TableCellLayout>
+			renderCell: (item) => item.pronoun && <TableCellLayout>{item.pronoun}</TableCellLayout>
 		}),
 		createTableColumn({
 			columnId: 'actions-column',
