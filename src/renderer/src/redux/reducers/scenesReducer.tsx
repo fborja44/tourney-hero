@@ -3,8 +3,8 @@ import {
 	// Ribbon20Regular,
 	XboxController20Regular,
 	Mic20Regular,
-	BranchFork20Regular,
-	VideoPersonRegular
+	BranchFork20Regular
+	// VideoPersonRegular
 	// Timer20Regular,
 	// People20Regular,
 	// Money20Regular,
@@ -15,14 +15,14 @@ import { SceneData } from '@common/interfaces/Types';
 import GameplayForm from '@renderer/components/form/GameplayForm';
 import CommentatorsForm from '@renderer/components/form/CommentatorsForm';
 import BracketForm from '@renderer/components/form/BracketForm';
-import PlayerCardForm from '@renderer/components/form/PlayerCardForm';
+// import PlayerCardForm from '@renderer/components/form/PlayerCardForm';
 // import StatsForm from '@renderer/components/form/StatsForm';
 import {
 	BackgroundBrowserSource,
 	BracketBrowserSource,
 	CommentatorsBrowserSource,
-	GameplayBrowserSource,
-	PlayerCardBrowserSource
+	GameplayBrowserSource
+	// PlayerCardBrowserSource
 	// StatisticsBrowserSource
 } from '@renderer/obs/sources';
 // import EmptyPanel from '@renderer/components/panel/EmptyPanel';
@@ -47,13 +47,13 @@ const initialState: ScenesState = [
 	// 	icon: <Timer20Regular />,
 	// 	panel: <CommentatorsForm />
 	// },
-	{
-		title: 'Player Card',
-		icon: <VideoPersonRegular />,
-		panel: <PlayerCardForm />,
-		source: PlayerCardBrowserSource,
-		peripheralSources: [BackgroundBrowserSource]
-	},
+	// {
+	// 	title: 'Player Card',
+	// 	icon: <VideoPersonRegular />,
+	// 	panel: <PlayerCardForm />,
+	// 	source: PlayerCardBrowserSource,
+	// 	peripheralSources: [BackgroundBrowserSource]
+	// },
 	// {
 	// 	title: 'Statistics',
 	// 	icon: <DataBarVertical20Regular />,
