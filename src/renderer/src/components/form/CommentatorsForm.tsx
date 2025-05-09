@@ -197,12 +197,12 @@ const CommentatorsForm = () => {
 							'Swiss Pools',
 							'Final Bracket',
 							'Melee Doubles',
+							'VIP Bracket',
 							'Crew Battle',
 							'Money Match',
 							'Grudge Match',
 							'Side Event',
-							'Friendlies',
-							'Poker'
+							'Friendlies'
 						]}
 					/>
 					<span className={classes.gap} />
