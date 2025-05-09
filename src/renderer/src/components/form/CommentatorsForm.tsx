@@ -1,4 +1,4 @@
-import { Body1, mergeClasses } from '@fluentui/react-components';
+import { Body1, Caption1, mergeClasses } from '@fluentui/react-components';
 import Panel from '../panel/Panel';
 import TextField from './inputs/TextField';
 import formStyles from './styles/FormStyles';
@@ -273,9 +273,9 @@ const CommentatorsForm = () => {
 					/>
 					<span className={classes.gap} />
 					<div className={classes.subText}>
-						<Body1>
+						<Caption1>
 							Currently: {gameplayData.player1.tag} vs {gameplayData.player2.tag}
-						</Body1>
+						</Caption1>
 					</div>
 				</div>
 			</div>
