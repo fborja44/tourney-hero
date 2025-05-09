@@ -2,7 +2,7 @@ import { Body1, mergeClasses } from '@fluentui/react-components';
 import Panel from '../panel/Panel';
 import TextField from './inputs/TextField';
 import formStyles from './styles/FormStyles';
-import { CommentatorData } from '@common/interfaces/Data';
+import { CommentatorData, GameplayData } from '@common/interfaces/Data';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '@redux/reducers/rootReducer';
 import { updateCommentators } from '@redux/actions/dataActions';
@@ -22,6 +22,8 @@ const CommentatorsForm = () => {
 	const classes = formStyles();
 
 	const dispatch = useDispatch();
+
+	const gameplayData: GameplayData = useSelector((state: AppState) => state.dataState.gameplay);
 
 	const commentatorData: CommentatorData = useSelector(
 		(state: AppState) => state.dataState.commentators
@@ -258,7 +260,7 @@ const CommentatorsForm = () => {
 						targetField={'showAds'}
 						handleChange={handleCommentatorsChange}
 					/>
-				</div>
+				</div> */}
 				<div className={classes.formRow}>
 					<CheckboxField
 						label="Show Match"
@@ -269,7 +271,13 @@ const CommentatorsForm = () => {
 							handleCommentatorsChange(targetField, value);
 						}}
 					/>
-				</div> */}
+					<span className={classes.gap} />
+					<div className={classes.subText}>
+						<Body1>
+							Currently: {gameplayData.player1.tag} vs {gameplayData.player2.tag}
+						</Body1>
+					</div>
+				</div>
 			</div>
 		</Panel>
 	);

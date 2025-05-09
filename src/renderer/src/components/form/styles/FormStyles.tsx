@@ -43,13 +43,15 @@ const FormStyles = makeStyles({
 		display: 'flex',
 		flexDirection: 'row',
 		...shorthands.margin(0, 0, tokens.spacingHorizontalL, 0),
-		width: '400px'
+		width: '400px',
+		position: 'relative'
 	},
 	formRow: {
 		display: 'flex',
 		flexDirection: 'row',
 		width: '100%',
-		...shorthands.margin(0, 0, tokens.spacingHorizontalL, 0)
+		...shorthands.margin(0, 0, tokens.spacingHorizontalL, 0),
+		position: 'relative'
 	},
 	formField: {
 		'& label': {
@@ -94,6 +96,13 @@ const FormStyles = makeStyles({
 	},
 	spacing: {
 		paddingBottom: tokens.spacingVerticalS
+	},
+	subText: {
+		display: 'flex',
+		flexDirection: 'row',
+		alignItems: 'center',
+		height: '45px',
+		color: tokens.colorNeutralForeground3
 	}
 });
 
