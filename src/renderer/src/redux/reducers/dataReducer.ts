@@ -12,10 +12,12 @@ import {
 	incrementScore,
 	resetOverlayData,
 	setOverlayData,
+	toggleCrewPlayerActive,
 	updateBracket,
 	updateBracketMatch,
 	updateCommentators,
 	updateCrewBattle,
+	updateCrewPlayerTag,
 	updateGameplay,
 	updatePlayer,
 	updatePlayerCard,
@@ -103,6 +105,22 @@ const dataReducer = createReducer(initialState, (builder) => {
 				...state.crewBattle,
 				...action.payload
 			};
+		})
+		.addCase(updateCrewPlayerTag, (state, action) => {
+			const { targetTeam, index, tag } = action.payload;
+
+			const team = state.crewBattle[targetTeam];
+			if (team && team[index]) {
+				team[index].tag = tag; // Immer allows mutation here
+			}
+		})
+		.addCase(toggleCrewPlayerActive, (state, action) => {
+			const { targetTeam, index } = action.payload;
+
+			const team = state.crewBattle[targetTeam];
+			if (team && team[index]) {
+				team[index].active = !state.crewBattle[targetTeam][index].active; // Immer allows mutation here
+			}
 		});
 });
 

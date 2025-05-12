@@ -1,7 +1,7 @@
 import Joi from 'joi';
 import { JoiString, JoiTag } from '.';
 
-const JoiTeamPlayer = Joi.object({
+const JoiCrewPlayer = Joi.object({
 	tag: JoiTag,
 	active: Joi.boolean()
 });
@@ -9,9 +9,9 @@ const JoiTeamPlayer = Joi.object({
 const JoiStats = Joi.object({
 	showTeams: Joi.boolean(),
 	team1Name: JoiString(),
-	team1Tags: Joi.array().items(JoiTeamPlayer),
+	team1Players: Joi.array().items(JoiCrewPlayer),
 	team2Name: JoiString(),
-	team2Tags: Joi.array().items(JoiTeamPlayer)
+	team2Players: Joi.array().items(JoiCrewPlayer)
 }).required();
 
 export default JoiStats;

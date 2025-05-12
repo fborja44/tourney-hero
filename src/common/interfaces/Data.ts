@@ -151,7 +151,7 @@ export interface LocalPlayer {
 	pronoun?: string;
 }
 
-export interface TeamPlayer {
+export interface CrewPlayer {
 	tag: string;
 	active: boolean;
 }
@@ -159,7 +159,7 @@ export interface TeamPlayer {
 export interface CrewBattleData {
 	showTeams: boolean;
 	team1Name: string;
-	team1Tags: TeamPlayer[];
+	team1Players: CrewPlayer[];
 	team2Name: string;
-	team2Tags: TeamPlayer[];
+	team2Players: CrewPlayer[];
 }

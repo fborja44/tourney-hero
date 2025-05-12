@@ -94,6 +94,36 @@ const FormStyles = makeStyles({
 	},
 	spacing: {
 		paddingBottom: tokens.spacingVerticalS
+	},
+	firstSection: {
+		...breakpoints.xl({
+			...shorthands.borderRight('1px', 'solid', tokens.colorNeutralStroke3)
+		}),
+		...breakpoints.lg({
+			...shorthands.borderBottom('1px', 'solid', tokens.colorNeutralStroke3)
+		}),
+		...breakpoints.md({
+			...shorthands.borderBottom('1px', 'solid', tokens.colorNeutralStroke3)
+		})
+	},
+	addButton: {
+		height: '30px',
+		...shorthands.flex(1)
+	},
+	itemList: {
+		display: 'flex',
+		flexDirection: 'column',
+		width: '100%',
+		backgroundColor: tokens.colorNeutralBackground3,
+		...shorthands.margin(0, 0, tokens.spacingHorizontalL, 0),
+		...shorthands.gap(tokens.spacingVerticalM),
+		...shorthands.padding(
+			tokens.spacingVerticalM,
+			tokens.spacingHorizontalL,
+			tokens.spacingVerticalXL,
+			tokens.spacingHorizontalL
+		),
+		...shorthands.borderRadius(tokens.borderRadiusXLarge)
 	}
 });
 

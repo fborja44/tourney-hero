@@ -106,3 +106,21 @@ export const updateCrewBattle = createAction(
 		};
 	}
 );
+
+export const updateCrewPlayerTag = createAction(
+	'UPDATE_CREW_PLAYER_TAG',
+	(targetTeam: 'team1Players' | 'team2Players', index: number, tag: string) => {
+		return {
+			payload: { targetTeam, index, tag }
+		};
+	}
+);
+
+export const toggleCrewPlayerActive = createAction(
+	'TOGGLE_CREW_PLAYER_ACTIVE',
+	(targetTeam: 'team1Players' | 'team2Players', index: number) => {
+		return {
+			payload: { targetTeam, index }
+		};
+	}
+);

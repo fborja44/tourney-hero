@@ -117,7 +117,7 @@ export const statsData: StatsData = {
 export const crewBattleData: CrewBattleData = {
 	showTeams: false,
 	team1Name: '',
-	team1Tags: [],
+	team1Players: [],
 	team2Name: '',
-	team2Tags: []
+	team2Players: []
 };
