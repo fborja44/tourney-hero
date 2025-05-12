@@ -109,7 +109,7 @@ const TeamPlayersForm = ({ team }: TeamPlayersFormProps) => {
 			</div>
 			{crewData[team].length > 0 && (
 				<div className={classes.itemList}>
-					{crewData.team1Players.map((_player, index) => {
+					{crewData[team].map((_player, index) => {
 						return <CrewItemField key={`${team}-${index}`} team={team} index={index} />;
 					})}
 				</div>
