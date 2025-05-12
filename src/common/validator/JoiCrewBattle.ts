@@ -7,11 +7,11 @@ const JoiCrewPlayer = Joi.object({
 });
 
 const JoiCrewBattle = Joi.object({
-	showTeams: Joi.boolean(),
-	team1Name: JoiString(),
-	team1Players: Joi.array().items(JoiCrewPlayer),
-	team2Name: JoiString(),
-	team2Players: Joi.array().items(JoiCrewPlayer)
+	showTeams: Joi.boolean().required(),
+	team1Name: JoiString().required(),
+	team1Players: Joi.array().items(JoiCrewPlayer).required(),
+	team2Name: JoiString().required(),
+	team2Players: Joi.array().items(JoiCrewPlayer).required()
 }).required();
 
 export default JoiCrewBattle;
