@@ -9,6 +9,7 @@ import { updateCrewBattle } from '@redux/actions/dataActions';
 import { MAX_TAG_LENGTH } from '@common/constants/limits';
 import { Add16Filled } from '@fluentui/react-icons';
 import CrewItemField from './inputs/CrewItemField';
+import CheckboxField from './inputs/CheckboxField';
 
 const CrewBattleForm = () => {
 	const classes = formStyles();
@@ -32,6 +33,17 @@ const CrewBattleForm = () => {
 
 	return (
 		<Panel>
+			<div className={mergeClasses(classes.formSection, classes.borderBottom)}>
+				<Body1 className={classes.sectionTitle}>General Info</Body1>
+				<div className={classes.formRow}>
+					<CheckboxField
+						label="Show Crews"
+						checked={crewData.showTeams}
+						targetField={'showTeams'}
+						handleChange={handleCrewBattleChange}
+					/>
+				</div>
+			</div>
 			<div className={mergeClasses(classes.formSectionRow, classes.relative)}>
 				<div
 					className={mergeClasses(
