@@ -2,7 +2,7 @@ import { Body1, OptionOnSelectData, mergeClasses } from '@fluentui/react-compone
 import TextField from './inputs/TextField';
 import formStyles from './styles/FormStyles';
 import RadioGroupField from './inputs/RadioGroupField';
-import { DataField, PlayerData } from '@common/interfaces/Data';
+import { DataField, HeadData, PlayerData } from '@common/interfaces/Data';
 import NumberField from './inputs/NumberField';
 import { useDispatch, useSelector } from 'react-redux';
 import CharacterField from './inputs/CharacterField';
@@ -12,6 +12,7 @@ import EntrantSelectField from './inputs/EntrantSelectField';
 import {
 	MAX_PRONOUN_LENGTH,
 	MAX_SCORE,
+	MAX_SEED,
 	MAX_TAG_LENGTH,
 	MAX_TEAM_LENGTH,
 	MIN_SCORE
@@ -20,6 +21,7 @@ import { Port } from '@common/interfaces/Types';
 import { useEffect, useState } from 'react';
 import CountryField from './inputs/CountryField';
 import { PlayerUpdateFunction } from './PlayerFormSection';
+import CrewBattleField from './inputs/CrewBattleField';
 
 interface PlayerFormProps {
 	playerNumber: '1' | '2';
@@ -41,7 +43,7 @@ const PlayerForm = ({ playerNumber, playerData, updateFn }: PlayerFormProps) => 
 	 */
 	const handlePlayerChange = (
 		targetField: DataField,
-		value: string | number | boolean | null
+		value: string | number | HeadData[] | boolean | null
 	) => {
 		dispatch(
 			updateFn(`player${playerNumber}`, {
@@ -136,13 +138,12 @@ const PlayerForm = ({ playerNumber, playerData, updateFn }: PlayerFormProps) => 
 			</div>
 			<div className={classes.formRow}>
 				<NumberField
-					label="Tag Display Size"
-					value={playerData.tagDisplaySize}
-					targetField="tagDisplaySize"
+					label="Seed"
+					value={playerData.seed}
+					targetField="seed"
 					handleChange={handlePlayerChange}
-					min={0}
-					suffix=" px"
-					disabled
+					min={1}
+					max={MAX_SEED}
 				/>
 				<span className={classes.gap} />
 				<NumberField
@@ -198,7 +199,15 @@ const PlayerForm = ({ playerNumber, playerData, updateFn }: PlayerFormProps) => 
 					value={playerData.port}
 					targetField="port"
 					handleChange={handlePlayerChange}
-					items={['Red', 'Blue', 'Yellow', 'Green']} // or 'None'
+					items={['Red', 'Blue', 'Yellow', 'Green', 'None']} // or 'None'
+					playerNumber={playerNumber}
+				/>
+			</div>
+			<div className={classes.formRow}>
+				<CrewBattleField
+					label="Crew Battle / Stocks"
+					targetField="heads"
+					handleChange={handlePlayerChange}
 					playerNumber={playerNumber}
 				/>
 			</div>

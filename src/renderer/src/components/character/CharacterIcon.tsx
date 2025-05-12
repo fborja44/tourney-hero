@@ -25,6 +25,8 @@ const CharacterIcon = ({ characterId, className, size }: CharacterProps) => {
 		return null;
 	}
 
+	if (characterId === null || characterId === undefined || characterId < 0) return null;
+
 	return (
 		<img
 			style={{ width: size, height: size }}
