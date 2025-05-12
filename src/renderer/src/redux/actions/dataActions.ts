@@ -3,6 +3,7 @@ import {
 	BracketData,
 	BracketMatch,
 	CommentatorData,
+	CrewBattleData,
 	GameplayData,
 	OverlayData,
 	PlayerCardData,
@@ -93,6 +94,15 @@ export const updatedStatsPlayers = createAction(
 	(targetPlayer: 'player1' | 'player2', updatedPlayer: Partial<PlayerData>) => {
 		return {
 			payload: { targetPlayer, updatedPlayer }
+		};
+	}
+);
+
+export const updateCrewBattle = createAction(
+	'UPDATE_CREW_BATTLE',
+	(updatedCrewBattle: Partial<CrewBattleData>) => {
+		return {
+			payload: updatedCrewBattle
 		};
 	}
 );

@@ -9,7 +9,8 @@ import {
 	// People20Regular,
 	// Money20Regular,
 	// Camera20Regular,
-	DataBarVertical20Regular
+	DataBarVertical20Regular,
+	PeopleTeam20Regular
 } from '@fluentui/react-icons';
 import { SceneData } from '@common/interfaces/Types';
 import GameplayForm from '@renderer/components/form/GameplayForm';
@@ -21,10 +22,12 @@ import {
 	BackgroundBrowserSource,
 	BracketBrowserSource,
 	CommentatorsBrowserSource,
+	CrewBattleBrowserSource,
 	GameplayBrowserSource,
 	PlayerCardBrowserSource,
 	StatisticsBrowserSource
 } from '@renderer/obs/sources';
+import CrewBattleForm from '@renderer/components/form/CrewBattleForm';
 // import EmptyPanel from '@renderer/components/panel/EmptyPanel';
 
 export type ScenesState = SceneData[];
@@ -66,7 +69,7 @@ const initialState: ScenesState = [
 		panel: <BracketForm />,
 		source: BracketBrowserSource,
 		peripheralSources: [BackgroundBrowserSource]
-	}
+	},
 	// {
 	// 	title: 'Players',
 	// 	icon: <People20Regular />,
@@ -83,6 +86,12 @@ const initialState: ScenesState = [
 	// 	panel: <EmptyPanel />
 	// },
 	// { title: 'Opening', icon: <Ribbon20Regular />, panel: <EmptyPanel /> }
+	{
+		title: 'Crew Battle',
+		icon: <PeopleTeam20Regular />,
+		panel: <CrewBattleForm />,
+		source: CrewBattleBrowserSource
+	}
 ];
 
 const scenesReducer = createReducer(initialState, (builder) => {

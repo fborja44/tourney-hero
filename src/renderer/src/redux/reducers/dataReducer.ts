@@ -3,6 +3,7 @@ import { OverlayData } from '@common/interfaces/Data';
 import {
 	bracketData,
 	commentatorData,
+	crewBattleData,
 	gameplayData,
 	playerCardData,
 	statsData
@@ -14,6 +15,7 @@ import {
 	updateBracket,
 	updateBracketMatch,
 	updateCommentators,
+	updateCrewBattle,
 	updateGameplay,
 	updatePlayer,
 	updatePlayerCard,
@@ -26,7 +28,8 @@ export const initialState: OverlayData = {
 	commentators: commentatorData,
 	bracket: bracketData,
 	playerCard: playerCardData,
-	statistics: statsData
+	statistics: statsData,
+	crewBattle: crewBattleData
 };
 
 const dataReducer = createReducer(initialState, (builder) => {
@@ -94,6 +97,12 @@ const dataReducer = createReducer(initialState, (builder) => {
 					score: (state.gameplay[targetPlayer].score ?? 0) + 1
 				};
 			}
+		})
+		.addCase(updateCrewBattle, (state, action) => {
+			state.crewBattle = {
+				...state.crewBattle,
+				...action.payload
+			};
 		});
 });
 

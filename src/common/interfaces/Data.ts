@@ -7,7 +7,8 @@ export type DisplayData =
 	| CommentatorData
 	| BracketData
 	| PlayerCardData
-	| StatsData;
+	| StatsData
+	| CrewBattleData;
 
 export type DataField =
 	| keyof GameplayData
@@ -16,7 +17,8 @@ export type DataField =
 	| keyof BracketData
 	| keyof BracketMatch
 	| keyof PlayerCardData
-	| keyof StatsData;
+	| keyof StatsData
+	| keyof CrewBattleData;
 
 export interface OverlayData {
 	gameplay: GameplayData;
@@ -24,6 +26,7 @@ export interface OverlayData {
 	bracket: BracketData;
 	playerCard: PlayerCardData;
 	statistics: StatsData;
+	crewBattle: CrewBattleData;
 }
 
 export type AutomationData = ScoreData | CharacterData;
@@ -139,4 +142,17 @@ export interface LocalPlayer {
 	characterId?: CharacterId;
 	team?: string;
 	pronoun?: string;
+}
+
+export interface TeamPlayer {
+	tag: string;
+	active: boolean;
+}
+
+export interface CrewBattleData {
+	showTeams: boolean;
+	team1Name: string;
+	team1Tags: TeamPlayer[];
+	team2Name: string;
+	team2Tags: TeamPlayer[];
 }
