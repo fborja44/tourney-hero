@@ -35,3 +35,9 @@ export const BackgroundBrowserSource: BrowserSource = {
 	endpoint: '/background',
 	shutdown: false
 };
+
+export const CrewBattleBrowserSource: BrowserSource = {
+	sourceName: 'Crew Battle Browser Source',
+	endpoint: '/crew-battle',
+	shutdown: true
+};

@@ -2,6 +2,7 @@ import {
 	BracketData,
 	BracketMatch,
 	CommentatorData,
+	CrewBattleData,
 	GameplayData,
 	PlayerCardData,
 	PlayerData,
@@ -111,4 +112,12 @@ export const statsData: StatsData = {
 		tag: 'Player 2',
 		port: 'Blue'
 	}
+};
+
+export const crewBattleData: CrewBattleData = {
+	showTeams: false,
+	team1Name: '',
+	team1Players: [],
+	team2Name: '',
+	team2Players: []
 };
