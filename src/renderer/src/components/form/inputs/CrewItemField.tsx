@@ -1,6 +1,19 @@
 import { MAX_TAG_LENGTH } from '@common/constants/limits';
-import { Checkbox, Field, Input, makeStyles, shorthands, tokens } from '@fluentui/react-components';
-import { toggleCrewPlayerActive, updateCrewPlayerTag } from '@renderer/redux/actions/dataActions';
+import {
+	Button,
+	Checkbox,
+	Field,
+	Input,
+	makeStyles,
+	shorthands,
+	tokens
+} from '@fluentui/react-components';
+import { Delete16Regular } from '@fluentui/react-icons';
+import {
+	toggleCrewPlayerActive,
+	updateCrewBattle,
+	updateCrewPlayerTag
+} from '@renderer/redux/actions/dataActions';
 import { AppState } from '@renderer/redux/reducers/rootReducer';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -38,11 +51,24 @@ const CrewItemField = ({ team, index }: CrewItemFieldProps) => {
 
 	const crewData = useSelector((state: AppState) => state.dataState.crewBattle);
 
+	const removeCrewPlayer = (index: number) => {
+		dispatch(
+			updateCrewBattle({
+				[team]: crewData[team].filter((_, i) => i !== index)
+			})
+		);
+	};
+
 	if (!crewData[team][index]) {
 		return null;
 	}
+
 	return (
 		<div className={classes.crewItem}>
+			<Checkbox
+				checked={crewData[team][index].active}
+				onClick={() => dispatch(toggleCrewPlayerActive(team, index))}
+			/>
 			<Field label={`Player ${index + 1}`} className={classes.formField} size="small">
 				<Input
 					size="small"
@@ -53,9 +79,11 @@ const CrewItemField = ({ team, index }: CrewItemFieldProps) => {
 					className={classes.input}
 				/>
 			</Field>
-			<Checkbox
-				checked={crewData[team][index].active}
-				onClick={() => dispatch(toggleCrewPlayerActive(team, index))}
+			<Button
+				icon={<Delete16Regular />}
+				appearance="outline"
+				size="small"
+				onClick={() => removeCrewPlayer(index)}
 			/>
 		</div>
 	);
