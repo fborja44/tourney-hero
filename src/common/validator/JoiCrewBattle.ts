@@ -6,7 +6,7 @@ const JoiCrewPlayer = Joi.object({
 	active: Joi.boolean()
 });
 
-const JoiStats = Joi.object({
+const JoiCrewBattle = Joi.object({
 	showTeams: Joi.boolean(),
 	team1Name: JoiString(),
 	team1Players: Joi.array().items(JoiCrewPlayer),
@@ -14,4 +14,4 @@ const JoiStats = Joi.object({
 	team2Players: Joi.array().items(JoiCrewPlayer)
 }).required();
 
-export default JoiStats;
+export default JoiCrewBattle;
