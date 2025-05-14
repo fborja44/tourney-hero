@@ -57,8 +57,8 @@ const BracketFormSection = ({ title, bracketField, className }: BracketFormSecti
 				<span className={classes.gap} />
 				<NumberField
 					label="Score"
-					value={bracketData[bracketField].p2score}
-					targetField="p2score"
+					value={bracketData[bracketField].p1score}
+					targetField="p1score"
 					handleChange={handleMatchChange}
 					min={-1}
 					max={MAX_SCORE}
@@ -83,8 +83,8 @@ const BracketFormSection = ({ title, bracketField, className }: BracketFormSecti
 				<span className={classes.gap} />
 				<NumberField
 					label="Score"
-					value={bracketData[bracketField].p1score}
-					targetField="p1score"
+					value={bracketData[bracketField].p2score}
+					targetField="p2score"
 					handleChange={handleMatchChange}
 					min={-1}
 					max={MAX_SCORE}
