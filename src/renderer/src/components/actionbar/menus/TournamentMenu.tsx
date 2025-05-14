@@ -133,7 +133,7 @@ const TournamentMenu = () => {
 			id: tournamentData.data?.tournament?.id,
 			name: tournamentData.data?.tournament?.name,
 			events: events,
-			imageUrl: tournamentData?.data?.tournament?.images?.[0].url ?? ''
+			imageUrl: tournamentData?.data?.tournament?.images?.[0]?.url ?? ''
 		};
 
 		handleEventChange(events.length > 0 ? events[0] : undefined);
