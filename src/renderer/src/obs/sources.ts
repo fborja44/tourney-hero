@@ -41,3 +41,15 @@ export const CrewBattleBrowserSource: BrowserSource = {
 	endpoint: '/crew-battle',
 	shutdown: true
 };
+
+export const IntermissionBrowserSource: BrowserSource = {
+	sourceName: 'Intermission Browser Source',
+	endpoint: '/intermission',
+	shutdown: true
+};
+
+export const OpeningBrowserSource: BrowserSource = {
+	sourceName: 'Opening Browser Source',
+	endpoint: '/timer-full',
+	shutdown: true
+};

@@ -1,11 +1,11 @@
 import { createReducer } from '@reduxjs/toolkit';
 import {
-	// Ribbon20Regular,
+	Ribbon20Regular,
 	XboxController20Regular,
 	Mic20Regular,
 	BranchFork20Regular,
 	// VideoPersonRegular
-	// Timer20Regular,
+	Timer20Regular,
 	// People20Regular,
 	// Money20Regular,
 	// Camera20Regular,
@@ -23,11 +23,14 @@ import {
 	BracketBrowserSource,
 	CommentatorsBrowserSource,
 	CrewBattleBrowserSource,
-	GameplayBrowserSource
+	GameplayBrowserSource,
+	IntermissionBrowserSource,
+	OpeningBrowserSource
 	// PlayerCardBrowserSource
 	// StatisticsBrowserSource
 } from '@renderer/obs/sources';
 import CrewBattleForm from '@renderer/components/form/CrewBattleForm';
+import EmptyPanel from '@renderer/components/panel/EmptyPanel';
 // import EmptyPanel from '@renderer/components/panel/EmptyPanel';
 
 export type ScenesState = SceneData[];
@@ -45,11 +48,12 @@ const initialState: ScenesState = [
 		panel: <CommentatorsForm />,
 		source: CommentatorsBrowserSource
 	},
-	// {
-	// 	title: 'Intermission',
-	// 	icon: <Timer20Regular />,
-	// 	panel: <CommentatorsForm />
-	// },
+	{
+		title: 'Intermission',
+		icon: <Timer20Regular />,
+		panel: <CommentatorsForm />,
+		source: IntermissionBrowserSource
+	},
 	// {
 	// 	title: 'Player Card',
 	// 	icon: <VideoPersonRegular />,
@@ -85,7 +89,12 @@ const initialState: ScenesState = [
 	// 	icon: <Money20Regular />,
 	// 	panel: <EmptyPanel />
 	// },
-	// { title: 'Opening', icon: <Ribbon20Regular />, panel: <EmptyPanel /> }
+	{
+		title: 'Opening',
+		icon: <Ribbon20Regular />,
+		panel: <EmptyPanel />,
+		source: OpeningBrowserSource
+	},
 	{
 		title: 'Crew Battle',
 		icon: <PeopleTeam20Regular />,
