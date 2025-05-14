@@ -41,7 +41,7 @@ export const JoiPlayer = Joi.object({
 		.required(),
 	countryCode: JoiLocationCode.required(),
 	heads: Joi.array().items(JoiHead).min(0),
-	seed: Joi.number().integer().min(1).max(MAX_SEED).allow(null).required()
+	seed: Joi.number().integer().min(0).max(MAX_SEED).allow(null).required()
 }).required();
 
 const JoiGameplay = Joi.object({

@@ -23,7 +23,7 @@ const GameplayForm = () => {
 		bracketName,
 		eventName,
 		infoMsg,
-		showCommentators
+		showPlayerCamInfo
 	}: GameplayData = useSelector((state: AppState) => state.dataState.gameplay);
 
 	/**
@@ -74,13 +74,13 @@ const GameplayForm = () => {
 					<span className={classes.gap} />
 				</div>
 				<div className={classes.formRow}>
-					<CheckboxField
+					{/* <CheckboxField
 						label="Show Comms."
 						checked={showCommentators}
 						targetField={'showCommentators'}
 						handleChange={handleGameplayChange}
 					/>
-					<span className={classes.gap} />
+					<span className={classes.gap} /> */}
 					<TextField
 						label="Event Name"
 						value={eventName}
@@ -100,7 +100,7 @@ const GameplayForm = () => {
 					/>
 				</div>
 			</div>
-			{/* <div className={classes.formSection}>
+			<div className={classes.formSection}>
 				<Body1 className={classes.sectionTitle}>Player Cam Information</Body1>
 				<div className={classes.formRow}>
 					<CheckboxField
@@ -110,7 +110,7 @@ const GameplayForm = () => {
 						handleChange={handleGameplayChange}
 					/>
 				</div>
-			</div> */}
+			</div>
 		</Panel>
 	);
 };

@@ -142,7 +142,7 @@ const PlayerForm = ({ playerNumber, playerData, updateFn }: PlayerFormProps) => 
 					value={playerData.seed}
 					targetField="seed"
 					handleChange={handlePlayerChange}
-					min={1}
+					min={0}
 					max={MAX_SEED}
 				/>
 				<span className={classes.gap} />
