@@ -41,7 +41,7 @@ For an example tournament produced using this application, see: [Full House 2024
 - [Node 20+](https://nodejs.org/en)
 
 ### Instructions
-1. `cd` to root folder
+1. `cd` to root folder of project
 2. `npm i` to install dependencies
 3. `npm run dev` to run the electron dev server
 
