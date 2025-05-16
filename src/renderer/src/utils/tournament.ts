@@ -4,10 +4,19 @@ import { Match, Entrant, PlayerCardMatch, PlayerCardPlacement } from '@common/in
 import { trimNamePrefix } from './string';
 import { getCountryCode } from './location';
 
+/**
+ * Gets a local player from the store.
+ * @param tag The tag of the player to get the data for
+ * @returns A local player object if found. Otherwise, returns null.
+ */
 const getLocalPlayerData = async (tag: string) => {
-	const playersList = await window.api.getPlayers();
-	const result = playersList.find((player) => player.tag === tag);
-	return result;
+	try {
+		const playersList = await window.api.getPlayers();
+		const result = playersList.find((player) => player.tag === tag);
+		return result;
+	} catch (err) {
+		return null;
+	}
 };
 
 /**
