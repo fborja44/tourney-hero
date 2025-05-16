@@ -4,6 +4,12 @@ import { Match, Entrant, PlayerCardMatch, PlayerCardPlacement } from '@common/in
 import { trimNamePrefix } from './string';
 import { getCountryCode } from './location';
 
+const getLocalPlayerData = async (tag: string) => {
+	const playersList = await window.api.getPlayers();
+	const result = playersList.find((player) => player.tag === tag);
+	return result;
+};
+
 /**
  * Generates the authorization header for an API call.
  * @param key The authorization key
@@ -96,7 +102,7 @@ export const parseSetEntrant = async (slot: any): Promise<Entrant> => {
 		image = user?.images[0]?.url;
 
 		// Check for local data
-		// localPlayerData = await getLocalPlayerData(tag);
+		localPlayerData = await getLocalPlayerData(tag);
 	} else if (participants.length === 2) {
 		const participant1 = participants ? participants[0] : null;
 		const participant2 = participants ? participants[1] : null;
