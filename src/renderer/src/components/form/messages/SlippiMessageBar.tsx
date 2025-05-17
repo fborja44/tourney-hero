@@ -68,7 +68,7 @@ const SlippiMessageBar = () => {
 			result.push({ port: slippi1?.port ?? -1 });
 		}
 
-		if (slippiPort2 !== player2.port && slippiPort2 !== player2.port) {
+		if (slippiPort2 !== player1.port && slippiPort2 !== player2.port) {
 			result.push({ port: slippi2?.port ?? -2 });
 		}
 
