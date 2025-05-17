@@ -1,4 +1,4 @@
-import { Body1, OptionOnSelectData, mergeClasses } from '@fluentui/react-components';
+import { Body1, Button, OptionOnSelectData, mergeClasses } from '@fluentui/react-components';
 import TextField from './inputs/TextField';
 import formStyles from './styles/FormStyles';
 import RadioGroupField from './inputs/RadioGroupField';
@@ -22,6 +22,7 @@ import { useEffect, useState } from 'react';
 import CountryField from './inputs/CountryField';
 import { PlayerUpdateFunction } from './PlayerFormSection';
 import CrewBattleField from './inputs/CrewBattleField';
+import { ArrowClockwise16Regular } from '@fluentui/react-icons';
 
 interface PlayerFormProps {
 	playerNumber: '1' | '2';
@@ -154,6 +155,27 @@ const PlayerForm = ({ playerNumber, playerData, updateFn }: PlayerFormProps) => 
 					min={MIN_SCORE}
 					max={MAX_SCORE}
 				/>
+			</div>
+			<div className={classes.formRow}>
+				<Button
+					onClick={() => handlePlayerChange('seed', 0)}
+					size="small"
+					iconPosition="after"
+					className={classes.resetButton}
+					appearance="primary"
+				>
+					Hide Seed
+				</Button>
+				<span className={classes.gap} />
+				<Button
+					onClick={() => handlePlayerChange('score', 0)}
+					size="small"
+					iconPosition="after"
+					className={classes.resetButton}
+					appearance="primary"
+				>
+					Reset Player Score
+				</Button>
 			</div>
 			<div className={classes.formRow}>
 				<CharacterField

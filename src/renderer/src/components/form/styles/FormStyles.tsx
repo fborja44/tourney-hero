@@ -112,6 +112,10 @@ const FormStyles = makeStyles({
 		height: '30px',
 		...shorthands.flex(1)
 	},
+	resetButton: {
+		height: '25px',
+		...shorthands.flex(1)
+	},
 	itemList: {
 		display: 'flex',
 		flexDirection: 'column',
