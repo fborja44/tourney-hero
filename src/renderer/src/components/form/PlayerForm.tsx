@@ -22,7 +22,6 @@ import { useEffect, useState } from 'react';
 import CountryField from './inputs/CountryField';
 import { PlayerUpdateFunction } from './PlayerFormSection';
 import CrewBattleField from './inputs/CrewBattleField';
-import { ArrowClockwise16Regular } from '@fluentui/react-icons';
 
 interface PlayerFormProps {
 	playerNumber: '1' | '2';
