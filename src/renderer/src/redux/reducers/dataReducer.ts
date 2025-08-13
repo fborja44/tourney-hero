@@ -39,10 +39,7 @@ const dataReducer = createReducer(initialState, (builder) => {
 		.addCase(setOverlayData, (state, action) => {
 			state = { ...state, ...action.payload };
 		})
-		.addCase(resetOverlayData, (state) => {
-			// eslint-disable-next-line @typescript-eslint/no-unused-vars
-			state = initialState;
-		})
+		.addCase(resetOverlayData, () => initialState)
 		.addCase(updateGameplay, (state, action) => {
 			state.gameplay = {
 				...state.gameplay,

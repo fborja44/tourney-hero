@@ -11,7 +11,7 @@ const ReplaysMenu = () => {
 	);
 
 	const [searchTerm, setSearchTerm] = useState('');
-	const [searchLoading, setSearchLoading] = useState(false);
+	// const [searchLoading, setSearchLoading] = useState(false);
 
 	return (
 		<SidebarMenu

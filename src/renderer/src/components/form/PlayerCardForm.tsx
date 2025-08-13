@@ -32,7 +32,10 @@ const PlayerCardForm = () => {
 	 * @param targetField
 	 * @param value
 	 */
-	const handlePlayerCardChange = (targetField: string, value: string | number | boolean) => {
+	const handlePlayerCardChange = (
+		targetField: string,
+		value: string | number | boolean | null
+	) => {
 		dispatch(
 			updatePlayerCard({
 				[targetField]: value

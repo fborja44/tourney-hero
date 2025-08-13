@@ -22,10 +22,7 @@ const initialState: ReplayState = {
 
 const replaysReducer = createReducer(initialState, (builder) => {
 	builder
-		.addCase(resetReplayData, (state) => {
-			// eslint-disable-next-line @typescript-eslint/no-unused-vars
-			state = initialState;
-		})
+		.addCase(resetReplayData, () => initialState)
 		.addCase(setReplayDirectory, (state, action) => {
 			state.replayDir = action.payload;
 		})
