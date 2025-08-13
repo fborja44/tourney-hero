@@ -32,7 +32,7 @@ import {
 } from '@fluentui/react-icons';
 import MatchReportingDialog from '@renderer/components/dialogs/report/MatchReportingDialog';
 import { useState } from 'react';
-import useStartQuery from '@hooks/useStartQuery';
+import useStartQuery from '@hooks/startgg/useStartQuery';
 import { AppState } from '@redux/reducers/rootReducer';
 import markSetInProgressMutation from '@graphql/mutations/markSetInProgressMutation';
 import { updateMatch } from '@redux/actions/tournamentActions';

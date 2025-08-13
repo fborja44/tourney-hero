@@ -11,7 +11,7 @@ import CharacterField from './inputs/CharacterField';
 import { MAX_TAG_LENGTH, MAX_TEAM_LENGTH } from '@common/constants/limits';
 import EntrantSelectField from './inputs/EntrantSelectField';
 import EmptyPanel from '../panel/EmptyPanel';
-import useEntrant from '@renderer/hooks/useEntrant';
+import useEntrant from '@hooks/startgg/useEntrant';
 import CountryField from './inputs/CountryField';
 
 const PlayerCardForm = () => {

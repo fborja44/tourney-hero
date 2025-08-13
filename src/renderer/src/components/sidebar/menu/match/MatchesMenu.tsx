@@ -3,11 +3,11 @@ import { TrophyOff20Regular, ChevronDown20Regular } from '@fluentui/react-icons'
 import { tokens } from '@fluentui/react-theme';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '@redux/reducers/rootReducer';
-import useGlobalMatches from '@hooks/useGlobalMatches';
+import useGlobalMatches from '@hooks/startgg/useGlobalMatches';
 import MatchCard from '../../../cards/match/MatchCard';
 import { sortMatches } from '@utils/tournament';
 import { useEffect, useState } from 'react';
-import useMatches from '@renderer/hooks/useMatches';
+import useMatches from '@hooks/startgg/useMatches';
 import Fuse from 'fuse.js';
 import SidebarMenu from '../SidebarMenu';
 import { setAutoRefresh } from '@renderer/redux/actions/tournamentActions';

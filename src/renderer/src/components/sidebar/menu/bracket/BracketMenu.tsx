@@ -3,7 +3,7 @@ import { ArrowSync16Regular, TrophyOff20Regular } from '@fluentui/react-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { TournamentState } from '@redux/reducers/tournamentReducer';
 import { AppState } from '@redux/reducers/rootReducer';
-import useStartQuery from '@hooks/useStartQuery';
+import useStartQuery from '@hooks/startgg/useStartQuery';
 import phaseSetsQuery from '@graphql/queries/phaseSetsQuery';
 import { parseMatch, parseTop8 } from '@utils/tournament';
 import { updateBracket } from '@redux/actions/dataActions';

@@ -18,7 +18,7 @@ import { updateGameplay } from '@redux/actions/dataActions';
 import { getEventSlug } from '@utils/string';
 import MenuSelectField from '../../form/inputs/MenuSelectField';
 import { AppState } from '@renderer/redux/reducers/rootReducer';
-import useStartQuery from '@hooks/useStartQuery';
+import useStartQuery from '@hooks/startgg/useStartQuery';
 
 const useStyles = makeStyles({
 	buttonsContainer: {
