@@ -32,7 +32,7 @@ const CharacterIcon = ({ characterId, className, size }: CharacterProps) => {
 			style={{ width: size, height: size }}
 			className={mergeClasses(classes.characterIcon, className)}
 			alt=""
-			src={`/assets/stockicons/${encodeURIComponent(characterId)}/0/stock.png`}
+			src={`${import.meta.env.BASE_URL}assets/stockicons/${encodeURIComponent(characterId)}/0/stock.png`}
 		/>
 	);
 };

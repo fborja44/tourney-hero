@@ -20,6 +20,7 @@ export default defineConfig({
 				'@graphql': resolve('src/renderer/src/graphql')
 			}
 		},
-		plugins: [react()]
+		plugins: [react()],
+		publicDir: resolve(__dirname, 'public')
 	}
 });

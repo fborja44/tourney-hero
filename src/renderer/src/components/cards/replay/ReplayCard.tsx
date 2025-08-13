@@ -89,7 +89,7 @@ export const ReplayCardHeader = ({ replay }: ReplayDataProps) => {
 				</div>
 				<img
 					className={classes.stageIcon}
-					src={`/assets/stageicons/${encodeURIComponent(replay.stageId)}.png`}
+					src={`${import.meta.env.BASE_URL}assets/stageicons/${encodeURIComponent(replay.stageId)}.png`}
 				/>
 			</div>
 		</div>
