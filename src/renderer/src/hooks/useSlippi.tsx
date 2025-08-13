@@ -20,7 +20,7 @@ const useSlippi = () => {
 
 	const { currentScene } = useSelector((state: AppState) => state.obsState);
 
-	const { connected, sendData } = useSocket();
+	const { connected, sendSocketData } = useSocket();
 
 	const {
 		autoSwitchGameToPlayers,
@@ -65,7 +65,7 @@ const useSlippi = () => {
 				character2 = game.players[1].characterId ?? null;
 			if (player1.characterId !== character1 || player2.characterId !== character2) {
 				// Emit socket event
-				sendData('updateCharacters', {
+				sendSocketData('updateCharacters', {
 					p1characterId: character1,
 					p2characterId: character2
 				});
@@ -106,7 +106,7 @@ const useSlippi = () => {
 				const p1score = player1.score;
 				const p2score = player2.score;
 				// Emit socket event
-				sendData('updateScores', {
+				sendSocketData('updateScores', {
 					p1score: winner == '1' ? (p1score ?? 0) + 1 : p1score,
 					p2score: winner == '2' ? (p2score ?? 0) + 1 : p2score
 				});
@@ -123,6 +123,8 @@ const useSlippi = () => {
 	};
 
 	useEffect(() => {
+		if (!slippiConnected) return;
+
 		if (slippiConnected) {
 			ipcRenderer.on('game-start', handleGameStart);
 			ipcRenderer.on('game-end', handleGameEnd);

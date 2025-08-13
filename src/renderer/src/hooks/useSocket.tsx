@@ -10,12 +10,13 @@ const useSocket = () => {
 	 * @param event The event name
 	 * @param data The overlay data to send
 	 */
-	const sendData = (event: string, data: DisplayData | AutomationData) => {
+	const sendSocketData = (event: string, data: DisplayData | AutomationData) => {
 		const result = socket?.emit(event, data);
 		console.log(result ? `Event: ${event}` : 'Transmission failed');
+		return result;
 	};
 
-	return { socket, connected, sendData };
+	return { socket, connected, sendSocketData };
 };
 
 export default useSocket;
