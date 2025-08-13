@@ -32,19 +32,19 @@ interface RadioGroupFieldProps extends FluentFieldProps {
 const RadioGroupField = ({
 	items,
 	label,
-	value,
 	size = 'small',
 	targetField,
 	handleChange,
-	playerNumber
+	playerNumber,
+	...props
 }: RadioGroupFieldProps) => {
 	const classes = useStyles();
 	return (
 		<Field label={label} className={classes.formField} size={size}>
 			<RadioGroup
-				value={value}
 				onChange={(_ev, data) => handleChange(targetField, data.value)}
 				layout="horizontal"
+				{...props}
 			>
 				{items.map((item) => (
 					<Radio value={item} label={capitalize(item)} key={item + playerNumber} />

@@ -17,11 +17,6 @@ import {
 import { AppState } from '@renderer/redux/reducers/rootReducer';
 import { useDispatch, useSelector } from 'react-redux';
 
-interface CrewItemFieldProps {
-	team: 'team1Players' | 'team2Players';
-	index: number;
-}
-
 const useStyles = makeStyles({
 	formField: {
 		flexGrow: 1,
@@ -43,6 +38,11 @@ const useStyles = makeStyles({
 		...shorthands.gap(tokens.spacingHorizontalS)
 	}
 });
+
+interface CrewItemFieldProps {
+	team: 'team1Players' | 'team2Players';
+	index: number;
+}
 
 const CrewItemField = ({ team, index }: CrewItemFieldProps) => {
 	const classes = useStyles();

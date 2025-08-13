@@ -26,23 +26,19 @@ interface CheckboxFieldProps extends FluentFieldProps {
 
 const CheckboxField = ({
 	label,
-	checked,
-	placeholder,
-	size = 'small',
+	size = 'medium',
 	targetField,
 	handleChange,
 	style,
-	disabled
+	...props
 }: CheckboxFieldProps) => {
 	const classes = useStyles();
 	return (
 		<Field label={label} className={classes.formField} size={size} style={style}>
 			<Checkbox
 				className={classes.checkbox}
-				placeholder={placeholder}
-				checked={checked}
 				onChange={(_ev, data) => handleChange(targetField, data.checked)}
-				disabled={disabled}
+				{...props}
 			/>
 		</Field>
 	);

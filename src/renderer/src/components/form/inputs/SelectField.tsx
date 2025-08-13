@@ -51,12 +51,11 @@ interface SelectFieldProps extends FluentFieldProps {
 
 const SelectField = ({
 	label,
-	value,
 	size = 'small',
 	targetField,
 	handleChange,
 	options,
-	defaultValue
+	...props
 }: SelectFieldProps) => {
 	const classes = useStyles();
 
@@ -65,9 +64,8 @@ const SelectField = ({
 			<Select
 				size={size}
 				className={classes.input}
-				value={value}
 				onChange={(_ev, data) => handleChange(targetField, data.value)}
-				defaultValue={defaultValue}
+				{...props}
 			>
 				{options.map((option) => (
 					<option key={option} value={option}>

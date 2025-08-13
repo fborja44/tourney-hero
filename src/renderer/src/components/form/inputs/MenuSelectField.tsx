@@ -40,13 +40,12 @@ interface MenuSelectFieldProps extends FluentFieldProps {
 const MenuSelectField = ({
 	className,
 	label,
-	value,
 	options,
 	size = 'small',
 	handleChange,
 	validationState,
 	validationMessage,
-	disabled
+	...props
 }: MenuSelectFieldProps) => {
 	const classes = useStyles();
 	return (
@@ -57,13 +56,7 @@ const MenuSelectField = ({
 			validationMessage={validationMessage}
 			validationState={validationState}
 		>
-			<Select
-				size={size}
-				className={classes.input}
-				disabled={disabled}
-				value={value}
-				onChange={handleChange}
-			>
+			<Select size={size} className={classes.input} onChange={handleChange} {...props}>
 				{options.map((option) => (
 					<option key={option} value={option}>
 						{option}

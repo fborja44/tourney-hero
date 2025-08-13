@@ -37,15 +37,12 @@ interface MenuTextFieldProps extends FluentFieldProps {
 const MenuTextField = ({
 	className,
 	label,
-	value,
-	placeholder,
 	size = 'small',
-	type,
 	handleChange,
 	validationState,
 	validationMessage,
-	disabled,
-	required
+	required,
+	...props
 }: MenuTextFieldProps) => {
 	const classes = useStyles();
 	return (
@@ -57,15 +54,7 @@ const MenuTextField = ({
 			validationState={validationState}
 			required={required}
 		>
-			<Input
-				size={size}
-				className={classes.input}
-				placeholder={placeholder}
-				value={value}
-				onChange={handleChange}
-				type={type}
-				disabled={disabled}
-			/>
+			<Input size={size} className={classes.input} onChange={handleChange} {...props} />
 		</Field>
 	);
 };

@@ -37,16 +37,13 @@ interface NumberFieldProps extends FluentFieldProps {
 
 const NumberField = ({
 	label,
-	value,
-	placeholder,
 	size = 'small',
-	targetField,
-	handleChange,
-	min,
-	max,
-	suffix,
 	style,
-	disabled
+	targetField,
+	suffix,
+	value,
+	handleChange,
+	...props
 }: NumberFieldProps) => {
 	const classes = useStyles();
 
@@ -57,8 +54,6 @@ const NumberField = ({
 			<SpinButton
 				size={size}
 				className={classes.input}
-				placeholder={placeholder}
-				value={value}
 				onChange={(_ev, data) => {
 					let value = data.value ?? data.displayValue;
 					if (!value) {
@@ -70,10 +65,8 @@ const NumberField = ({
 					handleChange(targetField, parseInt(value.toString()) ?? prevValue ?? 0);
 					setPrevValue(parseInt(value.toString()) ?? prevValue ?? 0);
 				}}
-				min={min}
-				max={max}
 				displayValue={suffix ? `${value}${suffix}` : value?.toString()}
-				disabled={disabled}
+				{...props}
 			/>
 		</Field>
 	);

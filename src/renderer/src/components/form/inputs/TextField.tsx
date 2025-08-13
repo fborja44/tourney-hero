@@ -32,12 +32,10 @@ interface TextFieldProps extends FluentFieldProps {
 
 const TextField = ({
 	label,
-	value,
-	placeholder,
 	size = 'small',
 	targetField,
-	maxLength,
-	handleChange
+	handleChange,
+	...props
 }: TextFieldProps) => {
 	const classes = useStyles();
 	return (
@@ -45,10 +43,8 @@ const TextField = ({
 			<Input
 				size={size}
 				className={classes.input}
-				placeholder={placeholder}
-				value={value}
 				onChange={(_ev, data) => handleChange(targetField, data.value)}
-				maxLength={maxLength}
+				{...props}
 			/>
 		</Field>
 	);

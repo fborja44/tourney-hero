@@ -53,13 +53,10 @@ interface CommentatorSelectFieldProps extends FluentFieldProps {
 
 const CommentatorSelectField = ({
 	label,
-	placeholder,
 	size = 'small',
-	value,
-	defaultValue,
 	commentatorNumber,
-	maxLength,
-	commentatorList
+	commentatorList,
+	...props
 }: CommentatorSelectFieldProps) => {
 	const classes = useStyles();
 	const dispatch = useDispatch();
@@ -73,8 +70,6 @@ const CommentatorSelectField = ({
 			<Combobox
 				size={size}
 				className={classes.input}
-				placeholder={placeholder}
-				value={value}
 				freeform
 				onOptionSelect={(_ev, data) => {
 					const commentator = commentatorList.find(
@@ -93,8 +88,7 @@ const CommentatorSelectField = ({
 						})
 					);
 				}}
-				defaultValue={defaultValue}
-				maxLength={maxLength}
+				{...props}
 			>
 				{commentatorList.map((commentator: LocalCommentator, i: number) => (
 					<Option

@@ -55,13 +55,10 @@ interface CountryFieldProps extends FluentFieldProps {
 
 const CountryField = ({
 	label,
-	placeholder,
 	size = 'small',
 	value,
-	defaultValue,
 	playerNumber,
-	maxLength,
-	onOptionSelect
+	...props
 }: CountryFieldProps) => {
 	const classes = useStyles();
 
@@ -76,10 +73,8 @@ const CountryField = ({
 			<Combobox
 				size={size}
 				className={classes.input}
-				placeholder={placeholder}
 				value={open ? searchTerm : getCountryAlias(selectedValue)}
 				freeform={false}
-				onOptionSelect={onOptionSelect}
 				onChange={(event) => {
 					setSearchTerm(event.target.value);
 				}}
@@ -88,8 +83,7 @@ const CountryField = ({
 					setOpen(data.open);
 				}}
 				open={open}
-				defaultValue={defaultValue}
-				maxLength={maxLength}
+				{...props}
 			>
 				{Object.keys(countries).map((code: string, i: number) => (
 					<Option
