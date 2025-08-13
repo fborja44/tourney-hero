@@ -28,7 +28,7 @@ const useStyles = makeStyles({
 
 interface PanelProps {
 	children?: React.ReactNode;
-	as: 'section' | 'form';
+	as?: 'section' | 'form';
 }
 
 const Panel = ({ children, as = 'form' }: PanelProps) => {
