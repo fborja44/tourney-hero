@@ -69,7 +69,7 @@ interface CrewBattleFieldProps extends FluentFieldProps {
 
 const CrewBattleField = ({
 	label,
-	size,
+	size = 'small',
 	targetField,
 	handleChange,
 	playerNumber
@@ -135,10 +135,6 @@ const CrewBattleField = ({
 			</div>
 		</Field>
 	);
-};
-
-CrewBattleField.defaultProps = {
-	size: 'small'
 };
 
 export default CrewBattleField;

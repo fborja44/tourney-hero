@@ -14,7 +14,7 @@ interface CharacterProps {
 	size?: number;
 }
 
-const CharacterIcon = ({ characterId, className, size }: CharacterProps) => {
+const CharacterIcon = ({ characterId, className, size = 18 }: CharacterProps) => {
 	const classes = useStyles();
 
 	if (typeof characterId === 'string') {
@@ -35,10 +35,6 @@ const CharacterIcon = ({ characterId, className, size }: CharacterProps) => {
 			src={`${import.meta.env.BASE_URL}assets/stockicons/${encodeURIComponent(characterId)}/0/stock.png`}
 		/>
 	);
-};
-
-CharacterIcon.defaultProps = {
-	size: 18
 };
 
 export default CharacterIcon;

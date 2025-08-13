@@ -51,7 +51,7 @@ interface CharacterFieldProps extends FluentFieldProps {
 const CharacterField = ({
 	label,
 	value,
-	size,
+	size = 'small',
 	targetField,
 	handleChange,
 	playerNumber
@@ -100,10 +100,6 @@ const CharacterField = ({
 			</Dropdown>
 		</Field>
 	);
-};
-
-CharacterField.defaultProps = {
-	size: 'small'
 };
 
 export default CharacterField;

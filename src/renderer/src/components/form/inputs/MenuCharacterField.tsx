@@ -47,7 +47,12 @@ interface MenuCharacterFieldProps extends FluentFieldProps {
 	handleChange: (event: SelectionEvents, data: OptionOnSelectData) => void;
 }
 
-const MenuCharacterField = ({ label, value, size, handleChange }: MenuCharacterFieldProps) => {
+const MenuCharacterField = ({
+	label,
+	value,
+	size = 'small',
+	handleChange
+}: MenuCharacterFieldProps) => {
 	const classes = useStyles();
 
 	return (
@@ -83,10 +88,6 @@ const MenuCharacterField = ({ label, value, size, handleChange }: MenuCharacterF
 			</Dropdown>
 		</Field>
 	);
-};
-
-MenuCharacterField.defaultProps = {
-	size: 'small'
 };
 
 export default MenuCharacterField;

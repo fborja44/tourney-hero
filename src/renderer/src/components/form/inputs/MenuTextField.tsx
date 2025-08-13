@@ -39,7 +39,7 @@ const MenuTextField = ({
 	label,
 	value,
 	placeholder,
-	size,
+	size = 'small',
 	type,
 	handleChange,
 	validationState,
@@ -68,10 +68,6 @@ const MenuTextField = ({
 			/>
 		</Field>
 	);
-};
-
-MenuTextField.defaultProps = {
-	size: 'small'
 };
 
 export default MenuTextField;

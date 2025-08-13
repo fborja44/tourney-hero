@@ -54,8 +54,8 @@ const SidebarMenuContent = ({
 	disabled,
 	error,
 	loading,
-	placeholderIcon,
-	placeholderText
+	placeholderIcon = <SparkleRegular />,
+	placeholderText = 'Nothing To Do'
 }: SidebarMenuContentProps) => {
 	const classes = useStyles();
 
@@ -90,8 +90,8 @@ const SidebarMenu = ({
 	disabled,
 	empty,
 	error,
-	placeholderIcon,
-	placeholderText,
+	placeholderIcon = <SparkleRegular />,
+	placeholderText = 'Nothing To Do',
 	actions
 }: SidebarMenuProps) => {
 	const classes = useStyles();
@@ -112,11 +112,6 @@ const SidebarMenu = ({
 			</SidebarMenuContent>
 		</div>
 	);
-};
-
-SidebarMenu.defaultProps = {
-	placeholderIcon: <SparkleRegular />,
-	placeholderText: 'Nothing To Do'
 };
 
 export default SidebarMenu;

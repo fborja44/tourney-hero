@@ -146,7 +146,7 @@ interface MatchCardProps {
 	appearance?: 'card' | 'item';
 }
 
-const MatchCard = ({ match, appearance }: MatchCardProps) => {
+const MatchCard = ({ match, appearance = 'card' }: MatchCardProps) => {
 	const cardClasses = cardStyles();
 	const itemClasses = menuItemStyles();
 
@@ -409,10 +409,6 @@ const MatchCard = ({ match, appearance }: MatchCardProps) => {
 			</div>
 		</div>
 	);
-};
-
-MatchCard.defaultProps = {
-	appearance: 'card'
 };
 
 export default MatchCard;

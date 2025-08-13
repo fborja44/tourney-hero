@@ -56,7 +56,7 @@ interface EntrantSelectFieldProps extends FluentFieldProps {
 const EntrantSelectField = ({
 	label,
 	placeholder,
-	size,
+	size = 'small',
 	value,
 	defaultValue,
 	playerNumber,
@@ -93,10 +93,6 @@ const EntrantSelectField = ({
 			</Combobox>
 		</Field>
 	);
-};
-
-EntrantSelectField.defaultProps = {
-	size: 'small'
 };
 
 export default EntrantSelectField;

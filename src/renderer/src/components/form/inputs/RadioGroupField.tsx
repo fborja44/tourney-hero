@@ -33,7 +33,7 @@ const RadioGroupField = ({
 	items,
 	label,
 	value,
-	size,
+	size = 'small',
 	targetField,
 	handleChange,
 	playerNumber
@@ -52,10 +52,6 @@ const RadioGroupField = ({
 			</RadioGroup>
 		</Field>
 	);
-};
-
-RadioGroupField.defaultProps = {
-	size: 'small'
 };
 
 export default RadioGroupField;

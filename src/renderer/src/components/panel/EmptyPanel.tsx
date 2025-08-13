@@ -21,13 +21,18 @@ const useStyles = makeStyles({
 });
 
 interface EmptyPanelProps {
-	text: string;
-	icon: React.ReactNode;
-	hideIcon: boolean;
+	text?: string;
+	icon?: React.ReactNode;
+	hideIcon?: boolean;
 	resetData?: (...args) => void;
 }
 
-const EmptyPanel = ({ text, icon, hideIcon, resetData }: EmptyPanelProps) => {
+const EmptyPanel = ({
+	text = 'Nothing to do.',
+	icon = <Sparkle24Regular />,
+	hideIcon = false,
+	resetData
+}: EmptyPanelProps) => {
 	const classes = useStyles();
 
 	return (
@@ -46,12 +51,6 @@ const EmptyPanel = ({ text, icon, hideIcon, resetData }: EmptyPanelProps) => {
 			)}
 		</div>
 	);
-};
-
-EmptyPanel.defaultProps = {
-	text: 'Nothing to do.',
-	icon: <Sparkle24Regular />,
-	hideIcon: false
 };
 
 export default EmptyPanel;

@@ -39,7 +39,7 @@ const NumberField = ({
 	label,
 	value,
 	placeholder,
-	size,
+	size = 'small',
 	targetField,
 	handleChange,
 	min,
@@ -77,10 +77,6 @@ const NumberField = ({
 			/>
 		</Field>
 	);
-};
-
-NumberField.defaultProps = {
-	size: 'small'
 };
 
 export default NumberField;

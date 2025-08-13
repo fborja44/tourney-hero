@@ -30,7 +30,7 @@ interface SidebarProps {
 	onClick?: MouseEventHandler<HTMLButtonElement>;
 }
 
-const SidebarHeader = ({ onClick, open, children }: SidebarProps) => {
+const SidebarHeader = ({ onClick, open = true, children }: SidebarProps) => {
 	const classes = useStyles();
 
 	return (
@@ -46,10 +46,6 @@ const SidebarHeader = ({ onClick, open, children }: SidebarProps) => {
 			)}
 		</div>
 	);
-};
-
-SidebarHeader.defaultProps = {
-	open: true
 };
 
 export default SidebarHeader;

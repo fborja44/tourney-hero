@@ -31,7 +31,7 @@ interface PanelProps {
 	as: 'section' | 'form';
 }
 
-const Panel = ({ children, as }: PanelProps) => {
+const Panel = ({ children, as = 'form' }: PanelProps) => {
 	const classes = useStyles();
 
 	return as === 'form' ? (
@@ -41,10 +41,6 @@ const Panel = ({ children, as }: PanelProps) => {
 			{children || <EmptyPanel text="Nothing to do." />}
 		</section>
 	);
-};
-
-Panel.defaultProps = {
-	as: 'form'
 };
 
 export default Panel;

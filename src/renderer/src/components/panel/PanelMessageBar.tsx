@@ -32,7 +32,7 @@ const PanelMessageBar = ({
 	icon,
 	children,
 	actions,
-	intent,
+	intent = 'info',
 	className
 }: PanelMessageBarProps) => {
 	const classes = useStyles();
@@ -54,10 +54,6 @@ const PanelMessageBar = ({
 			<MessageBarActions>{actions}</MessageBarActions>
 		</MessageBar>
 	);
-};
-
-PanelMessageBar.defaultProps = {
-	intent: 'info'
 };
 
 export default PanelMessageBar;

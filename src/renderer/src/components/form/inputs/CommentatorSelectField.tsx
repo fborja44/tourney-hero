@@ -54,7 +54,7 @@ interface CommentatorSelectFieldProps extends FluentFieldProps {
 const CommentatorSelectField = ({
 	label,
 	placeholder,
-	size,
+	size = 'small',
 	value,
 	defaultValue,
 	commentatorNumber,
@@ -108,10 +108,6 @@ const CommentatorSelectField = ({
 			</Combobox>
 		</Field>
 	);
-};
-
-CommentatorSelectField.defaultProps = {
-	size: 'small'
 };
 
 export default CommentatorSelectField;

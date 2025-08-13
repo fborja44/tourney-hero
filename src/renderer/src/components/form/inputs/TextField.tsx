@@ -34,7 +34,7 @@ const TextField = ({
 	label,
 	value,
 	placeholder,
-	size,
+	size = 'small',
 	targetField,
 	maxLength,
 	handleChange
@@ -52,10 +52,6 @@ const TextField = ({
 			/>
 		</Field>
 	);
-};
-
-TextField.defaultProps = {
-	size: 'small'
 };
 
 export default TextField;

@@ -137,7 +137,7 @@ const PlayerContainer = ({ player }: PlayerContainerProps) => {
 	);
 };
 
-const ReplayCard = ({ replay, selected, appearance }: ReplayDataProps) => {
+const ReplayCard = ({ replay, selected, appearance = 'item' }: ReplayDataProps) => {
 	const classes = useStyles();
 	const cardClasses = cardStyles();
 	const itemClasses = menuItemStyles();
@@ -221,10 +221,6 @@ const ReplayCard = ({ replay, selected, appearance }: ReplayDataProps) => {
 			</div>
 		</div>
 	);
-};
-
-ReplayCard.defaultProps = {
-	appearance: 'item'
 };
 
 export default ReplayCard;

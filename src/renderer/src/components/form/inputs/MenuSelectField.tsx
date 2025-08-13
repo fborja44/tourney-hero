@@ -42,7 +42,7 @@ const MenuSelectField = ({
 	label,
 	value,
 	options,
-	size,
+	size = 'small',
 	handleChange,
 	validationState,
 	validationMessage,
@@ -72,10 +72,6 @@ const MenuSelectField = ({
 			</Select>
 		</Field>
 	);
-};
-
-MenuSelectField.defaultProps = {
-	size: 'small'
 };
 
 export default MenuSelectField;

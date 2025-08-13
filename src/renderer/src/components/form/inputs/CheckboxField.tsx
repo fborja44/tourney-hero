@@ -28,7 +28,7 @@ const CheckboxField = ({
 	label,
 	checked,
 	placeholder,
-	size,
+	size = 'small',
 	targetField,
 	handleChange,
 	style,
@@ -46,10 +46,6 @@ const CheckboxField = ({
 			/>
 		</Field>
 	);
-};
-
-CheckboxField.defaultProps = {
-	size: 'small'
 };
 
 export default CheckboxField;

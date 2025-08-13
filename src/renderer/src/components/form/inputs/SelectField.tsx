@@ -52,7 +52,7 @@ interface SelectFieldProps extends FluentFieldProps {
 const SelectField = ({
 	label,
 	value,
-	size,
+	size = 'small',
 	targetField,
 	handleChange,
 	options,
@@ -77,10 +77,6 @@ const SelectField = ({
 			</Select>
 		</Field>
 	);
-};
-
-SelectField.defaultProps = {
-	size: 'small'
 };
 
 export default SelectField;

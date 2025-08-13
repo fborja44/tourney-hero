@@ -56,7 +56,7 @@ interface CountryFieldProps extends FluentFieldProps {
 const CountryField = ({
 	label,
 	placeholder,
-	size,
+	size = 'small',
 	value,
 	defaultValue,
 	playerNumber,
@@ -103,10 +103,6 @@ const CountryField = ({
 			</Combobox>
 		</Field>
 	);
-};
-
-CountryField.defaultProps = {
-	size: 'small'
 };
 
 export default CountryField;
