@@ -45,7 +45,7 @@ const Footer = () => {
 			</div>
 			<div>
 				<Caption2 className={classes.copy}>
-					Francis &apos;beta&apos; Borja © 2023 - 2024
+					Francis &apos;beta&apos; Borja © 2023 - 2025
 				</Caption2>
 				{/* <FooterButton icon={<BoardSplit16Regular />} />
 				<FooterButton icon={<ColumnSingle16Regular />} /> */}
