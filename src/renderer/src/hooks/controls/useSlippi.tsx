@@ -91,6 +91,7 @@ const useSlippi = () => {
 		}
 
 		// Auto-update score
+		// ! Bug: Wrong player will update
 		if (game.gameEndMethod === 2) {
 			// gameEndMethod = 2 means proper game end (i.e. not a quit out)
 			// Generate winner
