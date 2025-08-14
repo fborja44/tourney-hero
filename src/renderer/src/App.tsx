@@ -4,7 +4,7 @@ import Footer from './components/footer/Footer';
 import AppRouter from './AppRouter';
 import useEntrants from '@hooks/startgg/useEntrants';
 import useSlippi from '@hooks/controls/useSlippi';
-import useMatchRefresh from './hooks/startgg/useMatchRefresh';
+import useMatchRefresh from '@hooks/startgg/useMatchRefresh';
 
 const useStyles = makeStyles({
 	appContainer: {
