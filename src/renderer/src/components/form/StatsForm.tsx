@@ -3,7 +3,7 @@ import formStyles from './styles/FormStyles';
 import PlayerFormSection from './PlayerFormSection';
 import { AppState } from '@renderer/redux/reducers/rootReducer';
 import { useSelector } from 'react-redux';
-import { updatedStatsPlayers } from '@renderer/redux/actions/dataActions';
+// import { updatedStatsPlayers } from '@renderer/redux/actions/dataActions';
 import {
 	Body1,
 	Button,
@@ -78,7 +78,7 @@ const StatsForm = () => {
 					</Button>
 				)}
 			</div>
-			<PlayerFormSection player1={player1} player2={player2} updateFn={updatedStatsPlayers} />
+			<PlayerFormSection player1={player1} player2={player2} />
 		</Panel>
 	);
 };

@@ -14,9 +14,9 @@ import {
 	MAX_MESSAGE_LENGTH,
 	MAX_TIMER
 } from '@common/constants/limits';
-import { useEffect, useState } from 'react';
 import CommentatorSelectField from './inputs/CommentatorSelectField';
 import useOverlayControls from '@hooks/controls/useOverlayControls';
+import useLocalCommentators from '@renderer/hooks/data/useLocalCommentators';
 
 const CommentatorsForm = () => {
 	const classes = formStyles();
@@ -29,17 +29,7 @@ const CommentatorsForm = () => {
 
 	const { handleCommentatorsChange } = useOverlayControls();
 
-	const [commentatorList, setCommentatorList] = useState([]);
-
-	const getCommentatorsList = async () => {
-		const result = await window.api.getCommentators();
-		setCommentatorList(result);
-		return result;
-	};
-
-	useEffect(() => {
-		getCommentatorsList();
-	}, []);
+	const { commentatorList } = useLocalCommentators();
 
 	const localDataExists = commentatorList.length > 0;
 

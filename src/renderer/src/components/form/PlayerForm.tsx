@@ -18,10 +18,10 @@ import {
 	MIN_SCORE
 } from '@common/constants/limits';
 import { Port } from '@common/interfaces/Types';
-import { useEffect, useState } from 'react';
 import CountryField from './inputs/CountryField';
 import CrewBattleField from './inputs/CrewBattleField';
 import useOverlayControls from '@hooks/controls/useOverlayControls';
+import useLocalPlayers from '@renderer/hooks/data/useLocalPlayers';
 
 interface PlayerFormProps {
 	playerNumber: '1' | '2';
@@ -57,19 +57,7 @@ const PlayerForm = ({ playerNumber, playerData }: PlayerFormProps) => {
 				return '';
 		}
 	};
-
-	// TODO: put in hook
-	const [playersList, setPlayersList] = useState<PlayerData[]>([]);
-
-	const getPlayersList = async () => {
-		const result = await window.api.getPlayers();
-		setPlayersList(result);
-		return result;
-	};
-
-	useEffect(() => {
-		getPlayersList();
-	}, []);
+	const { playersList } = useLocalPlayers();
 
 	const handleEntrantSelect = (_ev, data) => {
 		const player = entrantList.find((entrant) => entrant.id.toString() === data.optionValue);
