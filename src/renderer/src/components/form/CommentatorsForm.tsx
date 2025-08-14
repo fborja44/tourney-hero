@@ -3,9 +3,8 @@ import Panel from '../panel/Panel';
 import TextField from './inputs/TextField';
 import formStyles from './styles/FormStyles';
 import { CommentatorData, GameplayData } from '@common/interfaces/Data';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { AppState } from '@redux/reducers/rootReducer';
-import { updateCommentators } from '@redux/actions/dataActions';
 import CheckboxField from './inputs/CheckboxField';
 import NumberField from './inputs/NumberField';
 import SelectField from './inputs/SelectField';
@@ -17,11 +16,10 @@ import {
 } from '@common/constants/limits';
 import { useEffect, useState } from 'react';
 import CommentatorSelectField from './inputs/CommentatorSelectField';
+import useOverlayControls from '@hooks/controls/useOverlayControls';
 
 const CommentatorsForm = () => {
 	const classes = formStyles();
-
-	const dispatch = useDispatch();
 
 	const gameplayData: GameplayData = useSelector((state: AppState) => state.dataState.gameplay);
 
@@ -29,20 +27,9 @@ const CommentatorsForm = () => {
 		(state: AppState) => state.dataState.commentators
 	);
 
-	const [commentatorList, setCommentatorList] = useState([]);
+	const { handleCommentatorsChange } = useOverlayControls();
 
-	/**
-	 * On change handler. Updates the the target field in gameplay redux state.
-	 * @param targetField
-	 * @param value
-	 */
-	const handleCommentatorsChange = (targetField: string, value: string | number | boolean) => {
-		dispatch(
-			updateCommentators({
-				[targetField]: value
-			})
-		);
-	};
+	const [commentatorList, setCommentatorList] = useState([]);
 
 	const getCommentatorsList = async () => {
 		const result = await window.api.getCommentators();

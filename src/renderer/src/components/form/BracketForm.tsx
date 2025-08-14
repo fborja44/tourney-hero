@@ -4,11 +4,11 @@ import TextField from './inputs/TextField';
 import formStyles from './styles/FormStyles';
 import NumberField from './inputs/NumberField';
 import CheckboxField from './inputs/CheckboxField';
-import { useDispatch, useSelector } from 'react-redux';
-import { updateBracketMatch } from '@redux/actions/dataActions';
 import { BracketData } from '@common/interfaces/Data';
-import { AppState } from '@redux/reducers/rootReducer';
 import { MAX_SCORE, MAX_TAG_LENGTH } from '@common/constants/limits';
+import useOverlayControls from '@hooks/controls/useOverlayControls';
+import { useSelector } from 'react-redux';
+import { AppState } from '@renderer/redux/reducers/rootReducer';
 
 interface BracketFormSectionProps {
 	title: string;
@@ -18,22 +18,17 @@ interface BracketFormSectionProps {
 
 const BracketFormSection = ({ title, bracketField, className }: BracketFormSectionProps) => {
 	const classes = formStyles();
-	const dispatch = useDispatch();
 
-	const bracketData = useSelector((state: AppState) => state.dataState.bracket);
+	const bracketData: BracketData = useSelector((state: AppState) => state.dataState.bracket);
+
+	const { createBracketFieldChangeHandler } = useOverlayControls();
 
 	/**
-	 * On change handler. Updates the the target field in gameplay redux state.
+	 * On change handler. Updates the the target field in bracket match redux state.
 	 * @param targetField
 	 * @param value
 	 */
-	const handleMatchChange = (targetField: string, value: string | number | boolean) => {
-		dispatch(
-			updateBracketMatch(bracketField, {
-				[targetField]: value
-			})
-		);
-	};
+	const handleMatchChange = createBracketFieldChangeHandler(bracketField);
 
 	return (
 		<div className={mergeClasses(classes.formSection, className)}>

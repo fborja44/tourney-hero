@@ -4,6 +4,7 @@ import {
 	BracketMatch,
 	CommentatorData,
 	CrewBattleData,
+	DisplayData,
 	GameplayData,
 	OverlayData,
 	PlayerCardData,
@@ -22,6 +23,15 @@ export const resetOverlayData = createAction('RESET_OVERLAY_DATA', () => {
 		payload: true
 	};
 });
+
+export const updateOverlayField = createAction(
+	'UPDATE_OVERLAY_FIELD',
+	(overlay: keyof OverlayData, updatedField: Partial<DisplayData>) => {
+		return {
+			payload: { overlay, updatedField }
+		};
+	}
+);
 
 export const updateGameplay = createAction(
 	'UPDATE_GAMEPLAY',

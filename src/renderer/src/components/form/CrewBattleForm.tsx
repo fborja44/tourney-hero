@@ -10,26 +10,14 @@ import { MAX_TAG_LENGTH } from '@common/constants/limits';
 import { Add16Filled } from '@fluentui/react-icons';
 import CrewItemField from './inputs/CrewItemField';
 import CheckboxField from './inputs/CheckboxField';
+import useOverlayControls from '@hooks/controls/useOverlayControls';
 
 const CrewBattleForm = () => {
 	const classes = formStyles();
 
-	const dispatch = useDispatch();
-
 	const crewData: CrewBattleData = useSelector((state: AppState) => state.dataState.crewBattle);
 
-	/**
-	 * On change handler. Updates the the target field in crew battle redux state.
-	 * @param targetField
-	 * @param value
-	 */
-	const handleCrewBattleChange = (targetField: string, value: string | number | boolean) => {
-		dispatch(
-			updateCrewBattle({
-				[targetField]: value
-			})
-		);
-	};
+	const { handleCrewBattleChange } = useOverlayControls();
 
 	return (
 		<Panel>

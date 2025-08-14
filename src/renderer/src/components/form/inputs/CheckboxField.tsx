@@ -7,7 +7,8 @@ const useStyles = makeStyles({
 		width: '100px',
 		textAlign: 'center',
 		'& label': {
-			color: tokens.colorNeutralForeground3
+			color: tokens.colorNeutralForeground3,
+			fontSize: tokens.fontSizeBase200
 		}
 	},
 	checkbox: {

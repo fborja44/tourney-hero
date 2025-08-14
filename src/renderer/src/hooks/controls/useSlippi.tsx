@@ -1,5 +1,5 @@
 import { useToastController } from '@fluentui/react-components';
-import MessageToast from '../components/toasts/MessageToast';
+import MessageToast from '../../components/toasts/MessageToast';
 import { OBSWebSocketClientContext } from '@renderer/obs/OBSWebsocketProvider';
 import { incrementScore, updatePlayer } from '@renderer/redux/actions/dataActions';
 import { setActiveGame } from '@renderer/redux/actions/slippiActions';

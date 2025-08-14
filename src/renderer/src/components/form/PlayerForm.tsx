@@ -2,9 +2,9 @@ import { Body1, Button, OptionOnSelectData, mergeClasses } from '@fluentui/react
 import TextField from './inputs/TextField';
 import formStyles from './styles/FormStyles';
 import RadioGroupField from './inputs/RadioGroupField';
-import { DataField, HeadData, PlayerData } from '@common/interfaces/Data';
+import { PlayerData } from '@common/interfaces/Data';
 import NumberField from './inputs/NumberField';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import CharacterField from './inputs/CharacterField';
 import playerFormStyles from './styles/PlayerFormStyles';
 import { AppState } from '@redux/reducers/rootReducer';
@@ -20,37 +20,23 @@ import {
 import { Port } from '@common/interfaces/Types';
 import { useEffect, useState } from 'react';
 import CountryField from './inputs/CountryField';
-import { PlayerUpdateFunction } from './PlayerFormSection';
 import CrewBattleField from './inputs/CrewBattleField';
+import useOverlayControls from '@hooks/controls/useOverlayControls';
 
 interface PlayerFormProps {
 	playerNumber: '1' | '2';
 	playerData: PlayerData;
-	updateFn: PlayerUpdateFunction;
 }
 
-const PlayerForm = ({ playerNumber, playerData, updateFn }: PlayerFormProps) => {
+const PlayerForm = ({ playerNumber, playerData }: PlayerFormProps) => {
 	const classes = formStyles();
 	const playerClasses = playerFormStyles();
-	const dispatch = useDispatch();
 
 	const { entrantList } = useSelector((state: AppState) => state.tournamentState.entrants);
 
-	/**
-	 * On change handler. Updates the the target field in gameplay redux state.
-	 * @param targetField
-	 * @param value
-	 */
-	const handlePlayerChange = (
-		targetField: DataField,
-		value: string | number | HeadData[] | boolean | null
-	) => {
-		dispatch(
-			updateFn(`player${playerNumber}`, {
-				[targetField]: value
-			})
-		);
-	};
+	const { createPlayerFormChangeHandler, handlePlayerChange } = useOverlayControls();
+
+	const handlePlayerFieldChange = createPlayerFormChangeHandler(playerNumber);
 
 	/**
 	 * Gets the appropriate port color background.
@@ -95,15 +81,16 @@ const PlayerForm = ({ playerNumber, playerData, updateFn }: PlayerFormProps) => 
 			pronoun: localPlayer?.pronoun ?? player?.pronoun ?? '',
 			characterId: localPlayer?.characterId ?? player?.characterId ?? null
 		};
-		dispatch(updateFn(`player${playerNumber}`, playerData));
+
+		handlePlayerChange(`player${playerNumber}`, playerData);
 	};
 
 	const handleTagChange = (event) => {
-		handlePlayerChange('tag', event.target.value);
+		handlePlayerFieldChange('tag', event.target.value);
 	};
 
 	const handleCountrySelect = (_ev, data: OptionOnSelectData) => {
-		handlePlayerChange('countryCode', data.optionValue ?? '??');
+		handlePlayerFieldChange('countryCode', data.optionValue ?? '??');
 	};
 
 	return (
@@ -121,7 +108,7 @@ const PlayerForm = ({ playerNumber, playerData, updateFn }: PlayerFormProps) => 
 						label="Tag"
 						value={playerData.tag}
 						targetField="tag"
-						handleChange={handlePlayerChange}
+						handleChange={handlePlayerFieldChange}
 						placeholder={`Player ${playerNumber}`}
 						maxLength={MAX_TAG_LENGTH}
 					/>
@@ -141,7 +128,7 @@ const PlayerForm = ({ playerNumber, playerData, updateFn }: PlayerFormProps) => 
 					label="Seed"
 					value={playerData.seed}
 					targetField="seed"
-					handleChange={handlePlayerChange}
+					handleChange={handlePlayerFieldChange}
 					min={0}
 					max={MAX_SEED}
 				/>
@@ -150,14 +137,14 @@ const PlayerForm = ({ playerNumber, playerData, updateFn }: PlayerFormProps) => 
 					label="Score"
 					value={playerData.score}
 					targetField="score"
-					handleChange={handlePlayerChange}
+					handleChange={handlePlayerFieldChange}
 					min={MIN_SCORE}
 					max={MAX_SCORE}
 				/>
 			</div>
 			<div className={classes.formRow}>
 				<Button
-					onClick={() => handlePlayerChange('seed', 0)}
+					onClick={() => handlePlayerFieldChange('seed', 0)}
 					size="small"
 					iconPosition="after"
 					className={classes.resetButton}
@@ -167,7 +154,7 @@ const PlayerForm = ({ playerNumber, playerData, updateFn }: PlayerFormProps) => 
 				</Button>
 				<span className={classes.gap} />
 				<Button
-					onClick={() => handlePlayerChange('score', 0)}
+					onClick={() => handlePlayerFieldChange('score', 0)}
 					size="small"
 					iconPosition="after"
 					className={classes.resetButton}
@@ -181,7 +168,7 @@ const PlayerForm = ({ playerNumber, playerData, updateFn }: PlayerFormProps) => 
 					label="Character"
 					value={playerData.characterId?.toString()}
 					targetField="characterId"
-					handleChange={handlePlayerChange}
+					handleChange={handlePlayerFieldChange}
 					playerNumber={playerNumber}
 				/>
 			</div>
@@ -199,7 +186,7 @@ const PlayerForm = ({ playerNumber, playerData, updateFn }: PlayerFormProps) => 
 					label="Team / Prefix"
 					value={playerData.team}
 					targetField="team"
-					handleChange={handlePlayerChange}
+					handleChange={handlePlayerFieldChange}
 					placeholder={playerNumber === '1' ? 'C9' : 'TSM'}
 					maxLength={MAX_TEAM_LENGTH}
 				/>
@@ -209,7 +196,7 @@ const PlayerForm = ({ playerNumber, playerData, updateFn }: PlayerFormProps) => 
 					label="Pronoun"
 					value={playerData.pronoun}
 					targetField="pronoun"
-					handleChange={handlePlayerChange}
+					handleChange={handlePlayerFieldChange}
 					placeholder={'he/him, she/her, they/them, etc.'}
 					maxLength={MAX_PRONOUN_LENGTH}
 				/>
@@ -219,7 +206,7 @@ const PlayerForm = ({ playerNumber, playerData, updateFn }: PlayerFormProps) => 
 					label="Port / Team Color"
 					value={playerData.port}
 					targetField="port"
-					handleChange={handlePlayerChange}
+					handleChange={handlePlayerFieldChange}
 					items={['Red', 'Blue', 'Yellow', 'Green', 'None']} // or 'None'
 					playerNumber={playerNumber}
 				/>
@@ -228,7 +215,7 @@ const PlayerForm = ({ playerNumber, playerData, updateFn }: PlayerFormProps) => 
 				<CrewBattleField
 					label="Crew Battle / Stocks"
 					targetField="heads"
-					handleChange={handlePlayerChange}
+					handleChange={handlePlayerFieldChange}
 					playerNumber={playerNumber}
 				/>
 			</div>

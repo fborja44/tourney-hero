@@ -2,18 +2,17 @@ import { Body1 } from '@fluentui/react-components';
 import Panel from '../panel/Panel';
 import TextField from './inputs/TextField';
 import formStyles from './styles/FormStyles';
-import { useDispatch, useSelector } from 'react-redux';
-import { updateGameplay, updatePlayer } from '@redux/actions/dataActions';
+import { useSelector } from 'react-redux';
 import { GameplayData } from '@common/interfaces/Data';
 import { AppState } from '@redux/reducers/rootReducer';
 import { MAX_BRACKET_DATA_LENGTH } from '@common/constants/limits';
 import CheckboxField from './inputs/CheckboxField';
 import PlayerFormSection from './PlayerFormSection';
+import useOverlayControls from '@hooks/controls/useOverlayControls';
 // import CheckboxField from './inputs/CheckboxField';
 
 const GameplayForm = () => {
 	const classes = formStyles();
-	const dispatch = useDispatch();
 
 	const {
 		player1,
@@ -26,22 +25,11 @@ const GameplayForm = () => {
 		showPlayerCamInfo
 	}: GameplayData = useSelector((state: AppState) => state.dataState.gameplay);
 
-	/**
-	 * On change handler. Updates the the target field in gameplay redux state.
-	 * @param targetField
-	 * @param value
-	 */
-	const handleGameplayChange = (targetField: string, value: string | number | boolean) => {
-		dispatch(
-			updateGameplay({
-				[targetField]: value
-			})
-		);
-	};
+	const { handleGameplayChange } = useOverlayControls();
 
 	return (
 		<Panel>
-			<PlayerFormSection player1={player1} player2={player2} updateFn={updatePlayer} />
+			<PlayerFormSection player1={player1} player2={player2} />
 			<div className={classes.formSection}>
 				<Body1 className={classes.sectionTitle}>General Information</Body1>
 				<div className={classes.formRow}>

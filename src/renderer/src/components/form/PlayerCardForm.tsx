@@ -13,6 +13,7 @@ import EntrantSelectField from './inputs/EntrantSelectField';
 import EmptyPanel from '../panel/EmptyPanel';
 import useEntrant from '@hooks/startgg/useEntrant';
 import CountryField from './inputs/CountryField';
+import useOverlayControls from '@hooks/controls/useOverlayControls';
 
 const PlayerCardForm = () => {
 	const classes = formStyles();
@@ -27,21 +28,7 @@ const PlayerCardForm = () => {
 
 	const { fetchEntrantData } = useEntrant();
 
-	/**
-	 * On change handler. Updates the the target field in gameplay redux state.
-	 * @param targetField
-	 * @param value
-	 */
-	const handlePlayerCardChange = (
-		targetField: string,
-		value: string | number | boolean | null
-	) => {
-		dispatch(
-			updatePlayerCard({
-				[targetField]: value
-			})
-		);
-	};
+	const { handlePlayerCardChange } = useOverlayControls();
 
 	if (entrantList.length === 0) {
 		return <EmptyPanel text="No Entrants Found" />;

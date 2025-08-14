@@ -11,7 +11,7 @@ import { AppState } from '@redux/reducers/rootReducer';
 import SceneHeader from './pageheader/SceneHeader';
 import LocalDataPage from './pages/LocalDataPage';
 import SlippiMessageBar from './components/form/messages/SlippiMessageBar';
-import useSocket from '@hooks/useSocket';
+import useSocket from '@hooks/controls/useSocket';
 import { SceneData } from '@common/interfaces/Types';
 
 const AppRouter = () => {
