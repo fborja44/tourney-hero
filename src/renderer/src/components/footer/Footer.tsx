@@ -43,7 +43,7 @@ const Footer = () => {
 				<FooterButton icon={<QuestionCircle16Regular />} />
 			</div>
 			<div>
-				<Caption2 className={classes.copy}>Francis Borja © 2023 - 2024</Caption2>
+				<Caption2 className={classes.copy}>Francis Borja © 2023 - 2025</Caption2>
 				<FooterButton icon={<BoardSplit16Regular />} />
 				<FooterButton icon={<ColumnSingle16Regular />} />
 			</div>
