@@ -138,6 +138,7 @@ const SlippiMenu = () => {
 			intent: 'info'
 		});
 		dispatch(setSlippiConnected(false));
+		return;
 	};
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -151,6 +152,7 @@ const SlippiMenu = () => {
 		);
 		setLoading(false);
 		dispatch(setSlippiConnected(false));
+		return;
 	};
 
 	const handleDirSelect = async () => {
@@ -162,9 +164,10 @@ const SlippiMenu = () => {
 	useEffect(() => {
 		ipcRenderer.on('relay-connected', handleConnected);
 		ipcRenderer.on('relay-error', handleRelayError);
+
 		return () => {
-			ipcRenderer.removeListener('relay-connected', handleConnected);
-			ipcRenderer.removeListener('relay-error', handleRelayError);
+			ipcRenderer.removeAllListeners('relay-connected');
+			ipcRenderer.removeAllListeners('relay-error');
 		};
 	}, [connected]);
 

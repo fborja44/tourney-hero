@@ -23,7 +23,7 @@ interface PanelMessageBarProps {
 	icon: JSX.Element;
 	children?: string | React.ReactNode;
 	actions?: React.ReactNode;
-	intent: MessageBarIntent;
+	intent?: MessageBarIntent;
 	className?: string;
 }
 
