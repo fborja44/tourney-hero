@@ -1,6 +1,6 @@
 import { GameEndType, GameStartType, SlippiGame } from '@slippi/slippi-js';
 import { dialog } from 'electron';
-const { SlpLiveStream, SlpRealTime } = require('@vinceau/slp-realtime');
+import { SlpLiveStream, SlpRealTime } from '@vinceau/slp-realtime';
 
 /**
  * Event handler to connect to a slippi relay
@@ -40,10 +40,12 @@ export const handleConnectToSlippi = async (ev: Electron.IpcMainInvokeEvent, dat
 			console.log(game);
 			ev.sender.send('game-end', game);
 		});
+
 		return slippiStream;
 	} catch (err) {
 		console.error(err);
 		ev.sender.send('relay-error');
+		return null;
 	}
 };
 

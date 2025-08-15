@@ -105,13 +105,11 @@ const SlippiMenu = () => {
 
 	const { connected: OBSConnected } = useContext(OBSWebSocketClientContext);
 
-	const { autoSwitchGameToPlayers, autoSwitchPlayersToGame, connected, relayPort, replayDir } =
-		useSelector((state: AppState) => {
-			return {
-				...state.slippiState,
-				...state.replayState
-			};
-		});
+	const { autoSwitchGameToPlayers, autoSwitchPlayersToGame, connected, relayPort } = useSelector(
+		(state: AppState) => state.slippiState
+	);
+
+	const { replayDir } = useSelector((state: AppState) => state.replayState);
 
 	const [relay, setRelay] = useState<number>(relayPort);
 	const [loading, setLoading] = useState<boolean>(false);
@@ -138,6 +136,9 @@ const SlippiMenu = () => {
 			intent: 'info'
 		});
 		dispatch(setSlippiConnected(false));
+
+		ipcRenderer.removeAllListeners('game-start');
+		ipcRenderer.removeAllListeners('game-end');
 		return;
 	};
 
@@ -152,6 +153,9 @@ const SlippiMenu = () => {
 		);
 		setLoading(false);
 		dispatch(setSlippiConnected(false));
+
+		ipcRenderer.removeAllListeners('game-start');
+		ipcRenderer.removeAllListeners('game-end');
 		return;
 	};
 

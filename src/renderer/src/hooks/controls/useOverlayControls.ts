@@ -10,7 +10,7 @@ const useOverlayControls = () => {
 	const dispatch = useDispatch();
 
 	/**
-	 * On change handler generator. Updates the the target field in overlay redux state.
+	 * On change handler generator. Updates the target field in overlay redux state.
 	 * @param overlay - The overlay data field to update
 	 * @returns A change handler function.
 	 */
@@ -25,7 +25,7 @@ const useOverlayControls = () => {
 	};
 
 	/**
-	 * On change handler generator. Updates the the target field in bracket redux state.
+	 * On change handler generator. Updates the target field in bracket redux state.
 	 * @param bracketField - The bracket data field to update.
 	 * @returns A change handler function.
 	 */
@@ -40,14 +40,14 @@ const useOverlayControls = () => {
 	};
 
 	/**
-	 * On change handler. Updates the the target field in player card redux state.
+	 * On change handler. Updates the target field in player card redux state.
 	 * @param targetField The gameplay field to update
 	 * @param value The value to update to
 	 */
 	const handleGameplayChange = createFieldChangeHandler('gameplay');
 
 	/**
-	 * On change handler generator. Updates the the target player field in gameplay redux state.
+	 * On change handler generator. Updates the target player field in gameplay redux state.
 	 * @param playerNumber The player number (1 or 2)
 	 * @returns A change handler function.
 	 */
@@ -62,7 +62,24 @@ const useOverlayControls = () => {
 	};
 
 	/**
-	 * On change handler. Updates the the target field in commentators card redux state.
+	 * On change handler. Updates the target field in commentators card redux state.
+	 * @param targetField The commentator field to update
+	 * @param value The value to update to
+	 */
+	const handlePlayerFieldChange = (
+		targetPlayer: 'player1' | 'player2',
+		targetField: DataField,
+		value: string | number | HeadData[] | boolean | null
+	) => {
+		dispatch(
+			updatePlayer(targetPlayer, {
+				[targetField]: value
+			})
+		);
+	};
+
+	/**
+	 * On change handler. Updates the  field in commentators card redux state.
 	 * @param targetField The commentator field to update
 	 * @param value The value to update to
 	 */
@@ -74,21 +91,21 @@ const useOverlayControls = () => {
 	};
 
 	/**
-	 * On change handler. Updates the the target field in commentators card redux state.
+	 * On change handler. Updates the target field in commentators card redux state.
 	 * @param targetField The commentator field to update
 	 * @param value The value to update to
 	 */
 	const handleCommentatorsChange = createFieldChangeHandler('commentators');
 
 	/**
-	 * On change handler. Updates the the target field in player card redux state.
+	 * On change handler. Updates the target field in player card redux state.
 	 * @param targetField The player card field to update
 	 * @param value The value to update to
 	 */
 	const handlePlayerCardChange = createFieldChangeHandler('playerCard');
 
 	/**
-	 * On change handler. Updates the the target field in crew battle redux state.
+	 * On change handler. Updates the target field in crew battle redux state.
 	 * @param targetField The crew battle field to update
 	 * @param value The value to update to
 	 */
@@ -102,6 +119,7 @@ const useOverlayControls = () => {
 		handlePlayerCardChange,
 		handleCrewBattleChange,
 		createPlayerFormChangeHandler,
+		handlePlayerFieldChange,
 		handlePlayerChange
 	};
 };

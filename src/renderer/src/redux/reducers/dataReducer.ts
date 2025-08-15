@@ -95,6 +95,7 @@ const dataReducer = createReducer(initialState, (builder) => {
 					...state.gameplay[targetPlayer],
 					score: (state.gameplay[targetPlayer].score ?? 0) + 1
 				};
+				console.log(state.gameplay[targetPlayer].score);
 			}
 		})
 		.addCase(updateCrewBattle, (state, action) => {

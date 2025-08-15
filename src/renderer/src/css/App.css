@@ -15,7 +15,7 @@
 }
 
 *::-webkit-scrollbar {
-	width: 8px; /* Set the width of the scrollbar */
+	width: 6px; /* Set the width of the scrollbar */
 }
 
 *::-webkit-scrollbar-track {
@@ -24,8 +24,12 @@
 }
 
 *::-webkit-scrollbar-thumb {
-	background: #5c5c5c; /* Set the color of the scrollbar thumb */
+	background: var(--colorNeutralBackground1Hover); /* Set the color of the scrollbar thumb */
 	border-radius: 4px;
+}
+
+*::-webkit-scrollbar-thumb:active {
+	background: var(--colorNeutralBackground1); /* Set the color of the scrollbar thumb */
 }
 
 .fui-Listbox {

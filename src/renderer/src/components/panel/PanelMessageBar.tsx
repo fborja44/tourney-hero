@@ -1,3 +1,4 @@
+import { MESSAGE_BAR_HEIGHT } from '@common/constants/elements';
 import {
 	Body1Strong,
 	MessageBar,
@@ -7,14 +8,21 @@ import {
 	MessageBarTitle,
 	makeStyles,
 	mergeClasses,
+	// shorthands,
 	tokens
 } from '@fluentui/react-components';
 
 const useStyles = makeStyles({
 	container: {
-		minHeight: '45px',
+		minHeight: MESSAGE_BAR_HEIGHT,
 		paddingRight: tokens.spacingHorizontalM,
 		paddingLeft: tokens.spacingHorizontalM
+		// ...shorthands.borderTop(0),
+		// ...shorthands.borderRight(0),
+		// ...shorthands.borderLeft(0)
+	},
+	actions: {
+		paddingRight: 0
 	}
 });
 
@@ -51,7 +59,7 @@ const PanelMessageBar = ({
 				</MessageBarTitle>
 				{children}
 			</MessageBarBody>
-			<MessageBarActions>{actions}</MessageBarActions>
+			<MessageBarActions className={classes.actions}>{actions}</MessageBarActions>
 		</MessageBar>
 	);
 };
