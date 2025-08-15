@@ -1,21 +1,21 @@
 import { FrameEntryType, MetadataType, PlacementType } from '@slippi/slippi-js';
 import { SLIPPI_CHARACTERS, SLIPPI_STAGES } from './data';
-import { Character, ReplayPlayer, SlippiCharacter } from '../interfaces/Types';
+import { Character, Port, ReplayPlayer, SlippiCharacter } from '../interfaces/Types';
 
 /**
  * Gets the string representation of a Slippi game port.
  * @param port The Slippi port number
  */
-export const getSlippiPort = (port: number) => {
+export const getSlippiPort = (port: number): Port => {
 	switch (port) {
 		case 0:
 			return 'Red';
 		case 1:
 			return 'Blue';
 		case 2:
-			return 'Green';
-		case 3:
 			return 'Yellow';
+		case 3:
+			return 'Green';
 		default:
 			return 'None';
 	}

@@ -1,14 +1,11 @@
-import { GameplayData } from '@common/interfaces/Data';
 import { Button, Dialog, DialogTrigger, makeStyles, tokens } from '@fluentui/react-components';
 import { BotSparkle20Filled, Settings20Regular } from '@fluentui/react-icons';
 import SlippiSettingsDialog from '@renderer/components/dialogs/slippi/SlippiSettingsDialog';
 import PanelMessageBar from '@renderer/components/panel/PanelMessageBar';
-import { setPortsValid } from '@renderer/redux/actions/slippiActions';
 import { AppState } from '@renderer/redux/reducers/rootReducer';
 import { SocketClientContext } from '@renderer/socket/SocketClientProvider';
-import { getSlippiPort } from '@common/constants/slippi-utils';
-import { useContext, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useContext } from 'react';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles({
 	portErrorMessage: {
@@ -28,60 +25,16 @@ const useStyles = makeStyles({
 	}
 });
 
-interface InvalidPort {
-	port: number;
-}
-
 const SlippiMessageBar = () => {
 	const classes = useStyles();
-	const dispatch = useDispatch();
 
-	const gameplayData: GameplayData = useSelector((state: AppState) => state.dataState.gameplay);
-
-	const { connected, activeGame, automate, autoUpdateScore, autoUpdateCharacters, portsValid } =
+	const { connected, activeGame, automate, autoUpdateScore, autoUpdateCharacters, invalidPorts } =
 		useSelector((state: AppState) => state.slippiState);
 
 	const { connected: connectedToServer } = useContext(SocketClientContext);
 
-	const [validGame, setGameValid] = useState<InvalidPort[]>([]);
-
 	// If game automation is enabled, check if the ports + characters match
 	// Sheik = Zelda
-
-	const checkGamePorts = (): InvalidPort[] => {
-		const { player1, player2 } = gameplayData;
-		const slippi1 = activeGame?.players[0],
-			slippi2 = activeGame?.players[1];
-		const slippiPort1 = getSlippiPort(slippi1?.port ? slippi1.port - 1 : 0),
-			slippiPort2 = getSlippiPort(slippi2?.port ? slippi2.port - 1 : 0);
-
-		if (
-			(slippiPort1 === player1.port && slippiPort2 === player2.port) ||
-			(slippiPort1 === player2.port && slippiPort2 === player1.port)
-		) {
-			return [];
-		}
-
-		const result: InvalidPort[] = [];
-
-		if (slippiPort1 !== player1.port && slippiPort1 !== player2.port) {
-			result.push({ port: slippi1?.port ?? -1 });
-		}
-
-		if (slippiPort2 !== player1.port && slippiPort2 !== player2.port) {
-			result.push({ port: slippi2?.port ?? -2 });
-		}
-
-		return result;
-	};
-
-	useEffect(() => {
-		if (activeGame !== null) {
-			const portErrors = checkGamePorts();
-			setGameValid(portErrors);
-			dispatch(setPortsValid(portErrors.length === 0));
-		}
-	}, [autoUpdateScore, activeGame, gameplayData]);
 
 	const Actions = (
 		<>
@@ -155,7 +108,7 @@ const SlippiMessageBar = () => {
 	}
 
 	// Ports Do Not Match
-	if (activeGame && !portsValid && validGame.length > 0) {
+	if (activeGame && invalidPorts.length > 0) {
 		return (
 			<PanelMessageBar
 				icon={<BotSparkle20Filled />}
@@ -164,9 +117,9 @@ const SlippiMessageBar = () => {
 				intent="warning"
 				className={classes.portErrorMessage}
 			>
-				Could not match the following in-game ports:
+				<span>Could not match the following in-game ports:</span>
 				<div className={classes.portErrorContainer}>
-					{validGame.map((player) => {
+					{invalidPorts.map((player) => {
 						return (
 							<span className={classes.portError} key={`${player.port}-error`}>
 								{`Port ${player.port}`}

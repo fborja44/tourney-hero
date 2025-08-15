@@ -1,3 +1,4 @@
+import { InvalidPort } from '@common/interfaces/Types';
 import { createAction } from '@reduxjs/toolkit';
 import { GameStartType } from '@slippi/slippi-js';
 
@@ -58,7 +59,7 @@ export const setAutoUpdateCharacters = createAction(
 	}
 );
 
-export const setPortsValid = createAction('SET_PORTS_VALID', (value: boolean) => {
+export const setInvalidPorts = createAction('SET_INVALID_PORTS', (value: InvalidPort[]) => {
 	return {
 		payload: value
 	};

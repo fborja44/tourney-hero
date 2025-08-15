@@ -6,17 +6,18 @@ import {
 	setRelayPort,
 	setSlippiConnected,
 	setAutoUpdateScore,
-	setPortsValid,
 	setAutomation,
-	setAutoUpdateCharacters
+	setAutoUpdateCharacters,
+	setInvalidPorts
 } from '../actions/slippiActions';
 import { GameStartType } from '@slippi/slippi-js';
+import { InvalidPort } from '@common/interfaces/Types';
 
 export type SlippiState = {
 	connected: boolean;
 	relayPort: number;
 	activeGame: GameStartType | null;
-	portsValid: boolean;
+	invalidPorts: InvalidPort[];
 	autoSwitchGameToPlayers: boolean;
 	autoSwitchPlayersToGame: boolean;
 	automate: boolean;
@@ -28,7 +29,7 @@ const initialState: SlippiState = {
 	connected: false,
 	relayPort: 51441,
 	activeGame: null,
-	portsValid: false,
+	invalidPorts: [],
 	autoSwitchGameToPlayers: false,
 	autoSwitchPlayersToGame: false,
 	automate: false,
@@ -62,8 +63,8 @@ const slippiReducer = createReducer(initialState, (builder) => {
 		.addCase(setAutoUpdateCharacters, (state, action) => {
 			state.autoUpdateCharacters = action.payload;
 		})
-		.addCase(setPortsValid, (state, action) => {
-			state.portsValid = action.payload;
+		.addCase(setInvalidPorts, (state, action) => {
+			state.invalidPorts = action.payload;
 		});
 });
 

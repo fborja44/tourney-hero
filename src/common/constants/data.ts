@@ -1,4 +1,4 @@
-import { SlippiCharacter, SlippiStage } from '../interfaces/Types';
+import { Port, SlippiCharacter, SlippiStage } from '../interfaces/Types';
 
 export const SLIPPI_CHARACTERS: SlippiCharacter[] = [
 	{
@@ -136,7 +136,7 @@ export const SLIPPI_CHARACTERS: SlippiCharacter[] = [
 		externalId: 0x17,
 		internalId: 0x1a
 	}
-];
+] as const;
 
 export const SLIPPI_STAGES: SlippiStage[] = [
 	{
@@ -289,6 +289,6 @@ export const SLIPPI_STAGES: SlippiStage[] = [
 		externalId: 0x20,
 		internalId: 0
 	}
-];
+] as const;
 
-export const PORTS = ['Red', 'Blue', 'Yellow', 'Green', 'None'];
+export const PORTS: Port[] = ['Red', 'Blue', 'Yellow', 'Green', 'None'] as const;

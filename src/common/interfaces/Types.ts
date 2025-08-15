@@ -196,3 +196,7 @@ export interface ReplayData {
 	date: Date | null | undefined;
 	lastFrame: number | null | undefined;
 }
+
+export interface InvalidPort {
+	port: number;
+}
