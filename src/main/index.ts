@@ -2,7 +2,11 @@ import { app, shell, BrowserWindow, ipcMain, nativeTheme, session } from 'electr
 import { join } from 'path';
 import { electronApp, optimizer, is } from '@electron-toolkit/utils';
 import icon from '../../resources/app-logo.png?asset';
-import { handleConnectToSlippi, handleSlippiFileStats } from './events/slippi';
+import {
+	handleConnectToSlippi,
+	handleDisconnectFromSlippi,
+	handleSlippiFileStats
+} from './events/slippi';
 import {
 	handleAddLocalCommentator,
 	handleAddLocalPlayer,
@@ -90,6 +94,7 @@ app.whenReady().then(() => {
 
 	// Register IPC handlers
 	ipcMain.handle('slippi:connect', handleConnectToSlippi);
+	ipcMain.handle('slippi:disconnect', handleDisconnectFromSlippi);
 	ipcMain.handle('slippi:getFileStats', handleSlippiFileStats);
 	ipcMain.handle('slippi:selectDir', handleSelectReplayDir);
 	ipcMain.handle('slippi:getSetStats', handleComputeGameStats);

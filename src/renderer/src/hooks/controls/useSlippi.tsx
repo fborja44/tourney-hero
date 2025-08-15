@@ -154,7 +154,8 @@ const useSlippi = () => {
 			autoUpdateScore,
 			portsValid,
 			socketConnected,
-			gameplay
+			player1.score,
+			player2.score
 		]
 	);
 

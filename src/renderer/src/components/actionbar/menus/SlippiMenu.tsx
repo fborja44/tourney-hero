@@ -16,6 +16,7 @@ import { QuestionCircleRegular } from '@fluentui/react-icons';
 import { OBSWebSocketClientContext } from '../../../obs/OBSWebsocketProvider';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+	setActiveGame,
 	setAutoSwitchGameToPlayers,
 	setAutoSwitchPlayersToGame,
 	setRelayPort,
@@ -114,8 +115,13 @@ const SlippiMenu = () => {
 	const [relay, setRelay] = useState<number>(relayPort);
 	const [loading, setLoading] = useState<boolean>(false);
 
-	const handleRelay = () => {
+	const handleRelayConnect = () => {
 		ipcRenderer.invoke('slippi:connect', relay);
+		setLoading(true);
+	};
+
+	const handleRelayDisconnect = () => {
+		ipcRenderer.invoke('slippi:disconnect', relay);
 		setLoading(true);
 	};
 
@@ -130,20 +136,29 @@ const SlippiMenu = () => {
 		return;
 	};
 
-	const handleDisconnect = () => {
+	const handleReconnected = () => {
+		console.log('Reconnected to Slippi');
+		dispatch(setSlippiConnected(true));
+		dispatchToast(<MessageToast title="Reconnected To Slippi Relay" />, {
+			intent: 'success'
+		});
+		setLoading(false);
+		return;
+	};
+
+	const handleDisconnected = () => {
 		// ipcRenderer.send('close-relay');
 		dispatchToast(<MessageToast title="Disconnected From Slippi Relay" />, {
 			intent: 'info'
 		});
 		dispatch(setSlippiConnected(false));
-
-		ipcRenderer.removeAllListeners('game-start');
-		ipcRenderer.removeAllListeners('game-end');
+		dispatch(setActiveGame(null));
+		setLoading(false);
 		return;
 	};
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	const handleRelayError = (err: any) => {
+	const handleRelayConnectError = (err: any) => {
 		console.error(err);
 		dispatchToast(
 			<MessageToast title="Slippi Relay Error" message={err?.message ?? undefined} />,
@@ -153,9 +168,6 @@ const SlippiMenu = () => {
 		);
 		setLoading(false);
 		dispatch(setSlippiConnected(false));
-
-		ipcRenderer.removeAllListeners('game-start');
-		ipcRenderer.removeAllListeners('game-end');
 		return;
 	};
 
@@ -167,10 +179,14 @@ const SlippiMenu = () => {
 
 	useEffect(() => {
 		ipcRenderer.on('relay-connected', handleConnected);
-		ipcRenderer.on('relay-error', handleRelayError);
+		ipcRenderer.on('relay-disconnected', handleDisconnected);
+		ipcRenderer.on('relay-reconnected', handleReconnected);
+		ipcRenderer.on('relay-error', handleRelayConnectError);
 
 		return () => {
 			ipcRenderer.removeAllListeners('relay-connected');
+			ipcRenderer.removeAllListeners('relay-disconnected');
+			ipcRenderer.removeAllListeners('relay-reconnected');
 			ipcRenderer.removeAllListeners('relay-error');
 		};
 	}, [connected]);
@@ -219,7 +235,7 @@ const SlippiMenu = () => {
 									dispatch(setAutoSwitchGameToPlayers(data.checked))
 								}
 								disabled={!OBSConnected || !connected}
-							/>{' '}
+							/>
 							<Caption1>Gameplay Scene → Players Scene</Caption1>
 						</div>
 						<div className={classes.switchContainer}>
@@ -229,27 +245,21 @@ const SlippiMenu = () => {
 									dispatch(setAutoSwitchPlayersToGame(data.checked))
 								}
 								disabled={!OBSConnected || !connected}
-							/>{' '}
+							/>
 							<Caption1>Players Scene → Gameplay Scene</Caption1>
 						</div>
 					</div>
 				)}
 				<div className={classes.buttonsContainer}>
 					{connected ? (
-						<Button
-							size="small"
-							iconPosition="after"
-							onClick={() => {
-								handleDisconnect();
-							}}
-						>
+						<Button size="small" iconPosition="after" onClick={handleRelayDisconnect}>
 							Disconnect
 						</Button>
 					) : (
 						<Button
 							size="small"
 							appearance="primary"
-							onClick={handleRelay}
+							onClick={handleRelayConnect}
 							iconPosition="after"
 							disabled={loading}
 						>

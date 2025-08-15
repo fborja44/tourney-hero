@@ -18,6 +18,7 @@ if (process.contextIsolated) {
 		contextBridge.exposeInMainWorld('api', api);
 		contextBridge.exposeInMainWorld('electronAPI', {
 			slippiStream: () => ipcRenderer.send('slippi:connect'),
+			slippiDisconnect: () => ipcRenderer.send('slippi:disconnect'),
 			addCommentator: () => ipcRenderer.send('commentator:add'),
 			updateCommentator: () => ipcRenderer.send('commentator:update'),
 			removeCommentator: () => ipcRenderer.send('commentator:remove'),
