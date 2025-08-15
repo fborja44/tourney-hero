@@ -81,6 +81,8 @@ const PlayerForm = ({ playerNumber, playerData }: PlayerFormProps) => {
 		handlePlayerFieldChange('countryCode', data.optionValue ?? '??');
 	};
 
+	console.log(playerData.score);
+
 	return (
 		<div
 			className={mergeClasses(

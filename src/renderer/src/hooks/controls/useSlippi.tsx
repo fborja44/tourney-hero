@@ -135,7 +135,7 @@ const useSlippi = () => {
 						p2score: winner == '2' ? newScore : player2.score
 					});
 					// Update app state
-					handlePlayerFieldChange(`player${winner}`, 'score', newScore);
+					handlePlayerFieldChange('player1', 'score', newScore);
 					dispatchToast(<MessageToast title={`Updated Score For Player ${winner}`} />, {
 						intent: 'success'
 					});

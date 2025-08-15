@@ -65,6 +65,7 @@ const NumberField = ({
 					handleChange(targetField, parseInt(value.toString()) ?? prevValue ?? 0);
 					setPrevValue(parseInt(value.toString()) ?? prevValue ?? 0);
 				}}
+				value={value ?? null}
 				displayValue={suffix ? `${value}${suffix}` : value?.toString()}
 				{...props}
 			/>
