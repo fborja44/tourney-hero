@@ -46,7 +46,7 @@ const useStyles = makeStyles({
 	menu: {
 		display: 'flex',
 		flexDirection: 'column',
-		rowGap: tokens.spacingVerticalS,
+		rowGap: tokens.spacingVerticalL,
 		backgroundColor: tokens.colorNeutralBackground4Selected,
 		position: 'absolute',
 		zIndex: 100,

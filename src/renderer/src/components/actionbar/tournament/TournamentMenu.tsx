@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import MenuTextField from '../../form/inputs/MenuTextField';
-import { shorthands, tokens, makeStyles, Button, Caption1 } from '@fluentui/react-components';
+import { Button } from '@fluentui/react-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { TournamentState } from '@redux/reducers/tournamentReducer';
 import {
@@ -19,27 +19,11 @@ import { getEventSlug } from '@utils/string';
 import MenuSelectField from '../../form/inputs/MenuSelectField';
 import { AppState } from '@renderer/redux/reducers/rootReducer';
 import useStartQuery from '@hooks/startgg/useStartQuery';
-
-const useStyles = makeStyles({
-	buttonsContainer: {
-		display: 'flex',
-		flexDirection: 'row',
-		...shorthands.margin(tokens.spacingVerticalM, 0, 0, 0),
-		'& button': {
-			...shorthands.margin(0, tokens.spacingHorizontalM, 0, 0)
-		}
-	},
-	spacing: {
-		marginBottom: tokens.spacingVerticalS
-	},
-	keyButton: {
-		marginBottom: tokens.spacingVerticalS,
-		width: '86px'
-	}
-});
+import ActionMenu from '../ActionMenu';
+import ActionMenuStyles from '../styles/ActionMenuStyles';
 
 const TournamentMenu = () => {
-	const classes = useStyles();
+	const classes = ActionMenuStyles();
 	const dispatch = useDispatch();
 
 	const {
@@ -190,8 +174,7 @@ const TournamentMenu = () => {
 
 	return (
 		<>
-			<div>
-				<Caption1>Start.gg Configuration</Caption1>
+			<ActionMenu title="Start.gg Configuration">
 				<MenuTextField
 					label="API Key"
 					value={keyValue}
@@ -213,25 +196,18 @@ const TournamentMenu = () => {
 							appearance="primary"
 							onClick={handleSaveKey}
 							iconPosition="after"
-							className={classes.keyButton}
 							disabled={keyLoading}
 						>
 							{keyLoading ? 'Validating...' : 'Test API Key'}
 						</Button>
 					)}
-					<Button
-						size="small"
-						onClick={handleClearKey}
-						iconPosition="after"
-						className={classes.spacing}
-					>
+					<Button size="small" onClick={handleClearKey} iconPosition="after">
 						Clear API Key
 					</Button>
 				</div>
-			</div>
+			</ActionMenu>
 			{tournamentState.validated && (
-				<div>
-					<Caption1>Start.gg Tournament Information</Caption1>
+				<ActionMenu title="Tournament Information">
 					<MenuTextField
 						label="Tournament Slug"
 						value={tournamentSlugValue}
@@ -241,7 +217,6 @@ const TournamentMenu = () => {
 							setTournamentError(null);
 							setTournamentSlugValue(data.value);
 						}}
-						className={classes.spacing}
 						validationState={tournamentValidation}
 						validationMessage={tournamentMessage}
 						required={true}
@@ -262,11 +237,10 @@ const TournamentMenu = () => {
 							Clear Tournament
 						</Button>
 					</div>
-				</div>
+				</ActionMenu>
 			)}
 			{tournamentState.tournament && (
-				<div>
-					<Caption1>Tournament Event Selection</Caption1>
+				<ActionMenu title="Tournament Event Selection">
 					<MenuSelectField
 						label="Event Slug"
 						value={tournamentState.eventSlug}
@@ -278,11 +252,10 @@ const TournamentMenu = () => {
 								)[0] ?? undefined;
 							handleEventChange(event);
 						}}
-						className={classes.spacing}
 						disabled={fieldsLoading}
 						options={tournamentState.tournament.events.map((event) => event.slug) ?? []}
 					/>
-				</div>
+				</ActionMenu>
 			)}
 		</>
 	);

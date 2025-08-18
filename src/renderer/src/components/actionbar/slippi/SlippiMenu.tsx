@@ -1,18 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 
-import {
-	shorthands,
-	tokens,
-	makeStyles,
-	Button,
-	Caption1,
-	Switch,
-	Popover,
-	PopoverTrigger,
-	PopoverSurface,
-	useToastController
-} from '@fluentui/react-components';
-import { QuestionCircleRegular } from '@fluentui/react-icons';
+import { Button, Caption1, Switch, useToastController } from '@fluentui/react-components';
 import { OBSWebSocketClientContext } from '../../../obs/OBSWebsocketProvider';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -27,78 +15,11 @@ import { AppState } from '@redux/reducers/rootReducer';
 import MessageToast from '../../toasts/MessageToast';
 import MenuTextField from '../../form/inputs/MenuTextField';
 import { isInteger } from '@utils/string';
-
-const useStyles = makeStyles({
-	container: {
-		display: 'flex',
-		flexDirection: 'column'
-	},
-	label: {
-		display: 'flex',
-		alignItems: 'center',
-		columnGap: tokens.spacingHorizontalXS,
-		color: tokens.colorNeutralForeground3,
-		marginTop: tokens.spacingVerticalMNudge
-	},
-	buttonsContainer: {
-		display: 'flex',
-		flexDirection: 'row',
-		alignItems: 'center',
-		...shorthands.margin(tokens.spacingVerticalS, 0, 0, 0),
-		'& button': {
-			...shorthands.margin(0, tokens.spacingHorizontalM, 0, 0)
-		}
-	},
-	input: {
-		display: 'none'
-	},
-	inputButton: {
-		width: 'fit-content',
-		...shorthands.margin(tokens.spacingVerticalXS, 0),
-		'&:hover': {
-			cursor: 'pointer'
-		},
-		'& label:hover': {
-			cursor: 'pointer'
-		}
-	},
-	pathDisplay: {
-		display: 'flex',
-		flexDirection: 'column',
-		textWrap: 'wrap',
-		textOverflow: 'ellipsis',
-		...shorthands.overflow('clip'),
-		marginBottom: tokens.spacingVerticalXXS
-	},
-	switchContainer: {
-		display: 'flex',
-		alignItems: 'center',
-		position: 'relative',
-		right: '8px'
-	},
-	info: {
-		cursor: 'pointer'
-	},
-	popover: {
-		...shorthands.padding(tokens.spacingVerticalS, tokens.spacingHorizontalL),
-		maxWidth: '450px',
-		textAlign: 'center'
-	},
-	disabled: {
-		color: tokens.colorPaletteRedForeground2,
-		fontStyle: 'italic'
-	},
-	portField: {
-		marginBottom: tokens.spacingVerticalXS
-	},
-	caption: {
-		fontStyle: 'italic',
-		color: tokens.colorNeutralForeground3
-	}
-});
+import ActionMenu, { ActionMenuSection } from '../ActionMenu';
+import ActionMenuStyles from '../styles/ActionMenuStyles';
 
 const SlippiMenu = () => {
-	const classes = useStyles();
+	const classes = ActionMenuStyles();
 	const dispatch = useDispatch();
 	const ipcRenderer = window.electron.ipcRenderer;
 
@@ -193,37 +114,26 @@ const SlippiMenu = () => {
 
 	return (
 		<>
-			<div className={classes.container}>
-				<Caption1>Slippi Configuration</Caption1>
-				<MenuTextField
-					label="Slippi Relay Port"
-					value={relay.toString()}
-					placeholder="ex. 1667"
-					handleChange={(_ev, data) => {
-						if (!isInteger(data.value)) return;
-						setRelay(parseInt(data.value));
-					}}
-					className={classes.portField}
-					disabled={connected}
-				/>
+			<ActionMenu title="Slippi Configuration">
+				<ActionMenuSection>
+					<MenuTextField
+						label="Slippi Relay Port"
+						value={relay.toString()}
+						placeholder="ex. 1667"
+						handleChange={(_ev, data) => {
+							if (!isInteger(data.value)) return;
+							setRelay(parseInt(data.value));
+						}}
+						disabled={connected}
+					/>
+				</ActionMenuSection>
 				{connected && (
-					<div>
-						<Caption1 className={classes.label}>
-							<span>OBS Scene Auto-Switcher</span>{' '}
-							<Popover withArrow mouseLeaveDelay={3} size="small">
-								{/* TODO: Make own component */}
-								<PopoverTrigger disableButtonEnhancement>
-									<QuestionCircleRegular className={classes.info} />
-								</PopoverTrigger>
-								<PopoverSurface className={classes.popover}>
-									<Caption1>
-										Automatically switch between the Gameplay and Player Camera
+					<ActionMenuSection
+						label="OBS Scene Auto-Switcher"
+						tooltipText="Automatically switch between the Gameplay and Player Camera
 										scenes. This will only occur when either of the scenes are
-										active.
-									</Caption1>
-								</PopoverSurface>
-							</Popover>
-						</Caption1>
+										active."
+					>
 						{!OBSConnected && (
 							<Caption1 className={classes.disabled}>
 								OBS Websocket Disconnected
@@ -250,33 +160,35 @@ const SlippiMenu = () => {
 							/>
 							<Caption1>Players Scene → Gameplay Scene</Caption1>
 						</div>
-					</div>
+						<div className={classes.buttonsContainer}>
+							{connected ? (
+								<Button
+									size="small"
+									iconPosition="after"
+									onClick={handleRelayDisconnect}
+								>
+									Disconnect
+								</Button>
+							) : (
+								<Button
+									size="small"
+									appearance="primary"
+									onClick={handleRelayConnect}
+									iconPosition="after"
+									disabled={loading}
+								>
+									Connect to Slippi
+								</Button>
+							)}
+						</div>
+					</ActionMenuSection>
 				)}
-				<div className={classes.buttonsContainer}>
-					{connected ? (
-						<Button size="small" iconPosition="after" onClick={handleRelayDisconnect}>
-							Disconnect
-						</Button>
-					) : (
-						<Button
-							size="small"
-							appearance="primary"
-							onClick={handleRelayConnect}
-							iconPosition="after"
-							disabled={loading}
-						>
-							Connect to Slippi
-						</Button>
-					)}
-				</div>
-			</div>
-			<div className={classes.container}>
-				<Caption1>Slippi Replays</Caption1>
+			</ActionMenu>
+			<ActionMenu title="Slippi Replays">
 				<MenuTextField
 					label="Slippi Replay Directory"
 					value={replayDir}
 					placeholder="Select Your Replay Directory"
-					className={classes.portField}
 					disabled
 				/>
 				<div className={classes.buttonsContainer}>
@@ -289,7 +201,7 @@ const SlippiMenu = () => {
 						</Caption1>
 					)} */}
 				</div>
-			</div>
+			</ActionMenu>
 		</>
 	);
 };

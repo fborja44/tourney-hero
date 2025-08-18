@@ -2,7 +2,7 @@ import { useSelector } from 'react-redux';
 import ActionButton from '../ActionButton';
 import { AppState } from '@renderer/redux/reducers/rootReducer';
 import { BotSparkle20Regular } from '@fluentui/react-icons';
-import AutomationMenu from '../menus/AutomationMenu';
+import AutomationMenu from './AutomationMenu';
 
 const AutomationActionButton = () => {
 	const { connected, activeGame, automate, autoUpdateScore, autoUpdateCharacters, invalidPorts } =
