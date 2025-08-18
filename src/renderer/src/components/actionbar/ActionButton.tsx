@@ -62,7 +62,7 @@ const useStyles = makeStyles({
 });
 
 interface ActionButtonProps {
-	icon: JSX.Element;
+	icon: React.ElementType;
 	title: string;
 	children: React.ReactNode;
 	width?: string;
@@ -70,7 +70,7 @@ interface ActionButtonProps {
 	menu: React.ReactNode;
 }
 
-const ActionButton = ({ children, title, icon, width, full, menu }: ActionButtonProps) => {
+const ActionButton = ({ children, title, icon: Icon, width, full, menu }: ActionButtonProps) => {
 	const classes = useStyles();
 
 	// Reference for menu
@@ -100,7 +100,7 @@ const ActionButton = ({ children, title, icon, width, full, menu }: ActionButton
 	return (
 		<div className={classes.container}>
 			<MenuButton
-				icon={icon}
+				icon={<Icon />}
 				appearance="subtle"
 				className={classes.button}
 				style={{

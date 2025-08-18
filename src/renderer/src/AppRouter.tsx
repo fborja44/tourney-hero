@@ -10,7 +10,6 @@ import { useSelector } from 'react-redux';
 import { AppState } from '@redux/reducers/rootReducer';
 import SceneHeader from './pageheader/SceneHeader';
 import LocalDataPage from './pages/LocalDataPage';
-import SlippiMessageBar from './components/form/messages/SlippiMessageBar';
 import useSocket from '@hooks/controls/useSocket';
 import { SceneData } from '@common/interfaces/Types';
 
@@ -68,7 +67,7 @@ const AppRouter = () => {
 										sendData={() => handleSendData(scene)}
 										dataField={toCamelCase(scene.title) as keyof OverlayData}
 									/>
-									<SlippiMessageBar />
+									{/* <SlippiMessageBar /> */}
 								</>
 							}
 						>

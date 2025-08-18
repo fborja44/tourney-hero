@@ -4,11 +4,9 @@ import {
 	Trophy20Regular,
 	PlugConnected20Regular,
 	PlugDisconnected20Regular
-	// Video20Regular
 } from '@fluentui/react-icons';
 import { tokens } from '@fluentui/react-theme';
 import ActionButton from './ActionButton';
-import Slippi from '@renderer/assets/svg/slippi.svg';
 import { ACTIONBAR_HEIGHT } from '@common/constants/elements';
 import TournamentMenu from './menus/TournamentMenu';
 import OBSMenu from './menus/OBSMenu';
@@ -19,6 +17,8 @@ import { TournamentState } from '@redux/reducers/tournamentReducer';
 import { AppState } from '@redux/reducers/rootReducer';
 import { useContext } from 'react';
 import { OBSWebSocketClientContext } from '../../obs/OBSWebsocketProvider';
+import SlippiIcon from '../icons/SlippiIcon';
+import AutomationActionButton from './buttons/AutomationActionButton';
 // import TwitchMenu from './menus/TwitchMenu';
 
 const useStyles = makeStyles({
@@ -70,7 +70,7 @@ const Actionbar = () => {
 	return (
 		<div className={classes.container}>
 			<ActionButton
-				icon={<SlideTextSparkle20Regular />}
+				icon={SlideTextSparkle20Regular}
 				title="Current Overlay"
 				width="230px"
 				full
@@ -79,30 +79,27 @@ const Actionbar = () => {
 				Melee Tournament Overlay
 			</ActionButton>
 			<ActionButton
-				icon={<Trophy20Regular />}
+				icon={Trophy20Regular}
 				title={tournamentState.selectedEvent?.name ?? 'start.gg Tournament'}
 				menu={<TournamentMenu />}
 			>
 				{tournamentLabel}
 			</ActionButton>
 			<ActionButton
-				icon={connected ? <PlugConnected20Regular /> : <PlugDisconnected20Regular />}
+				icon={connected ? PlugConnected20Regular : PlugDisconnected20Regular}
 				title="OBS Websocket"
 				menu={<OBSMenu />}
 			>
 				{connected ? 'Connected to OBS' : 'Not Configured'}
 			</ActionButton>
-			<ActionButton
-				icon={<img src={Slippi} />}
-				title="Slippi Connection"
-				menu={<SlippiMenu />}
-			>
+			<ActionButton icon={SlippiIcon} title="Slippi Connection" menu={<SlippiMenu />}>
 				{activeGame !== null && slippiConnected
 					? 'Game In-Progress'
 					: slippiConnected
 						? 'Waiting For Game...'
 						: 'Not Configured'}
 			</ActionButton>
+			<AutomationActionButton />
 			{/* <ActionButton icon={<Video20Regular />} title="Twitch Connection" menu={<TwitchMenu />}>
 				Not Connected
 			</ActionButton> */}

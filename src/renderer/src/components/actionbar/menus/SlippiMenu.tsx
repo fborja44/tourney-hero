@@ -211,6 +211,7 @@ const SlippiMenu = () => {
 						<Caption1 className={classes.label}>
 							<span>OBS Scene Auto-Switcher</span>{' '}
 							<Popover withArrow mouseLeaveDelay={3} size="small">
+								{/* TODO: Make own component */}
 								<PopoverTrigger disableButtonEnhancement>
 									<QuestionCircleRegular className={classes.info} />
 								</PopoverTrigger>
@@ -236,7 +237,8 @@ const SlippiMenu = () => {
 								}
 								disabled={!OBSConnected || !connected}
 							/>
-							<Caption1>Gameplay Scene → Players Scene</Caption1>
+							<Caption1>Gameplay Scene → Players Scene</Caption1>{' '}
+							{/* TODO: Make own component + accessibility labels */}
 						</div>
 						<div className={classes.switchContainer}>
 							<Switch
