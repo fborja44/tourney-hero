@@ -27,6 +27,13 @@ const generateColorStyles = (type: 'success' | 'warning' | 'danger') => {
 				color: appTokens[`colorTheme${capitalize(type)}130`]
 			}
 		},
+		':active:hover': {
+			color: appTokens[`colorTheme${capitalize(type)}140`],
+			backgroundColor: appTokens[`colorTheme${capitalize(type)}30`],
+			'& .fui-Button__icon': {
+				color: appTokens[`colorTheme${capitalize(type)}130`]
+			}
+		},
 		'& .action-button-title': {
 			color: appTokens[`colorTheme${capitalize(type)}100`]
 		}
@@ -52,8 +59,17 @@ const useStyles = makeStyles({
 		}
 	},
 	successColors: generateColorStyles('success'),
+	successSelected: {
+		backgroundColor: appTokens.colorThemeSuccess10
+	},
 	warningColors: generateColorStyles('warning'),
+	warningSelected: {
+		backgroundColor: appTokens.colorThemeWarning10
+	},
 	dangerColors: generateColorStyles('danger'),
+	dangerSelected: {
+		backgroundColor: appTokens.colorThemeDanger10
+	},
 	button: {
 		height: '100%',
 		boxSizing: 'border-box',
@@ -146,7 +162,11 @@ const ActionButton = ({
 				className={mergeClasses(classes.button, classes[color + 'Colors'])}
 				style={{
 					width: width ?? '200px',
-					backgroundColor: menuOpen ? appTokens.colorNeutralBackground4Selected : ''
+					backgroundColor: menuOpen
+						? color !== 'default'
+							? classes[color + 'Selected']
+							: appTokens.colorNeutralBackground4Selected
+						: ''
 				}}
 				onClick={handleClick}
 				ref={buttonRef}
