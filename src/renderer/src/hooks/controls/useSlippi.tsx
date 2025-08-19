@@ -97,10 +97,12 @@ const useSlippi = () => {
 					character2 = game.players[1].characterId ?? null;
 				if (player1.characterId !== character1 || player2.characterId !== character2) {
 					// Emit socket event
-					sendSocketData('updateCharacters', {
-						p1characterId: character1,
-						p2characterId: character2
-					});
+					if (socketConnected) {
+						sendSocketData('updateCharacters', {
+							p1characterId: character1,
+							p2characterId: character2
+						});
+					}
 					// Update app state
 					dispatch(updatePlayer('player1', { characterId: character1 }));
 					dispatch(updatePlayer('player2', { characterId: character2 }));
@@ -134,7 +136,6 @@ const useSlippi = () => {
 			}
 
 			// Auto-update score
-			// ! Bug: Wrong player will update
 			if (game.gameEndMethod === 2) {
 				// gameEndMethod = 2 means proper game end (i.e. not a quit out)
 				// Generate winner

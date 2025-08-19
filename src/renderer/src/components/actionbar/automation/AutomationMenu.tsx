@@ -1,4 +1,4 @@
-import { Switch } from '@fluentui/react-components';
+import { Caption1, Switch } from '@fluentui/react-components';
 import {
 	setAutomation,
 	setAutoUpdateCharacters,
@@ -8,17 +8,29 @@ import { AppState } from '@renderer/redux/reducers/rootReducer';
 import { useDispatch, useSelector } from 'react-redux';
 import ActionMenu, { ActionMenuSection } from '../ActionMenu';
 import ActionMenuStyles from '../styles/ActionMenuStyles';
+import useSocket from '@renderer/hooks/controls/useSocket';
 
 const AutomationMenu = () => {
 	const classes = ActionMenuStyles();
 	const dispatch = useDispatch();
 
-	const { automate, autoUpdateScore, autoUpdateCharacters } = useSelector(
-		(state: AppState) => state.slippiState
-	);
+	const {
+		connected: slippiConnected,
+		automate,
+		autoUpdateScore,
+		autoUpdateCharacters
+	} = useSelector((state: AppState) => state.slippiState);
+
+	const { connected: socketConnected } = useSocket();
 
 	return (
 		<ActionMenu title="Automation Configuration">
+			{!slippiConnected && (
+				<Caption1 className={classes.disabled}>Missing Slippi Relay Connection</Caption1>
+			)}
+			{!socketConnected && (
+				<Caption1 className={classes.disabled}>Missing Server Connection</Caption1>
+			)}
 			<ActionMenuSection label="App Settings">
 				<Switch
 					className={classes.switch}
