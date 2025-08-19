@@ -127,6 +127,19 @@ const SlippiMenu = () => {
 						disabled={connected}
 					/>
 				</ActionMenuSection>
+				{!connected && (
+					<div className={classes.buttonsContainer}>
+						<Button
+							size="small"
+							appearance="primary"
+							onClick={handleRelayConnect}
+							iconPosition="after"
+							disabled={loading}
+						>
+							Connect to Slippi
+						</Button>
+					</div>
+				)}
 				{connected && (
 					<ActionMenuSection
 						label="OBS Scene Auto-Switcher"
@@ -161,25 +174,13 @@ const SlippiMenu = () => {
 							<Caption1>Players Scene → Gameplay Scene</Caption1>
 						</div>
 						<div className={classes.buttonsContainer}>
-							{connected ? (
-								<Button
-									size="small"
-									iconPosition="after"
-									onClick={handleRelayDisconnect}
-								>
-									Disconnect
-								</Button>
-							) : (
-								<Button
-									size="small"
-									appearance="primary"
-									onClick={handleRelayConnect}
-									iconPosition="after"
-									disabled={loading}
-								>
-									Connect to Slippi
-								</Button>
-							)}
+							<Button
+								size="small"
+								iconPosition="after"
+								onClick={handleRelayDisconnect}
+							>
+								Disconnect
+							</Button>
 						</div>
 					</ActionMenuSection>
 				)}

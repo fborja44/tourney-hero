@@ -21,7 +21,7 @@ const AutomationActionButton = () => {
 		label = `${invalidPorts.map((player) => `Port ${player.port}`).join(', ')} Invalid`;
 		color = 'warning';
 	} else if (activeGame) {
-		label = 'Tasks Active';
+		label = 'Waiting for result...';
 		color = 'success';
 	}
 

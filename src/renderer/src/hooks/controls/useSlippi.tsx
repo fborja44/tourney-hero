@@ -151,7 +151,6 @@ const useSlippi = () => {
 					automate &&
 					autoUpdateScore &&
 					invalidPorts.length === 0 &&
-					socketConnected &&
 					winner !== null &&
 					winnerScore !== null
 				) {
@@ -160,10 +159,12 @@ const useSlippi = () => {
 					const newScore = winnerScore + 1;
 
 					// Emit socket event
-					sendSocketData('updateScores', {
-						p1score: winner == '1' ? newScore : player1.score,
-						p2score: winner == '2' ? newScore : player2.score
-					});
+					if (socketConnected) {
+						sendSocketData('updateScores', {
+							p1score: winner == '1' ? newScore : player1.score,
+							p2score: winner == '2' ? newScore : player2.score
+						});
+					}
 					// Update app state
 					dispatch(incrementScore(`player${winner}`));
 					dispatchToast(<MessageToast title={`Updated Score For Player ${winner}`} />, {
