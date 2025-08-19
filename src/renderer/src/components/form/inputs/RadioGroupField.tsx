@@ -16,6 +16,10 @@ const useStyles = makeStyles({
 		'& label': {
 			color: tokens.colorNeutralForeground3
 		}
+	},
+	radioGroup: {
+		flexWrap: 'wrap',
+		justifyContent: 'space-evenly'
 	}
 });
 
@@ -45,6 +49,7 @@ const RadioGroupField = ({
 				onChange={(_ev, data) => handleChange(targetField, data.value)}
 				layout="horizontal"
 				{...props}
+				className={classes.radioGroup}
 			>
 				{items.map((item) => (
 					<Radio value={item} label={capitalize(item)} key={item + playerNumber} />

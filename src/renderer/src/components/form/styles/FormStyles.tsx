@@ -15,6 +15,7 @@ const FormStyles = makeStyles({
 		display: 'flex',
 		flexDirection: 'row',
 		width: '100%',
+		minWidth: '100%',
 		...shorthands.borderBottom('1px', 'solid', tokens.colorNeutralStroke3),
 		...breakpoints.lg({
 			flexDirection: 'column'
@@ -24,8 +25,9 @@ const FormStyles = makeStyles({
 		})
 	},
 	formSection: {
-		width: '100%',
+		minWidth: '0px',
 		boxSizing: 'border-box',
+		...shorthands.flex(1),
 		...shorthands.padding(tokens.spacingVerticalS, tokens.spacingHorizontalXL)
 	},
 	formSectionLeft: {
@@ -51,7 +53,8 @@ const FormStyles = makeStyles({
 		flexDirection: 'row',
 		width: '100%',
 		...shorthands.margin(0, 0, tokens.spacingHorizontalL, 0),
-		position: 'relative'
+		position: 'relative',
+		columnGap: tokens.spacingHorizontalXL
 	},
 	formField: {
 		'& label': {

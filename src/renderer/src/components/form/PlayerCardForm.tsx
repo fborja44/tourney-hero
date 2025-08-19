@@ -105,7 +105,6 @@ const PlayerCardForm = () => {
 						handleChange={handlePlayerCardChange}
 						maxLength={MAX_TAG_LENGTH}
 					/>
-					<span className={classes.gap} />
 					<TextField
 						label="Twitch Channel"
 						value={twitch}
@@ -121,7 +120,6 @@ const PlayerCardForm = () => {
 						targetField={'showTeamLogo'}
 						handleChange={handlePlayerCardChange}
 					/>
-					<span className={classes.gap} />
 					<TextField
 						label="Team"
 						value={team}

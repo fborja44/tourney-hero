@@ -10,7 +10,12 @@ const SlippiActionButton = () => {
 	);
 
 	return (
-		<ActionButton icon={SlippiIcon} title="Slippi Connection" menu={<SlippiMenu />}>
+		<ActionButton
+			icon={SlippiIcon}
+			title="Slippi Connection"
+			menu={<SlippiMenu />}
+			color={activeGame ? 'success' : 'default'}
+		>
 			{activeGame !== null && slippiConnected
 				? 'Game In-Progress'
 				: slippiConnected

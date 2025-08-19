@@ -44,7 +44,6 @@ const CommentatorsForm = () => {
 						targetField={'showCommentators'}
 						handleChange={handleCommentatorsChange}
 					/>
-					<span className={classes.gap} />
 					{localDataExists ? (
 						<CommentatorSelectField
 							commentatorList={commentatorList}
@@ -64,7 +63,6 @@ const CommentatorsForm = () => {
 							maxLength={MAX_COMMENTATOR_LENGTH}
 						/>
 					)}
-					<span className={classes.gap} />
 					{localDataExists ? (
 						<CommentatorSelectField
 							commentatorList={commentatorList}
@@ -84,7 +82,6 @@ const CommentatorsForm = () => {
 							maxLength={MAX_COMMENTATOR_LENGTH}
 						/>
 					)}
-					<span className={classes.gap} />
 					{localDataExists ? (
 						<CommentatorSelectField
 							commentatorList={commentatorList}
@@ -113,7 +110,6 @@ const CommentatorsForm = () => {
 						handleChange={handleCommentatorsChange}
 						style={{ opacity: 0 }}
 					/>
-					<span className={classes.gap} />
 					<TextField
 						label="Left Social"
 						value={commentatorData.social1}
@@ -122,7 +118,6 @@ const CommentatorsForm = () => {
 						placeholder="@socialhandle"
 						maxLength={MAX_COMMENTATOR_LENGTH}
 					/>
-					<span className={classes.gap} />
 					<TextField
 						label="Middle Social"
 						value={commentatorData.social2}
@@ -131,7 +126,6 @@ const CommentatorsForm = () => {
 						placeholder="@socialhandle"
 						maxLength={MAX_COMMENTATOR_LENGTH}
 					/>
-					<span className={classes.gap} />
 					<TextField
 						label="Right Social"
 						value={commentatorData.social3}
@@ -152,15 +146,13 @@ const CommentatorsForm = () => {
 						handleChange={handleCommentatorsChange}
 						disabled={true}
 					/>
-					{/* <span className={classes.gap} />
-					<SelectField
+					{/* <SelectField
 						label="Event Time"
 						value={commentatorData.eventTime}
 						targetField={'eventTime'}
 						handleChange={handleCommentatorsChange}
 						options={['Next', 'Now']}
 					/> */}
-					<span className={classes.gap} />
 					<SelectField
 						label="Event Name"
 						value={commentatorData.eventName}
@@ -182,7 +174,6 @@ const CommentatorsForm = () => {
 							'Friendlies'
 						]}
 					/>
-					<span className={classes.gap} />
 					<NumberField
 						label="Day Number"
 						value={commentatorData.day}
@@ -203,7 +194,6 @@ const CommentatorsForm = () => {
 							handleCommentatorsChange(targetField, value);
 						}}
 					/>
-					<span className={classes.gap} />
 					<TextField
 						label="Message"
 						value={commentatorData.message}
@@ -220,7 +210,6 @@ const CommentatorsForm = () => {
 						targetField={'showTimer'}
 						handleChange={handleCommentatorsChange}
 					/>
-					<span className={classes.gap} />
 					<NumberField
 						label="Timer Minutes"
 						value={commentatorData.timerMinutes}
@@ -248,7 +237,6 @@ const CommentatorsForm = () => {
 							handleCommentatorsChange(targetField, value);
 						}}
 					/>
-					<span className={classes.gap} />
 					<div className={classes.subText}>
 						<Caption1>
 							Currently: {gameplayData.player1.tag} vs {gameplayData.player2.tag}

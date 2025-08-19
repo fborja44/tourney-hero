@@ -49,7 +49,6 @@ const BracketFormSection = ({ title, bracketField, className }: BracketFormSecti
 					placeholder="Player 1 Tag"
 					maxLength={MAX_TAG_LENGTH}
 				/>
-				<span className={classes.gap} />
 				<NumberField
 					label="Score"
 					value={bracketData[bracketField].p1score}
@@ -75,7 +74,6 @@ const BracketFormSection = ({ title, bracketField, className }: BracketFormSecti
 					placeholder="Player 2 Tag"
 					maxLength={MAX_TAG_LENGTH}
 				/>
-				<span className={classes.gap} />
 				<NumberField
 					label="Score"
 					value={bracketData[bracketField].p2score}

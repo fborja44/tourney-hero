@@ -41,7 +41,6 @@ const GameplayForm = () => {
 						placeholder="Best of 3"
 						maxLength={MAX_BRACKET_DATA_LENGTH}
 					/>
-					<span className={classes.gap} />
 					<TextField
 						label="Round Name"
 						value={roundName}
@@ -50,7 +49,6 @@ const GameplayForm = () => {
 						placeholder="Winners Round 1"
 						maxLength={MAX_BRACKET_DATA_LENGTH}
 					/>
-					<span className={classes.gap} />
 					<TextField
 						label="Bracket Name"
 						value={bracketName}
@@ -59,7 +57,6 @@ const GameplayForm = () => {
 						placeholder="Main Bracket"
 						maxLength={MAX_BRACKET_DATA_LENGTH}
 					/>
-					<span className={classes.gap} />
 				</div>
 				<div className={classes.formRow}>
 					{/* <CheckboxField
@@ -67,8 +64,7 @@ const GameplayForm = () => {
 						checked={showCommentators}
 						targetField={'showCommentators'}
 						handleChange={handleGameplayChange}
-					/>
-					<span className={classes.gap} /> */}
+					/> */}
 					<TextField
 						label="Event Name"
 						value={eventName}
@@ -77,7 +73,6 @@ const GameplayForm = () => {
 						placeholder="Melee Singles"
 						maxLength={MAX_BRACKET_DATA_LENGTH}
 					/>
-					<span className={classes.gap} />
 					<TextField
 						label="Info Message"
 						value={infoMsg}

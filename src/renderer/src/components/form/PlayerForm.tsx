@@ -122,7 +122,6 @@ const PlayerForm = ({ playerNumber, playerData }: PlayerFormProps) => {
 					min={0}
 					max={MAX_SEED}
 				/>
-				<span className={classes.gap} />
 				<NumberField
 					label="Score"
 					value={playerData.score}
@@ -142,7 +141,6 @@ const PlayerForm = ({ playerNumber, playerData }: PlayerFormProps) => {
 				>
 					Hide Seed
 				</Button>
-				<span className={classes.gap} />
 				<Button
 					onClick={() => handlePlayerFieldChange('score', 0)}
 					size="small"
