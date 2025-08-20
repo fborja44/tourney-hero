@@ -1,7 +1,7 @@
 import { app, shell, BrowserWindow, ipcMain, nativeTheme, session } from 'electron';
 import { join } from 'path';
 import { electronApp, optimizer, is } from '@electron-toolkit/utils';
-import icon from '../../resources/app-logo.png?asset';
+import icon from '../../resources/icon.png?asset';
 import {
 	handleConnectToSlippi,
 	handleDisconnectFromSlippi,
