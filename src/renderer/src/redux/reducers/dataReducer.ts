@@ -19,6 +19,7 @@ import {
 	updateCrewBattle,
 	updateCrewPlayerTag,
 	updateGameplay,
+	updateOverlayField,
 	updatePlayer,
 	updatePlayerCard,
 	updateStats,
@@ -40,6 +41,49 @@ const dataReducer = createReducer(initialState, (builder) => {
 			state = { ...state, ...action.payload };
 		})
 		.addCase(resetOverlayData, () => initialState)
+		.addCase(updateOverlayField, (state, action) => {
+			const { overlay, updatedField } = action.payload;
+			switch (overlay) {
+				case 'gameplay':
+					state.gameplay = {
+						...state.gameplay,
+						...updatedField
+					};
+					break;
+				case 'commentators':
+					state.commentators = {
+						...state.commentators,
+						...updatedField
+					};
+					break;
+				case 'bracket':
+					state.bracket = {
+						...state.bracket,
+						...updatedField
+					};
+					break;
+				// case 'playerCard':
+				// 	state.playerCard = {
+				// 		...state.playerCard,
+				// 		...updatedField
+				// 	};
+				// 	break;
+				case 'statistics':
+					state.statistics = {
+						...state.statistics,
+						...updatedField
+					};
+					break;
+				case 'crewBattle':
+					state.crewBattle = {
+						...state.crewBattle,
+						...updatedField
+					};
+					break;
+				default:
+					break;
+			}
+		})
 		.addCase(updateGameplay, (state, action) => {
 			state.gameplay = {
 				...state.gameplay,
