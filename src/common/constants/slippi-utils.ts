@@ -88,11 +88,18 @@ export const getWinnerPort = (placements: PlacementType[]) => {
 	return winnerIndex !== undefined ? getSlippiPort(winnerIndex) : -1;
 };
 
+/**
+ * Parses slippi players from a replay.
+ * @param metadata Slippi replay metadata
+ * @param winners Slippi replay placements
+ * @param lastFrame Last frame of Slippi replay
+ * @returns A list of Slippi replay objects.
+ */
 export const parseSlippiPlayers = (
 	metadata: MetadataType,
 	winners: PlacementType[],
 	lastFrame: FrameEntryType | null
-) => {
+): ReplayPlayer[] => {
 	if (!metadata.players) {
 		return [];
 	}
