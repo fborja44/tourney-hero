@@ -4,6 +4,9 @@ import EmptyPanel from '../panel/EmptyPanel';
 import Navbar from '../navbar/Navbar';
 import { Outlet } from 'react-router-dom';
 import Sidebar from '../sidebar/Sidebar';
+import { useDispatch } from 'react-redux';
+import { resetOverlayData } from '@renderer/redux/actions/dataActions';
+import { EmojiSad20Regular } from '@fluentui/react-icons';
 
 const useStyles = makeStyles({
 	mainContainer: {
@@ -22,14 +25,25 @@ const useStyles = makeStyles({
 
 const Main = () => {
 	const classes = useStyles();
+	const dispatch = useDispatch();
 
 	return (
 		<div className={classes.mainContainer}>
 			<Navbar />
 			<ErrorBoundary
-				fallback={<EmptyPanel text={'An error has occurred'} />}
-				onError={(error) => {
+				fallbackRender={({ error, resetErrorBoundary }) => {
 					console.error(error);
+					return (
+						<EmptyPanel
+							text={'An error has occurred'}
+							icon={<EmojiSad20Regular />}
+							resetData={resetErrorBoundary}
+						/>
+					);
+				}}
+				onReset={() => {
+					// Reset form data
+					dispatch(resetOverlayData());
 				}}
 			>
 				<main className={classes.main}>

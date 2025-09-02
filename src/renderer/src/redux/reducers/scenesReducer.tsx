@@ -1,53 +1,79 @@
 import { createReducer } from '@reduxjs/toolkit';
 import {
-	// Ribbon20Regular,
+	Ribbon20Regular,
 	XboxController20Regular,
 	Mic20Regular,
 	BranchFork20Regular,
-	VideoPersonRegular,
-	// Timer20Regular,
+	// VideoPersonRegular
+	Timer20Regular,
 	// People20Regular,
 	// Money20Regular,
 	// Camera20Regular,
-	DataBarVertical20Regular
+	// DataBarVertical20Regular,
+	PeopleTeam20Regular
 } from '@fluentui/react-icons';
-import { Scene } from '@common/interfaces/Types';
+import { SceneData } from '@common/interfaces/Types';
 import GameplayForm from '@renderer/components/form/GameplayForm';
 import CommentatorsForm from '@renderer/components/form/CommentatorsForm';
 import BracketForm from '@renderer/components/form/BracketForm';
-import PlayerCardForm from '@renderer/components/form/PlayerCardForm';
-import StatsForm from '@renderer/components/form/StatsForm';
+// import PlayerCardForm from '@renderer/components/form/PlayerCardForm';
+// import StatsForm from '@renderer/components/form/StatsForm';
+import {
+	BackgroundBrowserSource,
+	BracketBrowserSource,
+	CommentatorsBrowserSource,
+	CrewBattleBrowserSource,
+	GameplayBrowserSource,
+	IntermissionBrowserSource,
+	OpeningBrowserSource
+	// PlayerCardBrowserSource
+	// StatisticsBrowserSource
+} from '@renderer/obs/sources';
+import CrewBattleForm from '@renderer/components/form/CrewBattleForm';
+import EmptyPanel from '@renderer/components/panel/EmptyPanel';
 // import EmptyPanel from '@renderer/components/panel/EmptyPanel';
 
-export type ScenesState = Scene[];
+export type ScenesState = SceneData[];
 
 const initialState: ScenesState = [
 	{
 		title: 'Gameplay',
 		icon: <XboxController20Regular />,
-		panel: <GameplayForm />
+		panel: <GameplayForm />,
+		source: GameplayBrowserSource
 	},
 	{
 		title: 'Commentators',
 		icon: <Mic20Regular />,
-		panel: <CommentatorsForm />
+		panel: <CommentatorsForm />,
+		source: CommentatorsBrowserSource
+	},
+	{
+		title: 'Intermission',
+		icon: <Timer20Regular />,
+		panel: <CommentatorsForm />,
+		source: IntermissionBrowserSource
 	},
 	// {
-	// 	title: 'Intermission',
-	// 	icon: <Timer20Regular />,
-	// 	panel: <CommentatorsForm />
+	// 	title: 'Player Card',
+	// 	icon: <VideoPersonRegular />,
+	// 	panel: <PlayerCardForm />,
+	// 	source: PlayerCardBrowserSource,
+	// 	peripheralSources: [BackgroundBrowserSource]
+	// },
+	// {
+	// 	title: 'Statistics',
+	// 	icon: <DataBarVertical20Regular />,
+	// 	panel: <StatsForm />,
+	// 	source: StatisticsBrowserSource
 	// },
 	{
-		title: 'Player Card',
-		icon: <VideoPersonRegular />,
-		panel: <PlayerCardForm />
+		title: 'Bracket',
+		icon: <BranchFork20Regular />,
+		panel: <BracketForm />,
+		source: BracketBrowserSource,
+		peripheralSources: [BackgroundBrowserSource]
 	},
-	{
-		title: 'Statistics',
-		icon: <DataBarVertical20Regular />,
-		panel: <StatsForm />
-	},
-	{ title: 'Bracket', icon: <BranchFork20Regular />, panel: <BracketForm /> },
 	// {
 	// 	title: 'Players',
 	// 	icon: <People20Regular />,
@@ -63,7 +89,18 @@ const initialState: ScenesState = [
 	// 	icon: <Money20Regular />,
 	// 	panel: <EmptyPanel />
 	// },
-	// { title: 'Opening', icon: <Ribbon20Regular />, panel: <EmptyPanel /> }
+	{
+		title: 'Opening',
+		icon: <Ribbon20Regular />,
+		panel: <EmptyPanel />,
+		source: OpeningBrowserSource
+	},
+	{
+		title: 'Crew Battle',
+		icon: <PeopleTeam20Regular />,
+		panel: <CrewBattleForm />,
+		source: CrewBattleBrowserSource
+	}
 ];
 
 const scenesReducer = createReducer(initialState, (builder) => {

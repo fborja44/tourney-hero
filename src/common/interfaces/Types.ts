@@ -3,15 +3,29 @@ import React, { JSX } from 'react';
 
 export type Port = 'Red' | 'Blue' | 'Yellow' | 'Green' | 'None';
 
+export type SlippiCharacter = {
+	name: Character;
+	internalId: CharacterId;
+	externalId: CharacterId;
+};
+
+export type SlippiStage = {
+	name: Stage;
+	internalId: CharacterId;
+	externalId: CharacterId;
+};
+
+export type CharacterId = number | null;
+
 export type Character =
 	| 'Bowser'
-	| 'CaptainFalcon'
-	| 'DonkeyKong'
-	| 'DrMario'
+	| 'Captain Falcon'
+	| 'Donkey Kong'
+	| 'Dr. Mario'
 	| 'Falco'
 	| 'Fox'
 	| 'Ganondorf'
-	| 'IceClimbers'
+	| 'Ice Climbers'
 	| 'Jigglypuff'
 	| 'Kirby'
 	| 'Link'
@@ -19,7 +33,7 @@ export type Character =
 	| 'Mario'
 	| 'Marth'
 	| 'Mewtwo'
-	| 'MrGameWatch'
+	| 'Mr. Game & Watch'
 	| 'Ness'
 	| 'Peach'
 	| 'Pichu'
@@ -28,7 +42,7 @@ export type Character =
 	| 'Samus'
 	| 'Sheik'
 	| 'Yoshi'
-	| 'YoungLink'
+	| 'Young Link'
 	| 'Zelda'
 	| 'Default';
 
@@ -48,23 +62,23 @@ export type Stage =
 	| 'Hyrule Temple'
 	| 'Brinstar Depths'
 	| "Yoshi's Island"
-	| "Green Greens"
-	| "Fourside"
-	| "Mushroom Kingdom I"
-	| "Mushroom Kingdom II"
-	| "Akaneia"
-	| "Venom"
-	| "Poké Floats"
-	| "Big Blue"
-	| "Icicle Mountain"
-	| "Icetop"
-	| "Flat Zone"
-	| "Dream Land N64"
+	| 'Green Greens'
+	| 'Fourside'
+	| 'Mushroom Kingdom I'
+	| 'Mushroom Kingdom II'
+	| 'Akaneia'
+	| 'Venom'
+	| 'Poké Floats'
+	| 'Big Blue'
+	| 'Icicle Mountain'
+	| 'Icetop'
+	| 'Flat Zone'
+	| 'Dream Land N64'
 	| "Yoshi's Island N64"
-	| "Kongo Jungle N64"
-	| "Battlefield"
-	| "Final Destination"
-	| "Unknown";
+	| 'Kongo Jungle N64'
+	| 'Battlefield'
+	| 'Final Destination'
+	| 'Unknown';
 
 export interface Tournament {
 	id: string;
@@ -77,6 +91,7 @@ export interface TournamentEvent {
 	id: string;
 	name: string;
 	slug: string;
+	phases: string[];
 }
 
 export interface Match {
@@ -106,9 +121,10 @@ export interface Entrant {
 	team: string;
 	pronoun: string;
 	imageUrl: string | null;
-	character?: Character;
+	characterId?: number;
 	score?: number | null;
 	isWinner?: boolean;
+	seed?: number | null;
 }
 
 export interface PlayerCardMatch {
@@ -125,10 +141,20 @@ export interface PlayerCardPlacement {
 	name: string;
 }
 
-export interface Scene {
+export interface BrowserSource {
+	sourceName: string;
+	endpoint: string;
+	shutdown?: boolean;
+	width?: number;
+	height?: number;
+}
+
+export interface SceneData {
 	title: string;
 	icon: React.ReactNode | JSX.Element;
 	panel: React.ReactNode;
+	source: BrowserSource;
+	peripheralSources?: BrowserSource[];
 }
 
 export interface StartQuery {
@@ -154,18 +180,23 @@ export interface InputValidation {
 export interface ReplayPlayer {
 	name: string | null | undefined;
 	code: string | null | undefined;
-	stocksRemaining: string;
+	stocksRemaining: number;
 	characterId: number;
 	port: Port;
 	winner: boolean;
 }
 
 export interface ReplayData {
+	isOnline: boolean;
 	platform: string | null | undefined;
 	fileName: string;
 	player1: ReplayPlayer;
 	player2: ReplayPlayer;
-	stageId: number | null | undefined;
+	stageId: number;
 	date: Date | null | undefined;
 	lastFrame: number | null | undefined;
+}
+
+export interface InvalidPort {
+	port: number;
 }

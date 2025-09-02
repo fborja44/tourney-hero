@@ -5,6 +5,21 @@ import { trimNamePrefix } from './string';
 import { getCountryCode } from './location';
 
 /**
+ * Gets a local player from the store.
+ * @param tag The tag of the player to get the data for
+ * @returns A local player object if found. Otherwise, returns null.
+ */
+const getLocalPlayerData = async (tag: string) => {
+	try {
+		const playersList = await window.api.getPlayers();
+		const result = playersList.find((player) => player.tag === tag);
+		return result;
+	} catch (err) {
+		return null;
+	}
+};
+
+/**
  * Generates the authorization header for an API call.
  * @param key The authorization key
  * @returns The authorization header object.
@@ -77,6 +92,7 @@ export const parseSetEntrant = async (slot: any): Promise<Entrant> => {
 	const standing = slot.standing;
 	const entrant = slot.entrant;
 	const participants = entrant?.participants;
+	const seed = entrant?.initialSeedNum;
 
 	let tag = '';
 	let prefix = '';
@@ -95,7 +111,7 @@ export const parseSetEntrant = async (slot: any): Promise<Entrant> => {
 		image = user?.images[0]?.url;
 
 		// Check for local data
-		// localPlayerData = await getLocalPlayerData(tag);
+		localPlayerData = await getLocalPlayerData(tag);
 	} else if (participants.length === 2) {
 		const participant1 = participants ? participants[0] : null;
 		const participant2 = participants ? participants[1] : null;
@@ -106,7 +122,7 @@ export const parseSetEntrant = async (slot: any): Promise<Entrant> => {
 		prefix =
 			participant1 && participant2 && participant1.prefix === participant2.prefix
 				? participant1.prefix
-				: '' ?? '';
+				: '';
 		pronoun = '';
 	} else {
 		// Skip tag and pronoun
@@ -120,7 +136,8 @@ export const parseSetEntrant = async (slot: any): Promise<Entrant> => {
 		imageUrl: image ?? '',
 		score: standing?.stats?.score?.value ?? undefined,
 		isWinner: standing?.placement === 1,
-		character: localPlayerData?.character ?? 'Default'
+		characterId: localPlayerData?.character ?? null,
+		seed: seed ?? null
 	};
 	return player;
 };
@@ -131,44 +148,28 @@ export const parseSetEntrant = async (slot: any): Promise<Entrant> => {
  * @param match_field
  * @param set
  */
-const parsePlayerSlot = (
+const parseTop8Player = (
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	set: any,
-	index: 0 | 1
+	player: Entrant
 ): {
 	tag: string;
 	score: number;
 } => {
-	const slots = set.slots;
-	const player = slots[index]?.entrant;
-	const tag = player ? player.name : '';
-	const score = player ? slots[index]?.standing?.stats?.score?.value : 0;
-
 	return {
-		tag: tag ?? '',
-		score: score ?? 0
+		tag: player ? `${player.team ? `${player.team} ` : ''}${player.tag}` : '',
+		score: player.score ?? 0
 	};
 };
 
-interface Top8Set {
-	id: number;
-	fullRoundText: string;
-	completedAt: number;
-	startedAt: number;
-	round: number;
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	slots: any[];
-}
-
 /**
- * Parses a start.gg set for bracket data
+ * Parses a match for bracket data
  * @param set
  */
-const parseSet = (set: Top8Set): BracketMatch => {
+const parseTop8Set = (set: Match): BracketMatch => {
 	let p1Data, p2Data;
 	try {
-		p1Data = parsePlayerSlot(set, 0);
-		p2Data = parsePlayerSlot(set, 1);
+		p1Data = parseTop8Player(set.player1);
+		p2Data = parseTop8Player(set.player2);
 	} catch (err) {
 		console.error('Failed to parse set player data');
 	}
@@ -187,11 +188,11 @@ const parseSet = (set: Top8Set): BracketMatch => {
 };
 
 /**
- * Parses sets from a start.gg Top 8 Query
+ * Parses a match to fill out Top 8 data.
  * TODO: Joi Validator
  * @param sets
  */
-export const parseTop8Sets = (sets: Top8Set[]): BracketData => {
+export const parseTop8 = (sets: Match[]): BracketData => {
 	const updatedBracket = {
 		...bracketData
 	};
@@ -206,45 +207,45 @@ export const parseTop8Sets = (sets: Top8Set[]): BracketData => {
 		gfReset = false;
 
 	for (const set of sets) {
-		switch (set.fullRoundText) {
+		switch (set.roundName) {
 			case 'Losers Round 1': // Top and Bottom
 				if (lr1Top) {
-					updatedBracket.lr1Top = parseSet(set);
+					updatedBracket.lr1Top = parseTop8Set(set);
 					lr1Top = false;
 				} else {
-					updatedBracket.lr1Bottom = parseSet(set);
+					updatedBracket.lr1Bottom = parseTop8Set(set);
 				}
 				break;
 			case 'Losers Quarter-Final': // Top and Bottom
 				if (lqfTop) {
-					updatedBracket.lqfTop = parseSet(set);
+					updatedBracket.lqfTop = parseTop8Set(set);
 					lqfTop = false;
 				} else {
-					updatedBracket.lqfBottom = parseSet(set);
+					updatedBracket.lqfBottom = parseTop8Set(set);
 				}
 				break;
 			case 'Losers Semi-Final':
-				updatedBracket.lsf = parseSet(set);
+				updatedBracket.lsf = parseTop8Set(set);
 				break;
 			case 'Losers Final':
-				updatedBracket.lf = parseSet(set);
+				updatedBracket.lf = parseTop8Set(set);
 				break;
 			case 'Winners Semi-Final': // Top and Bottom
 				if (wsfTop) {
-					updatedBracket.wsfTop = parseSet(set);
+					updatedBracket.wsfTop = parseTop8Set(set);
 					wsfTop = false;
 				} else {
-					updatedBracket.wsfBottom = parseSet(set);
+					updatedBracket.wsfBottom = parseTop8Set(set);
 				}
 				break;
 			case 'Winners Final':
-				updatedBracket.wf = parseSet(set);
+				updatedBracket.wf = parseTop8Set(set);
 				break;
 			case 'Grand Final':
-				updatedBracket.gf = parseSet(set);
+				updatedBracket.gf = parseTop8Set(set);
 				break;
 			case 'Grand Final Reset':
-				updatedBracket.gfReset = parseSet(set);
+				updatedBracket.gfReset = parseTop8Set(set);
 				gfReset = true;
 				break;
 			default:
@@ -283,7 +284,7 @@ export const parseEventEntrant = async (node: any): Promise<Entrant> => {
 		team: prefix ?? '',
 		pronoun: user?.genderPronoun ?? '',
 		imageUrl: user?.images[0]?.url ?? '',
-		character: 'Default'
+		characterId: undefined
 	};
 	return player;
 };

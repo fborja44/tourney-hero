@@ -2,9 +2,25 @@ import {
 	BracketData,
 	BracketMatch,
 	CommentatorData,
+	CrewBattleData,
 	GameplayData,
-	PlayerCardData
+	PlayerCardData,
+	PlayerData,
+	StatsData
 } from '../interfaces/Data';
+
+export const defaultPlayer: PlayerData = {
+	tag: 'Player',
+	tagDisplaySize: 32,
+	score: 0,
+	characterId: null,
+	team: '',
+	port: 'Red',
+	pronoun: '',
+	countryCode: 'US',
+	heads: [],
+	seed: null
+};
 
 export const gameplayData: GameplayData = {
 	matchType: 'Best of 3',
@@ -14,24 +30,13 @@ export const gameplayData: GameplayData = {
 	infoMsg: 'start.gg/short-slug',
 	showCommentators: false,
 	player1: {
-		tag: 'Player 1',
-		tagDisplaySize: 32,
-		score: 0,
-		character: 'Default',
-		team: '',
-		port: 'Red',
-		pronoun: '',
-		countryCode: 'US'
+		...defaultPlayer,
+		tag: 'Player 1'
 	},
 	player2: {
+		...defaultPlayer,
 		tag: 'Player 2',
-		tagDisplaySize: 32,
-		score: 0,
-		character: 'Default',
-		team: '',
-		port: 'Blue',
-		pronoun: '',
-		countryCode: 'US'
+		port: 'Blue'
 	},
 	showPlayerCamInfo: true
 };
@@ -51,9 +56,9 @@ export const commentatorData: CommentatorData = {
 	showMatch: false,
 	timerMinutes: 5,
 	showTimer: false,
-	eventTime: 'Next',
-	eventName: 'Welcome To',
-	day: 0,
+	eventTime: 'Now',
+	eventName: 'Opening',
+	day: 1,
 	showEvent: true,
 	showAds: false
 };
@@ -84,7 +89,7 @@ export const bracketData: BracketData = {
 export const playerCardData: PlayerCardData = {
 	showTeamLogo: true,
 	tag: 'Player 1',
-	character: 'Default',
+	characterId: null,
 	team: '',
 	pronoun: '',
 	twitter: '',
@@ -95,4 +100,24 @@ export const playerCardData: PlayerCardData = {
 	id: 0,
 	countryCode: 'US'
 	// stateCode: ''
+};
+
+export const statsData: StatsData = {
+	player1: {
+		...defaultPlayer,
+		tag: 'Player 1'
+	},
+	player2: {
+		...defaultPlayer,
+		tag: 'Player 2',
+		port: 'Blue'
+	}
+};
+
+export const crewBattleData: CrewBattleData = {
+	showTeams: false,
+	team1Name: '',
+	team1Players: [],
+	team2Name: '',
+	team2Players: []
 };

@@ -15,6 +15,7 @@ const FormStyles = makeStyles({
 		display: 'flex',
 		flexDirection: 'row',
 		width: '100%',
+		minWidth: '100%',
 		...shorthands.borderBottom('1px', 'solid', tokens.colorNeutralStroke3),
 		...breakpoints.lg({
 			flexDirection: 'column'
@@ -24,8 +25,9 @@ const FormStyles = makeStyles({
 		})
 	},
 	formSection: {
-		width: '100%',
+		minWidth: '0px',
 		boxSizing: 'border-box',
+		...shorthands.flex(1),
 		...shorthands.padding(tokens.spacingVerticalS, tokens.spacingHorizontalXL)
 	},
 	formSectionLeft: {
@@ -43,13 +45,16 @@ const FormStyles = makeStyles({
 		display: 'flex',
 		flexDirection: 'row',
 		...shorthands.margin(0, 0, tokens.spacingHorizontalL, 0),
-		width: '400px'
+		width: '400px',
+		position: 'relative'
 	},
 	formRow: {
 		display: 'flex',
 		flexDirection: 'row',
 		width: '100%',
-		...shorthands.margin(0, 0, tokens.spacingHorizontalL, 0)
+		...shorthands.margin(0, 0, tokens.spacingHorizontalL, 0),
+		position: 'relative',
+		columnGap: tokens.spacingHorizontalXL
 	},
 	formField: {
 		'& label': {
@@ -91,6 +96,50 @@ const FormStyles = makeStyles({
 			top: 'calc(50% - 17px)',
 			transform: 'rotate(90deg)'
 		})
+	},
+	spacing: {
+		paddingBottom: tokens.spacingVerticalS
+	},
+	firstSection: {
+		...breakpoints.xl({
+			...shorthands.borderRight('1px', 'solid', tokens.colorNeutralStroke3)
+		}),
+		...breakpoints.lg({
+			...shorthands.borderBottom('1px', 'solid', tokens.colorNeutralStroke3)
+		}),
+		...breakpoints.md({
+			...shorthands.borderBottom('1px', 'solid', tokens.colorNeutralStroke3)
+		})
+	},
+	addButton: {
+		height: '30px',
+		...shorthands.flex(1)
+	},
+	resetButton: {
+		height: '25px',
+		...shorthands.flex(1)
+	},
+	itemList: {
+		display: 'flex',
+		flexDirection: 'column',
+		width: '100%',
+		backgroundColor: tokens.colorNeutralBackground3,
+		...shorthands.margin(0, 0, tokens.spacingHorizontalL, 0),
+		...shorthands.gap(tokens.spacingVerticalM),
+		...shorthands.padding(
+			tokens.spacingVerticalM,
+			tokens.spacingHorizontalL,
+			tokens.spacingVerticalXL,
+			tokens.spacingHorizontalL
+		),
+		...shorthands.borderRadius(tokens.borderRadiusXLarge)
+	},
+	subText: {
+		display: 'flex',
+		flexDirection: 'row',
+		alignItems: 'center',
+		height: '45px',
+		color: tokens.colorNeutralForeground3
 	}
 });
 

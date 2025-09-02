@@ -9,10 +9,8 @@ import {
 } from '@fluentui/react-components';
 import { tokens } from '@fluentui/react-theme';
 import CharacterIcon from '../../character/CharacterIcon';
-import { CHARACTERS } from '@common/constants/data';
-import { characterToString } from '@utils/string';
-import { Character } from '@common/interfaces/Types';
 import { DataField } from '@common/interfaces/Data';
+import { getSlippiCharacterByExternalId } from '@common/constants/slippi-utils';
 
 const useStyles = makeStyles({
 	formField: {
@@ -46,14 +44,14 @@ type FluentFieldProps = FieldProps & DropdownProps;
 
 interface CharacterFieldProps extends FluentFieldProps {
 	targetField: DataField;
-	handleChange: (targetField: DataField, value: Character) => void;
+	handleChange: (targetField: DataField, value: string | number | boolean | null) => void;
 	playerNumber?: string;
 }
 
 const CharacterField = ({
 	label,
 	value,
-	size,
+	size = 'small',
 	targetField,
 	handleChange,
 	playerNumber
@@ -68,32 +66,40 @@ const CharacterField = ({
 				// @ts-expect-error !Ignoring type error to display custom value
 				value={
 					<div className={classes.display}>
-						<CharacterIcon className={classes.icon} character={value as Character} />
-						<span>{characterToString(value as Character)}</span>
+						{value && parseInt(value) < 26 && (
+							<CharacterIcon className={classes.icon} characterId={value} />
+						)}
+						<span>{getSlippiCharacterByExternalId(value)}</span>
 					</div>
 				}
-				onOptionSelect={(_ev, data) =>
-					handleChange(targetField, data.optionValue as Character)
-				}
-				defaultValue="Default"
+				onOptionSelect={(_ev, data) => {
+					handleChange(
+						targetField,
+						data.optionValue && data.optionValue !== 'Default'
+							? parseInt(data.optionValue)
+							: null
+					);
+				}}
+				defaultValue="null"
 			>
-				{CHARACTERS.map((character) => (
+				{Array.from({ length: 26 }, (_, i) => i).map((characterId) => (
 					<Option
-						text={characterToString(character)}
-						value={character}
-						key={character + playerNumber}
+						text={getSlippiCharacterByExternalId(characterId)}
+						value={characterId.toString()}
+						key={`${characterId}-${playerNumber}`}
 					>
-						<CharacterIcon className={classes.icon} character={character} />
-						<span>{characterToString(character)}</span>
+						{characterId < 26 && (
+							<CharacterIcon className={classes.icon} characterId={characterId} />
+						)}
+						<span>{getSlippiCharacterByExternalId(characterId)}</span>
 					</Option>
 				))}
+				<Option text={'Default'} value={undefined}>
+					<span>Default</span>
+				</Option>
 			</Dropdown>
 		</Field>
 	);
-};
-
-CharacterField.defaultProps = {
-	size: 'small'
 };
 
 export default CharacterField;

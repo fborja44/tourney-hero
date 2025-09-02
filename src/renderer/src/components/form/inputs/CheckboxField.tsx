@@ -7,7 +7,8 @@ const useStyles = makeStyles({
 		width: '100px',
 		textAlign: 'center',
 		'& label': {
-			color: tokens.colorNeutralForeground3
+			color: tokens.colorNeutralForeground3,
+			fontSize: tokens.fontSizeBase200
 		}
 	},
 	checkbox: {
@@ -26,30 +27,22 @@ interface CheckboxFieldProps extends FluentFieldProps {
 
 const CheckboxField = ({
 	label,
-	checked,
-	placeholder,
-	size,
+	size = 'medium',
 	targetField,
 	handleChange,
 	style,
-	disabled
+	...props
 }: CheckboxFieldProps) => {
 	const classes = useStyles();
 	return (
 		<Field label={label} className={classes.formField} size={size} style={style}>
 			<Checkbox
 				className={classes.checkbox}
-				placeholder={placeholder}
-				checked={checked}
 				onChange={(_ev, data) => handleChange(targetField, data.checked)}
-				disabled={disabled}
+				{...props}
 			/>
 		</Field>
 	);
-};
-
-CheckboxField.defaultProps = {
-	size: 'small'
 };
 
 export default CheckboxField;

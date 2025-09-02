@@ -1,20 +1,32 @@
 import { UUID } from 'crypto';
-import { Character, PlayerCardMatch, PlayerCardPlacement, Port } from './Types';
+import { CharacterId, PlayerCardMatch, PlayerCardPlacement, Port } from './Types';
 
-export type SceneData = GameplayData | PlayerData | CommentatorData | BracketData | PlayerCardData;
+export type DisplayData =
+	| GameplayData
+	| PlayerData
+	| CommentatorData
+	| BracketData
+	| PlayerCardData
+	| StatsData
+	| CrewBattleData;
 
 export type DataField =
 	| keyof GameplayData
 	| keyof PlayerData
 	| keyof CommentatorData
 	| keyof BracketData
-	| keyof PlayerCardData;
+	| keyof BracketMatch
+	| keyof PlayerCardData
+	| keyof StatsData
+	| keyof CrewBattleData;
 
 export interface OverlayData {
 	gameplay: GameplayData;
 	commentators: CommentatorData;
 	bracket: BracketData;
 	playerCard: PlayerCardData;
+	statistics: StatsData;
+	crewBattle: CrewBattleData;
 }
 
 export type AutomationData = ScoreData | CharacterData;
@@ -37,19 +49,26 @@ export interface ScoreData {
 }
 
 export interface CharacterData {
-	p1character: Character;
-	p2character: Character;
+	p1characterId: CharacterId;
+	p2characterId: CharacterId;
+}
+
+export interface HeadData {
+	characterId: CharacterId;
+	isToggled: boolean;
 }
 
 export interface PlayerData {
 	tag: string;
 	tagDisplaySize: number;
 	score: number | null;
-	character: Character;
+	characterId: CharacterId;
 	team: string;
 	pronoun: string | undefined;
 	port: Port;
 	countryCode: string;
+	heads: HeadData[];
+	seed: number | null;
 }
 
 export interface CommentatorData {
@@ -101,7 +120,7 @@ export interface PlayerCardData {
 	showTeamLogo: boolean;
 	id: number;
 	team: string;
-	character: Character;
+	characterId: CharacterId;
 	tag: string;
 	pronoun: string;
 	countryCode: string;
@@ -113,6 +132,11 @@ export interface PlayerCardData {
 	placements: PlayerCardPlacement[];
 }
 
+export interface StatsData {
+	player1: PlayerData;
+	player2: PlayerData;
+}
+
 export interface LocalCommentator {
 	id: UUID;
 	name: string;
@@ -122,7 +146,20 @@ export interface LocalCommentator {
 export interface LocalPlayer {
 	id: UUID;
 	tag: string;
-	character?: Character;
+	characterId?: CharacterId;
 	team?: string;
 	pronoun?: string;
+}
+
+export interface CrewPlayer {
+	tag: string;
+	active: boolean;
+}
+
+export interface CrewBattleData {
+	showTeams: boolean;
+	team1Name: string;
+	team1Players: CrewPlayer[];
+	team2Name: string;
+	team2Players: CrewPlayer[];
 }

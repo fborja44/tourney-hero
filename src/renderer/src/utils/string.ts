@@ -1,6 +1,3 @@
-import { CHARACTERS } from '@common/constants/data';
-import { Character } from '@common/interfaces/Types';
-
 /**
  * Capitalizes the first character in a string
  * @param string The string to capitalize
@@ -29,43 +26,13 @@ export const toCamelCase = (string: string) => {
 };
 
 /**
- * Generates a proper string representation for a character
- * @param character The character to get a string for
- * @returns The associated character string
- */
-export const characterToString = (character: Character) => {
-	if (typeof character !== 'string') {
-		throw new TypeError('Input must be of type string');
-	}
-	if (!CHARACTERS.includes(character)) {
-		throw new TypeError('Invalid character');
-	}
-	switch (character) {
-		case 'CaptainFalcon':
-			return 'Captain Falcon';
-		case 'DrMario':
-			return 'Dr. Mario';
-		case 'DonkeyKong':
-			return 'Donkey Kong';
-		case 'IceClimbers':
-			return 'Ice Climbers';
-		case 'MrGameWatch':
-			return 'Mr. Game & Watch';
-		case 'YoungLink':
-			return 'Young Link';
-		default:
-			return character;
-	}
-};
-
-/**
- * Checks if a given string contains only numberic characters
+ * Checks if a given string represents a valid integer (including negative numbers)
  * @param string
- * @returns
+ * @returns True if the string represents an integer, false otherwise.
  */
 export const isInteger = (string: string) => {
-	if (typeof string != 'string') return false;
-	return /^\d+$/.test(string) && Number.isInteger(parseInt(string, 10));
+	if (typeof string !== 'string') return false;
+	return /^-?\d+$/.test(string) && Number.isInteger(Number(string));
 };
 
 /**
@@ -94,4 +61,34 @@ export const trimNamePrefix = (str: string): string => {
 	}
 	// Return the original string if pipe character is not found
 	return str.trim();
+};
+
+/**
+ * Extracts the port number from a given server address.
+ * @param address The server address to extract the port from.
+ * @returns The port number if present, otherwise null.
+ */
+export const getPortFromAddress = (address: string): number | null => {
+	try {
+		// Create a new URL object
+		const url = new URL(address);
+
+		// Get the port from the URL object
+		const port = url.port;
+
+		// Return the port as a number if it's not an empty string
+		return port ? parseInt(port) : null;
+	} catch (e) {
+		// If URL construction fails, try manual extraction
+
+		// Regular expression to match the port in the address
+		const portRegex = /:(\d+)$/;
+		const match = address.match(portRegex);
+
+		if (match && match[1]) {
+			return parseInt(match[1]);
+		} else {
+			return null;
+		}
+	}
 };

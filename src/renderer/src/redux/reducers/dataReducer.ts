@@ -3,31 +3,86 @@ import { OverlayData } from '@common/interfaces/Data';
 import {
 	bracketData,
 	commentatorData,
+	crewBattleData,
 	gameplayData,
-	playerCardData
+	playerCardData,
+	statsData
 } from '@common/data/defaultData';
 import {
 	incrementScore,
+	resetOverlayData,
 	setOverlayData,
+	toggleCrewPlayerActive,
 	updateBracket,
 	updateBracketMatch,
 	updateCommentators,
+	updateCrewBattle,
+	updateCrewPlayerTag,
 	updateGameplay,
+	updateOverlayField,
 	updatePlayer,
-	updatePlayerCard
+	updatePlayerCard,
+	updateStats,
+	updatedStatsPlayers
 } from '../actions/dataActions';
 
 export const initialState: OverlayData = {
 	gameplay: gameplayData,
 	commentators: commentatorData,
 	bracket: bracketData,
-	playerCard: playerCardData
+	playerCard: playerCardData,
+	statistics: statsData,
+	crewBattle: crewBattleData
 };
 
 const dataReducer = createReducer(initialState, (builder) => {
 	builder
 		.addCase(setOverlayData, (state, action) => {
 			state = { ...state, ...action.payload };
+		})
+		.addCase(resetOverlayData, () => initialState)
+		.addCase(updateOverlayField, (state, action) => {
+			const { overlay, updatedField } = action.payload;
+			switch (overlay) {
+				case 'gameplay':
+					state.gameplay = {
+						...state.gameplay,
+						...updatedField
+					};
+					break;
+				case 'commentators':
+					state.commentators = {
+						...state.commentators,
+						...updatedField
+					};
+					break;
+				case 'bracket':
+					state.bracket = {
+						...state.bracket,
+						...updatedField
+					};
+					break;
+				// case 'playerCard':
+				// 	state.playerCard = {
+				// 		...state.playerCard,
+				// 		...updatedField
+				// 	};
+				// 	break;
+				case 'statistics':
+					state.statistics = {
+						...state.statistics,
+						...updatedField
+					};
+					break;
+				case 'crewBattle':
+					state.crewBattle = {
+						...state.crewBattle,
+						...updatedField
+					};
+					break;
+				default:
+					break;
+			}
 		})
 		.addCase(updateGameplay, (state, action) => {
 			state.gameplay = {
@@ -64,6 +119,19 @@ const dataReducer = createReducer(initialState, (builder) => {
 				...action.payload
 			};
 		})
+		.addCase(updateStats, (state, action) => {
+			state.statistics = {
+				...state.statistics,
+				...action.payload
+			};
+		})
+		.addCase(updatedStatsPlayers, (state, action) => {
+			const { targetPlayer, updatedPlayer } = action.payload;
+			state.statistics[targetPlayer] = {
+				...state.statistics[targetPlayer],
+				...updatedPlayer
+			};
+		})
 		.addCase(incrementScore, (state, action) => {
 			const targetPlayer = action.payload;
 			if (state.gameplay[targetPlayer].score !== null) {
@@ -71,6 +139,29 @@ const dataReducer = createReducer(initialState, (builder) => {
 					...state.gameplay[targetPlayer],
 					score: (state.gameplay[targetPlayer].score ?? 0) + 1
 				};
+				console.log(state.gameplay[targetPlayer].score);
+			}
+		})
+		.addCase(updateCrewBattle, (state, action) => {
+			state.crewBattle = {
+				...state.crewBattle,
+				...action.payload
+			};
+		})
+		.addCase(updateCrewPlayerTag, (state, action) => {
+			const { targetTeam, index, tag } = action.payload;
+
+			const team = state.crewBattle[targetTeam];
+			if (team && team[index]) {
+				team[index].tag = tag; // Immer allows mutation here
+			}
+		})
+		.addCase(toggleCrewPlayerActive, (state, action) => {
+			const { targetTeam, index } = action.payload;
+
+			const team = state.crewBattle[targetTeam];
+			if (team && team[index]) {
+				team[index].active = !state.crewBattle[targetTeam][index].active; // Immer allows mutation here
 			}
 		});
 });

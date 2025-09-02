@@ -55,14 +55,10 @@ interface EntrantSelectFieldProps extends FluentFieldProps {
 
 const EntrantSelectField = ({
 	label,
-	placeholder,
-	size,
+	size = 'small',
 	value,
-	defaultValue,
 	playerNumber,
-	maxLength,
-	onOptionSelect,
-	onChange
+	...props
 }: EntrantSelectFieldProps) => {
 	const classes = useStyles();
 
@@ -70,17 +66,7 @@ const EntrantSelectField = ({
 
 	return (
 		<Field label={label} className={classes.formField} size={size}>
-			<Combobox
-				size={size}
-				className={classes.input}
-				placeholder={placeholder}
-				value={value}
-				freeform
-				onOptionSelect={onOptionSelect}
-				onChange={onChange}
-				defaultValue={defaultValue}
-				maxLength={maxLength}
-			>
+			<Combobox size={size} className={classes.input} value={value} freeform {...props}>
 				{entrantList.map((entrant: Entrant, i: number) => (
 					<Option
 						key={`${entrant.tag}-${i}-${playerNumber ?? '0'}`}
@@ -93,10 +79,6 @@ const EntrantSelectField = ({
 			</Combobox>
 		</Field>
 	);
-};
-
-EntrantSelectField.defaultProps = {
-	size: 'small'
 };
 
 export default EntrantSelectField;

@@ -17,13 +17,13 @@ import Card from '../../card/Card';
 import { Send16Regular } from '@fluentui/react-icons';
 import { useState } from 'react';
 import { getTargetWins } from '@utils/tournament';
-import useStartQuery from '@hooks/useStartQuery';
+import useStartQuery from '@hooks/startgg/useStartQuery';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '@redux/reducers/rootReducer';
 import reportSetDataMutation from '@graphql/mutations/reportSetMutation';
 import { updateMatch } from '@redux/actions/tournamentActions';
 import { getCurrentUnixTimestamp } from '@utils/date';
-import { MatchCardHeader } from '../../dashboard/match/MatchCard';
+import { MatchCardHeader } from '../../cards/match/MatchCard';
 
 const useStyles = makeStyles({
 	dialogSurface: {

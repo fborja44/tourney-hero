@@ -1,43 +1,100 @@
-import { Button } from '@fluentui/react-components';
+import {
+	Button,
+	Menu,
+	MenuButtonProps,
+	MenuItem,
+	MenuList,
+	MenuPopover,
+	MenuTrigger,
+	SplitButton
+} from '@fluentui/react-components';
 import { useContext } from 'react';
-import { OBSWebSocketClientContext } from '@renderer/obs-websocket/OBSWebsocketProvider';
+import { OBSWebSocketClientContext } from '@renderer/obs/OBSWebsocketProvider';
 import { AppState } from '@renderer/redux/reducers/rootReducer';
 import { useSelector } from 'react-redux';
 import { findScene } from '@renderer/utils/obs';
+import { SceneData } from '@common/interfaces/Types';
+import { Add12Regular } from '@fluentui/react-icons';
 
 interface SwitchSceneButtonProps {
-	sceneName: string;
+	sceneData: SceneData;
 	className?: string;
 	disabled?: boolean;
 }
 
-const SwitchSceneButton = ({ className, disabled, sceneName }: SwitchSceneButtonProps) => {
+const SwitchSceneButton = ({ className, disabled, sceneData }: SwitchSceneButtonProps) => {
 	const {
 		obs,
 		connected: OBSConnected,
-		sendOBSSceneRequest
+		switchCurrentSceneProgram,
+		repairOBSScene,
+		createOBSScene
 	} = useContext(OBSWebSocketClientContext);
 
 	const { currentScene, sceneList } = useSelector((state: AppState) => state.obsState);
+
+	const { title: sceneName } = sceneData;
 
 	const active = currentScene === sceneName;
 
 	const sceneExists = findScene(sceneList, sceneName) !== undefined;
 
-	const handleClick = () => {
-		if (obs && sendOBSSceneRequest) {
-			sendOBSSceneRequest(sceneName);
+	const handleSwitchScene = () => {
+		if (obs && switchCurrentSceneProgram) {
+			switchCurrentSceneProgram(sceneName);
 		}
 	};
 
-	return (
+	const handleCreateScene = () => {
+		if (obs && createOBSScene) {
+			createOBSScene(sceneData);
+		}
+	};
+
+	const handleRepairScene = () => {
+		if (obs && repairOBSScene) {
+			repairOBSScene(sceneData);
+		}
+	};
+
+	const buttonDisabled = disabled || !obs || !OBSConnected;
+
+	return sceneExists ? (
+		<Menu positioning="below-end">
+			<MenuTrigger disableButtonEnhancement>
+				{(triggerProps: MenuButtonProps) => (
+					<SplitButton
+						className={className}
+						size="small"
+						primaryActionButton={{
+							onClick: handleSwitchScene,
+							disabled: buttonDisabled || active || !sceneExists
+						}}
+						menuButton={triggerProps}
+					>
+						Switch To Scene
+					</SplitButton>
+				)}
+			</MenuTrigger>
+
+			<MenuPopover>
+				<MenuList>
+					<MenuItem disabled={buttonDisabled || !sceneExists} onClick={handleRepairScene}>
+						Repair Scene Items
+					</MenuItem>
+				</MenuList>
+			</MenuPopover>
+		</Menu>
+	) : (
 		<Button
 			className={className}
 			size="small"
-			disabled={disabled || !obs || !OBSConnected || !sceneExists || active}
-			onClick={handleClick}
+			disabled={buttonDisabled}
+			onClick={handleCreateScene}
+			icon={<Add12Regular />}
+			iconPosition="after"
 		>
-			{sceneExists ? 'Switch To Scene' : 'Scene Not Found'}
+			Create Scene
 		</Button>
 	);
 };

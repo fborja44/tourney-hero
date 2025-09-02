@@ -4,16 +4,16 @@ import formStyles from './styles/FormStyles';
 import CheckboxField from './inputs/CheckboxField';
 import { useDispatch, useSelector } from 'react-redux';
 import { updatePlayerCard } from '@redux/actions/dataActions';
-import { PlayerCardData, PlayerData } from '@common/interfaces/Data';
+import { PlayerCardData } from '@common/interfaces/Data';
 import { AppState } from '@redux/reducers/rootReducer';
 import TextField from './inputs/TextField';
 import CharacterField from './inputs/CharacterField';
 import { MAX_TAG_LENGTH, MAX_TEAM_LENGTH } from '@common/constants/limits';
 import EntrantSelectField from './inputs/EntrantSelectField';
 import EmptyPanel from '../panel/EmptyPanel';
-import { useEffect, useState } from 'react';
-import useEntrant from '@renderer/hooks/useEntrant';
+import useEntrant from '@hooks/startgg/useEntrant';
 import CountryField from './inputs/CountryField';
+import useOverlayControls from '@hooks/controls/useOverlayControls';
 
 const PlayerCardForm = () => {
 	const classes = formStyles();
@@ -28,18 +28,7 @@ const PlayerCardForm = () => {
 
 	const { fetchEntrantData } = useEntrant();
 
-	/**
-	 * On change handler. Updates the the target field in gameplay redux state.
-	 * @param targetField
-	 * @param value
-	 */
-	const handlePlayerCardChange = (targetField: string, value: string | number | boolean) => {
-		dispatch(
-			updatePlayerCard({
-				[targetField]: value
-			})
-		);
-	};
+	const { handlePlayerCardChange } = useOverlayControls();
 
 	if (entrantList.length === 0) {
 		return <EmptyPanel text="No Entrants Found" />;
@@ -74,7 +63,7 @@ const PlayerCardForm = () => {
 		handlePlayerCardChange('countryCode', data.optionValue ?? '??');
 	};
 
-	const { tag, character, twitter, twitch, team, countryCode } = playerCardData;
+	const { tag, characterId, twitter, twitch, team, countryCode } = playerCardData;
 
 	// TODO: Display match results and placements
 
@@ -95,9 +84,9 @@ const PlayerCardForm = () => {
 				<div className={classes.formRow}>
 					<CharacterField
 						label="Character"
-						targetField="character"
+						targetField="characterId"
 						handleChange={handlePlayerCardChange}
-						value={character}
+						value={characterId?.toString()}
 					/>
 				</div>
 				<div className={classes.formRow}>
@@ -116,7 +105,6 @@ const PlayerCardForm = () => {
 						handleChange={handlePlayerCardChange}
 						maxLength={MAX_TAG_LENGTH}
 					/>
-					<span className={classes.gap} />
 					<TextField
 						label="Twitch Channel"
 						value={twitch}
@@ -132,7 +120,6 @@ const PlayerCardForm = () => {
 						targetField={'showTeamLogo'}
 						handleChange={handlePlayerCardChange}
 					/>
-					<span className={classes.gap} />
 					<TextField
 						label="Team"
 						value={team}

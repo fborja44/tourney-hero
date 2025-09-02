@@ -69,9 +69,9 @@ const SocketClientProvider = ({ children }: SocketClientProviderProps) => {
 
 			socket.on('connect', () => {
 				console.log('Connected to server.');
-				dispatchToast(<MessageToast title="Connected To Server" />, {
-					intent: 'success'
-				});
+				// dispatchToast(<MessageToast title="Connected To Server" />, {
+				// 	intent: 'success'
+				// });
 				setConnected(true);
 			});
 
@@ -85,9 +85,9 @@ const SocketClientProvider = ({ children }: SocketClientProviderProps) => {
 
 			socket.on('disconnect', () => {
 				console.log('Disconnected from server.');
-				dispatchToast(<MessageToast title="Disconnected From Server" />, {
-					intent: 'warning'
-				});
+				// dispatchToast(<MessageToast title="Disconnected From Server" />, {
+				// 	intent: 'warning'
+				// });
 				socket.emit('disconnection');
 				setConnected(false);
 			});

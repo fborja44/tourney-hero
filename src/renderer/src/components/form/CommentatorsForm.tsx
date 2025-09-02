@@ -1,11 +1,10 @@
-import { Body1, mergeClasses } from '@fluentui/react-components';
+import { Body1, Caption1, mergeClasses } from '@fluentui/react-components';
 import Panel from '../panel/Panel';
 import TextField from './inputs/TextField';
 import formStyles from './styles/FormStyles';
-import { CommentatorData } from '@common/interfaces/Data';
-import { useDispatch, useSelector } from 'react-redux';
+import { CommentatorData, GameplayData } from '@common/interfaces/Data';
+import { useSelector } from 'react-redux';
 import { AppState } from '@redux/reducers/rootReducer';
-import { updateCommentators } from '@redux/actions/dataActions';
 import CheckboxField from './inputs/CheckboxField';
 import NumberField from './inputs/NumberField';
 import SelectField from './inputs/SelectField';
@@ -15,42 +14,22 @@ import {
 	MAX_MESSAGE_LENGTH,
 	MAX_TIMER
 } from '@common/constants/limits';
-import { useEffect, useState } from 'react';
 import CommentatorSelectField from './inputs/CommentatorSelectField';
+import useOverlayControls from '@hooks/controls/useOverlayControls';
+import useLocalCommentators from '@renderer/hooks/data/useLocalCommentators';
 
 const CommentatorsForm = () => {
 	const classes = formStyles();
 
-	const dispatch = useDispatch();
+	const gameplayData: GameplayData = useSelector((state: AppState) => state.dataState.gameplay);
 
 	const commentatorData: CommentatorData = useSelector(
 		(state: AppState) => state.dataState.commentators
 	);
 
-	const [commentatorList, setCommentatorList] = useState([]);
+	const { handleCommentatorsChange } = useOverlayControls();
 
-	/**
-	 * On change handler. Updates the the target field in gameplay redux state.
-	 * @param targetField
-	 * @param value
-	 */
-	const handleCommentatorsChange = (targetField: string, value: string | number | boolean) => {
-		dispatch(
-			updateCommentators({
-				[targetField]: value
-			})
-		);
-	};
-
-	const getCommentatorsList = async () => {
-		const result = await window.api.getCommentators();
-		setCommentatorList(result);
-		return result;
-	};
-
-	useEffect(() => {
-		getCommentatorsList();
-	}, []);
+	const { commentatorList } = useLocalCommentators();
 
 	const localDataExists = commentatorList.length > 0;
 
@@ -65,7 +44,6 @@ const CommentatorsForm = () => {
 						targetField={'showCommentators'}
 						handleChange={handleCommentatorsChange}
 					/>
-					<span className={classes.gap} />
 					{localDataExists ? (
 						<CommentatorSelectField
 							commentatorList={commentatorList}
@@ -85,7 +63,6 @@ const CommentatorsForm = () => {
 							maxLength={MAX_COMMENTATOR_LENGTH}
 						/>
 					)}
-					<span className={classes.gap} />
 					{localDataExists ? (
 						<CommentatorSelectField
 							commentatorList={commentatorList}
@@ -105,7 +82,6 @@ const CommentatorsForm = () => {
 							maxLength={MAX_COMMENTATOR_LENGTH}
 						/>
 					)}
-					<span className={classes.gap} />
 					{localDataExists ? (
 						<CommentatorSelectField
 							commentatorList={commentatorList}
@@ -134,7 +110,6 @@ const CommentatorsForm = () => {
 						handleChange={handleCommentatorsChange}
 						style={{ opacity: 0 }}
 					/>
-					<span className={classes.gap} />
 					<TextField
 						label="Left Social"
 						value={commentatorData.social1}
@@ -143,7 +118,6 @@ const CommentatorsForm = () => {
 						placeholder="@socialhandle"
 						maxLength={MAX_COMMENTATOR_LENGTH}
 					/>
-					<span className={classes.gap} />
 					<TextField
 						label="Middle Social"
 						value={commentatorData.social2}
@@ -152,7 +126,6 @@ const CommentatorsForm = () => {
 						placeholder="@socialhandle"
 						maxLength={MAX_COMMENTATOR_LENGTH}
 					/>
-					<span className={classes.gap} />
 					<TextField
 						label="Right Social"
 						value={commentatorData.social3}
@@ -173,28 +146,27 @@ const CommentatorsForm = () => {
 						handleChange={handleCommentatorsChange}
 						disabled={true}
 					/>
-					<span className={classes.gap} />
-					<SelectField
+					{/* <SelectField
 						label="Event Time"
 						value={commentatorData.eventTime}
 						targetField={'eventTime'}
 						handleChange={handleCommentatorsChange}
 						options={['Next', 'Now']}
-					/>
-					<span className={classes.gap} />
+					/> */}
 					<SelectField
 						label="Event Name"
 						value={commentatorData.eventName}
 						targetField={'eventName'}
 						handleChange={handleCommentatorsChange}
 						options={[
-							'Welcome To',
+							'Opening',
 							'Intermission',
 							'Melee Singles',
 							'Grand Finals',
 							'Swiss Pools',
 							'Final Bracket',
 							'Melee Doubles',
+							'VIP Bracket',
 							'Crew Battle',
 							'Money Match',
 							'Grudge Match',
@@ -202,7 +174,6 @@ const CommentatorsForm = () => {
 							'Friendlies'
 						]}
 					/>
-					<span className={classes.gap} />
 					<NumberField
 						label="Day Number"
 						value={commentatorData.day}
@@ -223,7 +194,6 @@ const CommentatorsForm = () => {
 							handleCommentatorsChange(targetField, value);
 						}}
 					/>
-					<span className={classes.gap} />
 					<TextField
 						label="Message"
 						value={commentatorData.message}
@@ -240,7 +210,6 @@ const CommentatorsForm = () => {
 						targetField={'showTimer'}
 						handleChange={handleCommentatorsChange}
 					/>
-					<span className={classes.gap} />
 					<NumberField
 						label="Timer Minutes"
 						value={commentatorData.timerMinutes}
@@ -250,14 +219,14 @@ const CommentatorsForm = () => {
 						max={MAX_TIMER}
 					/>
 				</div>
-				<div className={classes.formRow}>
+				{/* <div className={classes.formRow}>
 					<CheckboxField
 						label="Show Ads"
 						checked={commentatorData.showAds}
 						targetField={'showAds'}
 						handleChange={handleCommentatorsChange}
 					/>
-				</div>
+				</div> */}
 				<div className={classes.formRow}>
 					<CheckboxField
 						label="Show Match"
@@ -268,6 +237,11 @@ const CommentatorsForm = () => {
 							handleCommentatorsChange(targetField, value);
 						}}
 					/>
+					<div className={classes.subText}>
+						<Caption1>
+							Currently: {gameplayData.player1.tag} vs {gameplayData.player2.tag}
+						</Caption1>
+					</div>
 				</div>
 			</div>
 		</Panel>

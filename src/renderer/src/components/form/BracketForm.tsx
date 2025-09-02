@@ -4,11 +4,11 @@ import TextField from './inputs/TextField';
 import formStyles from './styles/FormStyles';
 import NumberField from './inputs/NumberField';
 import CheckboxField from './inputs/CheckboxField';
-import { useDispatch, useSelector } from 'react-redux';
-import { updateBracketMatch } from '@redux/actions/dataActions';
 import { BracketData } from '@common/interfaces/Data';
-import { AppState } from '@redux/reducers/rootReducer';
 import { MAX_SCORE, MAX_TAG_LENGTH } from '@common/constants/limits';
+import useOverlayControls from '@hooks/controls/useOverlayControls';
+import { useSelector } from 'react-redux';
+import { AppState } from '@renderer/redux/reducers/rootReducer';
 
 interface BracketFormSectionProps {
 	title: string;
@@ -18,27 +18,29 @@ interface BracketFormSectionProps {
 
 const BracketFormSection = ({ title, bracketField, className }: BracketFormSectionProps) => {
 	const classes = formStyles();
-	const dispatch = useDispatch();
 
-	const bracketData = useSelector((state: AppState) => state.dataState.bracket);
+	const bracketData: BracketData = useSelector((state: AppState) => state.dataState.bracket);
+
+	const { createBracketFieldChangeHandler } = useOverlayControls();
 
 	/**
-	 * On change handler. Updates the the target field in gameplay redux state.
+	 * On change handler. Updates the the target field in bracket match redux state.
 	 * @param targetField
 	 * @param value
 	 */
-	const handleMatchChange = (targetField: string, value: string | number | boolean) => {
-		dispatch(
-			updateBracketMatch(bracketField, {
-				[targetField]: value
-			})
-		);
-	};
+	const handleMatchChange = createBracketFieldChangeHandler(bracketField);
 
 	return (
 		<div className={mergeClasses(classes.formSection, className)}>
 			<Body1 className={classes.sectionTitle}>{title}</Body1>
 			<div className={classes.formRow}>
+				<CheckboxField
+					label="Completed"
+					checked={bracketData[bracketField].completed}
+					targetField={'completed'}
+					handleChange={handleMatchChange}
+					style={{ flexGrow: 1 }}
+				/>
 				<TextField
 					label="Player 1 Tag"
 					value={bracketData[bracketField].p1tag}
@@ -47,26 +49,6 @@ const BracketFormSection = ({ title, bracketField, className }: BracketFormSecti
 					placeholder="Player 1 Tag"
 					maxLength={MAX_TAG_LENGTH}
 				/>
-				<span className={classes.gap} />
-				<NumberField
-					label="Score"
-					value={bracketData[bracketField].p2score}
-					targetField="p2score"
-					handleChange={handleMatchChange}
-					min={-1}
-					max={MAX_SCORE}
-				/>
-			</div>
-			<div className={classes.formRow}>
-				<TextField
-					label="Player 2 Tag"
-					value={bracketData[bracketField].p2tag}
-					targetField={'p2tag'}
-					handleChange={handleMatchChange}
-					placeholder="Player 2 Tag"
-					maxLength={MAX_TAG_LENGTH}
-				/>
-				<span className={classes.gap} />
 				<NumberField
 					label="Score"
 					value={bracketData[bracketField].p1score}
@@ -78,18 +60,27 @@ const BracketFormSection = ({ title, bracketField, className }: BracketFormSecti
 			</div>
 			<div className={classes.formRow}>
 				<CheckboxField
-					label="Completed"
-					checked={bracketData[bracketField].completed}
-					targetField={'completed'}
-					handleChange={handleMatchChange}
-					style={{ flexGrow: 1 }}
-				/>
-				<CheckboxField
 					label="Started"
 					checked={bracketData[bracketField].started}
 					targetField={'started'}
 					handleChange={handleMatchChange}
 					style={{ flexGrow: 1 }}
+				/>
+				<TextField
+					label="Player 2 Tag"
+					value={bracketData[bracketField].p2tag}
+					targetField={'p2tag'}
+					handleChange={handleMatchChange}
+					placeholder="Player 2 Tag"
+					maxLength={MAX_TAG_LENGTH}
+				/>
+				<NumberField
+					label="Score"
+					value={bracketData[bracketField].p2score}
+					targetField="p2score"
+					handleChange={handleMatchChange}
+					min={-1}
+					max={MAX_SCORE}
 				/>
 			</div>
 		</div>

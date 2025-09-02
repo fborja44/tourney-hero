@@ -1,16 +1,17 @@
-import { FluentProvider, Toaster, webDarkTheme } from '@fluentui/react-components';
+import { FluentProvider, Toaster } from '@fluentui/react-components';
 import { Provider as ReduxProvider } from 'react-redux';
 import store from '@redux/store';
 import App from './App';
 import SocketClientProvider from './socket/SocketClientProvider';
-import OBSWebSocketClientProvider from './obs-websocket/OBSWebsocketProvider';
+import OBSWebSocketClientProvider from './obs/OBSWebsocketProvider';
 import { ApolloProvider } from '@apollo/client';
 import client from './graphql/client';
+import { appTheme } from './theme';
 
 const AppProvider = () => {
 	return (
 		<ApolloProvider client={client}>
-			<FluentProvider theme={webDarkTheme}>
+			<FluentProvider theme={appTheme}>
 				<ReduxProvider store={store}>
 					<OBSWebSocketClientProvider>
 						<SocketClientProvider>

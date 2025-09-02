@@ -6,15 +6,17 @@ import { EmojiSad24Regular } from '@fluentui/react-icons';
 import { makeStyles, shorthands } from '@fluentui/react-components';
 import { tokens } from '@fluentui/react-theme';
 import SidebarHeader from './header/SidebarHeader';
-import MatchesMenu from './menus/match/MatchesMenu';
+import MatchesMenu from './menu/match/MatchesMenu';
 import { ACTIONBAR_HEIGHT, FOOTER_HEIGHT, SECTION_HEADER_HEIGHT } from '@common/constants/elements';
 import { Route, Routes } from 'react-router-dom';
-import Empty from './SidebarPlaceholder';
-import BracketMenu from './menus/bracket/BracketMenu';
+import SidebarPlaceholder from './placeholder/SidebarPlaceholder';
+import BracketMenu from './menu/bracket/BracketMenu';
 import { ErrorBoundary } from 'react-error-boundary';
-import DashboardMenu from './menus/dashboard/DashboardMenu';
-import ReplaysMenu from './menus/replays/ReplaysMenu';
+import ReplaysMenu from './menu/replays/ReplaysMenu';
 import SidebarTitle from './header/SidebarTitle';
+import { setMatches } from '@renderer/redux/actions/tournamentActions';
+import { resetReplayData } from '@renderer/redux/actions/replaysActions';
+import { useDispatch } from 'react-redux';
 
 const WIDTH = '240px';
 
@@ -56,6 +58,7 @@ const useStyles = makeStyles({
 
 const Sidebar = () => {
 	const classes = useStyles();
+	const dispatch = useDispatch();
 
 	const [open, setOpen] = useState(true);
 
@@ -83,30 +86,26 @@ const Sidebar = () => {
 			{open && (
 				<div className={classes.content}>
 					<ErrorBoundary
-						fallback={
-							<Empty
-								caption={'An error has occurred.'}
-								icon={<EmojiSad24Regular />}
-							/>
-						}
-						onError={(error) => {
+						fallbackRender={({ error, resetErrorBoundary }) => {
 							console.error(error);
+							return (
+								<SidebarPlaceholder
+									caption={'An error has occurred.'}
+									icon={<EmojiSad24Regular />}
+									resetData={resetErrorBoundary}
+								/>
+							);
+						}}
+						onReset={() => {
+							// Reset tournament/replay data
+							dispatch(setMatches([]));
+							dispatch(resetReplayData());
 						}}
 					>
 						<Routes>
-							<Route path={`/`} element={<DashboardMenu />} />
-							<Route path="*" element={<MatchesMenu />} />
 							<Route path={`/bracket`} element={<BracketMenu />} />
 							<Route path={`/statistics`} element={<ReplaysMenu />} />
-							{/* <Route
-									path="*"
-									element={
-										<Empty
-											caption={'Nothing to do.'}
-											icon={<Sparkle24Regular />}
-										/>
-									}
-								/> */}
+							<Route path="*" element={<MatchesMenu />} />
 						</Routes>
 					</ErrorBoundary>
 				</div>

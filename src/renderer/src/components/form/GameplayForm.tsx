@@ -1,20 +1,18 @@
-import { Body1, Button, Tooltip, mergeClasses } from '@fluentui/react-components';
+import { Body1 } from '@fluentui/react-components';
 import Panel from '../panel/Panel';
 import TextField from './inputs/TextField';
 import formStyles from './styles/FormStyles';
-import PlayerForm from './PlayerForm';
-import { useDispatch, useSelector } from 'react-redux';
-import { updateGameplay, updatePlayer } from '@redux/actions/dataActions';
+import { useSelector } from 'react-redux';
 import { GameplayData } from '@common/interfaces/Data';
 import { AppState } from '@redux/reducers/rootReducer';
-import { ArrowSwapRegular } from '@fluentui/react-icons';
 import { MAX_BRACKET_DATA_LENGTH } from '@common/constants/limits';
 import CheckboxField from './inputs/CheckboxField';
+import PlayerFormSection from './PlayerFormSection';
+import useOverlayControls from '@hooks/controls/useOverlayControls';
 // import CheckboxField from './inputs/CheckboxField';
 
 const GameplayForm = () => {
 	const classes = formStyles();
-	const dispatch = useDispatch();
 
 	const {
 		player1,
@@ -24,45 +22,14 @@ const GameplayForm = () => {
 		bracketName,
 		eventName,
 		infoMsg,
-		showCommentators
+		showPlayerCamInfo
 	}: GameplayData = useSelector((state: AppState) => state.dataState.gameplay);
 
-	/**
-	 * On change handler. Updates the the target field in gameplay redux state.
-	 * @param targetField
-	 * @param value
-	 */
-	const handleGameplayChange = (targetField: string, value: string | number | boolean) => {
-		dispatch(
-			updateGameplay({
-				[targetField]: value
-			})
-		);
-	};
-
-	/**
-	 * Swaps player form data.
-	 */
-	const handleSwapPlayers = () => {
-		const tempPlayer1 = { ...player1 };
-		dispatch(updatePlayer('player1', player2));
-		dispatch(updatePlayer('player2', tempPlayer1));
-	};
+	const { handleGameplayChange } = useOverlayControls();
 
 	return (
 		<Panel>
-			<div className={mergeClasses(classes.formSectionRow, classes.relative)}>
-				<PlayerForm playerNumber="1" playerData={player1} />
-				<PlayerForm playerNumber="2" playerData={player2} />
-				<Tooltip content={'Swap Players'} relationship={'label'}>
-					<Button
-						icon={<ArrowSwapRegular />}
-						className={classes.swapButton}
-						appearance="secondary"
-						onClick={handleSwapPlayers}
-					/>
-				</Tooltip>
-			</div>
+			<PlayerFormSection player1={player1} player2={player2} />
 			<div className={classes.formSection}>
 				<Body1 className={classes.sectionTitle}>General Information</Body1>
 				<div className={classes.formRow}>
@@ -74,7 +41,6 @@ const GameplayForm = () => {
 						placeholder="Best of 3"
 						maxLength={MAX_BRACKET_DATA_LENGTH}
 					/>
-					<span className={classes.gap} />
 					<TextField
 						label="Round Name"
 						value={roundName}
@@ -83,7 +49,6 @@ const GameplayForm = () => {
 						placeholder="Winners Round 1"
 						maxLength={MAX_BRACKET_DATA_LENGTH}
 					/>
-					<span className={classes.gap} />
 					<TextField
 						label="Bracket Name"
 						value={bracketName}
@@ -92,16 +57,14 @@ const GameplayForm = () => {
 						placeholder="Main Bracket"
 						maxLength={MAX_BRACKET_DATA_LENGTH}
 					/>
-					<span className={classes.gap} />
 				</div>
 				<div className={classes.formRow}>
-					<CheckboxField
+					{/* <CheckboxField
 						label="Show Comms."
 						checked={showCommentators}
 						targetField={'showCommentators'}
 						handleChange={handleGameplayChange}
-					/>
-					<span className={classes.gap} />
+					/> */}
 					<TextField
 						label="Event Name"
 						value={eventName}
@@ -110,7 +73,6 @@ const GameplayForm = () => {
 						placeholder="Melee Singles"
 						maxLength={MAX_BRACKET_DATA_LENGTH}
 					/>
-					<span className={classes.gap} />
 					<TextField
 						label="Info Message"
 						value={infoMsg}
@@ -121,7 +83,7 @@ const GameplayForm = () => {
 					/>
 				</div>
 			</div>
-			{/* <div className={classes.formSection}>
+			<div className={classes.formSection}>
 				<Body1 className={classes.sectionTitle}>Player Cam Information</Body1>
 				<div className={classes.formRow}>
 					<CheckboxField
@@ -131,7 +93,7 @@ const GameplayForm = () => {
 						handleChange={handleGameplayChange}
 					/>
 				</div>
-			</div> */}
+			</div>
 		</Panel>
 	);
 };

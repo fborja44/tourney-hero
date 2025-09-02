@@ -15,8 +15,8 @@ const cardStyles = makeStyles({
 		flexDirection: 'row',
 		justifyContent: 'space-between',
 		alignItems: 'center',
-		paddingTop: tokens.spacingVerticalXS,
-		paddingBottom: tokens.spacingVerticalS
+		columnGap: tokens.spacingHorizontalM,
+		...shorthands.padding(tokens.spacingVerticalXXS, 0)
 	},
 	cardButton: {
 		height: 'fit-content'
@@ -25,6 +25,10 @@ const cardStyles = makeStyles({
 		display: 'flex',
 		flexDirection: 'column',
 		...shorthands.padding(tokens.spacingVerticalS, 0)
+	},
+	textContentCol: {
+		display: 'flex',
+		flexDirection: 'column'
 	},
 	textContentRow: {
 		display: 'flex',
@@ -43,7 +47,12 @@ const cardStyles = makeStyles({
 	},
 	caption: {
 		fontStyle: 'italic',
-		color: tokens.colorNeutralForeground3
+		color: tokens.colorNeutralForeground3,
+		...shorthands.padding(tokens.spacingVerticalSNudge, 0)
+	},
+	captionText: {
+		fontStyle: 'italic',
+		color: tokens.colorNeutralForeground3,
 	}
 });
 

@@ -1,8 +1,12 @@
 import { app, shell, BrowserWindow, ipcMain, nativeTheme, session } from 'electron';
 import { join } from 'path';
 import { electronApp, optimizer, is } from '@electron-toolkit/utils';
-import icon from '../../resources/app-logo.png?asset';
-import { handleConnectToSlippi, handleSlippiFileStats } from './events/slippi';
+import icon from '../../resources/icon.png?asset';
+import {
+	handleConnectToSlippi,
+	handleDisconnectFromSlippi,
+	handleSlippiFileStats
+} from './events/slippi';
 import {
 	handleAddLocalCommentator,
 	handleAddLocalPlayer,
@@ -14,6 +18,7 @@ import {
 	handleUpdateLocalPlayer
 } from './store';
 import { handleSelectReplayDir } from './events/file';
+import { handleComputeGameStats } from './slippi/computeSetStats';
 
 function createWindow(): void {
 	// Create the browser window.
@@ -89,8 +94,10 @@ app.whenReady().then(() => {
 
 	// Register IPC handlers
 	ipcMain.handle('slippi:connect', handleConnectToSlippi);
+	ipcMain.handle('slippi:disconnect', handleDisconnectFromSlippi);
 	ipcMain.handle('slippi:getFileStats', handleSlippiFileStats);
 	ipcMain.handle('slippi:selectDir', handleSelectReplayDir);
+	ipcMain.handle('slippi:getSetStats', handleComputeGameStats);
 
 	// Local Data
 	ipcMain.handle('commentator:list', handleGetCommentatorsList);

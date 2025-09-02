@@ -3,10 +3,13 @@ import {
 	BracketData,
 	BracketMatch,
 	CommentatorData,
+	CrewBattleData,
+	DisplayData,
 	GameplayData,
 	OverlayData,
 	PlayerCardData,
-	PlayerData
+	PlayerData,
+	StatsData
 } from '@common/interfaces/Data';
 
 export const setOverlayData = createAction('SET_DATA', (newOverlayData: OverlayData) => {
@@ -14,6 +17,21 @@ export const setOverlayData = createAction('SET_DATA', (newOverlayData: OverlayD
 		payload: newOverlayData
 	};
 });
+
+export const resetOverlayData = createAction('RESET_OVERLAY_DATA', () => {
+	return {
+		payload: true
+	};
+});
+
+export const updateOverlayField = createAction(
+	'UPDATE_OVERLAY_FIELD',
+	(overlay: keyof OverlayData, updatedField: Partial<DisplayData>) => {
+		return {
+			payload: { overlay, updatedField }
+		};
+	}
+);
 
 export const updateGameplay = createAction(
 	'UPDATE_GAMEPLAY',
@@ -71,6 +89,48 @@ export const updatePlayerCard = createAction(
 	(updatedPlayerCard: Partial<PlayerCardData>) => {
 		return {
 			payload: updatedPlayerCard
+		};
+	}
+);
+
+export const updateStats = createAction('UPDATE_STATS', (updatedStats: Partial<StatsData>) => {
+	return {
+		payload: updatedStats
+	};
+});
+
+export const updatedStatsPlayers = createAction(
+	'UPDATE_STATS_PLAYER',
+	(targetPlayer: 'player1' | 'player2', updatedPlayer: Partial<PlayerData>) => {
+		return {
+			payload: { targetPlayer, updatedPlayer }
+		};
+	}
+);
+
+export const updateCrewBattle = createAction(
+	'UPDATE_CREW_BATTLE',
+	(updatedCrewBattle: Partial<CrewBattleData>) => {
+		return {
+			payload: updatedCrewBattle
+		};
+	}
+);
+
+export const updateCrewPlayerTag = createAction(
+	'UPDATE_CREW_PLAYER_TAG',
+	(targetTeam: 'team1Players' | 'team2Players', index: number, tag: string) => {
+		return {
+			payload: { targetTeam, index, tag }
+		};
+	}
+);
+
+export const toggleCrewPlayerActive = createAction(
+	'TOGGLE_CREW_PLAYER_ACTIVE',
+	(targetTeam: 'team1Players' | 'team2Players', index: number) => {
+		return {
+			payload: { targetTeam, index }
 		};
 	}
 );

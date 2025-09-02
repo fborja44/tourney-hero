@@ -1,7 +1,7 @@
 import { MenuGroup, MenuGroupHeader, makeStyles, shorthands } from '@fluentui/react-components';
 import {
 	Apps20Regular,
-	WindowEdit20Regular,
+	SlideSettings20Regular,
 	Server16Regular,
 	DatabasePerson20Regular
 } from '@fluentui/react-icons';
@@ -11,7 +11,7 @@ import SidebarHeader from '../sidebar/header/SidebarHeader';
 import NavbarFooter from './footer/NavbarFooter';
 import { SocketClientContext } from '../../socket/SocketClientProvider';
 import { useContext, useState } from 'react';
-import { Scene } from '@common/interfaces/Types';
+import { SceneData } from '@common/interfaces/Types';
 import {
 	ACTIONBAR_HEIGHT,
 	FOOTER_HEIGHT,
@@ -72,7 +72,7 @@ const Navbar = () => {
 	/**
 	 * Scenes State
 	 */
-	const scenes: Scene[] = useSelector((state: AppState) => state.scenesState);
+	const scenes: SceneData[] = useSelector((state: AppState) => state.scenesState);
 
 	return (
 		<section className={classes.container}>
@@ -88,7 +88,7 @@ const Navbar = () => {
 						setSelectedTab={setSelectedTab}
 					/>
 					<NavbarItem
-						icon={<WindowEdit20Regular />}
+						icon={<SlideSettings20Regular />}
 						label="Scene Manager"
 						to="/scenes"
 						selectedTab={selectedTab}
@@ -103,7 +103,9 @@ const Navbar = () => {
 					/>
 				</MenuGroup>
 				<MenuGroup>
-					<MenuGroupHeader className={classes.groupHeader}>Scenes</MenuGroupHeader>
+					<MenuGroupHeader className={classes.groupHeader}>
+						Scene Controls
+					</MenuGroupHeader>
 					{scenes.map((scene) => (
 						<NavbarItem
 							key={`${scene.title}-sidebar`}

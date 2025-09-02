@@ -10,15 +10,32 @@ import { useSelector } from 'react-redux';
 import { AppState } from '@redux/reducers/rootReducer';
 import SceneHeader from './pageheader/SceneHeader';
 import LocalDataPage from './pages/LocalDataPage';
-import SlippiMessageBar from './components/form/messages/SlippiMessageBar';
-import useSocket from '@hooks/useSocket';
+import useSocket from '@hooks/controls/useSocket';
+import { SceneData } from '@common/interfaces/Types';
 
 const AppRouter = () => {
 	const scenesState = useSelector((state: AppState) => state.scenesState);
 
 	const dataState = useSelector((state: AppState) => state.dataState);
 
-	const { sendData } = useSocket();
+	const { sendSocketData } = useSocket();
+
+	const handleSendData = (scene: SceneData) => {
+		try {
+			let title = scene.title;
+			if (scene.title === 'Intermission') {
+				title = 'Commentators';
+			}
+			const data = dataState[toCamelCase(title) as keyof OverlayData];
+			sendSocketData(
+				`update${capitalize(title.replace(' ', ''))}`, // Remove spaces from title if needed and capitalize words
+				data
+			);
+			console.log(data);
+		} catch (err) {
+			console.error(err);
+		}
+	};
 
 	const router = createHashRouter([
 		{
@@ -46,32 +63,11 @@ const AppRouter = () => {
 							header={
 								<>
 									<SceneHeader
-										title={scene.title}
-										icon={scene.icon}
-										sendData={() => {
-											try {
-												let title = scene.title;
-												if (scene.title === 'Intermission') {
-													title = 'Commentators';
-												}
-												sendData(
-													`update${capitalize(title.replace(' ', ''))}`, // Remove spaces from title if needed and capitalize words
-													dataState[
-														toCamelCase(title) as keyof OverlayData
-													]
-												);
-												console.log(
-													dataState[
-														toCamelCase(title) as keyof OverlayData
-													]
-												);
-											} catch (err) {
-												console.error(err);
-											}
-										}}
+										scene={scene}
+										sendData={() => handleSendData(scene)}
 										dataField={toCamelCase(scene.title) as keyof OverlayData}
 									/>
-									<SlippiMessageBar />
+									{/* <SlippiMessageBar /> */}
 								</>
 							}
 						>

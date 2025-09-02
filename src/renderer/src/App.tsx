@@ -2,12 +2,9 @@ import { makeStyles, shorthands } from '@fluentui/react-components';
 import Actionbar from './components/actionbar/Actionbar';
 import Footer from './components/footer/Footer';
 import AppRouter from './AppRouter';
-import useGlobalMatches from '@hooks/useGlobalMatches';
-import useEntrants from '@hooks/useEntrants';
-import useSlippi from '@hooks/useSlippi';
-import { useEffect } from 'react';
-import { AppState } from '@redux/reducers/rootReducer';
-import { useSelector } from 'react-redux';
+import useEntrants from '@hooks/startgg/useEntrants';
+import useSlippi from '@hooks/controls/useSlippi';
+import useMatchRefresh from '@hooks/startgg/useMatchRefresh';
 
 const useStyles = makeStyles({
 	appContainer: {
@@ -24,12 +21,8 @@ const useStyles = makeStyles({
 function App(): JSX.Element {
 	const classes = useStyles();
 
-	const { autoRefresh, tournamentSlug, eventSlug, validated } = useSelector(
-		(state: AppState) => state.tournamentState
-	);
-
 	/**
-	 * Entrants hook
+	 * Slippi hook
 	 */
 	useSlippi();
 
@@ -39,36 +32,9 @@ function App(): JSX.Element {
 	useEntrants();
 
 	/**
-	 * Matches hook
+	 * Match refresh hook
 	 */
-	const { loading, error, refreshGlobalMatches, updateGlobalMatchState } = useGlobalMatches();
-
-	/**
-	 * Handle updating global match loading and error state
-	 */
-	useEffect(() => {
-		updateGlobalMatchState();
-	}, [loading, error]);
-
-	/**
-	 * Handle auto refresh, or load matches on app load.
-	 */
-	useEffect(() => {
-		if (validated) {
-			if (autoRefresh) {
-				refreshGlobalMatches();
-				const interval = setInterval(() => {
-					refreshGlobalMatches();
-				}, 60 * 1000);
-				return () => {
-					clearInterval(interval);
-				};
-			} else {
-				refreshGlobalMatches();
-			}
-		}
-		return;
-	}, [validated, eventSlug, tournamentSlug, autoRefresh]);
+	useMatchRefresh();
 
 	return (
 		<div className={classes.appContainer}>

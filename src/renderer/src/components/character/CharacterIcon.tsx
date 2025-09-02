@@ -1,5 +1,5 @@
+import { JoiCharacter } from '@common/validator/JoiGameplay';
 import { makeStyles, mergeClasses } from '@fluentui/react-components';
-import { Character } from '@common/interfaces/Types';
 
 const useStyles = makeStyles({
 	characterIcon: {
@@ -9,27 +9,32 @@ const useStyles = makeStyles({
 });
 
 interface CharacterProps {
-	character: Character;
+	characterId: number | string | undefined;
 	className?: string;
 	size?: number;
 }
 
-const CharacterIcon = ({ character, className, size }: CharacterProps) => {
+const CharacterIcon = ({ characterId, className, size = 18 }: CharacterProps) => {
 	const classes = useStyles();
-	return (
-		character !== 'Default' && (
-			<img
-				style={{ width: size, height: size }}
-				className={mergeClasses(classes.characterIcon, className)}
-				alt=""
-				src={`/assets/stockicons/${encodeURIComponent(character)}.png`}
-			/>
-		)
-	);
-};
 
-CharacterIcon.defaultProps = {
-	size: 18
+	if (typeof characterId === 'string') {
+		characterId = parseInt(characterId);
+	}
+
+	if (!JoiCharacter.validate(characterId) || characterId === undefined || characterId === null) {
+		return null;
+	}
+
+	if (characterId === null || characterId === undefined || characterId < 0) return null;
+
+	return (
+		<img
+			style={{ width: size, height: size }}
+			className={mergeClasses(classes.characterIcon, className)}
+			alt=""
+			src={`${import.meta.env.BASE_URL}assets/stockicons/${encodeURIComponent(characterId)}/0/stock.png`}
+		/>
+	);
 };
 
 export default CharacterIcon;

@@ -16,6 +16,10 @@ const useStyles = makeStyles({
 		'& label': {
 			color: tokens.colorNeutralForeground3
 		}
+	},
+	radioGroup: {
+		flexWrap: 'wrap',
+		justifyContent: 'space-evenly'
 	}
 });
 
@@ -32,19 +36,20 @@ interface RadioGroupFieldProps extends FluentFieldProps {
 const RadioGroupField = ({
 	items,
 	label,
-	value,
-	size,
+	size = 'small',
 	targetField,
 	handleChange,
-	playerNumber
+	playerNumber,
+	...props
 }: RadioGroupFieldProps) => {
 	const classes = useStyles();
 	return (
 		<Field label={label} className={classes.formField} size={size}>
 			<RadioGroup
-				value={value}
 				onChange={(_ev, data) => handleChange(targetField, data.value)}
 				layout="horizontal"
+				{...props}
+				className={classes.radioGroup}
 			>
 				{items.map((item) => (
 					<Radio value={item} label={capitalize(item)} key={item + playerNumber} />
@@ -52,10 +57,6 @@ const RadioGroupField = ({
 			</RadioGroup>
 		</Field>
 	);
-};
-
-RadioGroupField.defaultProps = {
-	size: 'small'
 };
 
 export default RadioGroupField;

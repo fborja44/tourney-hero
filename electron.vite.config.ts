@@ -1,6 +1,7 @@
 import { resolve } from 'path';
 import { defineConfig, externalizeDepsPlugin } from 'electron-vite';
 import react from '@vitejs/plugin-react';
+import svgr from 'vite-plugin-svgr';
 
 export default defineConfig({
 	main: {
@@ -20,6 +21,7 @@ export default defineConfig({
 				'@graphql': resolve('src/renderer/src/graphql')
 			}
 		},
-		plugins: [react()]
+		plugins: [react(), svgr()],
+		publicDir: resolve(__dirname, 'public')
 	}
 });

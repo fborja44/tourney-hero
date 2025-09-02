@@ -1,14 +1,21 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { resetOBSData, setCurrentOBSScene, setOBSScenesList } from '../actions/obsActions';
+import {
+	resetOBSData,
+	setCurrentOBSScene,
+	setOBSScenesCollections,
+	setOBSScenesList
+} from '../actions/obsActions';
 
 export type OBSState = {
 	currentScene: string | null;
 	sceneList: string[];
+	sceneCollectionList: string[];
 };
 
 const initialState: OBSState = {
 	currentScene: null,
-	sceneList: []
+	sceneList: [],
+	sceneCollectionList: []
 };
 
 const obsReducer = createReducer(initialState, (builder) => {
@@ -22,6 +29,9 @@ const obsReducer = createReducer(initialState, (builder) => {
 		})
 		.addCase(setOBSScenesList, (state, action) => {
 			state.sceneList = action.payload;
+		})
+		.addCase(setOBSScenesCollections, (state, action) => {
+			state.sceneCollectionList = action.payload;
 		});
 });
 

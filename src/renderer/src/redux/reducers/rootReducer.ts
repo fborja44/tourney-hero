@@ -5,6 +5,7 @@ import tournamentReducer, { TournamentState } from './tournamentReducer';
 import scenesReducer, { ScenesState } from './scenesReducer';
 import obsReducer, { OBSState } from './obsReducer';
 import slippiReducer, { SlippiState } from './slippiReducer';
+import replaysReducer, { ReplayState } from './replaysReducer';
 
 export interface AppState {
 	dataState: OverlayData;
@@ -12,6 +13,7 @@ export interface AppState {
 	scenesState: ScenesState;
 	obsState: OBSState;
 	slippiState: SlippiState;
+	replayState: ReplayState;
 }
 
 const rootReducer = combineReducers({
@@ -19,7 +21,8 @@ const rootReducer = combineReducers({
 	tournamentState: tournamentReducer,
 	scenesState: scenesReducer,
 	obsState: obsReducer,
-	slippiState: slippiReducer
+	slippiState: slippiReducer,
+	replayState: replaysReducer
 });
 
 export default rootReducer;

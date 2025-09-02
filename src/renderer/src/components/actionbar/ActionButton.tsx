@@ -4,34 +4,85 @@ import {
 	Caption2,
 	MenuButton,
 	makeStyles,
+	mergeClasses,
 	shorthands
 } from '@fluentui/react-components';
-import { tokens } from '@fluentui/react-theme';
+import { appTokens } from '@renderer/theme';
 import { useState } from 'react';
 import { handleClickOutside, handleEscapeKey } from '@renderer/utils/menu';
+import { capitalize } from '@renderer/utils/string';
+
+const generateColorStyles = (type: 'success' | 'warning' | 'danger') => {
+	return {
+		backgroundColor: appTokens[`colorTheme${capitalize(type)}10`],
+		color: appTokens[`colorTheme${capitalize(type)}130`],
+		':hover': {
+			color: appTokens[`colorTheme${capitalize(type)}140`],
+			backgroundColor: appTokens[`colorTheme${capitalize(type)}20`],
+			...shorthands.borderRight('1px', 'solid', appTokens.colorNeutralStroke3),
+			'& .action-button-title': {
+				color: appTokens[`colorTheme${capitalize(type)}110`]
+			},
+			'& .fui-Button__icon': {
+				color: appTokens[`colorTheme${capitalize(type)}130`]
+			}
+		},
+		':active:hover': {
+			color: appTokens[`colorTheme${capitalize(type)}140`],
+			backgroundColor: appTokens[`colorTheme${capitalize(type)}30`],
+			'& .fui-Button__icon': {
+				color: appTokens[`colorTheme${capitalize(type)}130`]
+			}
+		},
+		'& .action-button-title': {
+			color: appTokens[`colorTheme${capitalize(type)}100`]
+		}
+	};
+};
 
 const useStyles = makeStyles({
 	container: {
 		height: '100%',
 		position: 'relative'
 	},
+	defaultColors: {
+		backgroundColor: appTokens.colorNeutralBackground4,
+		':hover': {
+			backgroundColor: appTokens.colorNeutralBackground4Selected,
+			...shorthands.borderRight('1px', 'solid', appTokens.colorNeutralStroke3)
+		},
+		':hover svg': {
+			color: appTokens.colorNeutralForeground1
+		},
+		'& .action-button-title': {
+			color: appTokens.colorNeutralForeground4
+		}
+	},
+	successColors: generateColorStyles('success'),
+	successSelected: {
+		backgroundColor: appTokens.colorThemeSuccess10
+	},
+	warningColors: generateColorStyles('warning'),
+	warningSelected: {
+		backgroundColor: appTokens.colorThemeWarning10
+	},
+	dangerColors: generateColorStyles('danger'),
+	dangerSelected: {
+		backgroundColor: appTokens.colorThemeDanger10
+	},
 	button: {
 		height: '100%',
 		boxSizing: 'border-box',
 		...shorthands.borderRadius(0),
-		...shorthands.borderRight('1px', 'solid', tokens.colorNeutralStroke3),
+		...shorthands.borderRight('1px', 'solid', appTokens.colorNeutralStroke3),
 		':hover': {
-			backgroundColor: tokens.colorNeutralBackground4Selected,
-			...shorthands.borderRight('1px', 'solid', tokens.colorNeutralStroke3)
-		},
-		':hover svg': {
-			color: tokens.colorNeutralForeground1
+			...shorthands.borderRight('1px', 'solid', appTokens.colorNeutralStroke3)
 		}
 	},
 	contentContainer: {
 		display: 'flex',
 		flexDirection: 'column',
-		...shorthands.padding(0, tokens.spacingHorizontalM, 0, tokens.spacingHorizontalS)
+		...shorthands.padding(0, appTokens.spacingHorizontalM, 0, appTokens.spacingHorizontalS)
 	},
 	content: {
 		minWidth: '105px',
@@ -40,37 +91,43 @@ const useStyles = makeStyles({
 		textOverflow: 'ellipsis',
 		...shorthands.overflow('hidden')
 	},
-	title: {
-		color: tokens.colorNeutralForeground3
-	},
 	menu: {
 		display: 'flex',
 		flexDirection: 'column',
-		rowGap: tokens.spacingVerticalS,
-		backgroundColor: tokens.colorNeutralBackground4Selected,
+		rowGap: appTokens.spacingVerticalL,
+		backgroundColor: appTokens.colorNeutralBackground4Selected,
 		position: 'absolute',
 		zIndex: 100,
-		boxShadow: tokens.shadow16,
-		...shorthands.borderTop('1px', 'solid', tokens.colorNeutralStroke3),
+		boxShadow: appTokens.shadow16,
+		...shorthands.borderTop('1px', 'solid', appTokens.colorNeutralStroke3),
 		...shorthands.padding(
-			tokens.spacingVerticalM,
-			tokens.spacingHorizontalL,
-			tokens.spacingVerticalL,
-			tokens.spacingHorizontalL
+			appTokens.spacingVerticalM,
+			appTokens.spacingHorizontalL,
+			appTokens.spacingVerticalL,
+			appTokens.spacingHorizontalL
 		)
 	}
 });
 
-interface ActionButtonProps {
-	icon: JSX.Element;
+export interface ActionButtonProps {
+	icon: React.ElementType;
 	title: string;
 	children: React.ReactNode;
 	width?: string;
 	full?: boolean;
 	menu: React.ReactNode;
+	color?: 'default' | 'success' | 'warning' | 'danger';
 }
 
-const ActionButton = ({ children, title, icon, width, full, menu }: ActionButtonProps) => {
+const ActionButton = ({
+	children,
+	title,
+	icon: Icon,
+	width,
+	full,
+	menu,
+	color = 'default'
+}: ActionButtonProps) => {
 	const classes = useStyles();
 
 	// Reference for menu
@@ -100,19 +157,23 @@ const ActionButton = ({ children, title, icon, width, full, menu }: ActionButton
 	return (
 		<div className={classes.container}>
 			<MenuButton
-				icon={icon}
+				icon={<Icon />}
 				appearance="subtle"
-				className={classes.button}
+				className={mergeClasses(classes.button, classes[color + 'Colors'])}
 				style={{
 					width: width ?? '200px',
-					backgroundColor: menuOpen ? tokens.colorNeutralBackground4Selected : ''
+					backgroundColor: menuOpen
+						? color !== 'default'
+							? classes[color + 'Selected']
+							: appTokens.colorNeutralBackground4Selected
+						: ''
 				}}
 				onClick={handleClick}
 				ref={buttonRef}
 			>
 				<div className={classes.contentContainer}>
 					<Caption1Strong className={classes.content}>{children}</Caption1Strong>
-					<Caption2 className={classes.title}>{title}</Caption2>
+					<Caption2 className="action-button-title">{title}</Caption2>
 				</div>
 			</MenuButton>
 			{menuOpen && (

@@ -18,3 +18,12 @@ export const setOBSScenesList = createAction('SET_OBS_SCENES_LIST', (scenesList:
 		payload: scenesList
 	};
 });
+
+export const setOBSScenesCollections = createAction(
+	'SET_OBS_SCENE_COLLECTIONS',
+	(sceneCollections: string[]) => {
+		return {
+			payload: sceneCollections
+		};
+	}
+);

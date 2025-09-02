@@ -15,7 +15,7 @@ const SendDataButton = ({ className, sendData, disabled }: SendDataButtonProps) 
 			iconPosition="after"
 			className={className}
 			size="small"
-			onClick={() => sendData()}
+			onClick={sendData}
 			disabled={disabled}
 		>
 			Update Overlay

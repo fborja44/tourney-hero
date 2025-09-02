@@ -1,52 +1,84 @@
-import { Body1, Button } from '@fluentui/react-components';
 import Panel from '../panel/Panel';
-import TextField from './inputs/TextField';
 import formStyles from './styles/FormStyles';
+import PlayerFormSection from './PlayerFormSection';
+import { AppState } from '@renderer/redux/reducers/rootReducer';
+import { useSelector } from 'react-redux';
+// import { updatedStatsPlayers } from '@renderer/redux/actions/dataActions';
+import {
+	Body1,
+	Button,
+	makeStyles,
+	mergeClasses,
+	shorthands,
+	tokens
+} from '@fluentui/react-components';
+import EmptyPanel from '../panel/EmptyPanel';
+import ReplayCard from '../cards/replay/ReplayCard';
+import { Calculator20Regular } from '@fluentui/react-icons';
+
+const useStyles = makeStyles({
+	listContainer: {
+		display: 'flex',
+		columnGap: tokens.spacingHorizontalXL,
+		rowGap: tokens.spacingHorizontalXL,
+		flexWrap: 'wrap'
+	},
+	statsButton: {
+		width: '100%',
+		...shorthands.margin(tokens.spacingVerticalS, 0)
+	}
+});
 
 const StatsForm = () => {
-	const classes = formStyles();
+	const classes = useStyles();
+	const formClasses = formStyles();
+	const ipcRenderer = window.electron.ipcRenderer;
 
-	const handleClick = async () => {
-		const filePaths = await window.api.getFileStats();
-		console.log(filePaths);
+	const { player1, player2 } = useSelector((state: AppState) => state.dataState.statistics);
+	const { selectedReplays, replayList, replayDir } = useSelector(
+		(state: AppState) => state.replayState
+	);
+
+	const handleComputeStats = async () => {
+		const stats = await ipcRenderer.invoke('slippi:getSetStats', replayDir, selectedReplays[0]);
+		console.log(stats);
 	};
 
 	return (
 		<Panel>
-			<div className={`${classes.formSection} ${classes.borderBottom}`}>
-				<Body1 className={classes.sectionTitle}>Set Information</Body1>
-				<div className={classes.formRow}>
-					<TextField
-						label="Player 1 Tag"
-						value={''}
-						targetField={'p1tag'}
-						handleChange={() => {}}
-						placeholder="Player 1"
-					/>
-					<span className={classes.gap} />
-					<TextField
-						label="Player 2 Tag"
-						value={''}
-						targetField={'p2tag'}
-						handleChange={() => {}}
-						placeholder="Player 2"
-					/>
-					<span className={classes.gap} />
-					<TextField
-						label="Round Name"
-						value={''}
-						targetField={'roundName'}
-						handleChange={() => {}}
-						placeholder="Winners Round 1"
-					/>
+			<div className={mergeClasses(formClasses.formSection, formClasses.borderBottom)}>
+				<Body1 className={formClasses.sectionTitle}>Selected Replays</Body1>
+				<div className={formClasses.spacing}>
+					{selectedReplays.length > 0 ? (
+						<div className={classes.listContainer}>
+							{replayList
+								.filter((replay) => selectedReplays.includes(replay.fileName))
+								.map((replay) => {
+									return (
+										<ReplayCard
+											key={`${replay.fileName}-card`}
+											replay={replay}
+											appearance="card"
+										/>
+									);
+								})}
+						</div>
+					) : (
+						<EmptyPanel text="No Replays Selected" hideIcon />
+					)}
 				</div>
+				{selectedReplays.length > 0 && (
+					<Button
+						icon={<Calculator20Regular />}
+						className={classes.statsButton}
+						appearance="primary"
+						onClick={() => handleComputeStats()}
+					>
+						Generate Stats
+					</Button>
+				)}
 			</div>
-			<div className={classes.formSection}>
-				<Body1 className={classes.sectionTitle}>Slippi Replay Upload</Body1>
-				<Button size="small" appearance="primary" onClick={handleClick}>
-					Select Replays
-				</Button>
-			</div>
+			<PlayerFormSection player1={player1} player2={player2} />
 		</Panel>
 	);
 };

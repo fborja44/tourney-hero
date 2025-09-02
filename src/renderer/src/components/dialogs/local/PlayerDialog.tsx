@@ -1,5 +1,5 @@
 import { LocalPlayer } from '@common/interfaces/Data';
-import { Character } from '@common/interfaces/Types';
+import { CharacterId } from '@common/interfaces/Types';
 import {
 	Button,
 	DialogActions,
@@ -46,9 +46,7 @@ const PlayerDialog = ({ setOpen, data }: PlayerDialogProps) => {
 
 	const [tag, setTag] = useState(data ? data.tag : '');
 	const [team, setTeam] = useState(data ? data.team : '');
-	const [character, setCharacter] = useState<Character>(
-		data ? data.character ?? 'Default' : 'Default'
-	);
+	const [characterId, setCharacterId] = useState<CharacterId>(data ? data.characterId ?? -1 : -1);
 	const [pronoun, setPronoun] = useState(data ? data.pronoun : '');
 	const [error, setError] = useState<string | null>(null);
 
@@ -59,7 +57,7 @@ const PlayerDialog = ({ setOpen, data }: PlayerDialogProps) => {
 			result = await ipcRenderer.invoke('player:update', {
 				id: data.id,
 				tag,
-				character,
+				characterId,
 				team,
 				pronoun
 			});
@@ -67,7 +65,7 @@ const PlayerDialog = ({ setOpen, data }: PlayerDialogProps) => {
 			result = await ipcRenderer.invoke('player:add', {
 				id: uuidv4(),
 				tag,
-				character,
+				characterId,
 				team,
 				pronoun
 			});
@@ -109,8 +107,10 @@ const PlayerDialog = ({ setOpen, data }: PlayerDialogProps) => {
 					/>
 					<MenuCharacterField
 						label="Character"
-						value={character}
-						handleChange={(_ev, data) => setCharacter(data.optionValue as Character)}
+						value={characterId?.toString()}
+						handleChange={(_ev, data) =>
+							setCharacterId(data.optionValue ? parseInt(data.optionValue) : null)
+						}
 					/>
 					<MenuTextField
 						label="Team Abbr."

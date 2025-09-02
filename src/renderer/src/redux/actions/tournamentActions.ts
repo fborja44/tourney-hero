@@ -84,3 +84,27 @@ export const setAutoRefresh = createAction('SET_AUTO_REFRESH', (value: boolean) 
 		payload: value
 	};
 });
+
+export const setTop8Matches = createAction('SET_TOP8_MATCHES', (matches: Match[]) => {
+	return {
+		payload: matches
+	};
+});
+
+export const setTop8MatchesLoading = createAction(
+	'SET_TOP8_MATCHES_LOADING',
+	(loading: boolean) => {
+		return {
+			payload: loading
+		};
+	}
+);
+
+export const setTop8MatchesError = createAction(
+	'SET_TOP8_MATCHES_ERROR',
+	(error: string | null) => {
+		return {
+			payload: error
+		};
+	}
+);
