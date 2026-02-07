@@ -4,7 +4,7 @@ import AutomationMenu from './LuckyStatsMenu';
 
 const LuckyStatsActionButton = () => {
 	return (
-		<ActionButton icon={Clover20Regular} title="Token Not Set" menu={<AutomationMenu />}>
+		<ActionButton icon={Clover20Regular} title="Session Key Not Set" menu={<AutomationMenu />}>
 			Lucky Stats
 		</ActionButton>
 	);
