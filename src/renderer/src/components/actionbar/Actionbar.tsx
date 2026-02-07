@@ -6,6 +6,7 @@ import OBSActionButton from './obs/OBSActionButton';
 import OverlaysActionButton from './overlays/OverlaysActionButton';
 import SlippiActionButton from './slippi/SlippiActionButton';
 import TournamentActionButton from './tournament/TournamentActionButton';
+import LuckyStatsActionButton from './luckystats/LuckyStatsActionButton';
 // import TwitchMenu from './menus/TwitchMenu';
 
 const useStyles = makeStyles({
@@ -34,6 +35,7 @@ const Actionbar = () => {
 			<OBSActionButton />
 			<SlippiActionButton />
 			<AutomationActionButton />
+			<LuckyStatsActionButton />
 		</div>
 	);
 };
