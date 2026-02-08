@@ -1,5 +1,6 @@
 import { UUID } from 'crypto';
 import { CharacterId, PlayerCardMatch, PlayerCardPlacement, Port } from './Types';
+import { LuckyStatsData } from './ApiData';
 
 export type DisplayData =
 	| GameplayData
@@ -27,6 +28,7 @@ export interface OverlayData {
 	playerCard: PlayerCardData;
 	statistics: StatsData;
 	crewBattle: CrewBattleData;
+	luckyStats: LuckyStatsData | null;
 }
 
 export type AutomationData = ScoreData | CharacterData;

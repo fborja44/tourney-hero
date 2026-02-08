@@ -1,3 +1,4 @@
+import { LuckyStatsData } from '@common/interfaces/ApiData';
 import { AutomationData, DisplayData } from '@common/interfaces/Data';
 import { SocketClientContext } from '@renderer/socket/SocketClientProvider';
 import { useContext } from 'react';
@@ -11,7 +12,7 @@ const useSocket = () => {
 	 * @param data The overlay data to send
 	 * @returns The socket respond data, or null.
 	 */
-	const sendSocketData = (event: string, data: DisplayData | AutomationData) => {
+	const sendSocketData = (event: string, data: DisplayData | AutomationData | LuckyStatsData) => {
 		if (!connected) return null;
 		const result = socket?.emit(event, data);
 		console.log(result ? `Event: ${event}` : 'Transmission failed');

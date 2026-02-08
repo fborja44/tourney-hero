@@ -8,12 +8,14 @@ import { AppState } from '@renderer/redux/reducers/rootReducer';
 import { LuckyStatsState } from '@renderer/redux/reducers/luckyStatsReducer';
 import { Button } from '@fluentui/react-components';
 import { setLuckyStatsKey } from '@renderer/redux/actions/luckyStatsActions';
+import useSocket from '@renderer/hooks/controls/useSocket';
 
 const AutomationMenu = () => {
 	const classes = ActionMenuStyles();
 	const dispatch = useDispatch();
 
 	const { error, setError, loading, fetchData } = useLuckyStats();
+	const { sendSocketData } = useSocket();
 
 	const { key }: LuckyStatsState = useSelector((state: AppState) => state.luckyStatsState);
 
@@ -32,6 +34,7 @@ const AutomationMenu = () => {
 		if (response?.status === 200) {
 			// TODO: Validate response for required fields
 			dispatch(setLuckyStatsKey(keyValue.trim()));
+			sendSocketData('updateLuckyStats', response.data);
 		}
 	};
 
