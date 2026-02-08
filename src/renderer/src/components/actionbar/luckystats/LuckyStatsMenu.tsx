@@ -2,28 +2,51 @@ import MenuTextField from '@renderer/components/form/inputs/MenuTextField';
 import ActionMenu, { ActionMenuSection } from '../ActionMenu';
 import ActionMenuStyles from '../styles/ActionMenuStyles';
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import useLuckyStats from '@renderer/hooks/luckystats/useLuckyStats';
+import { AppState } from '@renderer/redux/reducers/rootReducer';
+import { LuckyStatsState } from '@renderer/redux/reducers/luckyStatsReducer';
+import { Button } from '@fluentui/react-components';
+import { setLuckyStatsKey } from '@renderer/redux/actions/luckyStatsActions';
 
 const AutomationMenu = () => {
 	const classes = ActionMenuStyles();
+	const dispatch = useDispatch();
 
-	// TODO: Add Lucky Stats API Hook
-	const {
-		error: keyError,
-		setError: setKeyError,
-		loading: keyLoading,
-		fetchData: keyFetch
-	} = useLuckyStats();
+	const { error, setError, loading, fetchData } = useLuckyStats();
 
-	const [keyValue, setKeyValue] = useState(''); // TODO: Add to state, import from env
+	const { key }: LuckyStatsState = useSelector((state: AppState) => state.luckyStatsState);
 
-	// TODO: Lucky Stats Status in state
-	const keyValidation =
-		luckyStatsState.validated && luckyStatsState.key === keyValue
-			? 'success'
-			: keyError
-				? 'error'
-				: 'none';
-	const keyMessage = keyValidation === 'success' ? 'Key Validated' : keyError ?? '';
+	const [keyValue, setKeyValue] = useState<string>(key ?? '');
+
+	/**
+	 * Validate the key by sending a test request.
+	 * If successful, store the key in the redux state.
+	 */
+	const handleValidateKey = async () => {
+		if (!keyValue || keyValue.trim() === '') {
+			return;
+		}
+		setError(null);
+		const response = await fetchData(keyValue.trim());
+		if (response?.status === 200) {
+			// TODO: Validate response for required fields
+			dispatch(setLuckyStatsKey(keyValue.trim()));
+		}
+	};
+
+	/**
+	 * Clears the key from state.
+	 */
+	const handleClearKey = () => {
+		setError(null);
+		setKeyValue('');
+		dispatch(setLuckyStatsKey(null));
+	};
+
+	const isEditing = key !== keyValue;
+	const keyValidation = key && !isEditing ? 'success' : error ? 'error' : 'none';
+	const keyMessage = keyValidation === 'success' ? 'Key Validated' : error ?? '';
 
 	return (
 		<ActionMenu title="Lucky Stats Configuration">
@@ -31,18 +54,33 @@ const AutomationMenu = () => {
 				<MenuTextField
 					label="Session Key"
 					value={keyValue}
-					placeholder="Enter your start.gg API key"
+					placeholder="Enter your session key..."
 					size="small"
 					type="password"
 					handleChange={(_ev, data) => {
-						setKeyError(null);
+						setError(null);
 						setKeyValue(data.value);
 					}}
 					validationState={keyValidation}
 					validationMessage={keyMessage}
-					disabled={luckyStatsState.validated}
 				/>
 			</ActionMenuSection>
+			<div className={classes.buttonsContainer}>
+				{(!key || isEditing) && (
+					<Button
+						size="small"
+						appearance="primary"
+						onClick={handleValidateKey}
+						iconPosition="after"
+						disabled={loading}
+					>
+						{loading ? 'Validating...' : 'Test Key'}
+					</Button>
+				)}
+				<Button size="small" onClick={handleClearKey} iconPosition="after">
+					Clear Key
+				</Button>
+			</div>
 		</ActionMenu>
 	);
 };

@@ -21,7 +21,7 @@ import {
 import { Entrant, Match, Tournament, TournamentEvent } from '@common/interfaces/Types';
 
 export interface TournamentState {
-	key: string | undefined;
+	key?: string | undefined;
 	validated: boolean;
 	tournamentSlug: string;
 	eventSlug: string;

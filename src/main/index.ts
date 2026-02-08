@@ -65,7 +65,7 @@ app.on('ready', () => {
 						"default-src 'self'",
 						"style-src 'self' 'unsafe-inline'", // ! Without unsafe-inline, Fluent-UI breaks
 						"script-src 'self' 'unsafe-inline'", // ! Without unsafe-inline, Fluent-UI breaks
-						"connect-src 'self' http://127.0.0.1:3001 ws://127.0.0.1:3001 ws://127.0.0.1:4455 https://api.start.gg/gql/alpha", // Allow connections to localhost and start.gg
+						"connect-src 'self' http://127.0.0.1:3001 ws://127.0.0.1:3001 ws://127.0.0.1:4455 https://api.start.gg/gql/alpha https://luckystats.gg", // Allow connections to localhost and start.gg
 						"img-src 'self' data: https://images.start.gg"
 					].join('; ')
 				},
