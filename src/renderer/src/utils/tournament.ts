@@ -130,6 +130,7 @@ export const parseSetEntrant = async (slot: any): Promise<Entrant> => {
 
 	const player: Entrant = {
 		id: entrant.id,
+		userId: participants.length === 1 ? participants[0].user.id : null, // TODO: Support doubles
 		tag: tag ?? '',
 		team: localPlayerData?.team ?? prefix ?? '',
 		pronoun: localPlayerData?.pronoun ?? pronoun ?? '',
@@ -176,7 +177,7 @@ const parseTop8Set = (set: Match): BracketMatch => {
 
 	const completed = set.completedAt !== undefined && set.completedAt !== null;
 	const started = (set.startedAt !== undefined && set.startedAt !== null) || completed;
-
+	// TODO: Support Lucky Stats?
 	return {
 		p1tag: p1Data?.tag ?? '',
 		p1score: p1Data?.score ?? 0,
@@ -280,6 +281,7 @@ export const parseEventEntrant = async (node: any): Promise<Entrant> => {
 
 	const player: Entrant = {
 		id: node.id,
+		userId: participants.length === 1 ? participants[0].user.id : null, // TODO: Support doubles
 		tag: participant.gamerTag ?? '',
 		team: prefix ?? '',
 		pronoun: user?.genderPronoun ?? '',

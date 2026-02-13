@@ -73,3 +73,21 @@ export interface LuckyStatsData {
 	winProbability: LuckyStatsWinProbability;
 	playerCardOptions: LuckyStatsPlayerCardOptions;
 }
+
+export interface LuckyStatsPlayerItem {
+	id: string | null;
+	gamerTag: string | null;
+	startgguserId: string | null;
+	elo: number | null;
+	country: string | null;
+	primaryRegion: string | null;
+	regionEmoji: string | null;
+	luckyRank: {
+		rank: number | null;
+		points: number | null;
+	};
+	mainCharacter: number | null;
+	characterId: number | null;
+	characterName: string | null;
+	tournamentCount: number | null;
+}

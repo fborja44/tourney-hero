@@ -19,7 +19,8 @@ export const defaultPlayer: PlayerData = {
 	pronoun: '',
 	countryCode: 'US',
 	heads: [],
-	seed: null
+	seed: null,
+	luckyStats: null
 };
 
 export const gameplayData: GameplayData = {

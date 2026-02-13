@@ -69,6 +69,7 @@ const PHASE_SETS_QUERY = gql`
 										gamerTag
 										prefix
 										user {
+											id
 											genderPronoun
 											authorizations(types: [TWITTER]) {
 												id

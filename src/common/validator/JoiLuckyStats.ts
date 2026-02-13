@@ -76,3 +76,22 @@ export const LuckyStatsDataSchema = Joi.object({
 	winProbability: LuckyStatsWinProbabilitySchema.required(),
 	playerCardOptions: LuckyStatsPlayerCardOptionsSchema.required()
 }).required();
+
+// From /stream/players
+export const LuckyStatsPlayerItemSchema = Joi.object({
+	id: Joi.string().allow(null),
+	gamerTag: Joi.string().allow(null),
+	startgguserId: Joi.string().alphanum().allow(null),
+	elo: Joi.number().allow(null),
+	country: Joi.string().allow(null),
+	primaryRegion: Joi.string().allow(null),
+	regionEmoji: Joi.string().allow(null),
+	luckyRank: Joi.object({
+		rank: Joi.number().allow(null),
+		points: Joi.number().allow(null)
+	}).required(),
+	mainCharacter: Joi.number().allow(null),
+	characterId: Joi.number().allow(null),
+	characterName: Joi.string().allow(null),
+	tournamentCount: Joi.number().allow(null)
+});

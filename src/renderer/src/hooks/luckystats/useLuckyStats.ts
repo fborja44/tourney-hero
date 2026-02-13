@@ -10,11 +10,11 @@ const useLuckyStats = () => {
 	const [error, setError] = useState<string | null>(null);
 
 	/**
-	 * Fetches Lucky Stats data.
+	 * Fetches Lucky Stats data by session key.
 	 * @param key Lucky Stats session key
 	 * @returns The data object if successful. Otherwise, returns null.
 	 */
-	const fetchData = async (key: string) => {
+	const fetchLuckyStatsSessionData = async (key: string) => {
 		try {
 			setLoading(true);
 			const response = await axios.get(
@@ -35,7 +35,43 @@ const useLuckyStats = () => {
 		}
 	};
 
-	return { data, setData, loading, setLoading, error, setError, fetchData };
+	/**
+	 * Fetches Lucky Stats data by player ids.
+	 * @param playerIds A list of start.gg player ids to fetch data for
+	 * @returns The data object if successful. Otherwise, returns null.
+	 */
+	const fetchLuckyStatsPlayerData = async (playerIds: number[]) => {
+		try {
+			setLoading(true);
+			const response = await axios.get(
+				`${LUCKY_STATS_API_BASE_URL}/stream/players?ids=${playerIds.join(',')}`
+			);
+			// TODO: Validate response
+			console.log(response);
+			if (response.status !== 200) {
+				throw new Error('Error fetching player data from Lucky Stats API');
+			}
+			setData(response.data);
+			setLoading(false);
+			return response;
+		} catch (err) {
+			console.error(err);
+			setError('Failed to fetch Lucky Stats data.');
+			setLoading(false);
+			return null;
+		}
+	};
+
+	return {
+		data,
+		setData,
+		loading,
+		setLoading,
+		error,
+		setError,
+		fetchLuckyStatsSessionData,
+		fetchLuckyStatsPlayerData
+	};
 };
 
 export default useLuckyStats;

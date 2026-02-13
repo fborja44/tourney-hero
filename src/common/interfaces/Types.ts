@@ -117,6 +117,7 @@ export interface Match {
 
 export interface Entrant {
 	id: number;
+	userId: number | null;
 	tag: string;
 	team: string;
 	pronoun: string;

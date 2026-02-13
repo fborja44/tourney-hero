@@ -39,6 +39,8 @@ import { updateMatch } from '@redux/actions/tournamentActions';
 import type { MenuButtonProps } from '@fluentui/react-components';
 import resetSetMutation from '@graphql/mutations/resetSetMutation';
 import menuItemStyles from '../styles/MenuItemStyles';
+import useLuckyStats from '@renderer/hooks/luckystats/useLuckyStats';
+import { LuckyStatsPlayerItem } from '@common/interfaces/ApiData';
 
 const useStyles = makeStyles({
 	checkIn: {
@@ -151,6 +153,11 @@ const MatchCard = ({ match, appearance = 'card' }: MatchCardProps) => {
 	const itemClasses = menuItemStyles();
 
 	const dispatch = useDispatch();
+
+	const { fetchLuckyStatsPlayerData } = useLuckyStats();
+	const { isEnabled: luckyStatsIsEnabled } = useSelector(
+		(state: AppState) => state.luckyStatsState
+	);
 
 	const [open, setOpen] = useState(false);
 
@@ -313,7 +320,34 @@ const MatchCard = ({ match, appearance = 'card' }: MatchCardProps) => {
 	 * On-click handler for sidebar match item.
 	 * Updates gameplay and player state per the clicked match.
 	 */
-	const handleClick = () => {
+	const handleClick = async () => {
+		// If Lucky Stats integration is enabled, then query
+		let p1LuckyStats: LuckyStatsPlayerItem | null = null;
+		let p2LuckyStats: LuckyStatsPlayerItem | null = null;
+		if (luckyStatsIsEnabled) {
+			const playerIds: number[] = [];
+			if (player1.userId) {
+				playerIds.push(player1.userId);
+			}
+			if (player2.userId) {
+				playerIds.push(player2.userId);
+			}
+			const response = await fetchLuckyStatsPlayerData(playerIds);
+
+			// Filter for each player
+			const luckyStatsData = response?.data?.players ?? [];
+			if (luckyStatsData.length) {
+				p1LuckyStats =
+					luckyStatsData.find(
+						(player: LuckyStatsPlayerItem) => player.startgguserId === player1.userId
+					) || null;
+				p2LuckyStats =
+					luckyStatsData.find(
+						(player: LuckyStatsPlayerItem) => player.startgguserId === player2.userId
+					) || null;
+			}
+		}
+
 		dispatch(
 			updateGameplay({
 				matchType: match.bracket.bestOf ? `Best of ${match.bracket.bestOf}` : '',
@@ -328,7 +362,14 @@ const MatchCard = ({ match, appearance = 'card' }: MatchCardProps) => {
 				team: player1.team ?? '',
 				pronoun: player1.pronoun ?? '',
 				characterId: player1.characterId ?? null,
-				seed: player1.seed ?? null
+				seed: player1.seed ?? null,
+				luckyStats: p1LuckyStats
+					? {
+							elo: p1LuckyStats.elo,
+							rank: p1LuckyStats.luckyRank.rank,
+							points: p1LuckyStats.luckyRank.points
+						}
+					: null
 			})
 		);
 		dispatch(
@@ -338,7 +379,14 @@ const MatchCard = ({ match, appearance = 'card' }: MatchCardProps) => {
 				team: player2.team ?? '',
 				pronoun: player2.pronoun ?? '',
 				characterId: player2.characterId ?? null,
-				seed: player2.seed ?? null
+				seed: player2.seed ?? null,
+				luckyStats: p2LuckyStats
+					? {
+							elo: p2LuckyStats.elo,
+							rank: p2LuckyStats.luckyRank.rank,
+							points: p2LuckyStats.luckyRank.points
+						}
+					: null
 			})
 		);
 	};
