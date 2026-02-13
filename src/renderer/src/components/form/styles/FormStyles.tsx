@@ -3,6 +3,12 @@ import { tokens } from '@fluentui/react-theme';
 import breakpoints from '@utils/breakpoints';
 
 const FormStyles = makeStyles({
+	sectionTitleContainer: {
+		display: 'flex',
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'space-between'
+	},
 	sectionTitle: {
 		display: 'flex',
 		flexDirection: 'row',
@@ -10,6 +16,12 @@ const FormStyles = makeStyles({
 		color: tokens.colorNeutralForeground1,
 		fontWeight: tokens.fontWeightRegular,
 		...shorthands.margin(tokens.spacingVerticalM, 0, tokens.spacingVerticalM, 0)
+	},
+	luckyStatsContainer: {
+		display: 'flex',
+		flexDirection: 'row',
+		alignItems: 'center',
+		...shorthands.gap(tokens.spacingHorizontalS)
 	},
 	formSectionRow: {
 		display: 'flex',

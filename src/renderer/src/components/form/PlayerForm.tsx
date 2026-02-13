@@ -1,4 +1,4 @@
-import { Body1, Button, OptionOnSelectData, mergeClasses } from '@fluentui/react-components';
+import { Body1, Button, OptionOnSelectData, Tag, mergeClasses } from '@fluentui/react-components';
 import TextField from './inputs/TextField';
 import formStyles from './styles/FormStyles';
 import RadioGroupField from './inputs/RadioGroupField';
@@ -89,7 +89,19 @@ const PlayerForm = ({ playerNumber, playerData }: PlayerFormProps) => {
 				getPortColor(playerData.port)
 			)}
 		>
-			<Body1 className={classes.sectionTitle}>Player {playerNumber}</Body1>
+			<div className={classes.sectionTitleContainer}>
+				<Body1 className={classes.sectionTitle}>Player {playerNumber}</Body1>
+				{playerData.luckyStats && (
+					<div className={classes.luckyStatsContainer}>
+						{playerData.luckyStats?.rank !== null && (
+							<Tag>Lucky Rank: {playerData.luckyStats.rank}</Tag>
+						)}
+						{playerData.luckyStats?.elo !== null && (
+							<Tag>Elo: {Math.round(playerData.luckyStats.elo)}</Tag>
+						)}
+					</div>
+				)}
+			</div>
 			<div className={classes.formRow}>
 				{entrantList.length === 0 ? (
 					<TextField

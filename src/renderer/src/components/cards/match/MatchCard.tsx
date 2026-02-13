@@ -339,11 +339,15 @@ const MatchCard = ({ match, appearance = 'card' }: MatchCardProps) => {
 			if (luckyStatsData.length) {
 				p1LuckyStats =
 					luckyStatsData.find(
-						(player: LuckyStatsPlayerItem) => player.startgguserId === player1.userId
+						(player: LuckyStatsPlayerItem) =>
+							player1.userId !== null &&
+							player.startggUserId === player1.userId.toString()
 					) || null;
 				p2LuckyStats =
 					luckyStatsData.find(
-						(player: LuckyStatsPlayerItem) => player.startgguserId === player2.userId
+						(player: LuckyStatsPlayerItem) =>
+							player2.userId !== null &&
+							player.startggUserId === player2.userId.toString()
 					) || null;
 			}
 		}
@@ -366,8 +370,8 @@ const MatchCard = ({ match, appearance = 'card' }: MatchCardProps) => {
 				luckyStats: p1LuckyStats
 					? {
 							elo: p1LuckyStats.elo,
-							rank: p1LuckyStats.luckyRank.rank,
-							points: p1LuckyStats.luckyRank.points
+							rank: p1LuckyStats.luckyRank?.rank,
+							points: p1LuckyStats.luckyRank?.points
 						}
 					: null
 			})
@@ -383,8 +387,8 @@ const MatchCard = ({ match, appearance = 'card' }: MatchCardProps) => {
 				luckyStats: p2LuckyStats
 					? {
 							elo: p2LuckyStats.elo,
-							rank: p2LuckyStats.luckyRank.rank,
-							points: p2LuckyStats.luckyRank.points
+							rank: p2LuckyStats.luckyRank?.rank,
+							points: p2LuckyStats.luckyRank?.points
 						}
 					: null
 			})

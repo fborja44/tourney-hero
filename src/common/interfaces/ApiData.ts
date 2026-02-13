@@ -77,7 +77,7 @@ export interface LuckyStatsData {
 export interface LuckyStatsPlayerItem {
 	id: string | null;
 	gamerTag: string | null;
-	startgguserId: string | null;
+	startggUserId: string | null;
 	elo: number | null;
 	country: string | null;
 	primaryRegion: string | null;
