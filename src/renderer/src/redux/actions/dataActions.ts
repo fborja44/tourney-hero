@@ -6,6 +6,7 @@ import {
 	CrewBattleData,
 	DisplayData,
 	GameplayData,
+	HeadData,
 	OverlayData,
 	PlayerCardData,
 	PlayerData,
@@ -56,6 +57,19 @@ export const updatePlayer = createAction(
 	(targetPlayer: 'player1' | 'player2', updatedPlayer: Partial<PlayerData>) => {
 		return {
 			payload: { targetPlayer, updatedPlayer }
+		};
+	}
+);
+
+export const updatePlayerField = createAction(
+	'UPDATE_PLAYER_FIELD',
+	(
+		targetPlayer: 'player1' | 'player2',
+		field: string,
+		value: string | number | HeadData[] | boolean | null
+	) => {
+		return {
+			payload: { targetPlayer, field, value }
 		};
 	}
 );

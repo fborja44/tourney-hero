@@ -30,9 +30,10 @@ const useStyles = makeStyles({
 type FluentFieldProps = FieldProps & SpinButtonProps;
 
 interface NumberFieldProps extends FluentFieldProps {
-	targetField: DataField;
-	handleChange: (targetField: DataField, value: number) => void;
+	targetField: DataField | string;
+	handleChange: (targetField: DataField | string, value: number) => void;
 	suffix?: string;
+	precision?: number;
 }
 
 const NumberField = ({
@@ -43,6 +44,7 @@ const NumberField = ({
 	suffix,
 	value,
 	handleChange,
+	precision = 0,
 	...props
 }: NumberFieldProps) => {
 	const classes = useStyles();
@@ -66,7 +68,11 @@ const NumberField = ({
 					setPrevValue(parseInt(value.toString()) ?? prevValue ?? 0);
 				}}
 				value={value ?? null}
-				displayValue={suffix ? `${value}${suffix}` : value?.toString()}
+				displayValue={
+					suffix
+						? `${value?.toFixed(precision)}${suffix}`
+						: value?.toFixed(precision).toString()
+				}
 				{...props}
 			/>
 		</Field>

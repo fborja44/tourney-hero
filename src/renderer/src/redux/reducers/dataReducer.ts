@@ -22,6 +22,7 @@ import {
 	updateOverlayField,
 	updatePlayer,
 	updatePlayerCard,
+	updatePlayerField,
 	updateStats,
 	updatedStatsPlayers
 } from '../actions/dataActions';
@@ -96,6 +97,20 @@ const dataReducer = createReducer(initialState, (builder) => {
 				...state.gameplay[targetPlayer],
 				...updatedPlayer
 			};
+		})
+		.addCase(updatePlayerField, (state, action) => {
+			const { targetPlayer, field, value } = action.payload;
+
+			const keys = field.split('.');
+			let obj = state.gameplay[targetPlayer];
+
+			keys.forEach((key, i) => {
+				if (i === keys.length - 1) {
+					obj[key] = value;
+				} else {
+					obj = obj[key];
+				}
+			});
 		})
 		.addCase(updateCommentators, (state, action) => {
 			state.commentators = {

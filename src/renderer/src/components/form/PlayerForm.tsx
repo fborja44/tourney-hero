@@ -1,4 +1,4 @@
-import { Body1, Button, OptionOnSelectData, Tag, mergeClasses } from '@fluentui/react-components';
+import { Body1, Button, OptionOnSelectData, mergeClasses } from '@fluentui/react-components';
 import TextField from './inputs/TextField';
 import formStyles from './styles/FormStyles';
 import RadioGroupField from './inputs/RadioGroupField';
@@ -116,16 +116,6 @@ const PlayerForm = ({ playerNumber, playerData }: PlayerFormProps) => {
 		>
 			<div className={classes.sectionTitleContainer}>
 				<Body1 className={classes.sectionTitle}>Player {playerNumber}</Body1>
-				{playerData.luckyStats && (
-					<div className={classes.luckyStatsContainer}>
-						{playerData.luckyStats?.rank !== null && (
-							<Tag>Lucky Rank: {playerData.luckyStats.rank}</Tag>
-						)}
-						{playerData.luckyStats?.elo !== null && (
-							<Tag>Elo: {Math.round(playerData.luckyStats.elo)}</Tag>
-						)}
-					</div>
-				)}
 			</div>
 			<div className={classes.formRow}>
 				{entrantList.length === 0 ? (
@@ -241,6 +231,57 @@ const PlayerForm = ({ playerNumber, playerData }: PlayerFormProps) => {
 					handleChange={handlePlayerFieldChange}
 					playerNumber={playerNumber}
 				/>
+			</div>
+			{luckyStatsIsEnabled && (
+				<div className={classes.formRow}>
+					<NumberField
+						label="Lucky Rank"
+						value={playerData.luckyStats?.rank}
+						targetField="luckyStats.rank"
+						handleChange={handlePlayerFieldChange}
+						min={0}
+						max={MAX_SEED}
+					/>
+					<NumberField
+						label="Lucky Rank Points"
+						value={playerData.luckyStats?.points}
+						targetField="luckyStats.points"
+						handleChange={handlePlayerFieldChange}
+						min={MIN_SCORE}
+						// max={MAX_SCORE}
+					/>
+					<NumberField
+						label="Lucky Rank Elo"
+						value={playerData.luckyStats?.elo}
+						targetField="luckyStats.elo"
+						handleChange={handlePlayerFieldChange}
+						min={MIN_SCORE}
+						// max={MAX_SCORE}
+						precision={2}
+					/>
+				</div>
+			)}
+			<div className={classes.formRow}>
+				{/* TODO */}
+				<Button
+					onClick={() => {}}
+					size="small"
+					iconPosition="after"
+					className={classes.resetButton}
+					appearance="primary"
+				>
+					Clear Lucky Stats
+				</Button>
+				{/* TODO */}
+				<Button
+					onClick={() => {}}
+					size="small"
+					iconPosition="after"
+					className={classes.resetButton}
+					appearance="primary"
+				>
+					Refresh Data
+				</Button>
 			</div>
 		</div>
 	);

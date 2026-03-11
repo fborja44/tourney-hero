@@ -2,7 +2,8 @@ import { BracketData, DataField, HeadData, OverlayData, PlayerData } from '@comm
 import {
 	updateBracketMatch,
 	updateOverlayField,
-	updatePlayer
+	updatePlayer,
+	updatePlayerField
 } from '@renderer/redux/actions/dataActions';
 import { useDispatch } from 'react-redux';
 
@@ -52,36 +53,32 @@ const useOverlayControls = () => {
 	 * @returns A change handler function.
 	 */
 	const createPlayerFormChangeHandler = (playerNumber: '1' | '2') => {
-		return (targetField: DataField, value: string | number | HeadData[] | boolean | null) => {
-			dispatch(
-				updatePlayer(`player${playerNumber}`, {
-					[targetField]: value
-				})
-			);
+		return (
+			targetField: DataField | string,
+			value: string | number | HeadData[] | boolean | null
+		) => {
+			handleNestedPlayerFieldChange(`player${playerNumber}`, targetField, value);
 		};
 	};
 
 	/**
-	 * On change handler. Updates the target field in commentators card redux state.
-	 * @param targetField The commentator field to update
+	 * On change handler. Updates the target field in player redux state.
+	 * @param targetPlayer The player to update
+	 * @param targetField The player field to update. Supports nested fields.
 	 * @param value The value to update to
 	 */
-	const handlePlayerFieldChange = (
+	const handleNestedPlayerFieldChange = (
 		targetPlayer: 'player1' | 'player2',
-		targetField: DataField,
+		targetField: DataField | string,
 		value: string | number | HeadData[] | boolean | null
 	) => {
-		dispatch(
-			updatePlayer(targetPlayer, {
-				[targetField]: value
-			})
-		);
+		dispatch(updatePlayerField(targetPlayer, targetField, value));
 	};
 
 	/**
-	 * On change handler. Updates the  field in commentators card redux state.
-	 * @param targetField The commentator field to update
-	 * @param value The value to update to
+	 * On change handler. Updates the  field in player redux state.
+	 * @param targetPlayer The player to update
+	 * @param updatedPlayer The value to update to
 	 */
 	const handlePlayerChange = (
 		targetPlayer: 'player1' | 'player2',
@@ -119,7 +116,7 @@ const useOverlayControls = () => {
 		handlePlayerCardChange,
 		handleCrewBattleChange,
 		createPlayerFormChangeHandler,
-		handlePlayerFieldChange,
+		handleNestedPlayerFieldChange,
 		handlePlayerChange
 	};
 };
