@@ -22,6 +22,8 @@ import CountryField from './inputs/CountryField';
 import CrewBattleField from './inputs/CrewBattleField';
 import useOverlayControls from '@hooks/controls/useOverlayControls';
 import useLocalPlayers from '@renderer/hooks/data/useLocalPlayers';
+import { LuckyStatsPlayerItem } from '@common/interfaces/ApiData';
+import useLuckyStats from '@renderer/hooks/luckystats/useLuckyStats';
 
 interface PlayerFormProps {
 	playerNumber: '1' | '2';
@@ -35,6 +37,12 @@ const PlayerForm = ({ playerNumber, playerData }: PlayerFormProps) => {
 	const { entrantList } = useSelector((state: AppState) => state.tournamentState.entrants);
 
 	const { createPlayerFormChangeHandler, handlePlayerChange } = useOverlayControls();
+
+	const { isEnabled: luckyStatsIsEnabled } = useSelector(
+		(state: AppState) => state.luckyStatsState
+	);
+
+	const { fetchLuckyStatsPlayerData } = useLuckyStats();
 
 	const handlePlayerFieldChange = createPlayerFormChangeHandler(playerNumber);
 
@@ -59,15 +67,32 @@ const PlayerForm = ({ playerNumber, playerData }: PlayerFormProps) => {
 	};
 	const { playersList } = useLocalPlayers();
 
-	const handleEntrantSelect = (_ev, data) => {
+	const handleEntrantSelect = async (_ev, data) => {
 		const player = entrantList.find((entrant) => entrant.id.toString() === data.optionValue);
 		const localPlayer = playersList.find((player) => player.tag === data.optionText);
+
+		let luckyStatsPlayer: LuckyStatsPlayerItem | null = null;
+		if (luckyStatsIsEnabled && player?.userId) {
+			const response = await fetchLuckyStatsPlayerData([player.userId]);
+
+			const players = response?.data?.players ?? [];
+			if (players.length > 0) {
+				luckyStatsPlayer = players[0];
+			}
+		}
 
 		const playerData: Partial<PlayerData> = {
 			tag: localPlayer?.tag ?? player?.tag ?? '',
 			team: localPlayer?.team ?? player?.team ?? '',
 			pronoun: localPlayer?.pronoun ?? player?.pronoun ?? '',
-			characterId: localPlayer?.characterId ?? player?.characterId ?? null
+			characterId: localPlayer?.characterId ?? player?.characterId ?? null,
+			luckyStats: luckyStatsPlayer
+				? {
+						elo: luckyStatsPlayer.elo ?? null,
+						rank: luckyStatsPlayer.luckyRank?.rank ?? null,
+						points: luckyStatsPlayer.luckyRank?.points ?? null
+					}
+				: null
 		};
 
 		handlePlayerChange(`player${playerNumber}`, playerData);

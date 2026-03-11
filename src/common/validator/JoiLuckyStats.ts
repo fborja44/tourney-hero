@@ -1,18 +1,18 @@
 import Joi from 'joi';
 import { JoiIsoDateString } from '.';
 
-const LuckyStatsSessionSchema = Joi.object({
+const JoiLuckyStatsSessionSchema = Joi.object({
 	id: Joi.string().required(),
 	createdAt: JoiIsoDateString.required(),
 	updatedAt: JoiIsoDateString.required()
 });
 
-const LuckyStatsTournamentSchema = Joi.object({
+const JoiLuckyStatsTournamentSchema = Joi.object({
 	slug: Joi.string().allow(null),
 	name: Joi.string().allow(null)
 });
 
-const LuckyStatsPlayerSchema = Joi.object({
+const JoiLuckyStatsPlayerSchema = Joi.object({
 	id: Joi.string().allow(null),
 	elo: Joi.number().allow(null),
 	country: Joi.string().allow(null),
@@ -30,12 +30,12 @@ const LuckyStatsPlayerSchema = Joi.object({
 	regionEmoji: Joi.string().allow(null)
 });
 
-const LuckyStatsPlayersSchema = Joi.object({
-	left: LuckyStatsPlayerSchema.required(),
-	right: LuckyStatsPlayerSchema.required()
+const JoiLuckyStatsPlayersSchema = Joi.object({
+	left: JoiLuckyStatsPlayerSchema.required(),
+	right: JoiLuckyStatsPlayerSchema.required()
 });
 
-const LuckyStatsSetSchema = Joi.object({
+const JoiLuckyStatsSetSchema = Joi.object({
 	id: Joi.string().allow(null),
 	winner: Joi.string().valid('player1', 'player2').required(),
 	score: Joi.string().allow(null),
@@ -44,20 +44,20 @@ const LuckyStatsSetSchema = Joi.object({
 	completedAt: JoiIsoDateString.allow(null)
 });
 
-const LuckyStatsH2HSchema = Joi.object({
+const JoiLuckyStatsH2HSchema = Joi.object({
 	player1Wins: Joi.number().allow(null),
 	player2Wins: Joi.number().allow(null),
 	totalSets: Joi.number().allow(null),
 	lastPlayedDate: JoiIsoDateString.allow(null),
-	recentSets: Joi.array().items(LuckyStatsSetSchema).required()
+	recentSets: Joi.array().items(JoiLuckyStatsSetSchema).required()
 });
 
-const LuckyStatsWinProbabilitySchema = Joi.object({
+const JoiLuckyStatsWinProbabilitySchema = Joi.object({
 	left: Joi.number().allow(null),
 	right: Joi.number().allow(null)
 });
 
-const LuckyStatsPlayerCardOptionsSchema = Joi.object({
+const JoiLuckyStatsPlayerCardOptionsSchema = Joi.object({
 	layout: Joi.string().allow(null),
 	showElo: Joi.boolean().required(),
 	eloStyle: Joi.string().allow(null),
@@ -68,17 +68,17 @@ const LuckyStatsPlayerCardOptionsSchema = Joi.object({
 	showLuckyRank: Joi.boolean().required()
 });
 
-export const LuckyStatsDataSchema = Joi.object({
-	session: LuckyStatsSessionSchema.required(),
-	tournament: LuckyStatsTournamentSchema.required(),
-	players: LuckyStatsPlayersSchema.required(),
-	h2h: LuckyStatsH2HSchema.required(),
-	winProbability: LuckyStatsWinProbabilitySchema.required(),
-	playerCardOptions: LuckyStatsPlayerCardOptionsSchema.required()
+export const JoiLuckyStatsDataSchema = Joi.object({
+	session: JoiLuckyStatsSessionSchema.required(),
+	tournament: JoiLuckyStatsTournamentSchema.required(),
+	players: JoiLuckyStatsPlayersSchema.required(),
+	h2h: JoiLuckyStatsH2HSchema.required(),
+	winProbability: JoiLuckyStatsWinProbabilitySchema.required(),
+	playerCardOptions: JoiLuckyStatsPlayerCardOptionsSchema.required()
 }).required();
 
 // From /stream/players
-export const LuckyStatsPlayerItemSchema = Joi.object({
+export const JoiLuckyStatsPlayerItemSchema = Joi.object({
 	id: Joi.string().allow(null),
 	gamerTag: Joi.string().allow(null),
 	startgguserId: Joi.string().alphanum().allow(null),

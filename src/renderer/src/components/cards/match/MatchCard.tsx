@@ -324,32 +324,20 @@ const MatchCard = ({ match, appearance = 'card' }: MatchCardProps) => {
 		// If Lucky Stats integration is enabled, then query
 		let p1LuckyStats: LuckyStatsPlayerItem | null = null;
 		let p2LuckyStats: LuckyStatsPlayerItem | null = null;
-		if (luckyStatsIsEnabled) {
-			const playerIds: number[] = [];
-			if (player1.userId) {
-				playerIds.push(player1.userId);
-			}
-			if (player2.userId) {
-				playerIds.push(player2.userId);
-			}
+
+		const playerIds = [player1.userId, player2.userId].filter(
+			(id): id is number => typeof id === 'number'
+		);
+
+		if (luckyStatsIsEnabled && playerIds.length > 0) {
 			const response = await fetchLuckyStatsPlayerData(playerIds);
 
 			// Filter for each player
-			const luckyStatsData = response?.data?.players ?? [];
-			if (luckyStatsData.length) {
-				p1LuckyStats =
-					luckyStatsData.find(
-						(player: LuckyStatsPlayerItem) =>
-							player1.userId !== null &&
-							player.startggUserId === player1.userId.toString()
-					) || null;
-				p2LuckyStats =
-					luckyStatsData.find(
-						(player: LuckyStatsPlayerItem) =>
-							player2.userId !== null &&
-							player.startggUserId === player2.userId.toString()
-					) || null;
-			}
+			const players = response?.data?.players ?? [];
+			p1LuckyStats =
+				players.find((p) => p.startggUserId === player1.userId?.toString()) ?? null;
+			p2LuckyStats =
+				players.find((p) => p.startggUserId === player2.userId?.toString()) ?? null;
 		}
 
 		dispatch(
@@ -369,9 +357,9 @@ const MatchCard = ({ match, appearance = 'card' }: MatchCardProps) => {
 				seed: player1.seed ?? null,
 				luckyStats: p1LuckyStats
 					? {
-							elo: p1LuckyStats.elo,
-							rank: p1LuckyStats.luckyRank?.rank,
-							points: p1LuckyStats.luckyRank?.points
+							elo: p1LuckyStats.elo ?? null,
+							rank: p1LuckyStats.luckyRank?.rank ?? null,
+							points: p1LuckyStats.luckyRank?.points ?? null
 						}
 					: null
 			})
@@ -386,9 +374,9 @@ const MatchCard = ({ match, appearance = 'card' }: MatchCardProps) => {
 				seed: player2.seed ?? null,
 				luckyStats: p2LuckyStats
 					? {
-							elo: p2LuckyStats.elo,
-							rank: p2LuckyStats.luckyRank?.rank,
-							points: p2LuckyStats.luckyRank?.points
+							elo: p2LuckyStats.elo ?? null,
+							rank: p2LuckyStats.luckyRank?.rank ?? null,
+							points: p2LuckyStats.luckyRank?.points ?? null
 						}
 					: null
 			})

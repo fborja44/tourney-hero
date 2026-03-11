@@ -1,3 +1,4 @@
+import { JoiLuckyStatsPlayerItemSchema } from '@common/validator/JoiLuckyStats';
 import axios from 'axios';
 import { useState } from 'react';
 
@@ -20,11 +21,17 @@ const useLuckyStats = () => {
 			const response = await axios.get(
 				`${LUCKY_STATS_API_BASE_URL}/stream/session/${key}/data`
 			);
-			console.log(response);
+
 			if (response.status !== 200) {
 				throw new Error('Invalid response from Lucky Stats API');
 			}
-			setData(response.data);
+
+			// Validate Response
+			if (JoiLuckyStatsPlayerItemSchema.validate(response.data)) {
+				setData(response.data);
+			} else {
+				throw new Error('Invalid data format from Lucky Stats API');
+			}
 			setLoading(false);
 			return response;
 		} catch (err) {
