@@ -1,5 +1,6 @@
 import { UUID } from 'crypto';
 import { CharacterId, PlayerCardMatch, PlayerCardPlacement, Port } from './Types';
+import { LuckyStatsMatchup } from './ApiData';
 
 export type DisplayData =
 	| GameplayData
@@ -41,6 +42,7 @@ export interface GameplayData {
 	player1: PlayerData;
 	player2: PlayerData;
 	showPlayerCamInfo: boolean;
+	matchup: LuckyStatsMatchup | null;
 }
 
 export interface ScoreData {

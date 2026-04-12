@@ -12,6 +12,7 @@ import {
 	PlayerData,
 	StatsData
 } from '@common/interfaces/Data';
+import { LuckyStatsMatchup } from '@common/interfaces/ApiData';
 
 export const setOverlayData = createAction('SET_DATA', (newOverlayData: OverlayData) => {
 	return {
@@ -145,6 +146,15 @@ export const toggleCrewPlayerActive = createAction(
 	(targetTeam: 'team1Players' | 'team2Players', index: number) => {
 		return {
 			payload: { targetTeam, index }
+		};
+	}
+);
+
+export const setLuckyStatsMatchup = createAction(
+	'SET_LUCKY_STATS_MATCHUP',
+	(data: LuckyStatsMatchup | null) => {
+		return {
+			payload: data
 		};
 	}
 );
