@@ -414,12 +414,12 @@ const MatchCard = ({ match, appearance = 'card' }: MatchCardProps) => {
 					ifPlayer2Wins: {
 						player1: {
 							ratingDelta:
-								matchup?.estimatedGlickoAfterNextSet?.ifPlayer1Wins?.player1
+								matchup?.estimatedGlickoAfterNextSet?.ifPlayer2Wins?.player1
 									?.ratingDelta ?? null
 						},
 						player2: {
 							ratingDelta:
-								matchup?.estimatedGlickoAfterNextSet?.ifPlayer1Wins?.player2
+								matchup?.estimatedGlickoAfterNextSet?.ifPlayer2Wins?.player2
 									?.ratingDelta ?? null
 						}
 					},
