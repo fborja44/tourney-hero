@@ -407,7 +407,7 @@ const MatchCard = ({ match, appearance = 'card' }: MatchCardProps) => {
 						},
 						player2: {
 							ratingDelta:
-								matchup?.estimatedGlickoAfterNextSet?.ifPlayer1Wins?.player1
+								matchup?.estimatedGlickoAfterNextSet?.ifPlayer1Wins?.player2
 									?.ratingDelta ?? null
 						}
 					},
@@ -419,18 +419,18 @@ const MatchCard = ({ match, appearance = 'card' }: MatchCardProps) => {
 						},
 						player2: {
 							ratingDelta:
-								matchup?.estimatedGlickoAfterNextSet?.ifPlayer1Wins?.player1
+								matchup?.estimatedGlickoAfterNextSet?.ifPlayer1Wins?.player2
 									?.ratingDelta ?? null
 						}
 					},
 					winProbability: {
 						glickoOnly: {
-							player1: matchup?.winProbability.glickoOnly?.player1 ?? null,
-							player2: matchup?.winProbability.glickoOnly?.player2 ?? null
+							player1: matchup?.winProbability?.glickoOnly?.player1 ?? null,
+							player2: matchup?.winProbability?.glickoOnly?.player2 ?? null
 						},
 						blended: {
-							player1: matchup?.winProbability.blended?.player1 ?? null,
-							player2: matchup?.winProbability.blended?.player2 ?? null
+							player1: matchup?.winProbability?.blended?.player1 ?? null,
+							player2: matchup?.winProbability?.blended?.player2 ?? null
 						}
 					}
 				}
