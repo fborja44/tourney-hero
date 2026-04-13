@@ -62,7 +62,7 @@ export const parseMatch = async (matchData: any): Promise<ParsedMatch | undefine
 	}
 
 	return {
-		id: matchData.id,
+		id: matchData?.id,
 		identifier: matchData.identifier,
 		hasPlaceholder: matchData.hasPlaceholder,
 		round: matchData.round,
@@ -129,7 +129,7 @@ export const parseSetEntrant = async (slot: any): Promise<Entrant> => {
 	}
 
 	const player: Entrant = {
-		id: entrant.id,
+		id: entrant?.id,
 		userId: participants.length === 1 ? participants[0].user.id : null, // TODO: Support doubles
 		tag: tag ?? '',
 		team: localPlayerData?.team ?? prefix ?? '',
@@ -280,8 +280,8 @@ export const parseEventEntrant = async (node: any): Promise<Entrant> => {
 	// const localPlayerData = await getLocalPlayerData(participant.gamerTag);
 
 	const player: Entrant = {
-		id: node.id,
-		userId: participants.length === 1 ? participants[0].user.id : null, // TODO: Support doubles
+		id: node?.id,
+		userId: participants.length === 1 ? participants[0].user?.id : null, // TODO: Support doubles
 		tag: participant.gamerTag ?? '',
 		team: prefix ?? '',
 		pronoun: user?.genderPronoun ?? '',
@@ -336,7 +336,7 @@ export const parseEventEntrantPlayerData = async (
 		user?.authorizations?.find((social) => social.type === 'TWITCH')?.externalUsername ?? '';
 
 	const player: Partial<PlayerCardData> = {
-		id: entrant.id,
+		id: entrant?.id,
 		tag: participant.gamerTag ?? entrant.name ?? '',
 		team: prefix ?? '',
 		pronoun: user?.genderPronoun ?? '',
