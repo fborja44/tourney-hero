@@ -284,6 +284,7 @@ export const parseEventEntrant = async (node: any): Promise<Entrant> => {
 		userId: participants.length === 1 ? participants[0].user?.id : null, // TODO: Support doubles
 		tag: participant.gamerTag ?? '',
 		team: prefix ?? '',
+		seed: node?.initialSeedNum ?? null,
 		pronoun: user?.genderPronoun ?? '',
 		imageUrl: user?.images[0]?.url ?? '',
 		characterId: undefined

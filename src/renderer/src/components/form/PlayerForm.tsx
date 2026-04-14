@@ -88,6 +88,7 @@ const PlayerForm = ({ playerNumber, playerData }: PlayerFormProps) => {
 			team: localPlayer?.team ?? player?.team ?? '',
 			pronoun: localPlayer?.pronoun ?? player?.pronoun ?? '',
 			characterId: localPlayer?.characterId ?? player?.characterId ?? null,
+			seed: player?.seed ?? null,
 			luckyStats: luckyStatsPlayer
 				? {
 						elo: luckyStatsPlayer.elo ?? null,

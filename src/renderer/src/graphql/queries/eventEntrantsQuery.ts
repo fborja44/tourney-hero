@@ -14,6 +14,7 @@ const EVENT_ENTRANTS_QUERY = gql`
 					}
 					nodes {
 						id
+						initialSeedNum
 						participants {
 							gamerTag
 							prefix
