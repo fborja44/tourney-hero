@@ -22,9 +22,8 @@ import CountryField from './inputs/CountryField';
 import CrewBattleField from './inputs/CrewBattleField';
 import useOverlayControls from '@hooks/controls/useOverlayControls';
 import useLocalPlayers from '@renderer/hooks/data/useLocalPlayers';
-import { LuckyStatsMatchupResponse, LuckyStatsPlayerItem } from '@common/interfaces/ApiData';
+import { LuckyStatsPlayerItem } from '@common/interfaces/ApiData';
 import useLuckyStats from '@renderer/hooks/luckystats/useLuckyStats';
-import { updateGameplay } from '@renderer/redux/actions/dataActions';
 
 interface PlayerFormProps {
 	playerNumber: '1' | '2';
@@ -35,8 +34,6 @@ const PlayerForm = ({ playerNumber, playerData }: PlayerFormProps) => {
 	const classes = formStyles();
 	const playerClasses = playerFormStyles();
 
-	const dispatch = useDispatch();
-
 	const { player1, player2 } = useSelector((state: AppState) => state.dataState.gameplay);
 	const { entrantList } = useSelector((state: AppState) => state.tournamentState.entrants);
 
@@ -46,7 +43,7 @@ const PlayerForm = ({ playerNumber, playerData }: PlayerFormProps) => {
 		(state: AppState) => state.luckyStatsState
 	);
 
-	const { fetchLuckyStatsPlayerData } = useLuckyStats();
+	const { fetchLuckyStatsPlayerData, setMatchupData } = useLuckyStats();
 
 	const handlePlayerFieldChange = createPlayerFormChangeHandler(playerNumber);
 
@@ -103,78 +100,10 @@ const PlayerForm = ({ playerNumber, playerData }: PlayerFormProps) => {
 		handlePlayerChange(`player${playerNumber}`, playerData);
 
 		// Check if both players have a startggId and fetch matchup data if so
-		let matchup: LuckyStatsMatchupResponse | null = null;
+		const player1Id = playerNumber === '1' ? playerData.startggId : player1.startggId;
+		const player2Id = playerNumber === '2' ? playerData.startggId : player2.startggId;
 		if (luckyStatsIsEnabled) {
-			const otherPlayer = playerNumber === '1' ? player2 : player1;
-			const otherPlayerId = otherPlayer?.startggId;
-
-			if (playerData.startggId && otherPlayerId) {
-				const response = await fetchLuckyStatsPlayerData([
-					playerData.startggId,
-					otherPlayerId
-				]);
-				matchup = response?.data?.matchup ?? null;
-			} else {
-				dispatch(
-					updateGameplay({
-						matchup: null
-					})
-				);
-				return;
-			}
-
-			dispatch(
-				updateGameplay({
-					matchup: {
-						h2h: {
-							player1Wins: matchup?.h2h?.player1Wins ?? null,
-							player2Wins: matchup?.h2h?.player2Wins ?? null,
-							totalSets: matchup?.h2h?.totalSets ?? null,
-							recentSets: matchup?.h2h?.recentSets ?? []
-						},
-						ifPlayer1Wins: {
-							player1: {
-								ratingDelta:
-									matchup?.estimatedGlickoAfterNextSet?.ifPlayer1Wins?.player1
-										?.ratingDelta ?? null
-							},
-							player2: {
-								ratingDelta:
-									matchup?.estimatedGlickoAfterNextSet?.ifPlayer1Wins?.player2
-										?.ratingDelta ?? null
-							}
-						},
-						ifPlayer2Wins: {
-							player1: {
-								ratingDelta:
-									matchup?.estimatedGlickoAfterNextSet?.ifPlayer2Wins?.player1
-										?.ratingDelta ?? null
-							},
-							player2: {
-								ratingDelta:
-									matchup?.estimatedGlickoAfterNextSet?.ifPlayer2Wins?.player2
-										?.ratingDelta ?? null
-							}
-						},
-						winProbability: {
-							glickoOnly: {
-								player1: matchup?.winProbability?.glickoOnly?.player1 ?? null,
-								player2: matchup?.winProbability?.glickoOnly?.player2 ?? null
-							},
-							blended: {
-								player1: matchup?.winProbability?.blended?.player1 ?? null,
-								player2: matchup?.winProbability?.blended?.player2 ?? null
-							}
-						}
-					}
-				})
-			);
-		} else {
-			dispatch(
-				updateGameplay({
-					matchup: null
-				})
-			);
+			await setMatchupData(player1Id, player2Id);
 		}
 	};
 

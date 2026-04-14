@@ -3,66 +3,42 @@ import ActionMenuStyles from '../styles/ActionMenuStyles';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '@renderer/redux/reducers/rootReducer';
 import { LuckyStatsState } from '@renderer/redux/reducers/luckyStatsReducer';
-import { Switch } from '@fluentui/react-components';
+import { Button, Switch } from '@fluentui/react-components';
 import { setLuckyStatsIsEnabled } from '@renderer/redux/actions/luckyStatsActions';
+import { updateGameplay } from '@renderer/redux/actions/dataActions';
+import useLuckyStats from '@renderer/hooks/luckystats/useLuckyStats';
 
 const AutomationMenu = () => {
 	const classes = ActionMenuStyles();
 	const dispatch = useDispatch();
 
-	// const { error, setError, loading, fetchData } = useLuckyStats();
+	const { setMatchupData } = useLuckyStats();
 	// const { sendSocketData } = useSocket();
 
 	const { isEnabled }: LuckyStatsState = useSelector((state: AppState) => state.luckyStatsState);
-
-	// const [keyValue, setKeyValue] = useState<string>(key ?? '');
-
-	/**
-	 * Validate the key by sending a test request.
-	 * If successful, store the key in the redux state.
-	 */
-	// const handleValidateKey = async () => {
-	// 	if (!keyValue || keyValue.trim() === '') {
-	// 		return;
-	// 	}
-	// 	setError(null);
-	// 	const response = await fetchData(keyValue.trim());
-	// 	if (response?.status === 200) {
-	// 		// TODO: Validate response for required fields
-	// 		dispatch(setLuckyStatsKey(keyValue.trim()));
-	// 		sendSocketData('updateLuckyStats', response.data);
-	// 	}
-	// };
+	const { player1, player2 } = useSelector((state: AppState) => state.dataState.gameplay);
 
 	/**
-	 * Clears the key from state.
+	 * Fetch and set matchup data.
 	 */
-	// const handleClearKey = () => {
-	// 	setError(null);
-	// 	setKeyValue('');
-	// 	dispatch(setLuckyStatsKey(null));
-	// };
+	const handleRefreshMatchupData = async () => {
+		await setMatchupData(player1?.startggId, player2?.startggId);
+	};
 
-	// const isEditing = key !== keyValue;
-	// const keyValidation = key && !isEditing ? 'success' : error ? 'error' : 'none';
-	// const keyMessage = keyValidation === 'success' ? 'Key Validated' : error ?? '';
+	/**
+	 * Clears matchup data.
+	 */
+	const handleClearMatchupData = () => {
+		dispatch(
+			updateGameplay({
+				matchup: null
+			})
+		);
+	};
 
 	return (
 		<ActionMenu title="Lucky Stats Configuration">
 			<ActionMenuSection label="API Integration">
-				{/* <MenuTextField
-					label="Session Key"
-					value={keyValue}
-					placeholder="Enter your session key..."
-					size="small"
-					type="password"
-					handleChange={(_ev, data) => {
-						setError(null);
-						setKeyValue(data.value);
-					}}
-					validationState={keyValidation}
-					validationMessage={keyMessage}
-				/> */}
 				<Switch
 					className={classes.switch}
 					label="Enable Lucky Stat Integration"
@@ -72,22 +48,26 @@ const AutomationMenu = () => {
 					}}
 				/>
 			</ActionMenuSection>
-			{/* <div className={classes.buttonsContainer}>
-				{(!key || isEditing) && (
+			<ActionMenuSection label="Matchup Data">
+				<div className={classes.buttonsContainer}>
 					<Button
 						size="small"
-						appearance="primary"
-						onClick={handleValidateKey}
+						appearance="secondary"
+						onClick={handleRefreshMatchupData}
 						iconPosition="after"
-						disabled={loading}
 					>
-						{loading ? 'Validating...' : 'Test Key'}
+						Refresh H2H
 					</Button>
-				)}
-				<Button size="small" onClick={handleClearKey} iconPosition="after">
-					Clear Key
-				</Button>
-			</div> */}
+					<Button
+						size="small"
+						appearance="secondary"
+						onClick={handleClearMatchupData}
+						iconPosition="after"
+					>
+						Clear H2H
+					</Button>
+				</div>
+			</ActionMenuSection>
 		</ActionMenu>
 	);
 };

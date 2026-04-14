@@ -55,7 +55,11 @@ const useStyles = makeStyles({
 			color: appTokens.colorNeutralForeground1
 		},
 		'& .action-button-title': {
-			color: appTokens.colorNeutralForeground4
+			color: appTokens.colorNeutralForeground4,
+			textOverflow: 'ellipsis',
+			whiteSpace: 'nowrap',
+			width: '95px',
+			...shorthands.overflow('hidden')
 		}
 	},
 	successColors: generateColorStyles('success'),
