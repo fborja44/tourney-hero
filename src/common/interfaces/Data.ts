@@ -61,6 +61,7 @@ export interface HeadData {
 }
 
 export interface PlayerData {
+	startggId?: number | null;
 	tag: string;
 	tagDisplaySize: number;
 	score: number | null;
@@ -72,7 +73,7 @@ export interface PlayerData {
 	heads: HeadData[];
 	seed: number | null;
 	// Optional based on if Lucky Stats integration is enabled
-	luckyStats: {
+	luckyStats?: {
 		elo: number | null;
 		rank: number | null; // luckyRank
 		points: number | null; // LuckyRank Points

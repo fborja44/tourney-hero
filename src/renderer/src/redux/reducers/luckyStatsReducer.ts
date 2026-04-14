@@ -7,7 +7,7 @@ export type LuckyStatsState = {
 };
 
 const initialState: LuckyStatsState = {
-	isEnabled: false
+	isEnabled: true
 };
 
 const luckyStatsReducer = createReducer(initialState, (builder) => {

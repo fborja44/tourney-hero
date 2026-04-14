@@ -30,6 +30,7 @@ export const JoiHead = Joi.object({
 });
 
 export const JoiPlayer = Joi.object({
+	startggId: Joi.number().allow(null).optional(),
 	tag: JoiTag.required(),
 	tagDisplaySize: Joi.number().min(1).max(MAX_SCORE).required(),
 	score: JoiScore.required(),
@@ -41,7 +42,14 @@ export const JoiPlayer = Joi.object({
 		.required(),
 	countryCode: JoiLocationCode.required(),
 	heads: Joi.array().items(JoiHead).min(0),
-	seed: Joi.number().integer().min(0).max(MAX_SEED).allow(null).required()
+	seed: Joi.number().integer().min(0).max(MAX_SEED).allow(null).required(),
+	luckyStats: Joi.object({
+		elo: Joi.number().allow(null).required(),
+		rank: Joi.number().allow(null).required(),
+		points: Joi.number().allow(null).required()
+	})
+		.allow(null)
+		.optional()
 }).required();
 
 const JoiGameplay = Joi.object({
