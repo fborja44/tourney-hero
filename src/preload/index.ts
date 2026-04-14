@@ -22,9 +22,13 @@ if (process.contextIsolated) {
 			addCommentator: () => ipcRenderer.send('commentator:add'),
 			updateCommentator: () => ipcRenderer.send('commentator:update'),
 			removeCommentator: () => ipcRenderer.send('commentator:remove'),
+			importCommentator: () => ipcRenderer.send('commentator:import'),
+			exportCommentator: () => ipcRenderer.send('commentator:export'),
 			addPlayer: () => ipcRenderer.send('player:add'),
 			updatePlayer: () => ipcRenderer.send('player:update'),
 			removePlayer: () => ipcRenderer.send('player:remove'),
+			importPlayer: () => ipcRenderer.send('player:import'),
+			exportPlayer: () => ipcRenderer.send('player:export'),
 			getSetStats: () => ipcRenderer.send('slippi:getSetStats')
 		});
 	} catch (error) {

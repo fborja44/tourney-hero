@@ -12,9 +12,11 @@ import {
 	handleAddLocalPlayer,
 	handleDeleteLocalCommentator,
 	handleDeleteLocalPlayer,
+	handleExportLocalCommentators,
 	handleExportLocalPlayers,
 	handleGetCommentatorsList,
 	handleGetPlayersList,
+	handleImportLocalCommentators,
 	handleImportLocalPlayers,
 	handleUpdateLocalCommentator,
 	handleUpdateLocalPlayer
@@ -106,6 +108,8 @@ app.whenReady().then(() => {
 	ipcMain.handle('commentator:add', handleAddLocalCommentator);
 	ipcMain.handle('commentator:update', handleUpdateLocalCommentator);
 	ipcMain.handle('commentator:remove', handleDeleteLocalCommentator);
+	ipcMain.handle('commentator:import', handleImportLocalCommentators);
+	ipcMain.handle('commentator:export', handleExportLocalCommentators);
 
 	ipcMain.handle('player:list', handleGetPlayersList);
 	ipcMain.handle('player:add', handleAddLocalPlayer);

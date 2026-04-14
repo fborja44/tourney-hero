@@ -147,22 +147,63 @@ const LocalCommentatorTable = () => {
 		})
 	];
 
+	const handleImportCommentators = async () => {
+		const result = await ipcRenderer.invoke('commentator:import');
+		if (result.error) {
+			dispatchToast(<MessageToast title="Import Error" message={result.error} />, {
+				intent: 'error'
+			});
+			return;
+		}
+
+		// Update player list
+		setData(result.data);
+		dispatchToast(<MessageToast title="Commentators imported successfully" />, {
+			intent: 'success'
+		});
+	};
+
+	const handleExportCommentators = async () => {
+		const result = await ipcRenderer.invoke('commentator:export', await getCommentatorsList());
+		if (result.error) {
+			dispatchToast(<MessageToast title="Export Error" message={result.error} />, {
+				intent: 'error'
+			});
+			return;
+		}
+		dispatchToast(<MessageToast title="Commentators exported successfully" />, {
+			intent: 'success'
+		});
+	};
+
 	return (
 		<div className={classes.container}>
 			<div className={classes.header}>
 				<Body1>Commentator Data</Body1>
-				<Dialog open={open}>
-					<Button
-						appearance="primary"
-						size="small"
-						icon={<Add16Regular />}
-						iconPosition="after"
-						onClick={() => setOpen(true)}
-					>
-						Add Entry
+				<div className={classes.actions}>
+					<Button size="small" onClick={async () => handleImportCommentators()}>
+						Import
 					</Button>
-					<CommentatorDialog setOpen={setOpen} />
-				</Dialog>
+					<Button
+						size="small"
+						onClick={async () => await handleExportCommentators()}
+						disabled={!data || data.length === 0}
+					>
+						Export
+					</Button>
+					<Dialog open={open}>
+						<Button
+							appearance="primary"
+							size="small"
+							icon={<Add16Regular />}
+							iconPosition="after"
+							onClick={() => setOpen(true)}
+						>
+							Add Entry
+						</Button>
+						<CommentatorDialog setOpen={setOpen} />
+					</Dialog>
+				</div>
 			</div>
 			<Card className={classes.card}>
 				<DataGrid items={data} columns={columns} sortable>

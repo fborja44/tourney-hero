@@ -1,9 +1,11 @@
 import { MAX_COMMENTATOR_LENGTH } from '../../common/constants/limits';
-import { IpcMainInvokeEvent } from 'electron';
+import { app, dialog, IpcMainInvokeEvent } from 'electron';
 import Joi from 'joi';
 import store from '.';
 import { LocalCommentator } from '../../common/interfaces/Data';
 import { JoiUUID } from '../../common/validator';
+import path from 'path';
+import fs from 'fs';
 
 const JoiLocalCommentator = Joi.object({
 	id: JoiUUID.required(),
@@ -111,4 +113,90 @@ export const handleDeleteLocalCommentator = (ev: IpcMainInvokeEvent, data: strin
 	store.set('commentators', newList);
 	ev.sender.send('commentator:updated');
 	return { data: newList };
+};
+
+/**
+ * Import local commentators data from a JSON file. The JSON file should be an array of LocalCommentator objects.
+ * @returns The new commentators list if successful. Otherwise, returns an error message.
+ */
+export const handleImportLocalCommentators = async () => {
+	try {
+		const result = await dialog.showOpenDialog({
+			properties: ['openFile'],
+			filters: [{ name: 'JSON Files', extensions: ['json'] }]
+		});
+
+		if (result.canceled || result.filePaths.length === 0) {
+			console.error('Cancelled import');
+			return { error: 'No file selected' };
+		}
+
+		const filePath = result.filePaths[0];
+		const rawData = fs.readFileSync(filePath, 'utf-8');
+		const jsonData = JSON.parse(rawData);
+
+		// Validate data
+		const validationResult = JoiLocalCommentatorList.validate(jsonData);
+		if (validationResult.error) {
+			console.error(validationResult.error);
+			return { error: validationResult.error.message };
+		}
+		console.log('Importing commentators from', filePath);
+
+		// Save to store
+		store.set('commentators', validationResult.value);
+
+		return { data: validationResult.value };
+	} catch (err) {
+		console.error(err);
+		return { error: 'Failed to read JSON file' };
+	}
+};
+
+/**
+ * Exports local commentator data to a JSON file. The JSON file will be an array of LocalCommentator objects.
+ * @param ev The IPC event
+ * @param data The commentator data to export
+ * @returns The file path if successful. Otherwise, returns an error message.
+ */
+export const handleExportLocalCommentators = async (
+	_ev: IpcMainInvokeEvent,
+	data: LocalCommentator[]
+) => {
+	try {
+		const downloadsPath = app.getPath('downloads');
+		const defaultFilePath = path.join(downloadsPath, 'commentators.json');
+
+		const result = await dialog.showSaveDialog({
+			title: 'Export Local Commentators',
+			defaultPath: defaultFilePath,
+			filters: [{ name: 'JSON Files', extensions: ['json'] }],
+			properties: ['showOverwriteConfirmation']
+		});
+
+		if (result.canceled || !result.filePath) {
+			console.error('Cancelled export');
+			return { error: 'Save canceled' };
+		}
+
+		const filePath = result.filePath;
+
+		// Validate data
+		const validationResult = JoiLocalCommentatorList.validate(data);
+		if (validationResult.error) {
+			console.error(validationResult.error);
+			return { error: validationResult.error.message };
+		}
+
+		// Convert to formatted JSON
+		const jsonString = JSON.stringify(data, null, 2);
+
+		fs.writeFileSync(filePath, jsonString, 'utf-8');
+		console.log('Exporting commentators to', filePath);
+
+		return { data: filePath };
+	} catch (err) {
+		console.error(err);
+		return { error: 'Failed to save JSON file' };
+	}
 };

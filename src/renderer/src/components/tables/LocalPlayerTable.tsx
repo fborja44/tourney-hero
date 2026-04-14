@@ -213,14 +213,14 @@ const LocalPlayerTable = () => {
 				<Body1>Player Data</Body1>
 				<div className={classes.actions}>
 					<Button size="small" onClick={async () => handleImportPlayers()}>
-						Import Players
+						Import
 					</Button>
 					<Button
 						size="small"
 						onClick={async () => await handleExportPlayers()}
 						disabled={!data || data.length === 0}
 					>
-						Export Players
+						Export
 					</Button>
 					<Dialog open={open}>
 						<DialogTrigger disableButtonEnhancement>
