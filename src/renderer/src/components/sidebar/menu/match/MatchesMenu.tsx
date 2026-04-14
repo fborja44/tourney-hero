@@ -87,9 +87,15 @@ const MatchesMenu = () => {
 		? sortMatches(searchMatches)
 		: sortMatches(matchList);
 
-	const MatchList = sortedMatches.map((match) => (
-		<MatchCard key={`${match.id}-${match.identifier}-item`} match={match} appearance="item" />
-	));
+	const MatchList = sortedMatches
+		.filter((match) => !!match)
+		.map((match) => (
+			<MatchCard
+				key={`${match.id}-${match.identifier}-item`}
+				match={match}
+				appearance="item"
+			/>
+		));
 
 	return (
 		<SidebarMenu

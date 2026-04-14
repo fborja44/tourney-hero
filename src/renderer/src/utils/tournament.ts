@@ -50,14 +50,14 @@ export const parseMatch = async (matchData: any): Promise<ParsedMatch | undefine
 	try {
 		player1 = await parseSetEntrant(matchData.slots[0]);
 	} catch (err) {
-		console.error(`Error parsing player 1 for match ${matchData.identifier}`);
+		console.error(`Error parsing player 1 for match ${matchData.identifier}`, err);
 		return undefined;
 	}
 	let player2: Entrant | undefined = undefined;
 	try {
 		player2 = await parseSetEntrant(matchData.slots[1]);
 	} catch (err) {
-		console.error(`Error parsing player 2 for match ${matchData.identifier}`);
+		console.error(`Error parsing player 2 for match ${matchData.identifier}`, err);
 		return undefined;
 	}
 
@@ -130,7 +130,7 @@ export const parseSetEntrant = async (slot: any): Promise<Entrant> => {
 
 	const player: Entrant = {
 		id: entrant?.id,
-		userId: participants.length === 1 ? participants[0].user.id : null, // TODO: Support doubles
+		userId: participants.length === 1 ? participants[0].user?.id : null, // TODO: Support doubles
 		tag: tag ?? '',
 		team: localPlayerData?.team ?? prefix ?? '',
 		pronoun: localPlayerData?.pronoun ?? pronoun ?? '',
