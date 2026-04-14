@@ -64,18 +64,22 @@ const EntrantSelectField = ({
 
 	const { entrantList } = useSelector((state: AppState) => state.tournamentState.entrants);
 
+	const entrants = [...entrantList];
+
 	return (
 		<Field label={label} className={classes.formField} size={size}>
 			<Combobox size={size} className={classes.input} value={value} freeform {...props}>
-				{entrantList.map((entrant: Entrant, i: number) => (
-					<Option
-						key={`${entrant.tag}-${i}-${playerNumber ?? '0'}`}
-						text={entrant.tag}
-						value={entrant.id.toString()}
-					>
-						{entrant.tag}
-					</Option>
-				))}
+				{entrants
+					.sort((a, b) => a.tag.localeCompare(b.tag))
+					.map((entrant: Entrant, i: number) => (
+						<Option
+							key={`${entrant.tag}-${i}-${playerNumber ?? '0'}`}
+							text={entrant.tag}
+							value={entrant.id.toString()}
+						>
+							{entrant.tag}
+						</Option>
+					))}
 			</Combobox>
 		</Field>
 	);

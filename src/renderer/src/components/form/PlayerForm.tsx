@@ -4,7 +4,7 @@ import formStyles from './styles/FormStyles';
 import RadioGroupField from './inputs/RadioGroupField';
 import { PlayerData } from '@common/interfaces/Data';
 import NumberField from './inputs/NumberField';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import CharacterField from './inputs/CharacterField';
 import playerFormStyles from './styles/PlayerFormStyles';
 import { AppState } from '@redux/reducers/rootReducer';

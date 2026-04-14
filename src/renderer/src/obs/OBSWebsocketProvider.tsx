@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useState } from 'react';
 import OBSWebSocket from 'obs-websocket-js';
 import { useDispatch, useSelector } from 'react-redux';
 import {
