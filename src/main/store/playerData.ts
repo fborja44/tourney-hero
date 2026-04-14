@@ -11,7 +11,8 @@ const JoiLocalPlayer = Joi.object({
 	tag: Joi.string().min(1).max(MAX_TAG_LENGTH).required(),
 	characterId: JoiCharacter.required(),
 	team: Joi.string().max(MAX_TEAM_LENGTH).allow('').trim().required(),
-	pronoun: Joi.string().max(MAX_PRONOUN_LENGTH).allow('').trim().required()
+	pronoun: Joi.string().max(MAX_PRONOUN_LENGTH).allow('').trim().required(),
+	countryCode: Joi.string().max(3).allow('').trim().required()
 });
 const JoiLocalPlayerList = Joi.array().items(JoiLocalPlayer).required();
 

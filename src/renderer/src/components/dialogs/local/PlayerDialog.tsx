@@ -16,9 +16,11 @@ import {
 	tokens
 } from '@fluentui/react-components';
 import MenuCharacterField from '@renderer/components/form/inputs/MenuCharacterField';
+import MenuSelectField from '@renderer/components/form/inputs/MenuSelectField';
 import MenuTextField from '@renderer/components/form/inputs/MenuTextField';
 import { ChangeEvent, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import { getAllCountries } from '@renderer/utils/location';
 
 const useStyles = makeStyles({
 	surface: {
@@ -48,6 +50,7 @@ const PlayerDialog = ({ setOpen, data }: PlayerDialogProps) => {
 	const [team, setTeam] = useState(data ? data.team : '');
 	const [characterId, setCharacterId] = useState<CharacterId>(data ? data.characterId ?? -1 : -1);
 	const [pronoun, setPronoun] = useState(data ? data.pronoun : '');
+	const [countryCode, setCountryCode] = useState(data ? data.countryCode : '');
 	const [error, setError] = useState<string | null>(null);
 
 	const handleSubmit = async () => {
@@ -59,7 +62,8 @@ const PlayerDialog = ({ setOpen, data }: PlayerDialogProps) => {
 				tag,
 				characterId,
 				team,
-				pronoun
+				pronoun,
+				countryCode
 			});
 		} else {
 			result = await ipcRenderer.invoke('player:add', {
@@ -67,7 +71,8 @@ const PlayerDialog = ({ setOpen, data }: PlayerDialogProps) => {
 				tag,
 				characterId,
 				team,
-				pronoun
+				pronoun,
+				countryCode
 			});
 		}
 		console.log(result);
@@ -78,6 +83,8 @@ const PlayerDialog = ({ setOpen, data }: PlayerDialogProps) => {
 		}
 		return result;
 	};
+
+	const countries = getAllCountries();
 
 	return (
 		<DialogSurface className={classes.surface}>
@@ -131,6 +138,14 @@ const PlayerDialog = ({ setOpen, data }: PlayerDialogProps) => {
 						): void {
 							setPronoun(data.value);
 						}}
+					/>
+					<MenuSelectField
+						label="Country Code"
+						options={Object.keys(countries).map((code: string) => code)}
+						handleChange={(_ev, data) => {
+							setCountryCode(data.value);
+						}}
+						defaultValue="US"
 					/>
 				</DialogContent>
 				<DialogActions>

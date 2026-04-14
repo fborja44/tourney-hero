@@ -146,6 +146,12 @@ const LocalPlayerTable = () => {
 			renderCell: (item) => item.pronoun && <TableCellLayout>{item.pronoun}</TableCellLayout>
 		}),
 		createTableColumn({
+			columnId: 'country-column',
+			renderHeaderCell: () => 'Country Code',
+			renderCell: (item) =>
+				item.countryCode && <TableCellLayout>{item.countryCode}</TableCellLayout>
+		}),
+		createTableColumn({
 			columnId: 'actions-column',
 			renderHeaderCell: () => 'Actions',
 			renderCell: (item) => (

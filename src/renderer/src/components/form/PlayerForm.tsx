@@ -94,7 +94,8 @@ const PlayerForm = ({ playerNumber, playerData }: PlayerFormProps) => {
 						rank: luckyStatsPlayer.luckyRank?.rank ?? null,
 						points: luckyStatsPlayer.luckyRank?.points ?? null
 					}
-				: null
+				: null,
+			countryCode: localPlayer?.countryCode ?? 'US'
 		};
 
 		handlePlayerChange(`player${playerNumber}`, playerData);

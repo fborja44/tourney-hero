@@ -158,6 +158,7 @@ export interface LocalPlayer {
 	characterId?: CharacterId;
 	team?: string;
 	pronoun?: string;
+	countryCode?: string;
 }
 
 export interface CrewPlayer {
