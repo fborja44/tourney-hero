@@ -178,24 +178,65 @@ const LocalPlayerTable = () => {
 		})
 	];
 
+	const handleImportPlayers = async () => {
+		const result = await ipcRenderer.invoke('player:import');
+		if (result.error) {
+			dispatchToast(<MessageToast title="Import Error" message={result.error} />, {
+				intent: 'error'
+			});
+			return;
+		}
+
+		// Update player list
+		setData(result.data);
+		dispatchToast(<MessageToast title="Players imported successfully" />, {
+			intent: 'success'
+		});
+	};
+
+	const handleExportPlayers = async () => {
+		const result = await ipcRenderer.invoke('player:export', await getPlayersList());
+		if (result.error) {
+			dispatchToast(<MessageToast title="Export Error" message={result.error} />, {
+				intent: 'error'
+			});
+			return;
+		}
+		dispatchToast(<MessageToast title="Players exported successfully" />, {
+			intent: 'success'
+		});
+	};
+
 	return (
 		<div className={classes.container}>
 			<div className={classes.header}>
 				<Body1>Player Data</Body1>
-				<Dialog open={open}>
-					<DialogTrigger disableButtonEnhancement>
-						<Button
-							appearance="primary"
-							size="small"
-							icon={<Add16Regular />}
-							iconPosition="after"
-							onClick={() => setOpen(true)}
-						>
-							Add Entry
-						</Button>
-					</DialogTrigger>
-					<PlayerDialog setOpen={setOpen} />
-				</Dialog>
+				<div className={classes.actions}>
+					<Button size="small" onClick={async () => handleImportPlayers()}>
+						Import Players
+					</Button>
+					<Button
+						size="small"
+						onClick={async () => await handleExportPlayers()}
+						disabled={!data || data.length === 0}
+					>
+						Export Players
+					</Button>
+					<Dialog open={open}>
+						<DialogTrigger disableButtonEnhancement>
+							<Button
+								appearance="primary"
+								size="small"
+								icon={<Add16Regular />}
+								iconPosition="after"
+								onClick={() => setOpen(true)}
+							>
+								Add Entry
+							</Button>
+						</DialogTrigger>
+						<PlayerDialog setOpen={setOpen} />
+					</Dialog>
+				</div>
 			</div>
 			<Card className={classes.card}>
 				<DataGrid items={data} columns={columns} sortable>

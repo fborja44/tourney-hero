@@ -12,8 +12,10 @@ import {
 	handleAddLocalPlayer,
 	handleDeleteLocalCommentator,
 	handleDeleteLocalPlayer,
+	handleExportLocalPlayers,
 	handleGetCommentatorsList,
 	handleGetPlayersList,
+	handleImportLocalPlayers,
 	handleUpdateLocalCommentator,
 	handleUpdateLocalPlayer
 } from './store';
@@ -109,6 +111,8 @@ app.whenReady().then(() => {
 	ipcMain.handle('player:add', handleAddLocalPlayer);
 	ipcMain.handle('player:update', handleUpdateLocalPlayer);
 	ipcMain.handle('player:remove', handleDeleteLocalPlayer);
+	ipcMain.handle('player:import', handleImportLocalPlayers);
+	ipcMain.handle('player:export', handleExportLocalPlayers);
 
 	createWindow();
 
