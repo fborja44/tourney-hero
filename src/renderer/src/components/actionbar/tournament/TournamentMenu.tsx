@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import MenuTextField from '../../form/inputs/MenuTextField';
 import { Button } from '@fluentui/react-components';
@@ -47,7 +47,7 @@ const TournamentMenu = () => {
 		tournamentState.key || import.meta.env.VITE_START_GG_KEY || ''
 	);
 	const [tournamentSlugValue, setTournamentSlugValue] = useState(
-		tournamentState.tournamentSlug || ''
+		tournamentState.tournamentSlug || 'full-house-siege'
 	);
 
 	/**
@@ -67,6 +67,13 @@ const TournamentMenu = () => {
 			setKeyError('Invalid key');
 		}
 	};
+
+	useEffect(() => {
+		// TODO: Refactor
+		if (!tournamentState.key && import.meta.env.VITE_START_GG_KEY) {
+			handleSaveKey();
+		}
+	}, []);
 
 	/**
 	 * Clears the key input and in state.

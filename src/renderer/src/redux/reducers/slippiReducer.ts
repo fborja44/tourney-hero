@@ -32,7 +32,7 @@ const initialState: SlippiState = {
 	invalidPorts: [],
 	autoSwitchGameToPlayers: false,
 	autoSwitchPlayersToGame: false,
-	automate: false,
+	automate: true,
 	autoUpdateScore: false,
 	autoUpdateCharacters: false
 };
