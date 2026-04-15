@@ -114,7 +114,7 @@ const PlayerForm = ({ playerNumber, playerData }: PlayerFormProps) => {
 	};
 
 	const handleCountrySelect = (_ev, data: OptionOnSelectData) => {
-		handlePlayerFieldChange('countryCode', data.optionValue ?? '??');
+		handlePlayerFieldChange('countryCode', data.optionValue ?? null);
 	};
 
 	return (

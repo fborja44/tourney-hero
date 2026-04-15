@@ -58,6 +58,7 @@ const CountryField = ({
 	size = 'small',
 	value,
 	playerNumber,
+	onOptionSelect,
 	...props
 }: CountryFieldProps) => {
 	const classes = useStyles();
@@ -77,11 +78,19 @@ const CountryField = ({
 				freeform={false}
 				onChange={(event) => {
 					setSearchTerm(event.target.value);
+					if (event.target.value === '') {
+						onOptionSelect(event, {
+							optionValue: undefined,
+							optionText: undefined,
+							selectedOptions: []
+						});
+					}
 				}}
 				onOpenChange={(_ev, data) => {
 					setSearchTerm(getCountryAlias(selectedValue));
 					setOpen(data.open);
 				}}
+				onOptionSelect={onOptionSelect}
 				open={open}
 				{...props}
 			>

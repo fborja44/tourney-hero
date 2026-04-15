@@ -40,7 +40,7 @@ export const JoiPlayer = Joi.object({
 	port: Joi.string()
 		.valid(...PORTS)
 		.required(),
-	countryCode: JoiLocationCode.required(),
+	countryCode: JoiLocationCode.allow(null).required(),
 	heads: Joi.array().items(JoiHead).min(0),
 	seed: Joi.number().integer().min(0).max(MAX_SEED).allow(null).required(),
 	luckyStats: Joi.object({
