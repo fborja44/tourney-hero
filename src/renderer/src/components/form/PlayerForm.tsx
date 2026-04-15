@@ -109,6 +109,32 @@ const PlayerForm = ({ playerNumber, playerData }: PlayerFormProps) => {
 		}
 	};
 
+	const handleRefreshLuckyStats = async () => {
+		const playerId = playerData.startggId;
+
+		if (!luckyStatsIsEnabled || !playerId) {
+			return;
+		}
+
+		let luckyStatsPlayer: LuckyStatsPlayerItem | null = null;
+		const response = await fetchLuckyStatsPlayerData([playerId]);
+
+		const players = response?.data?.players ?? [];
+		if (players.length > 0) {
+			luckyStatsPlayer = players[0];
+		}
+
+		handlePlayerChange(`player${playerNumber}`, {
+			luckyStats: luckyStatsPlayer
+				? {
+						elo: luckyStatsPlayer.elo ?? null,
+						rank: luckyStatsPlayer.luckyRank?.rank ?? null,
+						points: luckyStatsPlayer.luckyRank?.points ?? null
+					}
+				: null
+		});
+	};
+
 	const handleTagChange = (event) => {
 		handlePlayerFieldChange('tag', event.target.value);
 	};
@@ -275,7 +301,11 @@ const PlayerForm = ({ playerNumber, playerData }: PlayerFormProps) => {
 			<div className={classes.formRow}>
 				{/* TODO */}
 				<Button
-					onClick={() => {}}
+					onClick={() =>
+						handlePlayerChange(`player${playerNumber}`, {
+							luckyStats: null
+						})
+					}
 					size="small"
 					iconPosition="after"
 					className={classes.resetButton}
@@ -285,7 +315,7 @@ const PlayerForm = ({ playerNumber, playerData }: PlayerFormProps) => {
 				</Button>
 				{/* TODO */}
 				<Button
-					onClick={() => {}}
+					onClick={() => handleRefreshLuckyStats()}
 					size="small"
 					iconPosition="after"
 					className={classes.resetButton}
