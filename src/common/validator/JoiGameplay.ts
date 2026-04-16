@@ -49,7 +49,8 @@ export const JoiPlayer = Joi.object({
 		points: Joi.number().allow(null).required()
 	})
 		.allow(null)
-		.optional()
+		.optional(),
+	showStats: Joi.boolean()
 }).required();
 
 const JoiGameplay = Joi.object({

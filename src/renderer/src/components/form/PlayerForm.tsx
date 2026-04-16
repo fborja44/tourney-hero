@@ -24,6 +24,7 @@ import useOverlayControls from '@hooks/controls/useOverlayControls';
 import useLocalPlayers from '@renderer/hooks/data/useLocalPlayers';
 import { LuckyStatsPlayerItem } from '@common/interfaces/ApiData';
 import useLuckyStats from '@renderer/hooks/luckystats/useLuckyStats';
+import CheckboxField from './inputs/CheckboxField';
 
 interface PlayerFormProps {
 	playerNumber: '1' | '2';
@@ -141,6 +142,10 @@ const PlayerForm = ({ playerNumber, playerData }: PlayerFormProps) => {
 
 	const handleCountrySelect = (_ev, data: OptionOnSelectData) => {
 		handlePlayerFieldChange('countryCode', data.optionValue ?? null);
+	};
+
+	const handleToggleShowStats = () => {
+		handlePlayerFieldChange('showStats', !playerData.showStats);
 	};
 
 	return (
@@ -314,6 +319,15 @@ const PlayerForm = ({ playerNumber, playerData }: PlayerFormProps) => {
 					Clear Lucky Stats
 				</Button>
 				{/* TODO */}
+				<Button
+					onClick={handleToggleShowStats}
+					size="small"
+					iconPosition="after"
+					className={classes.resetButton}
+					appearance="primary"
+				>
+					{playerData.showStats ? 'Showing' : 'Hiding'} Stats
+				</Button>
 				<Button
 					onClick={() => handleRefreshLuckyStats()}
 					size="small"

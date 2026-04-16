@@ -78,6 +78,7 @@ export interface PlayerData {
 		rank: number | null; // luckyRank
 		points: number | null; // LuckyRank Points
 	} | null;
+	showStats: boolean;
 }
 
 export interface CommentatorData {

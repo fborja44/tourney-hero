@@ -20,11 +20,12 @@ export const defaultPlayer: PlayerData = {
 	countryCode: 'US',
 	heads: [],
 	seed: null,
-	luckyStats: null
+	luckyStats: null,
+	showStats: true
 };
 
 export const gameplayData: GameplayData = {
-	matchType: 'Best of 3',
+	matchType: 'Bo5',
 	roundName: 'Winners Round 1',
 	bracketName: 'Main Bracket',
 	eventName: 'Melee Singles',
@@ -39,6 +40,7 @@ export const gameplayData: GameplayData = {
 		tag: 'Player 2',
 		port: 'Blue'
 	},
+	matchup: null,
 	showPlayerCamInfo: true
 };
 
