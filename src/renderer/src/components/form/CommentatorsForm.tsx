@@ -146,6 +146,14 @@ const CommentatorsForm = () => {
 						handleChange={handleCommentatorsChange}
 						disabled={true}
 					/>
+					<TextField
+						label="Title"
+						value={commentatorData.eventName}
+						targetField={'eventName'}
+						handleChange={handleCommentatorsChange}
+						placeholder="Melee Singles"
+						maxLength={MAX_MESSAGE_LENGTH}
+					/>
 					{/* <SelectField
 						label="Event Time"
 						value={commentatorData.eventTime}
@@ -153,7 +161,7 @@ const CommentatorsForm = () => {
 						handleChange={handleCommentatorsChange}
 						options={['Next', 'Now']}
 					/> */}
-					<SelectField
+					{/* <SelectField
 						label="Event Name"
 						value={commentatorData.eventName}
 						targetField={'eventName'}
@@ -173,8 +181,8 @@ const CommentatorsForm = () => {
 							'Side Event',
 							'Friendlies'
 						]}
-					/>
-					<NumberField
+					/> */}
+					{/* <NumberField
 						label="Day Number"
 						value={commentatorData.day}
 						targetField={'day'}
@@ -182,7 +190,7 @@ const CommentatorsForm = () => {
 						defaultValue={1}
 						min={0}
 						max={MAX_DAY}
-					/>
+					/> */}
 				</div>
 				<div className={classes.formRow}>
 					<CheckboxField

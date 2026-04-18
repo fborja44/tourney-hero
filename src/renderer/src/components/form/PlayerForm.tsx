@@ -24,7 +24,6 @@ import useOverlayControls from '@hooks/controls/useOverlayControls';
 import useLocalPlayers from '@renderer/hooks/data/useLocalPlayers';
 import { LuckyStatsPlayerItem } from '@common/interfaces/ApiData';
 import useLuckyStats from '@renderer/hooks/luckystats/useLuckyStats';
-import CheckboxField from './inputs/CheckboxField';
 
 interface PlayerFormProps {
 	playerNumber: '1' | '2';

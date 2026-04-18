@@ -52,7 +52,7 @@ export const commentatorData: CommentatorData = {
 	commentator3: '',
 	social3: '',
 	showCommentators: true,
-	message: 'Welcome!',
+	message: 'Welcome to Full House: Siege!',
 	player1tag: '',
 	player2tag: '',
 	showMessage: true,
@@ -60,7 +60,7 @@ export const commentatorData: CommentatorData = {
 	timerMinutes: 5,
 	showTimer: false,
 	eventTime: 'Now',
-	eventName: 'Opening',
+	eventName: 'Day 1',
 	day: 1,
 	showEvent: true,
 	showAds: false
