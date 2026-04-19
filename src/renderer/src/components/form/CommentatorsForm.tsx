@@ -7,13 +7,7 @@ import { useSelector } from 'react-redux';
 import { AppState } from '@redux/reducers/rootReducer';
 import CheckboxField from './inputs/CheckboxField';
 import NumberField from './inputs/NumberField';
-import SelectField from './inputs/SelectField';
-import {
-	MAX_COMMENTATOR_LENGTH,
-	MAX_DAY,
-	MAX_MESSAGE_LENGTH,
-	MAX_TIMER
-} from '@common/constants/limits';
+import { MAX_COMMENTATOR_LENGTH, MAX_MESSAGE_LENGTH, MAX_TIMER } from '@common/constants/limits';
 import CommentatorSelectField from './inputs/CommentatorSelectField';
 import useOverlayControls from '@hooks/controls/useOverlayControls';
 import useLocalCommentators from '@renderer/hooks/data/useLocalCommentators';
